@@ -1,13 +1,178 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* StampRSPKOne Font Family */
+@font-face {
+  font-family: 'StampRSPKOne';
+  src: url(../public/font/StampRSPKOne-Thin.otf) format('opentype');
+  font-weight: 100;
+  font-style: normal;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@font-face {
+  font-family: 'StampRSPKOne';
+  src: url(../public/font/StampRSPKOne-ExtraLight.otf) format('opentype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'StampRSPKOne';
+  src: url(../public/font/StampRSPKOne-Light.otf) format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'StampRSPKOne';
+  src: url(../public/font/StampRSPKOne-Regular.otf) format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'StampRSPKOne';
+  src: url(../public/font/StampRSPKOne-Medium.otf) format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'StampRSPKOne';
+  src: url(../public/font/StampRSPKOne-Bold.otf) format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'StampRSPKOne';
+  src: url(../public/font/StampRSPKOne-Heavy.otf) format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* Perspective 3D pour le logo */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Smooth scroll pour la navigation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animation glitch pour le logo */
+@keyframes glitch-shake {
+  0%, 100% { transform: translate(0, 0) skew(0deg); }
+  10% { transform: translate(-2px, 1px) skew(1deg); }
+  20% { transform: translate(2px, -1px) skew(-1deg); }
+  30% { transform: translate(-1px, 2px) skew(0.5deg); }
+  40% { transform: translate(1px, -2px) skew(-0.5deg); }
+  50% { transform: translate(-2px, -1px) skew(1deg); }
+  60% { transform: translate(2px, 1px) skew(-1deg); }
+  70% { transform: translate(-1px, -2px) skew(0.5deg); }
+  80% { transform: translate(1px, 2px) skew(-0.5deg); }
+  90% { transform: translate(-2px, 0px) skew(1deg); }
+}
+
+.glitch-animation {
+  position: relative;
+  animation: glitch-shake 0.3s infinite;
+}
+
+/* Animations de chargement */
+@keyframes loading-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  40% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes loading-fadeout {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+}
+
+.loading-logo {
+  animation: loading-appear 0.8s ease-out forwards;
+}
+
+.loading-screen {
+  animation: loading-fadeout 0.8s ease-out forwards 3.5s;
+}
+
+/* Effet de bougie qui fond */
+@keyframes melt-drip {
+  0% {
+    filter: url(#melt-filter) blur(0px);
+    transform: scaleY(1) translateY(0);
+  }
+  25% {
+    filter: url(#melt-filter) blur(0.3px);
+    transform: scaleY(1.02) translateY(1px);
+  }
+  50% {
+    filter: url(#melt-filter) blur(0.5px);
+    transform: scaleY(1.05) translateY(2px);
+  }
+  75% {
+    filter: url(#melt-filter) blur(0.3px);
+    transform: scaleY(1.03) translateY(1.5px);
+  }
+  100% {
+    filter: url(#melt-filter) blur(0px);
+    transform: scaleY(1) translateY(0);
+  }
+}
+
+.melting-effect {
+  animation: melt-drip 4s ease-in-out infinite;
+  transform-origin: top center;
+  position: relative;
+}
+
+.melting-effect::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.3;
+  filter: blur(2px);
+  transform: translateY(8px) scaleY(1.2);
+  animation: drip-shadow 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes drip-shadow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: translateY(8px) scaleY(1.15);
+  }
+  50% {
+    opacity: 0.4;
+    transform: translateY(12px) scaleY(1.3);
+  }
 }
