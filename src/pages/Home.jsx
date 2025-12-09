@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import FlowingMenu from './FlowingMenu';
+import { useNavigate } from 'react-router-dom';
+import FlowingMenu from '../FlowingMenu';
 import { useForm, ValidationError } from '@formspree/react';
-import ShuffleText from './ShuffleText';
-import { ScrollVelocityContainer, ScrollVelocityRow } from './ScrollVelocity';
+import ShuffleText from '../ShuffleText';
+import { ScrollVelocityContainer, ScrollVelocityRow } from '../ScrollVelocity';
 import { ReactLenis } from 'lenis/dist/lenis-react';
-import { projects, skills } from './data/projects';
-import TerminalLoader from './components/TerminalLoader';
+import { projects, skills } from '../data/projects';
 
-export default function MinimalistPortfolio() {
+export default function Home() {
+  const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [selectedCategory, setSelectedCategory] = useState('Tous');
-  const [selectedVideo, setSelectedVideo] = useState(null);
-  const [showTerminalLoader, setShowTerminalLoader] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadingProgress, setLoadingProgress] = useState(0);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     // Charger la préférence depuis localStorage
     const saved = localStorage.getItem('darkMode');
@@ -38,9 +35,6 @@ export default function MinimalistPortfolio() {
     const handleScroll = () => setScrollY(window.scrollY);
     const handleMouseMove = (e) => setMousePosition({ x: e.clientX, y: e.clientY });
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && selectedVideo) {
-        setSelectedVideo(null);
-      }
       if (e.key === 'Escape' && isSettingsOpen) {
         setIsSettingsOpen(false);
       }
@@ -62,7 +56,7 @@ export default function MinimalistPortfolio() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('click', handleClickOutside);
     };
-  }, [selectedVideo, isSettingsOpen]);
+  }, [isSettingsOpen]);
 
   // Sauvegarder la préférence de thème
   useEffect(() => {
@@ -78,35 +72,6 @@ export default function MinimalistPortfolio() {
     localStorage.setItem('selectedFont', selectedFont);
   }, [selectedFont]);
 
-  // Animation de chargement au démarrage
-  useEffect(() => {
-    // Désactiver le scroll pendant le chargement
-    document.body.style.overflow = 'hidden';
-
-    // Animation du compteur de 0 à 100
-    const duration = 3000; // 3 secondes
-    const steps = 100;
-    const stepDuration = duration / steps;
-
-    let currentStep = 0;
-    const counterInterval = setInterval(() => {
-      currentStep++;
-      setLoadingProgress(currentStep);
-      if (currentStep >= 100) {
-        clearInterval(counterInterval);
-        // Attendre 500ms après avoir atteint 100% avant de commencer la transition
-        setTimeout(() => {
-          setIsLoading(false);
-          document.body.style.overflow = 'unset';
-        }, 500);
-      }
-    }, stepDuration);
-
-    return () => {
-      clearInterval(counterInterval);
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
 
 
   // Extraire les catégories uniques
@@ -119,21 +84,11 @@ export default function MinimalistPortfolio() {
 
   // Configuration du FlowingMenu avec les projets
   const menuItems = filteredProjects.map((project) => ({
-    link: '#',
+    link: `/project/${project.id}`,
     text: project.title,
     image: project.thumbnail,
-    onClick: () => setSelectedVideo(project)
+    onClick: () => navigate(`/project/${project.id}`)
   }));
-
-  // Gestion de la fin du TerminalLoader
-  const handleTerminalComplete = () => {
-    setShowTerminalLoader(false);
-  };
-
-  // Si le terminal loader est actif, on l'affiche en priorité
-  if (showTerminalLoader) {
-    return <TerminalLoader onComplete={handleTerminalComplete} />;
-  }
 
   return (
     <ReactLenis
@@ -149,39 +104,6 @@ export default function MinimalistPortfolio() {
           ? 'bg-black text-beige'
           : 'bg-beige text-black'
       }`}>
-      {/* Animation de chargement */}
-      {isLoading && (
-        <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center loading-screen ${
-          isDarkMode ? 'bg-black' : 'bg-beige'
-        }`}>
-          <div className="perspective-1000 mb-8">
-            <div
-              className="text-[20vw] font-black loading-logo"
-              style={{
-                transformStyle: 'preserve-3d',
-                transform: `rotate(${180 - (loadingProgress * 1.8)}deg)`,
-                transition: 'transform 0.03s linear',
-                background: 'linear-gradient(135deg, #ff9933 0%, #ff7b00 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                textShadow: '3px 3px 6px rgba(245,235,215,0.4), -3px -3px 6px rgba(0,0,0,0.6)',
-                fontFamily: 'StampRSPKOne, sans-serif'
-              }}
-            >
-              R
-            </div>
-          </div>
-          <div
-            className={`text-4xl md:text-6xl font-light tracking-wider ${
-              isDarkMode ? 'text-beige' : 'text-black'
-            }`}
-            style={{ fontFamily: 'StampRSPKOne, sans-serif' }}
-          >
-            {loadingProgress}%
-          </div>
-        </div>
-      )}
 
       {/* Curseur personnalisé */}
       <div
@@ -432,38 +354,6 @@ export default function MinimalistPortfolio() {
         )}
       </header>
 
-
-      {/* Modal Vidéo */}
-      {selectedVideo && (
-        <div
-          className={`fixed inset-0 z-50 backdrop-blur-sm flex items-center justify-center p-8 ${
-            isDarkMode ? 'bg-black/95' : 'bg-beige/95'
-          }`}
-          onClick={() => setSelectedVideo(null)}
-        >
-          <button
-            className={`absolute top-8 right-8 text-4xl hover:rotate-90 transition-transform duration-300 ${
-              isDarkMode ? 'text-beige' : 'text-black'
-            }`}
-            onClick={() => setSelectedVideo(null)}
-          >
-            ×
-          </button>
-          <div className="w-full max-w-6xl" onClick={(e) => e.stopPropagation()}>
-            <video
-              src={selectedVideo.video}
-              controls
-              autoPlay
-              className="w-full rounded-lg shadow-2xl"
-              poster={selectedVideo.thumbnail}
-            />
-            <div className="mt-6 text-center">
-              <h3 className="text-3xl font-light mb-2">{selectedVideo.title}</h3>
-              <p className="text-gray-400">{selectedVideo.description}</p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center relative overflow-hidden px-4">
