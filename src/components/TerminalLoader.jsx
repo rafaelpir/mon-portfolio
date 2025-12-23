@@ -167,7 +167,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontFamily: '"Raphael Std", "Courier New", monospace',
+    fontFamily: 'Satoshi, "Courier New", monospace',
     color: '#FFFFFF',
     fontSize: '1.2rem',
     fontWeight: 'bold',
