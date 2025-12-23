@@ -11,14 +11,14 @@ module.exports = {
         },
         colors: {
           beige: {
-            light: '#ff9933',
-            DEFAULT: '#ff7b00',
-            dark: '#cc6200',
+            light: '#FFFFFF',
+            DEFAULT: '#E5E5E5',
+            dark: '#CCCCCC',
           },
           orange: {
-            light: '#ff9933',
-            DEFAULT: '#ff7b00',
-            dark: '#cc6200',
+            light: '#FFFFFF',
+            DEFAULT: '#E5E5E5',
+            dark: '#CCCCCC',
           }
         },
         translate: {

@@ -2,6 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Effet de survol avec cases blanches */
+@layer utilities {
+  .hover-highlight {
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .hover-highlight::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -4px;
+    right: -4px;
+    bottom: 0;
+    background: linear-gradient(135deg, #FFFFFF 0%, #E5E5E5 100%);
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+    border-radius: 4px;
+  }
+
+  .hover-highlight:hover::before {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .hover-highlight:hover {
+    color: #000000;
+  }
+}
+
 /* StampRSPKOne Font Family */
 @font-face {
   font-family: 'StampRSPKOne';

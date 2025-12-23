@@ -10,39 +10,62 @@
 export const projects = [
   {
     id: 1,
-    title: "Identité visuelle événementielle",
-    category: "Design graphique",
-    year: "2024",
-    description: "Création complète d'une identité pour un festival étudiant",
-    video: "/videos/identite-visuelle.mp4",
-    thumbnail: "/images/projects/identite-visuelle.jpg"
+    title: "Un Homme qui dort - Affiche revisitée",
+    category: "Affiches",
+    year: "2025",
+    description: "Revisite personnelle de l'affiche classique de 1974. Conservation de la typographie culte originale avec changement radical de l'iconographie : gros plans texturés et granuleux pour matérialiser l'ennui et l'introspection par la matière plutôt que par le vide.",
+    thumbnail: "/images/projects/lhommequidort.webp",
+    youtubeId: "LUMifnAPafc",
+    tags: ["Photoshop"]
   },
   {
     id: 2,
-    title: "Plateforme web interactive",
-    category: "Développement web",
-    year: "2024",
-    description: "Site responsive avec animations fluides et interface moderne",
-    video: "/videos/plateforme-web.mp4",
-    thumbnail: "/images/projects/plateforme-web.jpg"
+    title: "Concours d'affiche : Fêtes Populaires de Saint-Paul-lès-Dax 2025",
+    category: "Affiches",
+    year: "2025",
+    description: "Affiche créée pour le concours officiel de la ville. Au lieu de suivre les codes rouge et blanc classiques des ferias, j'ai choisi le bleu : une référence au Lac de Christus et à l'ambiance estivale de cette ville thermale. La Grande Roue structure l'image et surplombe les scènes locales (course landaise, bandas, folklore). Le flat design apporte clarté et légèreté pour toucher un public familial.",
+    thumbnail: "/images/projects/Dax.webp",
+    tags: ["Photoshop", "Illustrator"]
   },
   {
     id: 3,
-    title: "Court-métrage animé",
-    category: "Motion design",
-    year: "2023",
-    description: "Animation 2D réalisée avec After Effects",
-    video: "/videos/court-metrage.mp4",
-    thumbnail: "/images/projects/court-metrage.jpg"
+    title: "Poster Tribute : Sade – Diamond Life",
+    category: "Affiches",
+    year: "2025",
+    description: "Hommage personnel à l'album Diamond Life de Sade (1984). J'ai voulu capturer visuellement la sophistication soul/jazz de cet album iconique. Traitement rétro avec un effet halftone prononcé qui rappelle les vieilles impressions de journaux. La palette sépia/marron chaud évoque le vinyle et une nostalgie luxueuse. Le contraste entre la serif grasse et condensée du titre et la signature manuscrite de \"Sade\" renforce cette élégance intemporelle.",
+    thumbnail: "/images/projects/sade.webp",
+    tags: ["Photoshop"]
   },
   {
     id: 4,
-    title: "Série photographique urbaine",
-    category: "Photographie",
-    year: "2023",
-    description: "Exploration visuelle de l'architecture contemporaine",
-    video: "/videos/photo-urbaine.mp4",
-    thumbnail: "/images/projects/photo-urbaine.jpg"
+    title: "UI Design & Branding : Application Veco",
+    category: "UI/UX Design",
+    year: "2025",
+    description: "Conception visuelle de Veco, une app de location de véhicules électriques entre particuliers. J'ai traduit les valeurs de mobilité douce et d'écologie en interface intuitive. Palette verte et naturelle pour ancrer l'univers éco-responsable. Les maquettes couvrent le parcours complet (location, profil, réservation) avec un design pensé pour rassurer et simplifier la prise en main.",
+    thumbnail: "/images/projects/veco/thumbnail.webp",
+    gallery: [
+      { src: "/images/projects/veco/thumbnail.webp", description: "Présentation de l'application Veco : Vue d'ensemble de l'identité visuelle et du design system de l'application de mobilité électrique." },
+      { src: "/images/projects/veco/1.webp", description: "Écran d'accueil et d'inscription : Interface de connexion et d'inscription épurée, mettant en avant l'identité visuelle de l'application dès l'ouverture." },
+      { src: "/images/projects/veco/2.webp", description: "Géolocalisation des véhicules : Vue principale de la carte interactive affichant en temps réel tous les véhicules disponibles autour de la position de l'utilisateur." },
+      { src: "/images/projects/veco/3.webp", description: "Sélection du véhicule et devis : Fiche détaillée du véhicule sélectionné, présentant ses caractéristiques (modèle, autonomie) ainsi qu'une estimation claire du prix de la course." },
+      { src: "/images/projects/veco/4.webp", description: "Guidage vers le point de prise en charge : Navigation GPS intégrée guidant l'utilisateur (itinéraire piéton) pour rejoindre l'emplacement exact où son véhicule est garé." },
+      { src: "/images/projects/veco/5.webp", description: "Filtrage par catégorie \"Vélo-Taxi\" : Activation du mode spécifique \"Vélo-Taxi\" via le sélecteur, filtrant la carte pour n'afficher que les vélos-taxis disponibles à proximité immédiate." },
+      { src: "/images/projects/veco/6.webp", description: "Saisie de la destination : Interface de recherche intuitive permettant à l'utilisateur de choisir son point d'arrivée ou de sélectionner une destination favorite." },
+      { src: "/images/projects/veco/7.webp", description: "Validation et Paiement : Écran récapitulatif de la course avec sélection du moyen de paiement sécurisé avant la validation finale." },
+      { src: "/images/projects/veco/8.webp", description: "Centre d'aide et support : Accès rapide au service client et à la FAQ via le bouton d'aide, pour assister l'utilisateur en cas de problème." },
+      { src: "/images/projects/veco/9.webp", description: "Profil et Paramètres : Menu de configuration permettant de gérer le compte utilisateur, les préférences de notification et l'historique des trajets." }
+    ],
+    tags: ["Figma", "UI Design"]
+  },
+  {
+    id: 5,
+    title: "UI Design & Branding : Agence Immobilière",
+    category: "UI/UX Design",
+    year: "2025",
+    description: "Conception d'une interface web pour une agence immobilière fictive avec une contrainte majeure : l'optimisation SEO aux normes 2025. Le but n'était pas seulement de faire joli, mais de concevoir une structure performante pour le référencement naturel. J'ai créé l'identité visuelle complète (logo et Design System) lisible et impactante, capable de se décliner sur tous les supports numériques sans alourdir le chargement. Les maquettes Figma (Accueil et Page Lots) travaillent la hiérarchie visuelle pour guider l'œil de l'utilisateur et faciliter l'indexation par les moteurs de recherche. Le design est mis au service de la conversion et de la clarté de l'information.",
+    thumbnail: "/images/projects/armorimmo.webp",
+    figmaEmbed: "https://embed.figma.com/proto/IySCrSMWMDsUfz9bO51rrz/Site-Immo-Referencement?page-id=6%3A32&node-id=16-2&viewport=154%2C281%2C0.18&scaling=scale-down&content-scaling=fixed&starting-point-node-id=16%3A2&embed-host=share",
+    tags: ["Figma", "UI Design", "Branding", "SEO"]
   }
 ];
 
