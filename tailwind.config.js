@@ -6,8 +6,8 @@ module.exports = {
     theme: {
       extend: {
         fontFamily: {
-          sans: ['StampRSPKOne', 'system-ui', 'sans-serif'],
-          stamp: ['StampRSPKOne', 'sans-serif'],
+          sans: ['Raphael Std', 'system-ui', 'sans-serif'],
+          stamp: ['Raphael Std', 'sans-serif'],
         },
         colors: {
           beige: {
