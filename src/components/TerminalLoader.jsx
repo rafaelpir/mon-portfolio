@@ -1,94 +1,167 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const TerminalLoader = ({ onComplete }) => {
+  const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  const [currentText, setCurrentText] = useState('');
   const [lines, setLines] = useState([]);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
   // Configuration des textes à afficher
   const textSequence = [
-    { text: "//PORTFOLIO", delay: 500, indent: 0 },
-    { text: "[RAFAEL PIRAL]", delay: 800, indent: 0 },
-    { text: "[#]CREATIVE DEVELOPER]:", delay: 1200, indent: 40 },
+    { text: "//PORTFOLIO", delay: 300, indent: 0 },
+    { text: "[RAFAEL PIRAL]", delay: 100, indent: 0 },
+    { text: "[#CREATIVE DEVELOPER]:", delay: 100, indent: 40 },
   ];
 
+  // Effet de clignotement du curseur
   useEffect(() => {
-    let timeouts = [];
-
-    // 1. Séquence d'apparition des textes
-    textSequence.forEach((line, index) => {
-      const timeout = setTimeout(() => {
-        setLines((prev) => [...prev, line]);
-
-        // Si c'est la dernière ligne de texte, on déclenche le chargement
-        if (index === textSequence.length - 1) {
-          startLoading();
-        }
-      }, line.delay);
-      timeouts.push(timeout);
-    });
-
-    // Effet de clignotement du curseur
     const cursorInterval = setInterval(() => {
       setShowCursor((prev) => !prev);
     }, 500);
 
-    return () => {
-      timeouts.forEach(clearTimeout);
-      clearInterval(cursorInterval);
-    };
+    return () => clearInterval(cursorInterval);
   }, []);
 
-  // 2. Logique du pourcentage de chargement
-  const startLoading = () => {
-    setTimeout(() => {
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 10) + 1;
-        if (progress > 100) progress = 100;
+  // Effet de typing pour chaque ligne
+  useEffect(() => {
+    if (currentLineIndex >= textSequence.length) return;
 
-        setLoadingProgress(progress);
+    const currentLine = textSequence[currentLineIndex];
+    let charIndex = 0;
 
-        if (progress === 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            setLines(prev => [...prev, { text: "}", indent: 40 }]);
-            if (onComplete) setTimeout(onComplete, 800);
-          }, 500);
+    const initialDelay = setTimeout(() => {
+      const typingInterval = setInterval(() => {
+        if (charIndex < currentLine.text.length) {
+          setCurrentText((prev) => prev + currentLine.text[charIndex]);
+          charIndex++;
+        } else {
+          clearInterval(typingInterval);
+          // Ligne complète, l'ajouter aux lignes finales
+          setLines((prev) => [...prev, { text: currentLine.text, indent: currentLine.indent }]);
+          setCurrentText('');
+
+          // Passer à la ligne suivante
+          if (currentLineIndex === textSequence.length - 1) {
+            // Dernière ligne, démarrer le chargement
+            setTimeout(() => setIsLoading(true), 400);
+          } else {
+            setCurrentLineIndex((prev) => prev + 1);
+          }
         }
-      }, 100);
-    }, 1000);
-  };
+      }, 50); // Vitesse de typing (50ms par caractère)
+
+      return () => clearInterval(typingInterval);
+    }, currentLine.delay);
+
+    return () => clearTimeout(initialDelay);
+  }, [currentLineIndex]);
+
+  // Logique du pourcentage de chargement
+  useEffect(() => {
+    if (!isLoading) return;
+
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.floor(Math.random() * 15) + 5; // Plus rapide
+      if (progress > 100) progress = 100;
+
+      setLoadingProgress(progress);
+
+      if (progress === 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          setIsComplete(true);
+          setLines(prev => [...prev, { text: "}", indent: 40 }]);
+          if (onComplete) setTimeout(onComplete, 600);
+        }, 400);
+      }
+    }, 80);
+
+    return () => clearInterval(interval);
+  }, [isLoading, onComplete]);
 
   return (
     <div style={styles.container}>
-      <div style={styles.content}>
-        {lines.map((line, index) => (
-          <div key={index} style={{ ...styles.line, paddingLeft: `${line.indent}px` }}>
-            {line.text}
-          </div>
-        ))}
+      {/* Scanline effect pour l'effet terminal rétro */}
+      <div style={styles.scanline} />
 
-        {lines.length >= textSequence.length && (
-           <div style={{ ...styles.line, paddingLeft: '40px' }}>
-             LOADING........... {loadingProgress}%
-             {loadingProgress < 100 && showCursor && <span style={styles.cursor}>_</span>}
-           </div>
-        )}
+      {/* Vignette effect */}
+      <div style={styles.vignette} />
 
-        {lines.length > textSequence.length && showCursor && (
-           <div style={{...styles.line, paddingLeft: '40px'}}>
-             <span style={styles.cursor}>_</span>
-           </div>
-        )}
-      </div>
+      <motion.div
+        style={styles.content}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <AnimatePresence mode="wait">
+          {/* Lignes complétées */}
+          {lines.map((line, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3 }}
+              style={{ ...styles.line, paddingLeft: `${line.indent}px` }}
+            >
+              {line.text}
+            </motion.div>
+          ))}
+
+          {/* Ligne en cours de typing */}
+          {currentText && currentLineIndex < textSequence.length && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              style={{
+                ...styles.line,
+                paddingLeft: `${textSequence[currentLineIndex].indent}px`
+              }}
+            >
+              {currentText}
+              {showCursor && <span style={styles.cursor}>_</span>}
+            </motion.div>
+          )}
+
+          {/* Ligne de chargement */}
+          {isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{ paddingLeft: '40px', marginTop: '20px' }}
+            >
+              <div style={styles.line}>
+                LOADING... {loadingProgress}%
+              </div>
+
+              {/* Barre de progression visuelle */}
+              <div style={styles.progressBarContainer}>
+                <motion.div
+                  style={styles.progressBar}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${loadingProgress}%` }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                />
+              </div>
+
+              {!isComplete && showCursor && (
+                <span style={{ ...styles.cursor, marginTop: '10px' }}>_</span>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </div>
   );
 };
 
 const styles = {
   container: {
-    backgroundColor: '#050505',
+    backgroundColor: '#000000',
     height: '100vh',
     width: '100vw',
     display: 'flex',
@@ -105,15 +178,38 @@ const styles = {
     left: 0,
     zIndex: 9999,
   },
+  scanline: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'linear-gradient(transparent 50%, rgba(255, 255, 255, 0.02) 50%)',
+    backgroundSize: '100% 4px',
+    pointerEvents: 'none',
+    animation: 'scanline 8s linear infinite',
+    opacity: 0.3,
+  },
+  vignette: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.7) 100%)',
+    pointerEvents: 'none',
+  },
   content: {
     maxWidth: '800px',
     width: '100%',
     padding: '20px',
+    position: 'relative',
+    zIndex: 1,
   },
   line: {
     marginBottom: '8px',
     whiteSpace: 'pre-wrap',
-    textShadow: '0 0 5px rgba(255, 255, 255, 0.5)',
+    textShadow: '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4)',
   },
   cursor: {
     display: 'inline-block',
@@ -122,6 +218,22 @@ const styles = {
     width: '10px',
     height: '1.2em',
     verticalAlign: 'text-bottom',
+    boxShadow: '0 0 10px rgba(255, 255, 255, 0.8)',
+  },
+  progressBarContainer: {
+    width: '100%',
+    height: '4px',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    marginTop: '10px',
+    marginBottom: '10px',
+    border: '1px solid rgba(255, 255, 255, 0.3)',
+    overflow: 'hidden',
+  },
+  progressBar: {
+    height: '100%',
+    backgroundColor: '#FFFFFF',
+    boxShadow: '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4)',
+    transition: 'width 0.2s ease-out',
   }
 };
 
