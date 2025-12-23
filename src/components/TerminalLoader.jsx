@@ -95,7 +95,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     fontFamily: 'StampRSPKOne, "Courier New", monospace',
-    color: '#ff7b00',
+    color: '#FFFFFF',
     fontSize: '1.2rem',
     fontWeight: 'bold',
     letterSpacing: '1px',
@@ -113,12 +113,12 @@ const styles = {
   line: {
     marginBottom: '8px',
     whiteSpace: 'pre-wrap',
-    textShadow: '0 0 5px rgba(255, 123, 0, 0.5)',
+    textShadow: '0 0 5px rgba(255, 255, 255, 0.5)',
   },
   cursor: {
     display: 'inline-block',
     marginLeft: '5px',
-    backgroundColor: '#ff7b00',
+    backgroundColor: '#FFFFFF',
     width: '10px',
     height: '1.2em',
     verticalAlign: 'text-bottom',

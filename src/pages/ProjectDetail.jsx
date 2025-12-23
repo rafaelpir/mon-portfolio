@@ -12,10 +12,26 @@ export default function ProjectDetail() {
     const saved = localStorage.getItem('darkMode');
     return saved !== null ? JSON.parse(saved) : true;
   });
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Trouver le projet actuel
   const currentIndex = projects.findIndex(p => p.id.toString() === id);
   const project = projects[currentIndex];
+
+  // Fonctions pour le carousel
+  const handleNextImage = () => {
+    if (project.gallery) {
+      setCurrentImageIndex((prev) => (prev + 1) % project.gallery.length);
+    }
+  };
+
+  const handlePrevImage = () => {
+    if (project.gallery) {
+      setCurrentImageIndex((prev) =>
+        prev === 0 ? project.gallery.length - 1 : prev - 1
+      );
+    }
+  };
 
   // Projets précédent et suivant
   const previousProject = projects[currentIndex - 1];
@@ -105,31 +121,167 @@ export default function ProjectDetail() {
               </p>
             </motion.div>
 
-            {/* Vidéo principale */}
-            <motion.div
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="mb-20"
-            >
-              <div className="relative aspect-video rounded-lg overflow-hidden bg-black/5">
-                <video
-                  src={project.video}
-                  controls
-                  autoPlay
-                  loop
-                  muted
-                  className="w-full h-full object-cover"
-                  poster={project.thumbnail}
-                />
-              </div>
-            </motion.div>
+            {/* Image principale du projet (masquée si carousel présent) */}
+            {!project.gallery && (
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="mb-12"
+              >
+                <div className="relative rounded-lg overflow-hidden bg-black/5 max-h-[600px] flex items-center justify-center">
+                  <img
+                    src={project.thumbnail}
+                    alt={project.title}
+                    className="w-full h-full object-contain max-h-[600px]"
+                    loading="lazy"
+                  />
+                </div>
+              </motion.div>
+            )}
 
-            {/* Galerie d'images (si tu veux ajouter plus de contenu plus tard) */}
+            {/* Vidéo (si présente) */}
+            {(project.youtubeId || project.video) && (
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mb-20"
+              >
+                <h2 className="text-2xl font-light mb-6 opacity-70">
+                  <ShuffleText>Présentation vidéo</ShuffleText>
+                </h2>
+                <div className="relative aspect-video rounded-lg overflow-hidden bg-black/5">
+                  {project.youtubeId ? (
+                    // YouTube embed
+                    <iframe
+                      src={`https://www.youtube.com/embed/${project.youtubeId}`}
+                      title={project.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full"
+                    />
+                  ) : (
+                    // Vidéo locale
+                    <video
+                      src={project.video}
+                      controls
+                      autoPlay
+                      loop
+                      muted
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Prototype Figma interactif */}
+            {project.figmaEmbed && (
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mb-20"
+              >
+                <h2 className="text-2xl font-light mb-6 opacity-70">
+                  <ShuffleText>Prototype interactif</ShuffleText>
+                </h2>
+                <div className="relative rounded-lg overflow-hidden bg-black/5" style={{ height: '600px' }}>
+                  <iframe
+                    src={project.figmaEmbed}
+                    title={`${project.title} - Prototype Figma`}
+                    allowFullScreen
+                    className="w-full border-0"
+                    style={{
+                      height: 'calc(100% + 50px)',
+                      marginTop: '-50px'
+                    }}
+                  />
+                </div>
+                <p className="text-center mt-4 text-sm opacity-50">
+                  Cliquez et naviguez dans le prototype pour explorer les maquettes interactives
+                </p>
+              </motion.div>
+            )}
+
+            {/* Carousel d'images */}
+            {project.gallery && project.gallery.length > 0 && (
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="mb-20"
+              >
+                <h2 className="text-2xl font-light mb-6 opacity-70">
+                  <ShuffleText>Maquettes</ShuffleText>
+                </h2>
+
+                {/* Image avec boutons de navigation */}
+                <div className="flex items-center justify-center gap-6 mb-4">
+                  {/* Bouton précédent */}
+                  <button
+                    onClick={handlePrevImage}
+                    className={`p-3 rounded-full border transition-colors flex-shrink-0 ${
+                      isDarkMode
+                        ? 'border-beige/20 hover:border-beige hover:bg-beige/10'
+                        : 'border-black/20 hover:border-black hover:bg-black/10'
+                    }`}
+                    aria-label="Image précédente"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+
+                  {/* Image du carousel */}
+                  <div className="relative rounded-lg overflow-hidden bg-black/5 flex-shrink-0" style={{ maxWidth: '350px' }}>
+                    <img
+                      src={project.gallery[currentImageIndex].src}
+                      alt={`${project.title} - Image ${currentImageIndex + 1}`}
+                      className="w-full h-auto object-contain"
+                      style={{ maxHeight: '300px' }}
+                      loading="lazy"
+                    />
+                  </div>
+
+                  {/* Bouton suivant */}
+                  <button
+                    onClick={handleNextImage}
+                    className={`p-3 rounded-full border transition-colors flex-shrink-0 ${
+                      isDarkMode
+                        ? 'border-beige/20 hover:border-beige hover:bg-beige/10'
+                        : 'border-black/20 hover:border-black hover:bg-black/10'
+                    }`}
+                    aria-label="Image suivante"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Compteur */}
+                <div className="text-center mb-4">
+                  <span className="text-sm opacity-50">
+                    {currentImageIndex + 1} / {project.gallery.length}
+                  </span>
+                </div>
+
+                {/* Description de l'image */}
+                {project.gallery[currentImageIndex].description && (
+                  <p className="text-center text-base opacity-70 max-w-3xl mx-auto">
+                    {project.gallery[currentImageIndex].description}
+                  </p>
+                )}
+              </motion.div>
+            )}
+
+            {/* Détails du projet */}
             <motion.div
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6 }}
+              transition={{ delay: 0.7 }}
               className="mb-20"
             >
               <h2 className="text-3xl font-light mb-8">

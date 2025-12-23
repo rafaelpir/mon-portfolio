@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Home from './pages/Home';
 import ProjectDetail from './pages/ProjectDetail';
+import CV from './pages/CV';
 import TerminalLoader from './components/TerminalLoader';
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/project/:id" element={<ProjectDetail />} />
+              <Route path="/cv" element={<CV />} />
             </Routes>
           </Router>
         </motion.div>

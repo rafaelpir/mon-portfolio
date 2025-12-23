@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import FlowingMenu from '../FlowingMenu';
 import { useForm, ValidationError } from '@formspree/react';
 import ShuffleText from '../ShuffleText';
 import { ScrollVelocityContainer, ScrollVelocityRow } from '../ScrollVelocity';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { projects, skills } from '../data/projects';
+import GlitchText from '../components/GlitchText';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -99,6 +101,35 @@ export default function Home() {
         smoothWheel: true,
       }}
     >
+      <Helmet>
+        {/* Meta Tags Essentiels */}
+        <html lang="fr" />
+        <title>Rafael Piral - Portfolio | Développeur Créatif & Étudiant MMI</title>
+        <meta name="description" content="Portfolio de Rafael Piral, étudiant en 2ème année de BUT MMI spécialisé en création numérique, développement web et audiovisuel. Découvrez mes projets créatifs et mon parcours." />
+        <meta name="keywords" content="Rafael Piral, portfolio, développeur web, MMI, création numérique, design graphique, audiovisuel, développement créatif, BUT MMI, étudiant développeur, Paris" />
+        <meta name="author" content="Rafael Piral" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://rafaelpiral.fr/" />
+        <meta property="og:title" content="Rafael Piral - Portfolio | Développeur Créatif & Étudiant MMI" />
+        <meta property="og:description" content="Étudiant en BUT MMI passionné par la création numérique et le développement web. Découvrez mes projets et mon parcours." />
+        <meta property="og:image" content="https://rafaelpiral.fr/og-image.jpg" />
+        <meta property="og:locale" content="fr_FR" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://rafaelpiral.fr/" />
+        <meta name="twitter:title" content="Rafael Piral - Portfolio | Développeur Créatif" />
+        <meta name="twitter:description" content="Étudiant en BUT MMI spécialisé en création numérique et développement web." />
+        <meta name="twitter:image" content="https://rafaelpiral.fr/twitter-image.jpg" />
+
+        {/* Informations Additionnelles */}
+        <meta name="robots" content="index, follow" />
+        <meta name="googlebot" content="index, follow" />
+        <link rel="canonical" href="https://rafaelpiral.fr/" />
+      </Helmet>
+
       <div className={`font-stamp transition-colors duration-300 ${
         isDarkMode
           ? 'bg-black text-beige'
@@ -131,8 +162,8 @@ export default function Home() {
                 className="text-4xl md:text-6xl font-black animate-spin-3d-full"
                 style={{
                   transformStyle: 'preserve-3d',
-                  textShadow: '3px 3px 6px rgba(255,123,0,0.4), -3px -3px 6px rgba(0,0,0,0.6)',
-                  background: 'linear-gradient(135deg, #ff9933 0%, #ff7b00 100%)',
+                  textShadow: '3px 3px 6px rgba(255,255,255,0.4), -3px -3px 6px rgba(0,0,0,0.6)',
+                  background: 'linear-gradient(135deg, #FFFFFF 0%, #E5E5E5 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -148,40 +179,40 @@ export default function Home() {
           <nav className="hidden md:flex gap-8 items-center">
             <a
               href="#about"
-              className={`text-sm tracking-widest transition-colors ${
+              className={`text-sm tracking-widest hover-highlight ${
                 isDarkMode
-                  ? 'text-gray-400 hover:text-beige'
-                  : 'text-gray-700 hover:text-black'
+                  ? 'text-gray-400'
+                  : 'text-gray-700'
               }`}
             >
               À PROPOS
             </a>
             <a
               href="#projects"
-              className={`text-sm tracking-widest transition-colors ${
+              className={`text-sm tracking-widest hover-highlight ${
                 isDarkMode
-                  ? 'text-gray-400 hover:text-beige'
-                  : 'text-gray-700 hover:text-black'
+                  ? 'text-gray-400'
+                  : 'text-gray-700'
               }`}
             >
               PROJETS
             </a>
             <a
               href="#skills"
-              className={`text-sm tracking-widest transition-colors ${
+              className={`text-sm tracking-widest hover-highlight ${
                 isDarkMode
-                  ? 'text-gray-400 hover:text-beige'
-                  : 'text-gray-700 hover:text-black'
+                  ? 'text-gray-400'
+                  : 'text-gray-700'
               }`}
             >
               COMPÉTENCES
             </a>
             <a
               href="#contact"
-              className={`text-sm tracking-widest transition-colors ${
+              className={`text-sm tracking-widest hover-highlight ${
                 isDarkMode
-                  ? 'text-gray-400 hover:text-beige'
-                  : 'text-gray-700 hover:text-black'
+                  ? 'text-gray-400'
+                  : 'text-gray-700'
               }`}
             >
               CONTACT
@@ -367,10 +398,14 @@ export default function Home() {
         >
           <div style={{ transform: `translateY(${scrollY * 0.15}px)` }}>
             <h1 className={`text-[18vw] md:text-[15vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Rafael</ShuffleText>
+              <GlitchText>
+                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Rafael</ShuffleText>
+              </GlitchText>
             </h1>
             <h1 className={`text-[18vw] md:text-[15vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Piral</ShuffleText>
+              <GlitchText>
+                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Piral</ShuffleText>
+              </GlitchText>
             </h1>
           </div>
           <p className={`text-sm md:text-2xl font-light tracking-widest px-4 mt-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
@@ -392,11 +427,19 @@ export default function Home() {
       <section id="about" className="min-h-screen flex items-center px-4 md:px-16 py-16 md:py-32">
         <div className="max-w-5xl mx-auto" style={{ transform: `translateY(${(scrollY - 800) * 0.1}px)` }}>
           <p className="text-3xl md:text-5xl lg:text-7xl font-light leading-tight mb-8 md:mb-12">
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Étudiant en 2e année de BUT MMI,</ShuffleText>
+            <GlitchText>
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Étudiant en 2e année de BUT MMI,</ShuffleText>
+            </GlitchText>
             <br />
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>je conçois des expériences</ShuffleText>
+            <GlitchText>
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>je conçois des expériences</ShuffleText>
+            </GlitchText>
             <br />
-            <span className="italic"><ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>numériques créatives</ShuffleText></span>
+            <span className="italic">
+              <GlitchText>
+                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>numériques créatives</ShuffleText>
+              </GlitchText>
+            </span>
           </p>
           <div className="flex gap-8 text-sm tracking-wider" style={{ transform: `translateY(${(scrollY - 900) * 0.05}px)` }}>
             <div>
@@ -428,7 +471,7 @@ export default function Home() {
               }`}
               style={{
                 color: selectedCategory === category
-                  ? (isDarkMode ? '#ff7b00' : '#000000')
+                  ? (isDarkMode ? '#FFFFFF' : '#000000')
                   : '#666666'
               }}
             >
@@ -498,7 +541,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section className="py-32 px-8 md:px-16">
+      <section id="about" className="py-32 px-8 md:px-16">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-sm tracking-widest mb-16 text-gray-500" style={{ transform: `translateY(${(scrollY - 2800) * 0.08}px)` }}>
             <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>À PROPOS</ShuffleText>
@@ -506,13 +549,16 @@ export default function Home() {
 
           <div className="space-y-8 text-2xl md:text-3xl font-light leading-relaxed" style={{ transform: `translateY(${(scrollY - 2900) * 0.06}px)` }}>
             <p>
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Actuellement en deuxième année de BUT Métiers du Multimédia et de l'Internet, parcours Créations Numériques.</ShuffleText>
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
             </p>
             <p className="text-gray-400">
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Je développe une approche multidisciplinaire combinant design graphique, développement web et création audiovisuelle pour concevoir des projets créatifs et innovants.</ShuffleText>
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Je suis étudiant en 2ème année de BUT MMI. Pour faire simple : le monde de l'audiovisuel m'intéresse vraiment et j'ai envie d'apprendre.</ShuffleText>
             </p>
             <p className="text-gray-400">
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>À la recherche d'un stage pour approfondir mes compétences et contribuer à des projets ambitieux.</ShuffleText>
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Je ne cherche pas seulement à valider mon diplôme, je cherche surtout à découvrir ce métier de l'intérieur. Je suis à la recherche d'un stage (dès le [Mois]) pour observer, écouter et participer à vos projets.</ShuffleText>
+            </p>
+            <p className="text-gray-400">
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Si vous acceptez de partager votre savoir-faire avec quelqu'un de curieux, je serais ravi de vous rencontrer.</ShuffleText>
             </p>
           </div>
         </div>
@@ -692,16 +738,16 @@ export default function Home() {
                 <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>NAVIGATION</ShuffleText>
               </h3>
               <nav className="space-y-3">
-                <a href="#about" className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
+                <a href="#about" className="inline-block text-sm md:text-base font-light opacity-70 hover-highlight">
                   <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>À propos</ShuffleText>
                 </a>
-                <a href="#projects" className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
+                <a href="#projects" className="inline-block text-sm md:text-base font-light opacity-70 hover-highlight">
                   <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Projets</ShuffleText>
                 </a>
-                <a href="#skills" className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
+                <a href="#skills" className="inline-block text-sm md:text-base font-light opacity-70 hover-highlight">
                   <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Compétences</ShuffleText>
                 </a>
-                <a href="#contact" className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
+                <a href="#contact" className="inline-block text-sm md:text-base font-light opacity-70 hover-highlight">
                   <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Contact</ShuffleText>
                 </a>
               </nav>
