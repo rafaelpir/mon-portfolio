@@ -209,7 +209,6 @@ const styles = {
   line: {
     marginBottom: '8px',
     whiteSpace: 'pre-wrap',
-    textShadow: '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4)',
   },
   cursor: {
     display: 'inline-block',
@@ -218,7 +217,6 @@ const styles = {
     width: '10px',
     height: '1.2em',
     verticalAlign: 'text-bottom',
-    boxShadow: '0 0 10px rgba(255, 255, 255, 0.8)',
   },
   progressBarContainer: {
     width: '100%',
@@ -232,7 +230,6 @@ const styles = {
   progressBar: {
     height: '100%',
     backgroundColor: '#FFFFFF',
-    boxShadow: '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4)',
     transition: 'width 0.2s ease-out',
   }
 };
