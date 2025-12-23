@@ -162,7 +162,6 @@ export default function Home() {
                 className="text-4xl md:text-6xl font-black animate-spin-3d-full"
                 style={{
                   transformStyle: 'preserve-3d',
-                  textShadow: '3px 3px 6px rgba(255,255,255,0.4), -3px -3px 6px rgba(0,0,0,0.6)',
                   background: 'linear-gradient(135deg, #FFFFFF 0%, #E5E5E5 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
