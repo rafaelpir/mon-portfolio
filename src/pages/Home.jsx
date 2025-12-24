@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import FlowingMenu from '../FlowingMenu';
 import { useForm, ValidationError } from '@formspree/react';
@@ -133,7 +133,7 @@ export default function Home() {
       <div className={`font-stamp transition-colors duration-300 ${
         isDarkMode
           ? 'bg-black text-beige'
-          : 'bg-beige text-black'
+          : 'bg-white text-black'
       }`}>
 
       {/* Curseur personnalisé */}
@@ -176,42 +176,42 @@ export default function Home() {
 
           {/* Navigation */}
           <nav className="hidden md:flex gap-8 items-center">
-            <a
-              href="#about"
-              className={`text-sm tracking-widest hover-highlight ${
+            <Link
+              to="/about"
+              className={`text-sm tracking-widest transition-colors ${
                 isDarkMode
-                  ? 'text-gray-400'
-                  : 'text-gray-700'
+                  ? 'text-gray-400 hover:text-beige'
+                  : 'text-gray-700 hover:text-black'
               }`}
             >
               À PROPOS
-            </a>
+            </Link>
             <a
               href="#projects"
-              className={`text-sm tracking-widest hover-highlight ${
+              className={`text-sm tracking-widest transition-colors ${
                 isDarkMode
-                  ? 'text-gray-400'
-                  : 'text-gray-700'
+                  ? 'text-gray-400 hover:text-beige'
+                  : 'text-gray-700 hover:text-black'
               }`}
             >
               PROJETS
             </a>
             <a
               href="#skills"
-              className={`text-sm tracking-widest hover-highlight ${
+              className={`text-sm tracking-widest transition-colors ${
                 isDarkMode
-                  ? 'text-gray-400'
-                  : 'text-gray-700'
+                  ? 'text-gray-400 hover:text-beige'
+                  : 'text-gray-700 hover:text-black'
               }`}
             >
               COMPÉTENCES
             </a>
             <a
               href="#contact"
-              className={`text-sm tracking-widest hover-highlight ${
+              className={`text-sm tracking-widest transition-colors ${
                 isDarkMode
-                  ? 'text-gray-400'
-                  : 'text-gray-700'
+                  ? 'text-gray-400 hover:text-beige'
+                  : 'text-gray-700 hover:text-black'
               }`}
             >
               CONTACT
@@ -335,8 +335,8 @@ export default function Home() {
             isDarkMode ? 'border-beige/10' : 'border-black/10'
           }`}>
             <nav className="flex flex-col py-4">
-              <a
-                href="#about"
+              <Link
+                to="/about"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`px-8 py-4 text-sm tracking-widest transition-colors ${
                   isDarkMode
@@ -345,7 +345,7 @@ export default function Home() {
                 }`}
               >
                 À PROPOS
-              </a>
+              </Link>
               <a
                 href="#projects"
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -397,14 +397,10 @@ export default function Home() {
         >
           <div style={{ transform: `translateY(${scrollY * 0.15}px)` }}>
             <h1 className={`text-[18vw] md:text-[15vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <GlitchText>
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Rafael</ShuffleText>
-              </GlitchText>
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Rafael</ShuffleText>
             </h1>
             <h1 className={`text-[18vw] md:text-[15vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <GlitchText>
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Piral</ShuffleText>
-              </GlitchText>
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Piral</ShuffleText>
             </h1>
           </div>
           <p className={`text-sm md:text-2xl font-light tracking-widest px-4 mt-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
@@ -426,18 +422,12 @@ export default function Home() {
       <section id="about" className="min-h-screen flex items-center px-4 md:px-16 py-16 md:py-32">
         <div className="max-w-5xl mx-auto" style={{ transform: `translateY(${(scrollY - 800) * 0.1}px)` }}>
           <p className="text-3xl md:text-5xl lg:text-7xl font-light leading-tight mb-8 md:mb-12">
-            <GlitchText>
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Étudiant en 2e année de BUT MMI,</ShuffleText>
-            </GlitchText>
+            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Étudiant en 2e année de BUT MMI,</ShuffleText>
             <br />
-            <GlitchText>
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>je conçois des expériences</ShuffleText>
-            </GlitchText>
+            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>je conçois des expériences</ShuffleText>
             <br />
             <span className="italic">
-              <GlitchText>
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>numériques créatives</ShuffleText>
-              </GlitchText>
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>numériques créatives</ShuffleText>
             </span>
           </p>
           <div className="flex gap-8 text-sm tracking-wider" style={{ transform: `translateY(${(scrollY - 900) * 0.05}px)` }}>
@@ -737,16 +727,16 @@ export default function Home() {
                 <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>NAVIGATION</ShuffleText>
               </h3>
               <nav className="space-y-3">
-                <a href="#about" className="inline-block text-sm md:text-base font-light opacity-70 hover-highlight">
+                <Link to="/about" className="inline-block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
                   <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>À propos</ShuffleText>
-                </a>
-                <a href="#projects" className="inline-block text-sm md:text-base font-light opacity-70 hover-highlight">
+                </Link>
+                <a href="#projects" className="inline-block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
                   <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Projets</ShuffleText>
                 </a>
-                <a href="#skills" className="inline-block text-sm md:text-base font-light opacity-70 hover-highlight">
+                <a href="#skills" className="inline-block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
                   <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Compétences</ShuffleText>
                 </a>
-                <a href="#contact" className="inline-block text-sm md:text-base font-light opacity-70 hover-highlight">
+                <a href="#contact" className="inline-block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
                   <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Contact</ShuffleText>
                 </a>
               </nav>
