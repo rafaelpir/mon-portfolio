@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Police Satoshi Medium par défaut */
+@layer base {
+  body {
+    font-weight: 500;
+  }
+}
+
 /* Effet de survol avec cases blanches */
 @layer utilities {
   .hover-highlight {
@@ -35,17 +42,17 @@
   }
 }
 
-/* Satoshi Font Family */
+/* Satoshi Font Family - Tous les poids utilisent Medium */
 @font-face {
   font-family: 'Satoshi';
-  src: url('/font/Satoshi-Light.otf') format('opentype');
+  src: url('/font/Satoshi-Medium.otf') format('opentype');
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Satoshi';
-  src: url('/font/Satoshi-Regular.otf') format('opentype');
+  src: url('/font/Satoshi-Medium.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
 }
@@ -59,14 +66,28 @@
 
 @font-face {
   font-family: 'Satoshi';
-  src: url('/font/Satoshi-Bold.otf') format('opentype');
+  src: url('/font/Satoshi-Medium.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/font/Satoshi-Medium.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Satoshi';
-  src: url('/font/Satoshi-Black.otf') format('opentype');
+  src: url('/font/Satoshi-Medium.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/font/Satoshi-Medium.otf') format('opentype');
   font-weight: 900;
   font-style: normal;
 }
