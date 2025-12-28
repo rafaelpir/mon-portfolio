@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { motion } from 'framer-motion';
 import FlowingMenu from '../FlowingMenu';
 import { useForm, ValidationError } from '@formspree/react';
 import ShuffleText from '../ShuffleText';
@@ -8,12 +9,21 @@ import { ScrollVelocityContainer, ScrollVelocityRow } from '../ScrollVelocity';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { projects, skills } from '../data/projects';
 import GlitchText from '../components/GlitchText';
+import AvailabilityBadge from '../components/AvailabilityBadge';
+import Statistics from '../components/Statistics';
+import CVDownloadButton from '../components/CVDownloadButton';
+import ProjectFilters from '../components/ProjectFilters';
+import Timeline from '../components/Timeline';
+import WorkInProgress from '../components/WorkInProgress';
+import usePresentationMode from '../hooks/usePresentationMode';
 
 export default function Home() {
   const navigate = useNavigate();
+  const { isPresentationMode, togglePresentationMode, isFullscreenSupported } = usePresentationMode();
   const [scrollY, setScrollY] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [selectedCategory, setSelectedCategory] = useState('Tous');
+  const [selectedTags, setSelectedTags] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     // Charger la préférence depuis localStorage
     const saved = localStorage.getItem('darkMode');
@@ -79,10 +89,15 @@ export default function Home() {
   // Extraire les catégories uniques
   const categories = ['Tous', ...new Set(projects.map(p => p.category))];
 
-  // Filtrer les projets selon la catégorie
-  const filteredProjects = selectedCategory === 'Tous'
-    ? projects
-    : projects.filter(p => p.category === selectedCategory);
+  // Extraire tous les tags uniques
+  const allTags = [...new Set(projects.flatMap(p => p.tags || []))].sort();
+
+  // Filtrer les projets selon la catégorie et les tags
+  const filteredProjects = projects.filter(project => {
+    const categoryMatch = selectedCategory === 'Tous' || project.category === selectedCategory;
+    const tagMatch = selectedTags.length === 0 || selectedTags.some(tag => (project.tags || []).includes(tag));
+    return categoryMatch && tagMatch;
+  });
 
   // Configuration du FlowingMenu avec les projets
   const menuItems = filteredProjects.map((project) => ({
@@ -149,29 +164,24 @@ export default function Home() {
       />
 
       {/* Header avec navigation */}
+      {!isPresentationMode && (
       <header className={`fixed top-0 left-0 right-0 z-40 px-8 py-6 border-b transition-colors duration-300 ${
         isDarkMode
           ? 'bg-black/5 border-beige/10'
           : 'bg-beige/5 border-black/10'
       }`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo R avec rotation 360° */}
-          <div className="perspective-1000">
-            <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
-              <div
-                className="text-4xl md:text-6xl font-black animate-spin-3d-full"
-                style={{
-                  transformStyle: 'preserve-3d',
-                  background: 'linear-gradient(135deg, #FFFFFF 0%, #E5E5E5 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  fontFamily: 'StampRSPKOne, sans-serif'
-                }}
-              >
-                R
-              </div>
-            </div>
+          {/* Logo bullet.png avec rotation liée au scroll */}
+          <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+            <img
+              src="/bullet.png"
+              alt="Logo"
+              className="w-full h-full object-contain"
+              style={{
+                transform: `rotate(${scrollY * 0.5}deg)`,
+                transition: 'transform 0.1s ease-out'
+              }}
+            />
           </div>
 
           {/* Navigation */}
@@ -216,6 +226,12 @@ export default function Home() {
             >
               CONTACT
             </a>
+
+            {/* Bouton CV */}
+            <CVDownloadButton
+              variant="secondary"
+              isDarkMode={isDarkMode}
+            />
 
             {/* Menu paramètres */}
             <div className="ml-4 relative settings-menu">
@@ -269,6 +285,25 @@ export default function Home() {
                     <span>Effets shuffle</span>
                     <span className={`text-sm ${textEffectsEnabled ? 'text-green-500' : 'text-red-500'}`}>
                       {textEffectsEnabled ? 'ON' : 'OFF'}
+                    </span>
+                  </button>
+
+                  <div className={`my-2 border-t ${isDarkMode ? 'border-black/10' : 'border-beige/10'}`} />
+
+                  {/* Mode Présentation */}
+                  <div className={`px-4 py-2 text-xs font-semibold ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`}>
+                    MODE PRÉSENTATION
+                  </div>
+                  <button
+                    onClick={togglePresentationMode}
+                    className={`w-full px-4 py-2 text-left flex items-center justify-between ${
+                      isDarkMode ? 'hover:bg-black/5 text-black' : 'hover:bg-beige/10 text-beige'
+                    }`}
+                    title="Raccourci: Ctrl+P"
+                  >
+                    <span>Plein écran {!isFullscreenSupported && '(Non supporté)'}</span>
+                    <span className={`text-sm ${isPresentationMode ? 'text-green-500' : 'text-gray-500'}`}>
+                      {isPresentationMode ? '✓ Actif' : 'Ctrl+P'}
                     </span>
                   </button>
 
@@ -383,19 +418,42 @@ export default function Home() {
           </div>
         )}
       </header>
-
+      )}
 
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center relative overflow-hidden px-4">
-        <div
-          className="text-center relative z-10"
+        {/* Vidéo de fond */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
           style={{
-            transform: `translateY(${scrollY * 0.3}px)`,
-            opacity: 1 - scrollY / 500,
-            pointerEvents: 'none'
+            opacity: isDarkMode ? 0.15 : 0.1,
+            filter: isDarkMode ? 'none' : 'invert(1)',
+            transform: 'scale(1.1)'
           }}
         >
-          <div style={{ transform: `translateY(${scrollY * 0.15}px)` }}>
+          <source src="/videos/output_leger.mp4" type="video/mp4" />
+        </video>
+
+        {/* Gradient overlay animé */}
+        <div className="absolute inset-0" style={{
+          background: isDarkMode
+            ? 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%)'
+            : 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0.05) 0%, transparent 50%)',
+          animation: 'pulse 8s ease-in-out infinite'
+        }} />
+
+        {/* Contenu principal avec animations améliorées */}
+        <div
+          className="text-center relative z-10 animate-fade-in-up"
+          style={{
+            opacity: 1 - scrollY / 500
+          }}
+        >
+          <div className="animate-slide-down" style={{ animationDelay: '0.2s' }}>
             <h1 className={`text-[18vw] md:text-[15vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
               <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Rafael</ShuffleText>
             </h1>
@@ -403,34 +461,60 @@ export default function Home() {
               <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Piral</ShuffleText>
             </h1>
           </div>
-          <p className={`text-sm md:text-2xl font-light tracking-widest px-4 mt-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+
+          <p className={`text-sm md:text-2xl font-light tracking-widest px-4 mt-4 md:mt-8 animate-fade-in ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
             style={{
-              transform: `translateY(${scrollY * 0.1}px)`
+              animationDelay: '0.4s'
             }}>
             <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>ÉTUDIANT EN 2E ANNEE DE BUT MMI • CRÉATIONS NUMÉRIQUES</ShuffleText>
           </p>
+
+          {/* Badge de disponibilité */}
+          <div className="mt-6 md:mt-8 animate-fade-in flex justify-center" style={{ animationDelay: '0.5s' }}>
+            <AvailabilityBadge
+              status="En recherche de stage"
+              availableDate="Avril 2026"
+              alternance="Alternance pour septembre 2026"
+              isDarkMode={isDarkMode}
+              textEffectsEnabled={textEffectsEnabled}
+            />
+          </div>
         </div>
 
-        <div className={`absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 text-xs md:text-sm tracking-widest animate-bounce ${
+        {/* Indicateur de scroll */}
+        <div className={`absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 text-xs md:text-sm tracking-widest animate-bounce flex items-center justify-center ${
           isDarkMode ? 'text-gray-400' : 'text-gray-600'
-        }`} style={{ zIndex: 20, pointerEvents: 'none' }}>
+        }`} style={{ zIndex: 20, whiteSpace: 'nowrap' }}>
           <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>DÉFILER</ShuffleText>
         </div>
       </section>
 
-      {/* Introduction */}
-      <section id="about" className="min-h-screen flex items-center px-4 md:px-16 py-16 md:py-32">
-        <div className="max-w-5xl mx-auto" style={{ transform: `translateY(${(scrollY - 800) * 0.1}px)` }}>
-          <p className="text-3xl md:text-5xl lg:text-7xl font-light leading-tight mb-8 md:mb-12">
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Étudiant en 2e année de BUT MMI,</ShuffleText>
-            <br />
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>je conçois des expériences</ShuffleText>
-            <br />
-            <span className="italic">
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>numériques créatives</ShuffleText>
-            </span>
-          </p>
-          <div className="flex gap-8 text-sm tracking-wider" style={{ transform: `translateY(${(scrollY - 900) * 0.05}px)` }}>
+      {/* Introduction / About */}
+      <motion.section
+        id="about"
+        className="min-h-screen flex items-center px-4 md:px-16 py-16 md:py-32"
+        initial={{ opacity: 0, x: -100 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <div className="max-w-5xl mx-auto">
+          <div className="space-y-8 text-2xl md:text-3xl font-light leading-relaxed mb-12">
+            <p>
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
+            </p>
+            <p className="text-gray-400">
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Je suis étudiant en 2ème année de BUT MMI. Pour faire simple : le monde de l'audiovisuel m'intéresse vraiment et j'ai envie d'apprendre.</ShuffleText>
+            </p>
+            <p className="text-gray-400">
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Je ne cherche pas seulement à valider mon diplôme, je cherche surtout à découvrir ce métier de l'intérieur. Je suis à la recherche d'un stage (dès le [Mois]) pour observer, écouter et participer à vos projets.</ShuffleText>
+            </p>
+            <p className="text-gray-400">
+              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Si vous acceptez de partager votre savoir-faire avec quelqu'un de curieux, je serais ravi de vous rencontrer.</ShuffleText>
+            </p>
+          </div>
+
+          <div className="flex gap-8 text-sm tracking-wider">
             <div>
               <p className="text-gray-500 mb-2">LOCALISATION</p>
               <p>Le Pré Saint Gervais, France</p>
@@ -441,37 +525,34 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Projects Section - FlowingMenu */}
-      <section id="projects" className="py-16 md:py-32 px-4 md:px-16">
-        <h2 className="text-xs md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center" style={{ transform: `translateY(${(scrollY - 1200) * 0.08}px)` }}>
+      <motion.section
+        id="projects"
+        className="py-16 md:py-32 px-4 md:px-16"
+        initial={{ opacity: 0, x: 100 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <h2 className="text-xs md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center">
           <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>PROJETS SÉLECTIONNÉS</ShuffleText>
         </h2>
 
-        {/* Filtres par catégorie */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-8 md:mb-16">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`relative text-sm tracking-wider transition-all duration-300 group ${
-                isDarkMode ? 'hover:text-beige' : 'hover:text-black'
-              }`}
-              style={{
-                color: selectedCategory === category
-                  ? (isDarkMode ? '#FFFFFF' : '#000000')
-                  : '#666666'
-              }}
-            >
-              {category}
-              {selectedCategory === category && (
-                <span className={`absolute -bottom-2 left-0 right-0 h-px transition-all duration-300 ${
-                  isDarkMode ? 'bg-beige' : 'bg-black'
-                }`} />
-              )}
-            </button>
-          ))}
+        {/* Filtres avancés */}
+        <div className="mb-8 md:mb-16">
+          <ProjectFilters
+            categories={categories}
+            allTags={allTags}
+            selectedCategory={selectedCategory}
+            selectedTags={selectedTags}
+            onCategoryChange={setSelectedCategory}
+            onTagsChange={setSelectedTags}
+            isDarkMode={isDarkMode}
+            textEffectsEnabled={textEffectsEnabled}
+            filteredCount={filteredProjects.length}
+          />
         </div>
 
         {/* FlowingMenu avec les projets */}
@@ -480,15 +561,29 @@ export default function Home() {
             <FlowingMenu items={menuItems} isDarkMode={isDarkMode} />
           </div>
         </div>
-      </section>
+      </motion.section>
+
+      {/* Work In Progress Section */}
+      <WorkInProgress
+        isDarkMode={isDarkMode}
+        textEffectsEnabled={textEffectsEnabled}
+        scrollY={scrollY}
+      />
 
       {/* Skills Section */}
-      <section id="skills" className={`py-16 md:py-32 transition-colors duration-300 ${
-        isDarkMode
-          ? 'bg-beige-light text-black'
-          : 'bg-black text-beige'
-      }`}>
-        <div className="mb-12 text-center" style={{ transform: `translateY(${(scrollY - 2000) * 0.08}px)` }}>
+      <motion.section
+        id="skills"
+        className={`py-16 md:py-32 transition-colors duration-300 ${
+          isDarkMode
+            ? 'bg-beige-light text-black'
+            : 'bg-black text-beige'
+        }`}
+        initial={{ opacity: 0, x: 100 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <div className="mb-12 text-center">
           <h2 className="text-xs md:text-sm tracking-widest text-gray-500">
             <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>COMPÉTENCES</ShuffleText>
           </h2>
@@ -527,40 +622,48 @@ export default function Home() {
             isDarkMode ? 'from-beige-light' : 'from-black'
           }`}></div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* About Section */}
-      <section id="about" className="py-32 px-8 md:px-16">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-sm tracking-widest mb-16 text-gray-500" style={{ transform: `translateY(${(scrollY - 2800) * 0.08}px)` }}>
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>À PROPOS</ShuffleText>
-          </h2>
+      {/* Statistics Section */}
+      <Statistics
+        stats={[
+          { value: projects.length, label: "PROJETS RÉALISÉS", suffix: "+" }
+        ]}
+        isDarkMode={isDarkMode}
+        textEffectsEnabled={textEffectsEnabled}
+        scrollY={scrollY}
+      />
 
-          <div className="space-y-8 text-2xl md:text-3xl font-light leading-relaxed" style={{ transform: `translateY(${(scrollY - 2900) * 0.06}px)` }}>
-            <p>
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
-            </p>
-            <p className="text-gray-400">
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Je suis étudiant en 2ème année de BUT MMI. Pour faire simple : le monde de l'audiovisuel m'intéresse vraiment et j'ai envie d'apprendre.</ShuffleText>
-            </p>
-            <p className="text-gray-400">
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Je ne cherche pas seulement à valider mon diplôme, je cherche surtout à découvrir ce métier de l'intérieur. Je suis à la recherche d'un stage (dès le [Mois]) pour observer, écouter et participer à vos projets.</ShuffleText>
-            </p>
-            <p className="text-gray-400">
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Si vous acceptez de partager votre savoir-faire avec quelqu'un de curieux, je serais ravi de vous rencontrer.</ShuffleText>
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Timeline Section */}
+      <Timeline
+        isDarkMode={isDarkMode}
+        textEffectsEnabled={textEffectsEnabled}
+        scrollY={scrollY}
+      />
 
       {/* Contact Section */}
-      <section id="contact" className="min-h-screen flex items-center justify-center px-4 md:px-8 py-16 md:py-32">
+      <motion.section
+        id="contact"
+        className="min-h-screen flex items-center justify-center px-4 md:px-8 py-16 md:py-32"
+        initial={{ opacity: 0, x: -100 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         <div className="max-w-4xl w-full">
-          <h2 className="text-4xl md:text-7xl lg:text-9xl font-light mb-8 md:mb-16 leading-none text-center" style={{ transform: `translateY(${(scrollY - 3500) * 0.08}px)` }}>
+          <h2 className="text-4xl md:text-7xl lg:text-9xl font-light mb-12 md:mb-20 leading-none text-center">
             <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>TRAVAILLONS</ShuffleText>
             <br />
             <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>ENSEMBLE</ShuffleText>
           </h2>
+
+          {/* Bouton CV */}
+          <div className="mb-8 md:mb-12 flex justify-center">
+            <CVDownloadButton
+              variant="primary"
+              isDarkMode={isDarkMode}
+            />
+          </div>
 
           <div className="grid md:grid-cols-2 gap-8 md:gap-16">
             {/* Formulaire de contact */}
@@ -700,9 +803,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Footer */}
+      {!isPresentationMode && (
       <footer className={`border-t py-16 md:py-24 px-4 md:px-16 ${
         isDarkMode ? 'border-beige/20' : 'border-black/20'
       }`}>
@@ -726,17 +830,17 @@ export default function Home() {
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
                 <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>NAVIGATION</ShuffleText>
               </h3>
-              <nav className="space-y-3">
-                <Link to="/about" className="inline-block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
+              <nav className="flex flex-col space-y-3">
+                <Link to="/about" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
                   <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>À propos</ShuffleText>
                 </Link>
-                <a href="#projects" className="inline-block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
+                <a href="#projects" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
                   <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Projets</ShuffleText>
                 </a>
-                <a href="#skills" className="inline-block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
+                <a href="#skills" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
                   <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Compétences</ShuffleText>
                 </a>
-                <a href="#contact" className="inline-block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
+                <a href="#contact" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
                   <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Contact</ShuffleText>
                 </a>
               </nav>
@@ -799,6 +903,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      )}
     </div>
     </ReactLenis>
   );

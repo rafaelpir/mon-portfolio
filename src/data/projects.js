@@ -66,6 +66,41 @@ export const projects = [
     thumbnail: "/images/projects/armorimmo.webp",
     figmaEmbed: "https://embed.figma.com/proto/IySCrSMWMDsUfz9bO51rrz/Site-Immo-Referencement?page-id=6%3A32&node-id=16-2&viewport=154%2C281%2C0.18&scaling=scale-down&content-scaling=fixed&starting-point-node-id=16%3A2&embed-host=share",
     tags: ["Figma", "UI Design", "Branding", "SEO"]
+  },
+  {
+    id: 6,
+    title: "Statue de la Liberté — De la photo à l'ASCII",
+    category: "Photographie",
+    year: "2025",
+    description: "Lors d'un voyage à New York, j'ai photographié la Statue de la Liberté depuis Liberty Island. Cette photo est devenue le point de départ d'une expérimentation graphique : transformer une image réelle en une composition entièrement faite de caractères ASCII. L'idée était simple : comment réinterpréter un monument aussi iconique avec un langage purement numérique et typographique ? Le résultat joue sur une tension visuelle : de loin, on reconnaît la statue ; de près, on ne voit que du texte. La statue devient une structure de données, quelque chose entre la photographie et le code informatique.",
+    thumbnail: "/images/projects/Liberté.webp",
+    tags: ["Photoshop", "Photographie"]
+  }
+];
+
+// ============================================
+// PROJETS EN COURS (WORK IN PROGRESS)
+// ============================================
+export const workInProgressProjects = [
+  {
+    id: "wip-1",
+    title: "Refonte Portfolio Personnel",
+    category: "Développement web",
+    status: "En cours",
+    progress: 75,
+    estimatedCompletion: "Février 2025",
+    description: "Amélioration continue du portfolio avec nouvelles fonctionnalités et optimisations.",
+    thumbnail: "/images/projects/veco/thumbnail.webp" // Placeholder
+  },
+  {
+    id: "wip-2",
+    title: "Projet Motion Design",
+    category: "Motion design",
+    status: "En préparation",
+    progress: 30,
+    estimatedCompletion: "Mars 2025",
+    description: "Création d'une animation motion design pour un projet personnel.",
+    thumbnail: "/images/projects/sade.webp" // Placeholder
   }
 ];
 
