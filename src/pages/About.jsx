@@ -75,11 +75,34 @@ export default function About() {
       </header>
 
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center px-4 pt-32 pb-16">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="min-h-screen flex items-center justify-center px-4 pt-32 pb-16 relative overflow-hidden">
+        {/* Vidéo de fond */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            opacity: isDarkMode ? 0.15 : 0.1,
+            filter: isDarkMode ? 'none' : 'invert(1)',
+            transform: 'scale(1.1)'
+          }}
+        >
+          <source src="/videos/fond.mp4" type="video/mp4" />
+        </video>
+
+        {/* Gradient overlay animé */}
+        <div className="absolute inset-0" style={{
+          background: isDarkMode
+            ? 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%)'
+            : 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0.05) 0%, transparent 50%)',
+          animation: 'pulse 8s ease-in-out infinite'
+        }} />
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <h1
             className="text-[12vw] md:text-[8vw] font-light leading-none tracking-tight mb-8"
-            style={{ transform: `translateY(${scrollY * 0.1}px)` }}
           >
             <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
               À Propos
@@ -90,7 +113,6 @@ export default function About() {
             className={`text-lg md:text-2xl font-light leading-relaxed ${
               isDarkMode ? 'text-gray-300' : 'text-gray-700'
             }`}
-            style={{ transform: `translateY(${scrollY * 0.05}px)` }}
           >
             <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
               Designer graphique et développeur web passionné par la création d'expériences numériques uniques
