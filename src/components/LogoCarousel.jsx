@@ -1,17 +1,51 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import ShuffleText from '../ShuffleText';
+import {
+  PhotoshopLogo,
+  IllustratorLogo,
+  FigmaLogo,
+  InDesignLogo,
+  HTMLLogo,
+  JavaScriptLogo,
+  ReactLogo,
+  WordPressLogo,
+  PremiereLogo,
+  AfterEffectsLogo,
+  BlenderLogo
+} from './logos';
 
-const LogoCarousel = ({ skills, isDarkMode, textEffectsEnabled, columnCount = 3 }) => {
-  // Split skills into columns
+// Map skill names to their logo components
+const logoMap = {
+  'Photoshop': PhotoshopLogo,
+  'Illustrator': IllustratorLogo,
+  'Figma': FigmaLogo,
+  'InDesign': InDesignLogo,
+  'HTML/CSS': HTMLLogo,
+  'JavaScript': JavaScriptLogo,
+  'React': ReactLogo,
+  'WordPress': WordPressLogo,
+  'Premiere Pro': PremiereLogo,
+  'After Effects': AfterEffectsLogo,
+  'Blender': BlenderLogo
+};
+
+const LogoCarousel = ({ skills, isDarkMode, columnCount = 3 }) => {
+  // Convert skills array to logo objects
+  const allLogos = skills.map((skill, index) => ({
+    name: skill,
+    id: index,
+    Logo: logoMap[skill]
+  }));
+
+  // Split logos into columns
   const columns = Array.from({ length: columnCount }, (_, i) => {
-    return skills.filter((_, index) => index % columnCount === i);
+    return allLogos.filter((_, index) => index % columnCount === i);
   });
 
   return (
     <div className="relative w-full h-full overflow-hidden rounded-xl">
       <div className="flex gap-3 md:gap-6 h-full">
-        {columns.map((columnSkills, columnIndex) => (
+        {columns.map((columnLogos, columnIndex) => (
           <div
             key={columnIndex}
             className="flex-1 flex flex-col gap-3 md:gap-5"
@@ -19,7 +53,7 @@ const LogoCarousel = ({ skills, isDarkMode, textEffectsEnabled, columnCount = 3 
             <motion.div
               className="flex flex-col gap-3 md:gap-5"
               animate={{
-                y: [0, -100 * columnSkills.length],
+                y: [0, -100 * columnLogos.length],
               }}
               transition={{
                 y: {
@@ -30,36 +64,34 @@ const LogoCarousel = ({ skills, isDarkMode, textEffectsEnabled, columnCount = 3 
                 },
               }}
             >
-              {/* Render skills twice for seamless loop */}
-              {[...columnSkills, ...columnSkills].map((skill, idx) => (
-                <motion.div
-                  key={idx}
-                  className={`group relative flex items-center justify-center py-5 md:py-7 px-4 md:px-6 rounded-xl backdrop-blur-sm transition-all duration-500 cursor-default ${
-                    isDarkMode
-                      ? 'bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20'
-                      : 'bg-black/5 border border-black/10 hover:bg-black/10 hover:border-black/20'
-                  }`}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                >
-                  {/* Subtle glow effect on hover */}
-                  <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
-                    isDarkMode
-                      ? 'bg-gradient-to-br from-white/5 to-transparent'
-                      : 'bg-gradient-to-br from-black/5 to-transparent'
-                  }`}></div>
+              {/* Render logos twice for seamless loop */}
+              {[...columnLogos, ...columnLogos].map((logo, idx) => {
+                const LogoComponent = logo.Logo;
+                return (
+                  <motion.div
+                    key={`${logo.id}-${idx}`}
+                    className={`group relative flex items-center justify-center py-5 md:py-7 px-4 md:px-6 rounded-xl backdrop-blur-sm transition-all duration-500 cursor-default ${
+                      isDarkMode
+                        ? 'bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20'
+                        : 'bg-black/5 border border-black/10 hover:bg-black/10 hover:border-black/20'
+                    }`}
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                  >
+                    {/* Subtle glow effect on hover */}
+                    <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
+                      isDarkMode
+                        ? 'bg-gradient-to-br from-white/5 to-transparent'
+                        : 'bg-gradient-to-br from-black/5 to-transparent'
+                    }`}></div>
 
-                  <span className="relative z-10 text-base md:text-xl font-medium tracking-wide">
-                    {textEffectsEnabled ? (
-                      <ShuffleText enabled={textEffectsEnabled}>
-                        {skill}
-                      </ShuffleText>
-                    ) : (
-                      skill
-                    )}
-                  </span>
-                </motion.div>
-              ))}
+                    {/* Logo */}
+                    <div className="relative z-10">
+                      {LogoComponent && <LogoComponent className="w-12 h-12 md:w-16 md:h-16" />}
+                    </div>
+                  </motion.div>
+                );
+              })}
             </motion.div>
           </div>
         ))}
