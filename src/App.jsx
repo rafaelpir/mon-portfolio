@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import ProjectDetail from './pages/ProjectDetail';
 import CV from './pages/CV';
 import About from './pages/About';
+import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/project/:id" element={<ProjectDetail />} />
         <Route path="/cv" element={<CV />} />
         <Route path="/about" element={<About />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
