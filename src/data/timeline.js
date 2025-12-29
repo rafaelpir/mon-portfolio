@@ -9,7 +9,7 @@ export const timelineEvents = [
     title: "Baccalauréat STI2D option SIN",
     description: "Lycée Lucie Aubrac - Spécialité Système d'Information et Numérique. Options : Mathématiques et Physique, Innovation Technologique. Premières bases en programmation et systèmes informatiques.",
     category: "Formation",
-    icon: "🎓"
+    icon: ""
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ export const timelineEvents = [
     title: "Licence Mathématiques Informatique Physique",
     description: "Université de Nantes - 1ère année. Exploration des fondamentaux scientifiques et découverte de l'informatique théorique et appliquée.",
     category: "Formation",
-    icon: "🎓"
+    icon: ""
   },
   {
     id: 3,
@@ -25,7 +25,7 @@ export const timelineEvents = [
     title: "BUT Informatique",
     description: "IUT de Lille - Développement des compétences en programmation, algorithmique et développement logiciel. Fondations techniques solides.",
     category: "Formation",
-    icon: "💻"
+    icon: ""
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ export const timelineEvents = [
     title: "BUT Métiers du Multimédia et de l'Internet",
     description: "IUT de Bobigny - Réorientation vers la création numérique. Formation complète en design graphique, développement web, audiovisuel et UX/UI. Fusion entre compétences techniques et créativité.",
     category: "Formation",
-    icon: "🎨"
+    icon: ""
   },
   {
     id: 5,
@@ -41,7 +41,7 @@ export const timelineEvents = [
     title: "Projets créatifs & développement",
     description: "Réalisation de projets variés : affiches graphiques, interfaces web avec React, vidéos et animations. Exploration de l'art ASCII, du motion design et du développement front-end moderne.",
     category: "Création",
-    icon: "✨"
+    icon: ""
   },
   {
     id: 6,
@@ -49,7 +49,7 @@ export const timelineEvents = [
     title: "Recherche de stage & alternance",
     description: "À la recherche d'un stage à partir d'avril 2026 et d'une alternance pour septembre 2026. Objectif : approfondir mes compétences en création numérique et développement web dans un environnement professionnel.",
     category: "Avenir",
-    icon: "🚀"
+    icon: ""
   }
 ];
 

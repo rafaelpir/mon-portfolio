@@ -35,9 +35,6 @@ export default function Home() {
     const saved = localStorage.getItem('textEffects');
     return saved !== null ? JSON.parse(saved) : true;
   });
-  const [selectedFont, setSelectedFont] = useState(() => {
-    return localStorage.getItem('selectedFont') || 'StampRSPKOne';
-  });
 
   // Formspree hook pour le formulaire de contact
   // Remplacez "xjknoepn" par votre vrai ID de formulaire Formspree
@@ -75,14 +72,10 @@ export default function Home() {
     localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
   }, [isDarkMode]);
 
-  // Sauvegarder les préférences d'effets de texte et police
+  // Sauvegarder les préférences d'effets de texte
   useEffect(() => {
     localStorage.setItem('textEffects', JSON.stringify(textEffectsEnabled));
   }, [textEffectsEnabled]);
-
-  useEffect(() => {
-    localStorage.setItem('selectedFont', selectedFont);
-  }, [selectedFont]);
 
 
 
@@ -307,25 +300,6 @@ export default function Home() {
                     </span>
                   </button>
 
-                  <div className={`my-2 border-t ${isDarkMode ? 'border-black/10' : 'border-beige/10'}`} />
-
-                  {/* Police */}
-                  <div className={`px-4 py-2 text-xs font-semibold ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`}>
-                    POLICE
-                  </div>
-                  {['StampRSPKOne', 'Arial', 'Helvetica', 'Times New Roman', 'Courier'].map((font) => (
-                    <button
-                      key={font}
-                      onClick={() => setSelectedFont(font)}
-                      className={`w-full px-4 py-2 text-left flex items-center justify-between ${
-                        isDarkMode ? 'hover:bg-black/5 text-black' : 'hover:bg-beige/10 text-beige'
-                      }`}
-                      style={{ fontFamily: font }}
-                    >
-                      <span>{font}</span>
-                      {selectedFont === font && <span>✓</span>}
-                    </button>
-                  ))}
                 </div>
               )}
             </div>
@@ -455,10 +429,10 @@ export default function Home() {
         >
           <div className="animate-slide-down" style={{ animationDelay: '0.2s' }}>
             <h1 className={`text-[18vw] md:text-[15vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Rafael</ShuffleText>
+              <ShuffleText enabled={textEffectsEnabled}>Rafael</ShuffleText>
             </h1>
             <h1 className={`text-[18vw] md:text-[15vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Piral</ShuffleText>
+              <ShuffleText enabled={textEffectsEnabled}>Piral</ShuffleText>
             </h1>
           </div>
 
@@ -466,7 +440,7 @@ export default function Home() {
             style={{
               animationDelay: '0.4s'
             }}>
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>ÉTUDIANT EN 2E ANNEE DE BUT MMI • CRÉATIONS NUMÉRIQUES</ShuffleText>
+            <ShuffleText enabled={textEffectsEnabled}>ÉTUDIANT EN 2E ANNEE DE BUT MMI • CRÉATIONS NUMÉRIQUES</ShuffleText>
           </p>
 
           {/* Badge de disponibilité */}
@@ -485,7 +459,7 @@ export default function Home() {
         <div className={`absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 text-xs md:text-sm tracking-widest animate-bounce flex items-center justify-center ${
           isDarkMode ? 'text-gray-400' : 'text-gray-600'
         }`} style={{ zIndex: 20, whiteSpace: 'nowrap' }}>
-          <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>DÉFILER</ShuffleText>
+          <ShuffleText enabled={textEffectsEnabled}>DÉFILER</ShuffleText>
         </div>
       </section>
 
@@ -501,16 +475,16 @@ export default function Home() {
         <div className="max-w-5xl mx-auto">
           <div className="space-y-6 md:space-y-8 text-lg md:text-3xl font-light leading-relaxed mb-8 md:mb-12">
             <p>
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
+              <ShuffleText enabled={textEffectsEnabled}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
             </p>
             <p className="text-gray-400">
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Je suis étudiant en 2ème année de BUT MMI. Pour faire simple : le monde de l'audiovisuel m'intéresse vraiment et j'ai envie d'apprendre.</ShuffleText>
+              <ShuffleText enabled={textEffectsEnabled}>Je suis étudiant en 2ème année de BUT MMI. Pour faire simple : le monde de l'audiovisuel m'intéresse vraiment et j'ai envie d'apprendre.</ShuffleText>
             </p>
             <p className="text-gray-400">
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Je ne cherche pas seulement à valider mon diplôme, je cherche surtout à découvrir ce métier de l'intérieur. Je suis à la recherche d'un stage (dès le [Mois]) pour observer, écouter et participer à vos projets.</ShuffleText>
+              <ShuffleText enabled={textEffectsEnabled}>Je ne cherche pas seulement à valider mon diplôme, je cherche surtout à découvrir ce métier de l'intérieur. Je suis à la recherche d'un stage (dès le [Mois]) pour observer, écouter et participer à vos projets.</ShuffleText>
             </p>
             <p className="text-gray-400">
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Si vous acceptez de partager votre savoir-faire avec quelqu'un de curieux, je serais ravi de vous rencontrer.</ShuffleText>
+              <ShuffleText enabled={textEffectsEnabled}>Si vous acceptez de partager votre savoir-faire avec quelqu'un de curieux, je serais ravi de vous rencontrer.</ShuffleText>
             </p>
           </div>
 
@@ -537,7 +511,7 @@ export default function Home() {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <h2 className="text-xs md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center">
-          <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>PROJETS SÉLECTIONNÉS</ShuffleText>
+          <ShuffleText enabled={textEffectsEnabled}>PROJETS SÉLECTIONNÉS</ShuffleText>
         </h2>
 
         {/* Filtres avancés */}
@@ -585,7 +559,7 @@ export default function Home() {
       >
         <div className="mb-12 text-center">
           <h2 className="text-xs md:text-sm tracking-widest text-gray-500">
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>COMPÉTENCES</ShuffleText>
+            <ShuffleText enabled={textEffectsEnabled}>COMPÉTENCES</ShuffleText>
           </h2>
         </div>
 
@@ -652,9 +626,9 @@ export default function Home() {
       >
         <div className="max-w-4xl w-full">
           <h2 className="text-3xl md:text-7xl lg:text-9xl font-light mb-8 md:mb-20 leading-none text-center">
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>TRAVAILLONS</ShuffleText>
+            <ShuffleText enabled={textEffectsEnabled}>TRAVAILLONS</ShuffleText>
             <br />
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>ENSEMBLE</ShuffleText>
+            <ShuffleText enabled={textEffectsEnabled}>ENSEMBLE</ShuffleText>
           </h2>
 
           {/* Bouton CV */}
@@ -671,7 +645,7 @@ export default function Home() {
               {formState.succeeded ? (
                 <div className="text-center py-16">
                   <p className="text-2xl md:text-3xl font-light mb-4">
-                    <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                    <ShuffleText enabled={textEffectsEnabled}>
                       Merci pour votre message !
                     </ShuffleText>
                   </p>
@@ -816,10 +790,10 @@ export default function Home() {
             {/* Column 1 - About */}
             <div>
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>RAFAEL PIRAL</ShuffleText>
+                <ShuffleText enabled={textEffectsEnabled}>RAFAEL PIRAL</ShuffleText>
               </h3>
               <p className="text-sm md:text-base font-light leading-relaxed opacity-70">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                <ShuffleText enabled={textEffectsEnabled}>
                   Étudiant en 2e année de BUT MMI, passionné par le design graphique et le développement web.
                 </ShuffleText>
               </p>
@@ -828,20 +802,20 @@ export default function Home() {
             {/* Column 2 - Navigation */}
             <div>
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>NAVIGATION</ShuffleText>
+                <ShuffleText enabled={textEffectsEnabled}>NAVIGATION</ShuffleText>
               </h3>
               <nav className="flex flex-col space-y-3">
                 <Link to="/about" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
-                  <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>À propos</ShuffleText>
+                  <ShuffleText enabled={textEffectsEnabled}>À propos</ShuffleText>
                 </Link>
                 <a href="#projects" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
-                  <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Projets</ShuffleText>
+                  <ShuffleText enabled={textEffectsEnabled}>Projets</ShuffleText>
                 </a>
                 <a href="#skills" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
-                  <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Compétences</ShuffleText>
+                  <ShuffleText enabled={textEffectsEnabled}>Compétences</ShuffleText>
                 </a>
                 <a href="#contact" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
-                  <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Contact</ShuffleText>
+                  <ShuffleText enabled={textEffectsEnabled}>Contact</ShuffleText>
                 </a>
               </nav>
             </div>
@@ -849,20 +823,20 @@ export default function Home() {
             {/* Column 3 - Contact & Social */}
             <div>
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>CONTACT</ShuffleText>
+                <ShuffleText enabled={textEffectsEnabled}>CONTACT</ShuffleText>
               </h3>
               <div className="space-y-3">
                 <a
                   href="mailto:rafa2002@hotmail.fr"
                   className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                 >
-                  <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>rafa2002@hotmail.fr</ShuffleText>
+                  <ShuffleText enabled={textEffectsEnabled}>rafa2002@hotmail.fr</ShuffleText>
                 </a>
                 <a
                   href="tel:+33600000000"
                   className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                 >
-                  <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>+33 6 XX XX XX XX</ShuffleText>
+                  <ShuffleText enabled={textEffectsEnabled}>+33 6 XX XX XX XX</ShuffleText>
                 </a>
                 <div className="pt-4 space-y-2">
                   <a
@@ -871,7 +845,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                   >
-                    <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>LinkedIn →</ShuffleText>
+                    <ShuffleText enabled={textEffectsEnabled}>LinkedIn →</ShuffleText>
                   </a>
                   <a
                     href="https://github.com/rafaelpir"
@@ -879,7 +853,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                   >
-                    <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>GitHub →</ShuffleText>
+                    <ShuffleText enabled={textEffectsEnabled}>GitHub →</ShuffleText>
                   </a>
                 </div>
               </div>
@@ -891,12 +865,12 @@ export default function Home() {
             isDarkMode ? 'border-beige/10' : 'border-black/10'
           }`}>
             <p>
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+              <ShuffleText enabled={textEffectsEnabled}>
                 © {new Date().getFullYear()} Rafael Piral. Tous droits réservés.
               </ShuffleText>
             </p>
             <p>
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+              <ShuffleText enabled={textEffectsEnabled}>
                 Conçu et développé avec passion
               </ShuffleText>
             </p>
