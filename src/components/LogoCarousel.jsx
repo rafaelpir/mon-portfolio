@@ -53,7 +53,7 @@ const LogoCarousel = ({ skills, isDarkMode, columnCount = 3 }) => {
             <motion.div
               className="flex flex-col gap-3 md:gap-5"
               animate={{
-                y: [0, -100 * columnLogos.length],
+                y: ["0%", "-50%"],
               }}
               transition={{
                 y: {
