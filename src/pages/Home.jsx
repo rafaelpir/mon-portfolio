@@ -138,7 +138,7 @@ export default function Home() {
         <link rel="canonical" href="https://rafaelpiral.fr/" />
       </Helmet>
 
-      <div className={`font-stamp transition-colors duration-300 ${
+      <div className={`font-stamp transition-colors duration-300 overflow-x-hidden ${
         isDarkMode
           ? 'bg-black text-beige'
           : 'bg-white text-black'

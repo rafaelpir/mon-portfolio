@@ -81,7 +81,7 @@ export const ScrollVelocityContainer = ({
   className = ''
 }) => {
   return (
-    <div className={`relative w-full ${className}`}>
+    <div className={`relative w-full overflow-hidden ${className}`}>
       {children}
     </div>
   );
