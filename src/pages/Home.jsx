@@ -16,8 +16,6 @@ import ProjectFilters from '../components/ProjectFilters';
 import Timeline from '../components/Timeline';
 import WorkInProgress from '../components/WorkInProgress';
 import usePresentationMode from '../hooks/usePresentationMode';
-import useKonamiCode from '../hooks/useKonamiCode';
-import Confetti from '../components/Confetti';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -26,13 +24,6 @@ export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [selectedCategory, setSelectedCategory] = useState('Tous');
   const [selectedTags, setSelectedTags] = useState([]);
-
-  // Easter Eggs
-  const [confettiActive, setConfettiActive] = useState(false);
-  const [glitchActive, setGlitchActive] = useState(false);
-  const [logoClickCount, setLogoClickCount] = useState(0);
-  const [lastLogoClick, setLastLogoClick] = useState(0);
-  const [secretMessage, setSecretMessage] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     // Charger la préférence depuis localStorage
     const saved = localStorage.getItem('darkMode');
@@ -85,37 +76,6 @@ export default function Home() {
   useEffect(() => {
     localStorage.setItem('textEffects', JSON.stringify(textEffectsEnabled));
   }, [textEffectsEnabled]);
-
-  // Easter Egg: Konami Code
-  useKonamiCode(() => {
-    setConfettiActive(true);
-    // Message console pour les curieux
-    console.log('🎉 Code Konami activé ! Bravo ! 🎉');
-  });
-
-  // Easter Egg: Triple clic sur le logo pour activer le mode glitch
-  const handleLogoClick = () => {
-    const now = Date.now();
-
-    // Reset si plus de 1 seconde depuis le dernier clic
-    if (now - lastLogoClick > 1000) {
-      setLogoClickCount(1);
-    } else {
-      setLogoClickCount(prev => prev + 1);
-    }
-
-    setLastLogoClick(now);
-
-    // Activer le glitch après 3 clics rapides
-    if (logoClickCount + 1 >= 3) {
-      setGlitchActive(true);
-      console.log('👾 Mode Glitch activé ! 👾');
-      setTimeout(() => {
-        setGlitchActive(false);
-        setLogoClickCount(0);
-      }, 2000);
-    }
-  };
 
   // Extraire les catégories uniques
   const categories = ['Tous', ...new Set(projects.map(p => p.category))];
@@ -203,20 +163,14 @@ export default function Home() {
       }`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo bullet.png avec rotation liée au scroll */}
-          <div
-            className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center cursor-pointer"
-            onClick={handleLogoClick}
-            title="Cliquez 3 fois rapidement... 👾"
-          >
+          <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
             <img
               src="/bullet.png"
               alt="Logo"
-              className={`w-full h-full object-contain transition-all duration-200 ${
-                glitchActive ? 'page-glitch-active' : ''
-              }`}
+              className="w-full h-full object-contain"
               style={{
                 transform: `rotate(${scrollY * 0.5}deg)`,
-                transition: glitchActive ? 'none' : 'transform 0.1s ease-out'
+                transition: 'transform 0.1s ease-out'
               }}
             />
           </div>
@@ -988,15 +942,7 @@ export default function Home() {
           <div className={`pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm opacity-50 ${
             isDarkMode ? 'border-beige/10' : 'border-black/10'
           }`}>
-            <p
-              onDoubleClick={() => {
-                setSecretMessage(true);
-                console.log('🤫 Message secret découvert ! 🤫');
-                setTimeout(() => setSecretMessage(false), 5000);
-              }}
-              className="cursor-pointer"
-              title="Double-cliquez pour révéler un secret..."
-            >
+            <p>
               <ShuffleText enabled={textEffectsEnabled}>
                 © {new Date().getFullYear()} Rafael Piral. Tous droits réservés.
               </ShuffleText>
@@ -1007,38 +953,9 @@ export default function Home() {
               </ShuffleText>
             </p>
           </div>
-
-          {/* Message Secret Easter Egg */}
-          {secretMessage && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className={`mt-8 p-6 rounded-lg text-center ${
-                isDarkMode ? 'bg-beige/10' : 'bg-black/10'
-              }`}
-            >
-              <p className="text-base md:text-lg font-light mb-2">
-                🎉 Félicitations ! Vous avez trouvé le message secret ! 🎉
-              </p>
-              <p className="text-sm opacity-70">
-                Merci d'avoir exploré mon portfolio avec autant de curiosité.<br />
-                Vous êtes quelqu'un d'attentif aux détails. J'aime ça ! 😊
-              </p>
-              <p className="text-xs mt-4 opacity-50">
-                Astuce : essayez le code Konami (↑ ↑ ↓ ↓ ← → ← → B A) ou cliquez 3 fois sur le logo...
-              </p>
-            </motion.div>
-          )}
         </div>
       </footer>
       )}
-
-      {/* Easter Egg: Confetti */}
-      <Confetti
-        active={confettiActive}
-        onComplete={() => setConfettiActive(false)}
-      />
     </div>
     </ReactLenis>
   );
