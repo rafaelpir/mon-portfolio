@@ -502,30 +502,74 @@ export default function Home() {
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <div className="max-w-5xl mx-auto">
-          <div className="space-y-6 md:space-y-8 text-lg md:text-3xl font-light leading-relaxed mb-8 md:mb-12">
-            <p>
-              <ShuffleText enabled={textEffectsEnabled}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
-            </p>
-            <p className="text-gray-400">
-              <ShuffleText enabled={textEffectsEnabled}>Je suis étudiant en 2ème année de BUT MMI. Pour faire simple : le monde de l'audiovisuel m'intéresse vraiment et j'ai envie d'apprendre.</ShuffleText>
-            </p>
-            <p className="text-gray-400">
-              <ShuffleText enabled={textEffectsEnabled}>Je ne cherche pas seulement à valider mon diplôme, je cherche surtout à découvrir ce métier de l'intérieur. Je suis à la recherche d'un stage (dès le [Mois]) pour observer, écouter et participer à vos projets.</ShuffleText>
-            </p>
-            <p className="text-gray-400">
-              <ShuffleText enabled={textEffectsEnabled}>Si vous acceptez de partager votre savoir-faire avec quelqu'un de curieux, je serais ravi de vous rencontrer.</ShuffleText>
-            </p>
-          </div>
+        <div className="max-w-7xl mx-auto w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Colonne gauche - Texte */}
+            <div>
+              <div className="space-y-6 md:space-y-8 text-lg md:text-3xl font-light leading-relaxed mb-8 md:mb-12">
+                <p>
+                  <ShuffleText enabled={textEffectsEnabled}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
+                </p>
+                <p className="text-gray-400">
+                  <ShuffleText enabled={textEffectsEnabled}>Je suis étudiant en 2ème année de BUT MMI. Pour faire simple : le monde de l'audiovisuel m'intéresse vraiment et j'ai envie d'apprendre.</ShuffleText>
+                </p>
+                <p className="text-gray-400">
+                  <ShuffleText enabled={textEffectsEnabled}>Je ne cherche pas seulement à valider mon diplôme, je cherche surtout à découvrir ce métier de l'intérieur. Je suis à la recherche d'un stage (dès le [Mois]) pour observer, écouter et participer à vos projets.</ShuffleText>
+                </p>
+                <p className="text-gray-400">
+                  <ShuffleText enabled={textEffectsEnabled}>Si vous acceptez de partager votre savoir-faire avec quelqu'un de curieux, je serais ravi de vous rencontrer.</ShuffleText>
+                </p>
+              </div>
 
-          <div className="flex gap-8 text-sm tracking-wider">
-            <div>
-              <p className="text-gray-500 mb-2">LOCALISATION</p>
-              <p>Le Pré Saint Gervais, France</p>
+              <div className="flex gap-8 text-sm tracking-wider">
+                <div>
+                  <p className="text-gray-500 mb-2">LOCALISATION</p>
+                  <p>Le Pré Saint Gervais, France</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 mb-2">DISPONIBILITÉ</p>
+                  <p>Recherche de stage</p>
+                </div>
+              </div>
             </div>
-            <div>
-              <p className="text-gray-500 mb-2">DISPONIBILITÉ</p>
-              <p>Recherche de stage</p>
+
+            {/* Colonne droite - Logo & Vidéo */}
+            <div className="space-y-8">
+              {/* Logo */}
+              <motion.div
+                className="flex justify-center"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <img
+                  src="/logo.svg"
+                  alt="Rafael Piral Logo"
+                  className={`w-48 h-48 md:w-64 md:h-64 ${isDarkMode ? '' : 'invert'}`}
+                />
+              </motion.div>
+
+              {/* Vidéo de présentation */}
+              <motion.div
+                className="rounded-xl overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className={`w-full h-auto rounded-xl ${
+                    isDarkMode ? 'opacity-90' : 'opacity-80'
+                  }`}
+                >
+                  <source src="/videos/fond_leger.mp4" type="video/mp4" />
+                </video>
+              </motion.div>
             </div>
           </div>
         </div>
