@@ -643,7 +643,21 @@ export default function Home() {
             {/* Formulaire de contact */}
             <div>
               {formState.succeeded ? (
-                <div className="text-center py-16">
+                <motion.div
+                  className="text-center py-16"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <div className="mb-6">
+                    <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center ${
+                      isDarkMode ? 'bg-green-500/20' : 'bg-green-500/10'
+                    }`}>
+                      <svg className="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </div>
                   <p className="text-2xl md:text-3xl font-light mb-4">
                     <ShuffleText enabled={textEffectsEnabled}>
                       Merci pour votre message !
@@ -652,62 +666,62 @@ export default function Home() {
                   <p className="text-base md:text-xl text-gray-500">
                     Je vous répondrai dans les plus brefs délais.
                   </p>
-                </div>
+                </motion.div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-6 md:space-y-8">
-                  <div>
+                  <div className="group">
                     <input
                       type="text"
                       name="name"
                       placeholder="Votre nom *"
-                      className={`w-full bg-transparent border-b py-3 md:py-4 text-base md:text-xl font-light focus:outline-none transition-colors ${
+                      className={`w-full bg-transparent border-b-2 py-3 md:py-4 text-base md:text-xl font-light focus:outline-none transition-all duration-300 ${
                         isDarkMode
-                          ? 'border-gray-800 focus:border-beige'
-                          : 'border-gray-700 focus:border-black'
+                          ? 'border-gray-800 focus:border-beige placeholder:text-gray-600'
+                          : 'border-gray-300 focus:border-black placeholder:text-gray-400'
                       }`}
                       required
                     />
                     <ValidationError prefix="Name" field="name" errors={formState.errors} />
                   </div>
 
-                  <div>
+                  <div className="group">
                     <input
                       type="email"
                       name="email"
                       placeholder="Votre email *"
-                      className={`w-full bg-transparent border-b py-3 md:py-4 text-base md:text-xl font-light focus:outline-none transition-colors ${
+                      className={`w-full bg-transparent border-b-2 py-3 md:py-4 text-base md:text-xl font-light focus:outline-none transition-all duration-300 ${
                         isDarkMode
-                          ? 'border-gray-800 focus:border-beige'
-                          : 'border-gray-700 focus:border-black'
+                          ? 'border-gray-800 focus:border-beige placeholder:text-gray-600'
+                          : 'border-gray-300 focus:border-black placeholder:text-gray-400'
                       }`}
                       required
                     />
                     <ValidationError prefix="Email" field="email" errors={formState.errors} />
                   </div>
 
-                  <div>
+                  <div className="group">
                     <input
                       type="text"
                       name="subject"
                       placeholder="Sujet"
-                      className={`w-full bg-transparent border-b py-3 md:py-4 text-base md:text-xl font-light focus:outline-none transition-colors ${
+                      className={`w-full bg-transparent border-b-2 py-3 md:py-4 text-base md:text-xl font-light focus:outline-none transition-all duration-300 ${
                         isDarkMode
-                          ? 'border-gray-800 focus:border-beige'
-                          : 'border-gray-700 focus:border-black'
+                          ? 'border-gray-800 focus:border-beige placeholder:text-gray-600'
+                          : 'border-gray-300 focus:border-black placeholder:text-gray-400'
                       }`}
                     />
                     <ValidationError prefix="Subject" field="subject" errors={formState.errors} />
                   </div>
 
-                  <div>
+                  <div className="group">
                     <textarea
                       name="message"
                       placeholder="Votre message *"
-                      rows="4"
-                      className={`w-full bg-transparent border-b py-3 md:py-4 text-base md:text-xl font-light focus:outline-none transition-colors resize-none ${
+                      rows="5"
+                      className={`w-full bg-transparent border-b-2 py-3 md:py-4 text-base md:text-xl font-light focus:outline-none transition-all duration-300 resize-none ${
                         isDarkMode
-                          ? 'border-gray-800 focus:border-beige'
-                          : 'border-gray-700 focus:border-black'
+                          ? 'border-gray-800 focus:border-beige placeholder:text-gray-600'
+                          : 'border-gray-300 focus:border-black placeholder:text-gray-400'
                       }`}
                       required
                     />
@@ -717,63 +731,129 @@ export default function Home() {
                   <button
                     type="submit"
                     disabled={formState.submitting}
-                    className={`w-full border py-4 md:py-6 text-base md:text-xl font-light tracking-widest transition-all duration-300 ${
+                    className={`group relative w-full border-2 py-4 md:py-6 text-base md:text-xl font-light tracking-widest transition-all duration-500 overflow-hidden ${
                       formState.submitting
                         ? 'opacity-50 cursor-not-allowed'
                         : isDarkMode
-                        ? 'border-beige hover:bg-beige hover:text-black'
-                        : 'border-black hover:bg-black hover:text-beige'
+                        ? 'border-beige hover:border-beige'
+                        : 'border-black hover:border-black'
                     }`}
                   >
-                    {formState.submitting ? 'ENVOI EN COURS...' : 'ENVOYER'}
+                    <span className={`absolute inset-0 transition-transform duration-500 ${
+                      formState.submitting ? '' : 'translate-y-full group-hover:translate-y-0'
+                    } ${isDarkMode ? 'bg-beige' : 'bg-black'}`}></span>
+                    <span className={`relative z-10 transition-colors duration-500 ${
+                      formState.submitting ? '' : isDarkMode ? 'group-hover:text-black' : 'group-hover:text-white'
+                    }`}>
+                      {formState.submitting ? (
+                        <span className="flex items-center justify-center gap-3">
+                          <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          ENVOI EN COURS...
+                        </span>
+                      ) : 'ENVOYER LE MESSAGE'}
+                    </span>
                   </button>
                 </form>
               )}
             </div>
 
             {/* Informations de contact */}
-            <div className="flex flex-col justify-center space-y-6 md:space-y-8">
-              <div>
-                <p className="text-xs md:text-sm text-gray-500 mb-2 tracking-widest">EMAIL</p>
+            <div className="flex flex-col justify-center space-y-8 md:space-y-10">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="group"
+              >
+                <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-widest">EMAIL</p>
                 <a
                   href="mailto:rafa2002@hotmail.fr"
-                  className="text-lg md:text-2xl font-light hover:italic transition-all break-all"
+                  className={`text-lg md:text-2xl font-light transition-all duration-300 break-all inline-block relative ${
+                    isDarkMode ? 'hover:text-beige' : 'hover:text-black'
+                  }`}
                 >
-                  rafa2002@hotmail.fr
+                  <span className="relative">
+                    rafa2002@hotmail.fr
+                    <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                      isDarkMode ? 'bg-beige' : 'bg-black'
+                    }`}></span>
+                  </span>
                 </a>
-              </div>
+              </motion.div>
 
-              <div>
-                <p className="text-xs md:text-sm text-gray-500 mb-2 tracking-widest">TÉLÉPHONE</p>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="group"
+              >
+                <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-widest">TÉLÉPHONE</p>
                 <a
                   href="tel:+33600000000"
-                  className="text-lg md:text-2xl font-light hover:italic transition-all"
+                  className={`text-lg md:text-2xl font-light transition-all duration-300 inline-block relative ${
+                    isDarkMode ? 'hover:text-beige' : 'hover:text-black'
+                  }`}
                 >
-                  +33 6 XX XX XX XX
+                  <span className="relative">
+                    +33 6 XX XX XX XX
+                    <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                      isDarkMode ? 'bg-beige' : 'bg-black'
+                    }`}></span>
+                  </span>
                 </a>
-              </div>
+              </motion.div>
 
-              <div>
-                <p className="text-xs md:text-sm text-gray-500 mb-2 tracking-widest">RÉSEAUX</p>
-                <div className="space-y-2">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+              >
+                <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-widest">RÉSEAUX</p>
+                <div className="space-y-3">
                   <a
-                    href="www.linkedin.com/in/rafaelpiral"
+                    href="https://www.linkedin.com/in/rafaelpiral"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block text-lg md:text-2xl font-light hover:italic transition-all"
+                    className={`group/link text-lg md:text-2xl font-light transition-all duration-300 inline-block relative ${
+                      isDarkMode ? 'hover:text-beige' : 'hover:text-black'
+                    }`}
                   >
-                    LinkedIn →
+                    <span className="relative inline-flex items-center gap-2">
+                      LinkedIn
+                      <svg className="w-5 h-5 transition-transform duration-300 group-hover/link:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                      <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover/link:w-full ${
+                        isDarkMode ? 'bg-beige' : 'bg-black'
+                      }`}></span>
+                    </span>
                   </a>
                   <a
                     href="https://github.com/rafaelpir"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block text-lg md:text-2xl font-light hover:italic transition-all"
+                    className={`group/link text-lg md:text-2xl font-light transition-all duration-300 inline-block relative ${
+                      isDarkMode ? 'hover:text-beige' : 'hover:text-black'
+                    }`}
                   >
-                    GitHub →
+                    <span className="relative inline-flex items-center gap-2">
+                      GitHub
+                      <svg className="w-5 h-5 transition-transform duration-300 group-hover/link:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                      <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover/link:w-full ${
+                        isDarkMode ? 'bg-beige' : 'bg-black'
+                      }`}></span>
+                    </span>
                   </a>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
