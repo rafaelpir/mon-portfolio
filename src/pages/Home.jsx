@@ -110,30 +110,62 @@ export default function Home() {
       <Helmet>
         {/* Meta Tags Essentiels */}
         <html lang="fr" />
-        <title>Rafael Piral - Portfolio | Développeur Créatif & Étudiant MMI</title>
-        <meta name="description" content="Portfolio de Rafael Piral, étudiant en 2ème année de BUT MMI spécialisé en création numérique, développement web et audiovisuel. Découvrez mes projets créatifs et mon parcours." />
-        <meta name="keywords" content="Rafael Piral, portfolio, développeur web, MMI, création numérique, design graphique, audiovisuel, développement créatif, BUT MMI, étudiant développeur, Paris" />
+        <title>Rafael Piral - Portfolio | Développeur Web & Designer Créatif MMI</title>
+        <meta name="description" content="Rafael Piral - Portfolio officiel. Étudiant BUT MMI 2ème année spécialisé développement web, design UI/UX, motion design. Photoshop, Illustrator, Figma, React, JavaScript. Disponible stage 2026." />
+        <meta name="keywords" content="Rafael Piral, portfolio Rafael Piral, développeur web Rafael Piral, MMI, BUT MMI, création numérique, design graphique, UI/UX design, développement web, React, JavaScript, Figma, Photoshop, motion design, audiovisuel, stage développeur, Paris, Le Pré Saint Gervais" />
         <meta name="author" content="Rafael Piral" />
+        <meta name="geo.region" content="FR-75" />
+        <meta name="geo.placename" content="Le Pré Saint Gervais" />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://rafaelpiral.fr/" />
-        <meta property="og:title" content="Rafael Piral - Portfolio | Développeur Créatif & Étudiant MMI" />
-        <meta property="og:description" content="Étudiant en BUT MMI passionné par la création numérique et le développement web. Découvrez mes projets et mon parcours." />
+        <meta property="og:title" content="Rafael Piral - Portfolio | Développeur Web & Designer Créatif" />
+        <meta property="og:description" content="Portfolio de Rafael Piral. Étudiant BUT MMI spécialisé en développement web, design UI/UX et motion design. Découvrez mes projets créatifs." />
         <meta property="og:image" content="https://rafaelpiral.fr/og-image.jpg" />
         <meta property="og:locale" content="fr_FR" />
+        <meta property="og:site_name" content="Rafael Piral Portfolio" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content="https://rafaelpiral.fr/" />
-        <meta name="twitter:title" content="Rafael Piral - Portfolio | Développeur Créatif" />
-        <meta name="twitter:description" content="Étudiant en BUT MMI spécialisé en création numérique et développement web." />
+        <meta name="twitter:title" content="Rafael Piral - Développeur Web & Designer" />
+        <meta name="twitter:description" content="Portfolio de Rafael Piral. Étudiant BUT MMI - Développement web, UI/UX design, Motion design." />
         <meta name="twitter:image" content="https://rafaelpiral.fr/twitter-image.jpg" />
+        <meta name="twitter:creator" content="@rafaelpiral" />
 
         {/* Informations Additionnelles */}
-        <meta name="robots" content="index, follow" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
         <meta name="googlebot" content="index, follow" />
+        <meta name="bingbot" content="index, follow" />
         <link rel="canonical" href="https://rafaelpiral.fr/" />
+
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Rafael Piral",
+            "url": "https://rafaelpiral.fr",
+            "image": "https://rafaelpiral.fr/og-image.jpg",
+            "sameAs": [
+              "https://www.linkedin.com/in/rafaelpiral",
+              "https://github.com/rafaelpir"
+            ],
+            "jobTitle": "Étudiant Développeur Web & Designer",
+            "worksFor": {
+              "@type": "EducationalOrganization",
+              "name": "BUT MMI"
+            },
+            "description": "Étudiant en 2ème année de BUT MMI spécialisé en développement web, design UI/UX et motion design",
+            "knowsAbout": ["Développement Web", "React", "JavaScript", "UI/UX Design", "Figma", "Photoshop", "Motion Design"],
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Le Pré Saint Gervais",
+              "addressCountry": "FR"
+            }
+          })}
+        </script>
       </Helmet>
 
       <div className={`font-stamp transition-colors duration-300 overflow-x-hidden ${

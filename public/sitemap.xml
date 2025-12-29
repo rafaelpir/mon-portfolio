@@ -1,33 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Page d'accueil -->
   <url>
     <loc>https://rafaelpiral.fr/</loc>
-    <lastmod>2025-12-21</lastmod>
+    <lastmod>2025-01-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- Section À propos -->
   <url>
     <loc>https://rafaelpiral.fr/#about</loc>
-    <lastmod>2025-12-21</lastmod>
+    <lastmod>2025-01-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- Section Projets -->
   <url>
     <loc>https://rafaelpiral.fr/#projects</loc>
-    <lastmod>2025-12-21</lastmod>
+    <lastmod>2025-01-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <!-- Section Compétences -->
   <url>
     <loc>https://rafaelpiral.fr/#skills</loc>
-    <lastmod>2025-12-21</lastmod>
+    <lastmod>2025-01-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- Section Contact -->
   <url>
     <loc>https://rafaelpiral.fr/#contact</loc>
-    <lastmod>2025-12-21</lastmod>
+    <lastmod>2025-01-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- Page About (si existe) -->
+  <url>
+    <loc>https://rafaelpiral.fr/about</loc>
+    <lastmod>2025-01-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
 </urlset>

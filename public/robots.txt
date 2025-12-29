@@ -1,8 +1,9 @@
-# Robots.txt pour Rafael Piral Portfolio
-# https://www.robotstxt.org/robotstxt.html
-
+# robots.txt pour rafaelpiral.fr
 User-agent: *
 Allow: /
 
 # Sitemap
 Sitemap: https://rafaelpiral.fr/sitemap.xml
+
+# Crawl-delay pour éviter la surcharge du serveur
+Crawl-delay: 1
