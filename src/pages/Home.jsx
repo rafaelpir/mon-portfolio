@@ -151,9 +151,9 @@ export default function Home() {
           : 'bg-white text-black'
       }`}>
 
-      {/* Curseur personnalisé */}
+      {/* Curseur personnalisé (masqué sur mobile) */}
       <div
-        className={`fixed w-4 h-4 border-2 rounded-full pointer-events-none z-50 mix-blend-difference ${
+        className={`hidden md:block fixed w-4 h-4 border-2 rounded-full pointer-events-none z-50 mix-blend-difference ${
           isDarkMode ? 'border-beige' : 'border-black'
         }`}
         style={{
@@ -165,7 +165,7 @@ export default function Home() {
 
       {/* Header avec navigation */}
       {!isPresentationMode && (
-      <header className={`fixed top-0 left-0 right-0 z-40 px-8 py-6 border-b transition-colors duration-300 ${
+      <header className={`fixed top-0 left-0 right-0 z-40 px-4 md:px-8 py-4 md:py-6 border-b transition-colors duration-300 ${
         isDarkMode
           ? 'bg-black/5 border-beige/10'
           : 'bg-beige/5 border-black/10'
@@ -499,7 +499,7 @@ export default function Home() {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="max-w-5xl mx-auto">
-          <div className="space-y-8 text-2xl md:text-3xl font-light leading-relaxed mb-12">
+          <div className="space-y-6 md:space-y-8 text-lg md:text-3xl font-light leading-relaxed mb-8 md:mb-12">
             <p>
               <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
             </p>
@@ -557,7 +557,7 @@ export default function Home() {
 
         {/* FlowingMenu avec les projets */}
         <div className="max-w-6xl mx-auto">
-          <div className="h-[400px] md:h-[600px] rounded-lg overflow-hidden">
+          <div className="h-[300px] md:h-[600px] rounded-lg overflow-hidden">
             <FlowingMenu items={menuItems} isDarkMode={isDarkMode} />
           </div>
         </div>
@@ -651,7 +651,7 @@ export default function Home() {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="max-w-4xl w-full">
-          <h2 className="text-4xl md:text-7xl lg:text-9xl font-light mb-12 md:mb-20 leading-none text-center">
+          <h2 className="text-3xl md:text-7xl lg:text-9xl font-light mb-8 md:mb-20 leading-none text-center">
             <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>TRAVAILLONS</ShuffleText>
             <br />
             <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>ENSEMBLE</ShuffleText>
