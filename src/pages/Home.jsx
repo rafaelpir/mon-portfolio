@@ -439,7 +439,7 @@ export default function Home() {
             transform: 'scale(1.1)'
           }}
         >
-          <source src="/videos/output_leger.mp4" type="video/mp4" />
+          <source src="/videos/output_optimized.mp4" type="video/mp4" />
         </video>
 
         {/* Gradient overlay animé */}

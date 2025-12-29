@@ -23,8 +23,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Videos (too large for Git)
+# Videos (too large for Git) - excluding optimized version
 public/videos/*.mp4
+!public/videos/output_optimized.mp4
 public/videos/*.mov
 public/videos/*.webm
 node_modules/
