@@ -40,6 +40,14 @@ export default function Home() {
   // Remplacez "xjknoepn" par votre vrai ID de formulaire Formspree
   const [formState, handleFormSubmit] = useForm("xjknoepn");
 
+  // Fonction de navigation smooth sans changer l'URL
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     const handleMouseMove = (e) => setMousePosition({ x: e.clientX, y: e.clientY });
@@ -209,46 +217,46 @@ export default function Home() {
 
           {/* Navigation */}
           <nav className="hidden md:flex gap-8 items-center">
-            <Link
-              to="/about"
-              className={`text-sm tracking-widest transition-colors ${
+            <button
+              onClick={() => scrollToSection('about')}
+              className={`text-sm tracking-widest transition-colors cursor-pointer ${
                 isDarkMode
                   ? 'text-gray-400 hover:text-beige'
                   : 'text-gray-700 hover:text-black'
               }`}
             >
               À PROPOS
-            </Link>
-            <a
-              href="#projects"
-              className={`text-sm tracking-widest transition-colors ${
+            </button>
+            <button
+              onClick={() => scrollToSection('projects')}
+              className={`text-sm tracking-widest transition-colors cursor-pointer ${
                 isDarkMode
                   ? 'text-gray-400 hover:text-beige'
                   : 'text-gray-700 hover:text-black'
               }`}
             >
               PROJETS
-            </a>
-            <a
-              href="#skills"
-              className={`text-sm tracking-widest transition-colors ${
+            </button>
+            <button
+              onClick={() => scrollToSection('skills')}
+              className={`text-sm tracking-widest transition-colors cursor-pointer ${
                 isDarkMode
                   ? 'text-gray-400 hover:text-beige'
                   : 'text-gray-700 hover:text-black'
               }`}
             >
               COMPÉTENCES
-            </a>
-            <a
-              href="#contact"
-              className={`text-sm tracking-widest transition-colors ${
+            </button>
+            <button
+              onClick={() => scrollToSection('contact')}
+              className={`text-sm tracking-widest transition-colors cursor-pointer ${
                 isDarkMode
                   ? 'text-gray-400 hover:text-beige'
                   : 'text-gray-700 hover:text-black'
               }`}
             >
               CONTACT
-            </a>
+            </button>
 
             {/* Bouton CV */}
             <CVDownloadButton
@@ -374,50 +382,46 @@ export default function Home() {
             isDarkMode ? 'border-beige/10' : 'border-black/10'
           }`}>
             <nav className="flex flex-col py-4">
-              <Link
-                to="/about"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`px-8 py-4 text-sm tracking-widest transition-colors ${
+              <button
+                onClick={() => { scrollToSection('about'); setIsMobileMenuOpen(false); }}
+                className={`px-8 py-4 text-sm tracking-widest transition-colors text-left ${
                   isDarkMode
                     ? 'text-gray-400 hover:text-beige'
                     : 'text-gray-700 hover:text-black'
                 }`}
               >
                 À PROPOS
-              </Link>
-              <a
-                href="#projects"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`px-8 py-4 text-sm tracking-widest transition-colors ${
+              </button>
+              <button
+                onClick={() => { scrollToSection('projects'); setIsMobileMenuOpen(false); }}
+                className={`px-8 py-4 text-sm tracking-widest transition-colors text-left ${
                   isDarkMode
                     ? 'text-gray-400 hover:text-beige'
                     : 'text-gray-700 hover:text-black'
                 }`}
               >
                 PROJETS
-              </a>
-              <a
-                href="#skills"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`px-8 py-4 text-sm tracking-widest transition-colors ${
+              </button>
+              <button
+                onClick={() => { scrollToSection('skills'); setIsMobileMenuOpen(false); }}
+                className={`px-8 py-4 text-sm tracking-widest transition-colors text-left ${
                   isDarkMode
                     ? 'text-gray-400 hover:text-beige'
                     : 'text-gray-700 hover:text-black'
                 }`}
               >
                 COMPÉTENCES
-              </a>
-              <a
-                href="#contact"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`px-8 py-4 text-sm tracking-widest transition-colors ${
+              </button>
+              <button
+                onClick={() => { scrollToSection('contact'); setIsMobileMenuOpen(false); }}
+                className={`px-8 py-4 text-sm tracking-widest transition-colors text-left ${
                   isDarkMode
                     ? 'text-gray-400 hover:text-beige'
                     : 'text-gray-700 hover:text-black'
                 }`}
               >
                 CONTACT
-              </a>
+              </button>
             </nav>
           </div>
         )}
@@ -933,18 +937,18 @@ export default function Home() {
                 <ShuffleText enabled={textEffectsEnabled}>NAVIGATION</ShuffleText>
               </h3>
               <nav className="flex flex-col space-y-3">
-                <Link to="/about" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
+                <button onClick={() => scrollToSection('about')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
                   <ShuffleText enabled={textEffectsEnabled}>À propos</ShuffleText>
-                </Link>
-                <a href="#projects" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
+                </button>
+                <button onClick={() => scrollToSection('projects')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
                   <ShuffleText enabled={textEffectsEnabled}>Projets</ShuffleText>
-                </a>
-                <a href="#skills" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
+                </button>
+                <button onClick={() => scrollToSection('skills')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
                   <ShuffleText enabled={textEffectsEnabled}>Compétences</ShuffleText>
-                </a>
-                <a href="#contact" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity">
+                </button>
+                <button onClick={() => scrollToSection('contact')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
                   <ShuffleText enabled={textEffectsEnabled}>Contact</ShuffleText>
-                </a>
+                </button>
               </nav>
             </div>
 
