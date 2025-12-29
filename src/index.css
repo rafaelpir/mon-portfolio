@@ -192,6 +192,91 @@ body {
   animation: glitch-shake 0.3s infinite;
 }
 
+/* Easter Egg - Page Glitch Effect */
+@keyframes page-glitch {
+  0% {
+    clip-path: inset(40% 0 61% 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(92% 0 1% 0);
+    transform: translate(-5px, 5px);
+  }
+  40% {
+    clip-path: inset(43% 0 1% 0);
+    transform: translate(5px, -5px);
+  }
+  60% {
+    clip-path: inset(25% 0 58% 0);
+    transform: translate(-5px, -5px);
+  }
+  80% {
+    clip-path: inset(54% 0 7% 0);
+    transform: translate(5px, 5px);
+  }
+  100% {
+    clip-path: inset(58% 0 43% 0);
+    transform: translate(0);
+  }
+}
+
+.page-glitch-active {
+  animation: page-glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+.page-glitch-active::before,
+.page-glitch-active::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+}
+
+.page-glitch-active::before {
+  animation: glitch-anim-1 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: #ff00de;
+  z-index: -1;
+}
+
+.page-glitch-active::after {
+  animation: glitch-anim-2 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: #00fff9;
+  z-index: -2;
+}
+
+@keyframes glitch-anim-1 {
+  0%, 100% {
+    transform: translate(0);
+    clip-path: inset(0);
+  }
+  33% {
+    transform: translate(-2px, 0);
+    clip-path: inset(20% 0 30% 0);
+  }
+  66% {
+    transform: translate(2px, 0);
+    clip-path: inset(60% 0 10% 0);
+  }
+}
+
+@keyframes glitch-anim-2 {
+  0%, 100% {
+    transform: translate(0);
+    clip-path: inset(0);
+  }
+  33% {
+    transform: translate(2px, 0);
+    clip-path: inset(10% 0 60% 0);
+  }
+  66% {
+    transform: translate(-2px, 0);
+    clip-path: inset(40% 0 20% 0);
+  }
+}
+
 /* Animations de chargement */
 @keyframes loading-appear {
   0% {
