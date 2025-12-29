@@ -1000,6 +1000,10 @@ export default function Home() {
               <ShuffleText enabled={textEffectsEnabled}>
                 © {new Date().getFullYear()} Rafael Piral. Tous droits réservés.
               </ShuffleText>
+              {' · '}
+              <Link to="/legal" className="hover:opacity-70 transition-opacity underline">
+                <ShuffleText enabled={textEffectsEnabled}>Mentions légales</ShuffleText>
+              </Link>
             </p>
             <p>
               <ShuffleText enabled={textEffectsEnabled}>
