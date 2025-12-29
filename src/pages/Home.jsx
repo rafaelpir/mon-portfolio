@@ -565,7 +565,6 @@ export default function Home() {
           <LogoCarousel
             skills={skills}
             isDarkMode={isDarkMode}
-            textEffectsEnabled={textEffectsEnabled}
             columnCount={3}
           />
         </div>
