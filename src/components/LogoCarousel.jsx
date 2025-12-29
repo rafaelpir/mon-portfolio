@@ -9,15 +9,15 @@ const LogoCarousel = ({ skills, isDarkMode, textEffectsEnabled, columnCount = 3 
   });
 
   return (
-    <div className="relative w-full overflow-hidden">
-      <div className="flex gap-4 md:gap-8">
+    <div className="relative w-full h-full overflow-hidden rounded-xl">
+      <div className="flex gap-3 md:gap-6 h-full">
         {columns.map((columnSkills, columnIndex) => (
           <div
             key={columnIndex}
-            className="flex-1 flex flex-col gap-4 md:gap-6"
+            className="flex-1 flex flex-col gap-3 md:gap-5"
           >
             <motion.div
-              className="flex flex-col gap-4 md:gap-6"
+              className="flex flex-col gap-3 md:gap-5"
               animate={{
                 y: [0, -100 * columnSkills.length],
               }}
@@ -25,22 +25,31 @@ const LogoCarousel = ({ skills, isDarkMode, textEffectsEnabled, columnCount = 3 
                 y: {
                   repeat: Infinity,
                   repeatType: "loop",
-                  duration: 15 + columnIndex * 2,
+                  duration: 20 + columnIndex * 3,
                   ease: "linear",
                 },
               }}
             >
               {/* Render skills twice for seamless loop */}
               {[...columnSkills, ...columnSkills].map((skill, idx) => (
-                <div
+                <motion.div
                   key={idx}
-                  className={`flex items-center justify-center py-6 md:py-8 px-4 md:px-6 rounded-lg border-2 transition-all duration-300 hover:scale-105 ${
+                  className={`group relative flex items-center justify-center py-5 md:py-7 px-4 md:px-6 rounded-xl backdrop-blur-sm transition-all duration-500 cursor-default ${
                     isDarkMode
-                      ? 'bg-black/30 border-gray-700 hover:border-gray-500'
-                      : 'bg-white/30 border-gray-300 hover:border-gray-600'
+                      ? 'bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20'
+                      : 'bg-black/5 border border-black/10 hover:bg-black/10 hover:border-black/20'
                   }`}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                 >
-                  <span className="text-lg md:text-2xl font-light">
+                  {/* Subtle glow effect on hover */}
+                  <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
+                    isDarkMode
+                      ? 'bg-gradient-to-br from-white/5 to-transparent'
+                      : 'bg-gradient-to-br from-black/5 to-transparent'
+                  }`}></div>
+
+                  <span className="relative z-10 text-base md:text-xl font-medium tracking-wide">
                     {textEffectsEnabled ? (
                       <ShuffleText enabled={textEffectsEnabled}>
                         {skill}
@@ -49,7 +58,7 @@ const LogoCarousel = ({ skills, isDarkMode, textEffectsEnabled, columnCount = 3 
                       skill
                     )}
                   </span>
-                </div>
+                </motion.div>
               ))}
             </motion.div>
           </div>
@@ -57,11 +66,11 @@ const LogoCarousel = ({ skills, isDarkMode, textEffectsEnabled, columnCount = 3 
       </div>
 
       {/* Gradients for fade effect on top and bottom */}
-      <div className={`pointer-events-none absolute top-0 left-0 right-0 h-1/4 bg-gradient-to-b ${
-        isDarkMode ? 'from-beige-light' : 'from-black'
+      <div className={`pointer-events-none absolute top-0 left-0 right-0 h-32 md:h-48 bg-gradient-to-b ${
+        isDarkMode ? 'from-beige-light via-beige-light/80 to-transparent' : 'from-black via-black/80 to-transparent'
       }`}></div>
-      <div className={`pointer-events-none absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-t ${
-        isDarkMode ? 'from-beige-light' : 'from-black'
+      <div className={`pointer-events-none absolute bottom-0 left-0 right-0 h-32 md:h-48 bg-gradient-to-t ${
+        isDarkMode ? 'from-beige-light via-beige-light/80 to-transparent' : 'from-black via-black/80 to-transparent'
       }`}></div>
     </div>
   );
