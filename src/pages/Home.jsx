@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import FlowingMenu from '../FlowingMenu';
 import { useForm, ValidationError } from '@formspree/react';
 import ShuffleText from '../ShuffleText';
-import { ScrollVelocityContainer, ScrollVelocityRow } from '../ScrollVelocity';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { projects, skills } from '../data/projects';
 import GlitchText from '../components/GlitchText';
@@ -15,6 +14,7 @@ import CVDownloadButton from '../components/CVDownloadButton';
 import ProjectFilters from '../components/ProjectFilters';
 import Timeline from '../components/Timeline';
 import WorkInProgress from '../components/WorkInProgress';
+import LogoCarousel from '../components/LogoCarousel';
 import usePresentationMode from '../hooks/usePresentationMode';
 
 export default function Home() {
@@ -561,38 +561,13 @@ export default function Home() {
           </h2>
         </div>
 
-        <div className="relative w-full overflow-hidden">
-          <ScrollVelocityContainer>
-            <ScrollVelocityRow baseVelocity={2} direction={1} className="py-4">
-              {skills.slice(0, 4).map((skill, idx) => (
-                <span key={idx} className="mx-4 text-2xl md:text-4xl font-light">
-                  {skill}
-                </span>
-              ))}
-            </ScrollVelocityRow>
-            <ScrollVelocityRow baseVelocity={2} direction={-1} className="py-4">
-              {skills.slice(4, 8).map((skill, idx) => (
-                <span key={idx} className="mx-4 text-2xl md:text-4xl font-light">
-                  {skill}
-                </span>
-              ))}
-            </ScrollVelocityRow>
-            <ScrollVelocityRow baseVelocity={2} direction={1} className="py-4">
-              {skills.slice(8).map((skill, idx) => (
-                <span key={idx} className="mx-4 text-2xl md:text-4xl font-light">
-                  {skill}
-                </span>
-              ))}
-            </ScrollVelocityRow>
-          </ScrollVelocityContainer>
-
-          {/* Gradients pour effet de fade sur les côtés */}
-          <div className={`pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r ${
-            isDarkMode ? 'from-beige-light' : 'from-black'
-          }`}></div>
-          <div className={`pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l ${
-            isDarkMode ? 'from-beige-light' : 'from-black'
-          }`}></div>
+        <div className="h-[400px] md:h-[600px]">
+          <LogoCarousel
+            skills={skills}
+            isDarkMode={isDarkMode}
+            textEffectsEnabled={textEffectsEnabled}
+            columnCount={3}
+          />
         </div>
       </motion.section>
 
