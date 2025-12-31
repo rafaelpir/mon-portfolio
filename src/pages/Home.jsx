@@ -118,60 +118,125 @@ export default function Home() {
       <Helmet>
         {/* Meta Tags Essentiels */}
         <html lang="fr" />
-        <title>Rafael Piral - Portfolio | Développeur Web & Designer Créatif MMI</title>
-        <meta name="description" content="Rafael Piral - Portfolio officiel. Étudiant BUT MMI 2ème année spécialisé développement web, design UI/UX, motion design. Photoshop, Illustrator, Figma, React, JavaScript. Disponible stage 2026." />
-        <meta name="keywords" content="Rafael Piral, portfolio Rafael Piral, développeur web Rafael Piral, MMI, BUT MMI, création numérique, design graphique, UI/UX design, développement web, React, JavaScript, Figma, Photoshop, motion design, audiovisuel, stage développeur, Paris, Le Pré Saint Gervais" />
-        <meta name="author" content="Rafael Piral" />
+        <title>Rafael Piral - Portfolio Développeur Web & Designer UI/UX | Piral Rafael</title>
+        <meta name="description" content="Rafael Piral (Piral) - Portfolio officiel. Rafael, développeur web et designer UI/UX. Étudiant BUT MMI spécialisé en développement React, JavaScript, design Figma et motion design. Découvrez les projets créatifs de Rafael Piral." />
+        <meta name="keywords" content="Rafael, Rafael Piral, Piral, Rafael développeur, Rafael designer, Rafael portfolio, Piral portfolio, Rafael développeur web, Rafael MMI, Rafael React, Rafael JavaScript, Piral développeur, Piral designer, développeur web Rafael Piral, designer Rafael Piral, Rafael BUT MMI, Piral BUT MMI, Rafael Paris, Piral Paris, Rafael Le Pré Saint Gervais, UI/UX design, Figma, motion design, stage développeur Paris" />
+        <meta name="author" content="Rafael Piral (Piral)" />
         <meta name="geo.region" content="FR-75" />
         <meta name="geo.placename" content="Le Pré Saint Gervais" />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://rafaelpiral.fr/" />
-        <meta property="og:title" content="Rafael Piral - Portfolio | Développeur Web & Designer Créatif" />
-        <meta property="og:description" content="Portfolio de Rafael Piral. Étudiant BUT MMI spécialisé en développement web, design UI/UX et motion design. Découvrez mes projets créatifs." />
-        <meta property="og:image" content="https://rafaelpiral.fr/og-image.jpg" />
+        <meta property="og:url" content="https://www.rafaelpiral.fr/" />
+        <meta property="og:title" content="Rafael Piral - Portfolio Développeur Web & Designer UI/UX" />
+        <meta property="og:description" content="Découvrez le portfolio de Rafael Piral. Rafael, développeur web et designer UI/UX spécialisé en React, JavaScript et Figma. Projets créatifs et innovants." />
+        <meta property="og:image" content="https://www.rafaelpiral.fr/og-image.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:locale" content="fr_FR" />
-        <meta property="og:site_name" content="Rafael Piral Portfolio" />
+        <meta property="og:site_name" content="Rafael Piral (Piral) Portfolio" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://rafaelpiral.fr/" />
-        <meta name="twitter:title" content="Rafael Piral - Développeur Web & Designer" />
-        <meta name="twitter:description" content="Portfolio de Rafael Piral. Étudiant BUT MMI - Développement web, UI/UX design, Motion design." />
-        <meta name="twitter:image" content="https://rafaelpiral.fr/twitter-image.jpg" />
+        <meta name="twitter:url" content="https://www.rafaelpiral.fr/" />
+        <meta name="twitter:title" content="Rafael Piral - Développeur Web & Designer UI/UX" />
+        <meta name="twitter:description" content="Portfolio de Rafael Piral. Rafael, développeur web React, JavaScript et designer UI/UX Figma. Étudiant BUT MMI." />
+        <meta name="twitter:image" content="https://www.rafaelpiral.fr/og-image.jpg" />
         <meta name="twitter:creator" content="@rafaelpiral" />
+        <meta name="twitter:site" content="@rafaelpiral" />
 
         {/* Informations Additionnelles */}
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
         <meta name="googlebot" content="index, follow" />
         <meta name="bingbot" content="index, follow" />
-        <link rel="canonical" href="https://rafaelpiral.fr/" />
+        <link rel="canonical" href="https://www.rafaelpiral.fr/" />
 
-        {/* JSON-LD Structured Data */}
+        {/* JSON-LD Structured Data - Person */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Person",
             "name": "Rafael Piral",
-            "url": "https://rafaelpiral.fr",
-            "image": "https://rafaelpiral.fr/og-image.jpg",
+            "alternateName": "Piral",
+            "url": "https://www.rafaelpiral.fr",
+            "image": "https://www.rafaelpiral.fr/og-image.jpg",
             "sameAs": [
               "https://www.linkedin.com/in/rafaelpiral",
-              "https://github.com/rafaelpir"
+              "https://github.com/rafaelpir",
+              "https://www.rafaelpiral.fr"
             ],
-            "jobTitle": "Étudiant Développeur Web & Designer",
+            "jobTitle": "Développeur Web & Designer UI/UX",
             "worksFor": {
               "@type": "EducationalOrganization",
               "name": "BUT MMI"
             },
-            "description": "Étudiant en 2ème année de BUT MMI spécialisé en développement web, design UI/UX et motion design",
-            "knowsAbout": ["Développement Web", "React", "JavaScript", "UI/UX Design", "Figma", "Photoshop", "Motion Design"],
+            "description": "Rafael Piral (Piral) - Étudiant en 2ème année de BUT MMI spécialisé en développement web, design UI/UX et motion design. Disponible pour stage en 2026.",
+            "knowsAbout": ["Développement Web", "React", "JavaScript", "UI/UX Design", "Figma", "Photoshop", "Motion Design", "Adobe Suite"],
             "address": {
               "@type": "PostalAddress",
               "addressLocality": "Le Pré Saint Gervais",
+              "addressRegion": "Île-de-France",
               "addressCountry": "FR"
+            },
+            "email": "rafa2002@hotmail.fr",
+            "alumniOf": "BUT MMI"
+          })}
+        </script>
+
+        {/* JSON-LD Structured Data - WebSite */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Rafael Piral - Portfolio",
+            "alternateName": "Piral Portfolio",
+            "url": "https://www.rafaelpiral.fr",
+            "description": "Portfolio officiel de Rafael Piral (Piral) - Développeur web et designer UI/UX",
+            "author": {
+              "@type": "Person",
+              "name": "Rafael Piral",
+              "alternateName": "Piral"
+            },
+            "inLanguage": "fr-FR",
+            "copyrightYear": new Date().getFullYear(),
+            "copyrightHolder": {
+              "@type": "Person",
+              "name": "Rafael Piral"
             }
+          })}
+        </script>
+
+        {/* JSON-LD Structured Data - BreadcrumbList */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Accueil",
+                "item": "https://www.rafaelpiral.fr"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Projets",
+                "item": "https://www.rafaelpiral.fr/#projects"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "À propos",
+                "item": "https://www.rafaelpiral.fr/#about"
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "Contact",
+                "item": "https://www.rafaelpiral.fr/#contact"
+              }
+            ]
           })}
         </script>
       </Helmet>
