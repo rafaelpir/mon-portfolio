@@ -36,6 +36,18 @@ export default function Home() {
     return saved !== null ? JSON.parse(saved) : true;
   });
 
+  // Détecter si on est sur mobile pour désactiver Lenis
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Formspree hook pour le formulaire de contact
   // Remplacez "xjknoepn" par votre vrai ID de formulaire Formspree
   const [formState, handleFormSubmit] = useForm("xjknoepn");
@@ -106,15 +118,29 @@ export default function Home() {
     onClick: () => navigate(`/project/${project.id}`)
   }));
 
+  // Wrapper conditionnel pour Lenis (désactivé sur mobile)
+  const LenisWrapper = ({ children }) => {
+    if (isMobile) {
+      // Sur mobile : scroll natif (plus fluide)
+      return <>{children}</>;
+    }
+    // Sur desktop : Lenis avec paramètres optimisés
+    return (
+      <ReactLenis
+        root
+        options={{
+          lerp: 0.1, // Plus réactif
+          duration: 0.8, // Plus rapide
+          smoothWheel: true,
+        }}
+      >
+        {children}
+      </ReactLenis>
+    );
+  };
+
   return (
-    <ReactLenis
-      root
-      options={{
-        lerp: 0.05,
-        duration: 1.2,
-        smoothWheel: true,
-      }}
-    >
+    <LenisWrapper>
       <Helmet>
         {/* Meta Tags Essentiels */}
         <html lang="fr" />
@@ -1080,6 +1106,6 @@ export default function Home() {
       </footer>
       )}
     </div>
-    </ReactLenis>
+    </LenisWrapper>
   );
 }

@@ -101,12 +101,39 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  /* Optimisation mobile */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Empêcher l'overflow horizontal */
 body {
   overflow-x: hidden;
   max-width: 100vw;
+  /* Optimisation performance mobile */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optimisations de performance pour mobile */
+@media (max-width: 768px) {
+  /* Désactiver animations complexes sur mobile */
+  .glitch-animation,
+  .melting-effect {
+    animation: none !important;
+  }
+
+  /* Simplifier les transitions sur mobile */
+  * {
+    transition-duration: 0.15s !important;
+  }
+
+  /* Activer l'accélération matérielle pour les éléments animés */
+  .hover-highlight,
+  [class*="animate-"] {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+  }
 }
 
 /* Animations pour le Hero */
