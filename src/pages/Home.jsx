@@ -118,29 +118,8 @@ export default function Home() {
     onClick: () => navigate(`/project/${project.id}`)
   }));
 
-  // Wrapper conditionnel pour Lenis (désactivé sur mobile)
-  const LenisWrapper = ({ children }) => {
-    if (isMobile) {
-      // Sur mobile : scroll natif (plus fluide)
-      return <>{children}</>;
-    }
-    // Sur desktop : Lenis avec paramètres optimisés
-    return (
-      <ReactLenis
-        root
-        options={{
-          lerp: 0.1, // Plus réactif
-          duration: 0.8, // Plus rapide
-          smoothWheel: true,
-        }}
-      >
-        {children}
-      </ReactLenis>
-    );
-  };
-
-  return (
-    <LenisWrapper>
+  // Contenu principal du composant
+  const content = (
       <Helmet>
         {/* Meta Tags Essentiels */}
         <html lang="fr" />
@@ -1106,6 +1085,23 @@ export default function Home() {
       </footer>
       )}
     </div>
-    </LenisWrapper>
+  );
+
+  // Return conditionnel : Lenis sur desktop, scroll natif sur mobile
+  if (isMobile) {
+    return content;
+  }
+
+  return (
+    <ReactLenis
+      root
+      options={{
+        lerp: 0.1,
+        duration: 0.8,
+        smoothWheel: true,
+      }}
+    >
+      {content}
+    </ReactLenis>
   );
 }
