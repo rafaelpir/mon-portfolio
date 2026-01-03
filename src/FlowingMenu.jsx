@@ -18,7 +18,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true }) {
   const marqueeRef = React.useRef(null);
   const marqueeInnerRef = React.useRef(null);
 
-  const animationDefaults = { duration: 0.6, ease: 'expo' };
+  const animationDefaults = { duration: 0.4, ease: 'power2.out' };
 
   const findClosestEdge = (mouseX, mouseY, width, height) => {
     const topEdgeDist = (mouseX - width / 2) ** 2 + mouseY ** 2;
@@ -97,12 +97,13 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true }) {
         {text}
       </a>
       <div
-        className={`absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none translate-y-[101%] ${
+        className={`absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none translate-y-[101%] will-change-transform ${
           isDarkMode ? 'bg-beige-light' : 'bg-black'
         }`}
         ref={marqueeRef}
+        style={{ backfaceVisibility: 'hidden' }}
       >
-        <div className="h-full w-[200%] flex" ref={marqueeInnerRef}>
+        <div className="h-full w-[200%] flex will-change-transform" ref={marqueeInnerRef} style={{ backfaceVisibility: 'hidden' }}>
           <div className="flex items-center relative h-full w-[200%] will-change-transform animate-marquee">
             {repeatedMarqueeContent}
           </div>

@@ -105,13 +105,25 @@ export const workInProgressProjects = [
 ];
 
 // ============================================
-// COMPÉTENCES
+// COMPÉTENCES PAR CATÉGORIES
 // ============================================
-export const skills = [
-  "Photoshop", "Illustrator", "Figma", "InDesign",
-  "HTML/CSS", "JavaScript", "React", "WordPress",
-  "Premiere Pro", "After Effects", "Blender"
+export const skillCategories = [
+  {
+    category: "DESIGN GRAPHIQUE",
+    skills: ["Photoshop", "Illustrator", "Figma", "InDesign"]
+  },
+  {
+    category: "DÉVELOPPEMENT WEB",
+    skills: ["HTML/CSS", "JavaScript", "React", "WordPress"]
+  },
+  {
+    category: "AUDIOVISUEL",
+    skills: ["Premiere Pro", "After Effects", "Blender"]
+  }
 ];
+
+// Export des skills en tableau plat pour compatibilité
+export const skills = skillCategories.flatMap(cat => cat.skills);
 
 // ============================================
 // TEMPLATE POUR AJOUTER UN NOUVEAU PROJET

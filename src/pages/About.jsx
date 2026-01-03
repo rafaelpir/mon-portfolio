@@ -132,8 +132,13 @@ export default function About() {
             </h2>
             <div className="space-y-6 text-base md:text-lg font-light leading-relaxed">
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Actuellement en 2e année de BUT MMI (Métiers du Multimédia et de l'Internet),
-                je me spécialise dans le design graphique et le développement web front-end.
+                Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet,
+                parcours Création Numérique, je me spécialise dans le design graphique,
+                l'audiovisuel et le développement web front-end.
+              </p>
+              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                Je suis actuellement à la recherche d'un stage d'au moins 8 semaines à partir
+                d'avril 2026 dans le domaine de la création numérique et de l'audiovisuel.
               </p>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                 Ma passion pour le design a commencé avec la découverte d'Adobe Photoshop,
@@ -367,6 +372,26 @@ export default function About() {
               }`}
             >
               Instagram
+            </a>
+            <a
+              href="https://dribbble.com/RafaelPiral"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`text-sm transition-colors ${
+                isDarkMode ? 'text-gray-500 hover:text-beige' : 'text-gray-600 hover:text-black'
+              }`}
+            >
+              Dribbble
+            </a>
+            <a
+              href="https://www.behance.net/rafaelpiral1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`text-sm transition-colors ${
+                isDarkMode ? 'text-gray-500 hover:text-beige' : 'text-gray-600 hover:text-black'
+              }`}
+            >
+              Behance
             </a>
           </div>
         </div>
