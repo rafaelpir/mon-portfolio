@@ -37,9 +37,7 @@ export default function CVDownloadButton({ variant = 'primary', isDarkMode, clas
   }, []);
 
   const handleClick = () => {
-    // Empty for now, will add PDF link later
-    console.log('CV download requested');
-    // window.open('/cv/Rafael_Piral_CV.pdf', '_blank');
+    window.open('/CV_Rafael_Piral.pdf', '_blank');
   };
 
   const baseClasses = "inline-flex items-center gap-2 md:gap-3 transition-all duration-300 cursor-pointer";

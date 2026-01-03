@@ -126,7 +126,7 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
                   <p className={`text-sm md:text-base leading-relaxed font-light ${
                     isDarkMode ? 'text-gray-400' : 'text-gray-700'
                   }`}>
-                    Je suis actuellement à la recherche d'un stage à partir d'avril 2026 dans le domaine du développement web, du design UI/UX ou du motion design.
+                    Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet. Je suis à la recherche d'un stage d'au moins 8 semaines à partir d'avril 2026 dans le domaine de la création numérique et de l'audiovisuel.
                   </p>
                 </div>
               </div>
@@ -152,7 +152,7 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
                   <p className={`text-sm md:text-base leading-relaxed font-light ${
                     isDarkMode ? 'text-gray-400' : 'text-gray-700'
                   }`}>
-                    Je recherche également une alternance à partir de septembre 2026 pour poursuivre ma formation en BUT MMI tout en contribuant activement à des projets d'entreprise.
+                    Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet. Je suis à la recherche d'une alternance à partir de septembre 2026 dans le domaine de la création numérique et de l'audiovisuel.
                   </p>
                 </div>
               </div>
@@ -167,16 +167,21 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
               }`}>
                 INTÉRESSÉ ?
               </p>
-              <a
-                href="mailto:rafa2002@hotmail.fr"
-                className={`inline-block px-6 py-3 text-xs tracking-widest border transition-all duration-300 ${
+              <button
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setTimeout(() => {
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }}
+                className={`inline-block px-6 py-3 text-xs tracking-widest border transition-all duration-300 cursor-pointer ${
                   isDarkMode
                     ? 'border-beige hover:bg-beige hover:text-black text-beige'
                     : 'border-black hover:bg-black hover:text-white text-black'
                 }`}
               >
                 <ShuffleText enabled={textEffectsEnabled}>CONTACTEZ-MOI</ShuffleText>
-              </a>
+              </button>
             </div>
           </div>
         </div>

@@ -59,7 +59,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true }) {
   const repeatedMarqueeContent = Array.from({ length: 4 }).map((_, idx) => (
     <React.Fragment key={idx}>
       <span
-        className="uppercase font-normal text-[4vh] leading-[1.2] p-[1vh_1vw_0]"
+        className="uppercase font-normal text-[3vh] leading-[1.2] p-[1vh_1vw_0]"
         style={{
           color: isDarkMode ? '#060010' : '#E8DCC4'
         }}
@@ -84,7 +84,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true }) {
       ref={itemRef}
     >
       <a
-        className={`flex items-center justify-center h-full relative cursor-pointer uppercase no-underline font-semibold text-[4vh] transition-colors ${
+        className={`flex items-center justify-center h-full relative cursor-pointer uppercase no-underline font-semibold text-[3vh] py-12 px-8 transition-colors ${
           isDarkMode
             ? 'text-beige hover:text-[#060010] focus:text-beige focus-visible:text-[#060010]'
             : 'text-black hover:text-beige focus:text-black focus-visible:text-beige'

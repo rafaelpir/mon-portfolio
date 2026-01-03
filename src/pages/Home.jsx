@@ -12,7 +12,6 @@ import AvailabilityBadge from '../components/AvailabilityBadge';
 import CVDownloadButton from '../components/CVDownloadButton';
 import ProjectFilters from '../components/ProjectFilters';
 import Timeline from '../components/Timeline';
-import WorkInProgress from '../components/WorkInProgress';
 import LogoCarousel from '../components/LogoCarousel';
 import usePresentationMode from '../hooks/usePresentationMode';
 
@@ -639,6 +638,20 @@ export default function Home() {
               </motion.div>
             </div>
           </div>
+
+          {/* Bouton vers la page À propos complète */}
+          <div className="flex justify-center mt-12 md:mt-16">
+            <Link
+              to="/about"
+              className={`px-8 py-4 border-2 text-sm tracking-widest transition-all ${
+                isDarkMode
+                  ? 'border-beige text-beige hover:bg-beige hover:text-black'
+                  : 'border-black text-black hover:bg-black hover:text-white'
+              }`}
+            >
+              <ShuffleText enabled={textEffectsEnabled}>EN SAVOIR PLUS</ShuffleText>
+            </Link>
+          </div>
         </div>
       </motion.section>
 
@@ -678,25 +691,14 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Work In Progress Section */}
-      <WorkInProgress
-        isDarkMode={isDarkMode}
-        textEffectsEnabled={textEffectsEnabled}
-        scrollY={scrollY}
-      />
-
       {/* Skills Section */}
-      <motion.section
+      <section
         id="skills"
         className={`py-16 md:py-32 transition-colors duration-300 ${
           isDarkMode
             ? 'bg-beige-light text-black'
             : 'bg-black text-beige'
         }`}
-        initial={{ opacity: 0, x: 100 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="mb-12 text-center">
           <h2 className="text-xs md:text-sm tracking-widest text-gray-500">
@@ -710,7 +712,7 @@ export default function Home() {
             isDarkMode={isDarkMode}
           />
         </div>
-      </motion.section>
+      </section>
 
       {/* Timeline Section */}
       <Timeline
@@ -893,33 +895,10 @@ export default function Home() {
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="group"
-              >
-                <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-widest">TÉLÉPHONE</p>
-                <a
-                  href="tel:+33600000000"
-                  className={`text-lg md:text-2xl font-light transition-all duration-300 inline-block relative ${
-                    isDarkMode ? 'hover:text-beige' : 'hover:text-black'
-                  }`}
-                >
-                  <span className="relative">
-                    +33 6 XX XX XX XX
-                    <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                      isDarkMode ? 'bg-beige' : 'bg-black'
-                    }`}></span>
-                  </span>
-                </a>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
               >
-                <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-widest">RÉSEAUX</p>
-                <div className="space-y-3">
+                <p className="text-xs md:text-sm text-gray-500 mb-6 tracking-widest">RÉSEAUX</p>
+                <div className="grid grid-cols-2 gap-6 md:gap-8">
                   <a
                     href="https://www.linkedin.com/in/rafaelpiral"
                     target="_blank"
@@ -948,6 +927,42 @@ export default function Home() {
                   >
                     <span className="relative inline-flex items-center gap-2">
                       GitHub
+                      <svg className="w-5 h-5 transition-transform duration-300 group-hover/link:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                      <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover/link:w-full ${
+                        isDarkMode ? 'bg-beige' : 'bg-black'
+                      }`}></span>
+                    </span>
+                  </a>
+                  <a
+                    href="https://dribbble.com/RafaelPiral"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group/link text-lg md:text-2xl font-light transition-all duration-300 inline-block relative ${
+                      isDarkMode ? 'hover:text-beige' : 'hover:text-black'
+                    }`}
+                  >
+                    <span className="relative inline-flex items-center gap-2">
+                      Dribbble
+                      <svg className="w-5 h-5 transition-transform duration-300 group-hover/link:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                      <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover/link:w-full ${
+                        isDarkMode ? 'bg-beige' : 'bg-black'
+                      }`}></span>
+                    </span>
+                  </a>
+                  <a
+                    href="https://www.behance.net/rafaelpiral1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group/link text-lg md:text-2xl font-light transition-all duration-300 inline-block relative ${
+                      isDarkMode ? 'hover:text-beige' : 'hover:text-black'
+                    }`}
+                  >
+                    <span className="relative inline-flex items-center gap-2">
+                      Behance
                       <svg className="w-5 h-5 transition-transform duration-300 group-hover/link:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>

@@ -31,3 +31,4 @@ public/videos/*.mov
 public/videos/*.webm
 node_modules/
 .DS_Store
+/dist
