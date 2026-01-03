@@ -7,13 +7,21 @@
   body {
     font-weight: 500;
   }
+
+  /* Optimisations de performance pour scroll fluide */
+  @media (min-width: 769px) {
+    html, body {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+  }
 }
 
 /* Effet de survol avec cases blanches */
 @layer utilities {
   .hover-highlight {
     position: relative;
-    transition: color 0.3s ease;
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .hover-highlight::before {
@@ -27,9 +35,10 @@
     opacity: 0;
     transform: scaleX(0);
     transform-origin: left;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: -1;
     border-radius: 4px;
+    will-change: transform, opacity;
   }
 
   .hover-highlight:hover::before {
@@ -97,12 +106,30 @@
   perspective: 1000px;
 }
 
-/* Smooth scroll pour la navigation */
+/* Scroll configuration */
 html {
-  scroll-behavior: smooth;
   overflow-x: hidden;
   /* Optimisation mobile */
   -webkit-overflow-scrolling: touch;
+}
+
+/* Optimisations desktop pour scroll Lenis */
+@media (min-width: 769px) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+}
+
+/* Smooth scroll natif uniquement sur mobile (Lenis sur desktop) */
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Empêcher l'overflow horizontal */
@@ -116,23 +143,23 @@ body {
 
 /* Optimisations de performance pour mobile */
 @media (max-width: 768px) {
-  /* Désactiver animations complexes sur mobile */
-  .glitch-animation,
-  .melting-effect {
+  /* Désactiver TOUTES les animations sur mobile */
+  *,
+  *::before,
+  *::after {
     animation: none !important;
+    transition: none !important;
   }
 
-  /* Simplifier les transitions sur mobile */
-  * {
-    transition-duration: 0.15s !important;
+  /* Réactiver uniquement les transitions essentielles */
+  a,
+  button {
+    transition: opacity 0.15s ease !important;
   }
 
-  /* Activer l'accélération matérielle pour les éléments animés */
-  .hover-highlight,
-  [class*="animate-"] {
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    will-change: transform;
+  /* Désactiver les vidéos sur mobile pour économiser la batterie */
+  video {
+    display: none !important;
   }
 }
 
@@ -180,24 +207,29 @@ body {
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
+    transform: scale(1);
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.6;
+    transform: scale(1.02);
   }
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 1s ease-out forwards;
+  animation: fade-in-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: opacity, transform;
 }
 
 .animate-slide-down {
-  animation: slide-down 1s ease-out forwards;
+  animation: slide-down 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   opacity: 0;
+  will-change: opacity, transform;
 }
 
 .animate-fade-in {
-  animation: fade-in 1s ease-out forwards;
+  animation: fade-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   opacity: 0;
+  will-change: opacity;
 }
 
 /* Animation glitch pour le logo */
@@ -250,11 +282,11 @@ body {
 }
 
 .loading-logo {
-  animation: loading-appear 0.8s ease-out forwards;
+  animation: loading-appear 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .loading-screen {
-  animation: loading-fadeout 0.8s ease-out forwards 3.5s;
+  animation: loading-fadeout 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 3.5s;
 }
 
 /* Effet de bougie qui fond */

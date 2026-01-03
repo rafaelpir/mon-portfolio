@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ShuffleText from '../ShuffleText';
 
 export default function AvailabilityBadge({ availableDate, alternance, status, isDarkMode, textEffectsEnabled }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <div className={`inline-flex flex-row items-center gap-3 md:gap-8 px-4 md:px-12 py-3 md:py-6 rounded-full transition-all duration-500 hover:scale-105 hover:shadow-2xl backdrop-blur-lg shadow-xl md:shadow-2xl border-2 md:border-4 ${
+    <>
+    <button
+      onClick={() => setIsModalOpen(true)}
+      className={`inline-flex flex-row items-center gap-3 md:gap-8 px-4 md:px-12 py-3 md:py-6 rounded-full transition-all duration-500 hover:scale-105 hover:shadow-2xl backdrop-blur-lg shadow-xl md:shadow-2xl border-2 md:border-4 cursor-pointer ${
       isDarkMode
         ? 'bg-gradient-to-r from-orange-500/30 via-red-500/20 to-orange-500/30 border-orange-400/50 shadow-orange-500/20'
         : 'bg-gradient-to-r from-orange-500/40 via-red-500/30 to-orange-500/40 border-orange-600/60 shadow-orange-600/30'
@@ -56,6 +61,127 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
           )}
         </div>
       </div>
-    </div>
+    </button>
+
+    {/* Modal Popup */}
+    {isModalOpen && (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xl"
+        onClick={() => setIsModalOpen(false)}
+      >
+        <div
+          className={`relative max-w-2xl w-full border transition-all duration-500 ${
+            isDarkMode
+              ? 'bg-black border-beige/20'
+              : 'bg-white border-black/20'
+          }`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Close Button */}
+          <button
+            onClick={() => setIsModalOpen(false)}
+            className={`absolute top-4 right-4 text-xs tracking-widest transition-opacity hover:opacity-50 ${
+              isDarkMode ? 'text-beige' : 'text-black'
+            }`}
+            aria-label="Fermer"
+          >
+            <ShuffleText enabled={textEffectsEnabled}>FERMER ✕</ShuffleText>
+          </button>
+
+          {/* Content */}
+          <div className="p-6 md:p-10">
+            {/* Header */}
+            <div className="mb-8">
+              <h2 className={`text-3xl md:text-4xl font-light mb-2 ${
+                isDarkMode ? 'text-beige' : 'text-black'
+              }`}>
+                <ShuffleText enabled={textEffectsEnabled}>DISPONIBILITÉS</ShuffleText>
+              </h2>
+              <p className={`text-xs tracking-widest ${
+                isDarkMode ? 'text-gray-500' : 'text-gray-500'
+              }`}>
+                EN RECHERCHE D'OPPORTUNITÉS
+              </p>
+            </div>
+
+            {/* Stage Section */}
+            <div className={`mb-8 pb-8 border-b ${
+              isDarkMode ? 'border-beige/10' : 'border-black/10'
+            }`}>
+              <div className="flex items-start gap-3">
+                <div className={`flex-shrink-0 w-2 h-2 rounded-full mt-2 ${
+                  isDarkMode ? 'bg-orange-400' : 'bg-orange-500'
+                }`}></div>
+                <div className="flex-1">
+                  <h3 className={`text-xl md:text-2xl font-light mb-1 ${
+                    isDarkMode ? 'text-beige' : 'text-black'
+                  }`}>
+                    <ShuffleText enabled={textEffectsEnabled}>STAGE</ShuffleText>
+                  </h3>
+                  <p className={`text-xs tracking-widest mb-3 ${
+                    isDarkMode ? 'text-orange-300' : 'text-orange-600'
+                  }`}>
+                    AVRIL 2026
+                  </p>
+                  <p className={`text-sm md:text-base leading-relaxed font-light ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-700'
+                  }`}>
+                    Je suis actuellement à la recherche d'un stage à partir d'avril 2026 dans le domaine du développement web, du design UI/UX ou du motion design.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Alternance Section */}
+            <div className="mb-8">
+              <div className="flex items-start gap-3">
+                <div className={`flex-shrink-0 w-2 h-2 rounded-full mt-2 ${
+                  isDarkMode ? 'bg-orange-400' : 'bg-orange-500'
+                }`}></div>
+                <div className="flex-1">
+                  <h3 className={`text-xl md:text-2xl font-light mb-1 ${
+                    isDarkMode ? 'text-beige' : 'text-black'
+                  }`}>
+                    <ShuffleText enabled={textEffectsEnabled}>ALTERNANCE</ShuffleText>
+                  </h3>
+                  <p className={`text-xs tracking-widest mb-3 ${
+                    isDarkMode ? 'text-orange-300' : 'text-orange-600'
+                  }`}>
+                    SEPTEMBRE 2026
+                  </p>
+                  <p className={`text-sm md:text-base leading-relaxed font-light ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-700'
+                  }`}>
+                    Je recherche également une alternance à partir de septembre 2026 pour poursuivre ma formation en BUT MMI tout en contribuant activement à des projets d'entreprise.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer CTA */}
+            <div className={`pt-6 border-t ${
+              isDarkMode ? 'border-beige/10' : 'border-black/10'
+            }`}>
+              <p className={`text-xs tracking-widest mb-3 ${
+                isDarkMode ? 'text-gray-500' : 'text-gray-500'
+              }`}>
+                INTÉRESSÉ ?
+              </p>
+              <a
+                href="mailto:rafa2002@hotmail.fr"
+                className={`inline-block px-6 py-3 text-xs tracking-widest border transition-all duration-300 ${
+                  isDarkMode
+                    ? 'border-beige hover:bg-beige hover:text-black text-beige'
+                    : 'border-black hover:bg-black hover:text-white text-black'
+                }`}
+              >
+                <ShuffleText enabled={textEffectsEnabled}>CONTACTEZ-MOI</ShuffleText>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+  </>
   );
 }

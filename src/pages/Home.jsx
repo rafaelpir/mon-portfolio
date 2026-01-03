@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
@@ -6,10 +6,9 @@ import FlowingMenu from '../FlowingMenu';
 import { useForm, ValidationError } from '@formspree/react';
 import ShuffleText from '../ShuffleText';
 import { ReactLenis } from 'lenis/dist/lenis-react';
-import { projects, skills } from '../data/projects';
+import { projects, skillCategories } from '../data/projects';
 import GlitchText from '../components/GlitchText';
 import AvailabilityBadge from '../components/AvailabilityBadge';
-import Statistics from '../components/Statistics';
 import CVDownloadButton from '../components/CVDownloadButton';
 import ProjectFilters from '../components/ProjectFilters';
 import Timeline from '../components/Timeline';
@@ -97,8 +96,8 @@ export default function Home() {
     localStorage.setItem('textEffects', JSON.stringify(textEffectsEnabled));
   }, [textEffectsEnabled]);
 
-  // Extraire les catégories uniques
-  const categories = ['Tous', ...new Set(projects.map(p => p.category))];
+  // Catégories à afficher dans les filtres
+  const categories = ['Tous', 'Affiches', 'UI/UX Design'];
 
   // Extraire tous les tags uniques
   const allTags = [...new Set(projects.flatMap(p => p.tags || []))].sort();
@@ -110,19 +109,22 @@ export default function Home() {
     return categoryMatch && tagMatch;
   });
 
-  // Configuration du FlowingMenu avec les projets
-  const menuItems = filteredProjects.map((project) => ({
-    link: `/project/${project.id}`,
-    text: project.title,
-    image: project.thumbnail,
-    onClick: () => navigate(`/project/${project.id}`)
-  }));
+  // Configuration du FlowingMenu avec les projets (memoized pour performance)
+  const menuItems = useMemo(() =>
+    filteredProjects.map((project) => ({
+      link: `/project/${project.id}`,
+      text: project.title,
+      image: project.thumbnail,
+      onClick: () => navigate(`/project/${project.id}`)
+    })),
+    [filteredProjects, navigate]
+  );
 
-  // Contenu principal du composant
-  const content = (
-      <Helmet>
-        {/* Meta Tags Essentiels */}
-        <html lang="fr" />
+  // Meta tags (toujours rendus, pas affectés par Lenis)
+  const helmet = (
+    <Helmet>
+      {/* Meta Tags Essentiels */}
+      <html lang="fr" />
         <title>Rafael Piral - Portfolio Développeur Web & Designer UI/UX | Piral Rafael</title>
         <meta name="description" content="Rafael Piral (Piral) - Portfolio officiel. Rafael, développeur web et designer UI/UX. Étudiant BUT MMI spécialisé en développement React, JavaScript, design Figma et motion design. Découvrez les projets créatifs de Rafael Piral." />
         <meta name="keywords" content="Rafael, Rafael Piral, Piral, Rafael développeur, Rafael designer, Rafael portfolio, Piral portfolio, Rafael développeur web, Rafael MMI, Rafael React, Rafael JavaScript, Piral développeur, Piral designer, développeur web Rafael Piral, designer Rafael Piral, Rafael BUT MMI, Piral BUT MMI, Rafael Paris, Piral Paris, Rafael Le Pré Saint Gervais, UI/UX design, Figma, motion design, stage développeur Paris" />
@@ -244,13 +246,16 @@ export default function Home() {
             ]
           })}
         </script>
-      </Helmet>
+    </Helmet>
+  );
 
-      <div className={`font-stamp transition-colors duration-300 overflow-x-hidden ${
-        isDarkMode
-          ? 'bg-black text-beige'
-          : 'bg-white text-black'
-      }`}>
+  // Contenu principal (sera wrappé par Lenis sur desktop)
+  const mainContent = (
+    <div className={`font-stamp transition-colors duration-300 overflow-x-hidden ${
+      isDarkMode
+        ? 'bg-black text-beige'
+        : 'bg-white text-black'
+    }`}>
 
       {/* Curseur personnalisé (masqué sur mobile) */}
       <div
@@ -585,10 +590,13 @@ export default function Home() {
                   <ShuffleText enabled={textEffectsEnabled}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
                 </p>
                 <p className="text-gray-400">
-                  <ShuffleText enabled={textEffectsEnabled}>Je suis étudiant en 2ème année de BUT MMI. Pour faire simple : le monde de l'audiovisuel m'intéresse vraiment et j'ai envie d'apprendre.</ShuffleText>
+                  <ShuffleText enabled={textEffectsEnabled}>Étudiant en 2ème année de BUT Métiers du Multimédia et de l'Internet, parcours Création Numérique, je me spécialise dans le design graphique, l'audiovisuel et le développement web.</ShuffleText>
                 </p>
                 <p className="text-gray-400">
-                  <ShuffleText enabled={textEffectsEnabled}>Je ne cherche pas seulement à valider mon diplôme, je cherche surtout à découvrir ce métier de l'intérieur. Je suis à la recherche d'un stage (dès le [Mois]) pour observer, écouter et participer à vos projets.</ShuffleText>
+                  <ShuffleText enabled={textEffectsEnabled}>Je suis actuellement à la recherche d'un stage d'au moins 8 semaines à partir d'avril 2026 dans le domaine de la création numérique et de l'audiovisuel. Je cherche à découvrir ce métier de l'intérieur et à participer activement à vos projets.</ShuffleText>
+                </p>
+                <p className="text-gray-400">
+                  <ShuffleText enabled={textEffectsEnabled}>Je recherche également une alternance à partir de septembre 2026 pour poursuivre ma formation en BUT MMI tout en contribuant activement à des projets d'entreprise.</ShuffleText>
                 </p>
                 <p className="text-gray-400">
                   <ShuffleText enabled={textEffectsEnabled}>Si vous acceptez de partager votre savoir-faire avec quelqu'un de curieux, je serais ravi de vous rencontrer.</ShuffleText>
@@ -607,23 +615,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Colonne droite - Logo & Vidéo */}
+            {/* Colonne droite - Vidéo */}
             <div className="space-y-8">
-              {/* Logo */}
-              <motion.div
-                className="flex justify-center"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <img
-                  src="/logo.svg"
-                  alt="Rafael Piral Logo"
-                  className={`w-48 h-48 md:w-64 md:h-64 ${isDarkMode ? '' : 'invert'}`}
-                />
-              </motion.div>
-
               {/* Vidéo de présentation */}
               <motion.div
                 className="rounded-xl overflow-hidden"
@@ -653,10 +646,10 @@ export default function Home() {
       <motion.section
         id="projects"
         className="py-16 md:py-32 px-4 md:px-16"
-        initial={{ opacity: 0, x: 100 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
       >
         <h2 className="text-xs md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center">
           <ShuffleText enabled={textEffectsEnabled}>PROJETS SÉLECTIONNÉS</ShuffleText>
@@ -711,24 +704,13 @@ export default function Home() {
           </h2>
         </div>
 
-        <div className="h-[400px] md:h-[600px]">
+        <div>
           <LogoCarousel
-            skills={skills}
+            skillCategories={skillCategories}
             isDarkMode={isDarkMode}
-            columnCount={3}
           />
         </div>
       </motion.section>
-
-      {/* Statistics Section */}
-      <Statistics
-        stats={[
-          { value: projects.length, label: "PROJETS RÉALISÉS", suffix: "+" }
-        ]}
-        isDarkMode={isDarkMode}
-        textEffectsEnabled={textEffectsEnabled}
-        scrollY={scrollY}
-      />
 
       {/* Timeline Section */}
       <Timeline
@@ -1057,6 +1039,22 @@ export default function Home() {
                   >
                     <ShuffleText enabled={textEffectsEnabled}>GitHub →</ShuffleText>
                   </a>
+                  <a
+                    href="https://dribbble.com/RafaelPiral"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
+                  >
+                    <ShuffleText enabled={textEffectsEnabled}>Dribbble →</ShuffleText>
+                  </a>
+                  <a
+                    href="https://www.behance.net/rafaelpiral1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
+                  >
+                    <ShuffleText enabled={textEffectsEnabled}>Behance →</ShuffleText>
+                  </a>
                 </div>
               </div>
             </div>
@@ -1089,19 +1087,30 @@ export default function Home() {
 
   // Return conditionnel : Lenis sur desktop, scroll natif sur mobile
   if (isMobile) {
-    return content;
+    return (
+      <>
+        {helmet}
+        {mainContent}
+      </>
+    );
   }
 
   return (
-    <ReactLenis
-      root
-      options={{
-        lerp: 0.1,
-        duration: 0.8,
-        smoothWheel: true,
-      }}
-    >
-      {content}
-    </ReactLenis>
+    <>
+      {helmet}
+      <ReactLenis
+        root
+        options={{
+          lerp: 0.1,
+          smoothWheel: true,
+          wheelMultiplier: 1,
+          touchMultiplier: 2,
+          infinite: false,
+          syncTouch: true,
+        }}
+      >
+        {mainContent}
+      </ReactLenis>
+    </>
   );
 }
