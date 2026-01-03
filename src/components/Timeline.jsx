@@ -24,11 +24,16 @@ export default function Timeline({ isDarkMode, textEffectsEnabled, scrollY }) {
         </h2>
 
         <div className="relative">
-          {/* Timeline vertical line */}
+          {/* Timeline vertical line - Fil d'Ariane */}
           <div
-            className={`absolute left-0 md:left-1/2 top-0 bottom-0 w-px md:-ml-px ${
-              isDarkMode ? 'bg-beige/20' : 'bg-black/20'
+            className={`absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 md:-ml-px ${
+              isDarkMode ? 'bg-beige/40' : 'bg-black/40'
             }`}
+            style={{
+              boxShadow: isDarkMode
+                ? '0 0 20px rgba(232, 220, 196, 0.3)'
+                : '0 0 20px rgba(0, 0, 0, 0.2)'
+            }}
           />
 
           {/* Timeline events */}
