@@ -44,10 +44,16 @@ export default function About() {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-6">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className={`text-xl font-bold tracking-wider transition-colors ${
-            isDarkMode ? 'text-white hover:text-gray-300' : 'text-black hover:text-gray-700'
-          }`}>
-            RP
+          <Link to="/" className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+            <img
+              src="/bullet.png"
+              alt="Logo Rafael Piral"
+              className="w-full h-full object-contain"
+              style={{
+                transform: `rotate(${scrollY * 0.5}deg)`,
+                transition: 'transform 0.1s ease-out'
+              }}
+            />
           </Link>
 
           <div className="flex items-center gap-6">
@@ -115,7 +121,7 @@ export default function About() {
             }`}
           >
             <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
-              Designer graphique et développeur web passionné par la création d'expériences numériques uniques
+              Créatif passionné par le design graphique et l'audiovisuel, j'aime donner vie aux idées à travers l'image
             </ShuffleText>
           </p>
         </div>
@@ -133,22 +139,26 @@ export default function About() {
             <div className="space-y-6 text-base md:text-lg font-light leading-relaxed">
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                 Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet,
-                parcours Création Numérique, je me spécialise dans le design graphique,
-                l'audiovisuel et le développement web front-end.
+                je suis un créatif dans l'âme, toujours en quête de nouvelles façons
+                d'exprimer des idées à travers le design et l'image.
               </p>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Je suis actuellement à la recherche d'un stage d'au moins 8 semaines à partir
-                d'avril 2026 dans le domaine de la création numérique et de l'audiovisuel.
+                Actuellement à la recherche d'un stage d'au moins 8 semaines à partir
+                d'avril 2026, je souhaite mettre mes compétences au service de projets
+                créatifs dans le domaine de l'audiovisuel et du design graphique.
               </p>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Ma passion pour le design a commencé avec la découverte d'Adobe Photoshop,
-                qui m'a ouvert les portes de la création visuelle. Depuis, j'ai développé
-                mes compétences en identité visuelle, UI/UX design et motion design.
+                Tout a commencé avec Photoshop. Cette première rencontre avec l'outil
+                a été une révélation : j'ai découvert qu'on pouvait créer des univers,
+                raconter des histoires, et transmettre des émotions uniquement par l'image.
+                Depuis, je ne cesse d'explorer les possibilités infinies du design graphique,
+                du motion design et de l'identité visuelle.
               </p>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Parallèlement, j'ai appris le développement web pour donner vie à mes créations.
-                Cette combinaison de compétences me permet de créer des expériences complètes,
-                de la conception à la réalisation.
+                Le développement web est venu compléter naturellement ce parcours,
+                comme un moyen supplémentaire de donner vie à mes créations et de les
+                rendre interactives. Mais c'est avant tout l'aspect visuel et créatif
+                qui guide mon travail.
               </p>
             </div>
           </div>
@@ -161,18 +171,20 @@ export default function About() {
             </h2>
             <div className="space-y-6 text-base md:text-lg font-light leading-relaxed">
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Je crois que le design doit être à la fois esthétique et fonctionnel.
-                Chaque projet est une opportunité de créer quelque chose d'unique qui
-                raconte une histoire et engage l'utilisateur.
+                Pour moi, chaque image raconte une histoire. Que ce soit une affiche,
+                une identité visuelle ou une vidéo, je cherche toujours à transmettre
+                une émot ion, à créer une atmosphère qui résonne avec le public.
               </p>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Mon approche combine minimalisme et créativité, avec une attention
-                particulière portée aux détails, à la typographie et aux animations subtiles
-                qui enrichissent l'expérience utilisateur.
+                J'aime jouer avec la composition, les contrastes, la typographie et les
+                couleurs pour créer des univers visuels uniques. Mon approche mêle
+                minimalisme et audace : chaque élément a sa raison d'être, chaque
+                détail compte.
               </p>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Je suis constamment à la recherche de nouvelles techniques et tendances
-                pour faire évoluer mes créations et repousser les limites du design web.
+                Le motion design m'attire particulièrement car il permet d'ajouter
+                une dimension temporelle à mes créations, de guider le regard et
+                d'intensifier l'impact émotionnel d'un message.
               </p>
             </div>
           </div>
@@ -248,7 +260,7 @@ export default function About() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-light mb-12">
             <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
-              Au-delà du Code
+              Mes Inspirations
             </ShuffleText>
           </h2>
 
@@ -260,9 +272,10 @@ export default function About() {
                 </ShuffleText>
               </h3>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Je passe beaucoup de temps à explorer les tendances du design, à étudier
-                les portfolios de designers que j'admire, et à décortiquer les sites web
-                qui me marquent. Cette veille créative nourrit constamment mes projets.
+                Je passe beaucoup de temps à explorer les tendances visuelles, à étudier
+                les travaux de designers et directeurs artistiques que j'admire. Que ce soit
+                une affiche de film, un générique, une campagne publicitaire ou un clip musical,
+                chaque création marquante nourrit mon regard et enrichit mon approche créative.
               </p>
             </div>
 
@@ -285,8 +298,9 @@ export default function About() {
                 </ShuffleText>
               </h3>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Le web évolue constamment, et j'adore ça. Je consacre du temps chaque semaine
-                à apprendre de nouvelles technologies, techniques d'animation, ou principes de design.
+                Le design et l'audiovisuel évoluent constamment, et j'adore ça. Je consacre
+                du temps chaque semaine à expérimenter de nouvelles techniques de composition,
+                d'animation, de montage, ou à maîtriser de nouveaux outils créatifs.
               </p>
             </div>
           </div>
