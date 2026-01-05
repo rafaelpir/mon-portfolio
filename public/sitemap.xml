@@ -5,49 +5,100 @@
   <!-- Page d'accueil -->
   <url>
     <loc>https://rafaelpiral.fr/</loc>
-    <lastmod>2025-01-02</lastmod>
+    <lastmod>2026-01-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Section À propos -->
+  <!-- Page À propos -->
   <url>
-    <loc>https://rafaelpiral.fr/#about</loc>
-    <lastmod>2025-01-02</lastmod>
+    <loc>https://rafaelpiral.fr/about</loc>
+    <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Section Projets -->
-  <url>
-    <loc>https://rafaelpiral.fr/#projects</loc>
-    <lastmod>2025-01-02</lastmod>
-    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Section Compétences -->
+  <!-- Page CV -->
   <url>
-    <loc>https://rafaelpiral.fr/#skills</loc>
-    <lastmod>2025-01-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Section Contact -->
-  <url>
-    <loc>https://rafaelpiral.fr/#contact</loc>
-    <lastmod>2025-01-02</lastmod>
+    <loc>https://rafaelpiral.fr/cv</loc>
+    <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Page About (si existe) -->
+  <!-- Mentions légales -->
   <url>
-    <loc>https://rafaelpiral.fr/about</loc>
-    <lastmod>2025-01-02</lastmod>
+    <loc>https://rafaelpiral.fr/legal</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Projets individuels -->
+  <url>
+    <loc>https://rafaelpiral.fr/project/1</loc>
+    <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/lhommequidort.webp</image:loc>
+      <image:title>Un Homme qui dort - Affiche revisitée</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://rafaelpiral.fr/project/2</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/Dax.webp</image:loc>
+      <image:title>Concours d'affiche : Fêtes Populaires de Saint-Paul-lès-Dax 2025</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://rafaelpiral.fr/project/3</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/sade.webp</image:loc>
+      <image:title>Poster Tribute : Sade – Diamond Life</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://rafaelpiral.fr/project/4</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/veco/thumbnail.webp</image:loc>
+      <image:title>UI Design & Branding : Application Veco</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://rafaelpiral.fr/project/5</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/armorimmo.webp</image:loc>
+      <image:title>UI Design & Branding : Agence Immobilière</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://rafaelpiral.fr/project/6</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/Liberté.webp</image:loc>
+      <image:title>Statue de la Liberté — De la photo à l'ASCII</image:title>
+    </image:image>
   </url>
 
 </urlset>

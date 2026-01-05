@@ -5,7 +5,14 @@ export default function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Support pour Lenis smooth scroll
+    const lenis = window.lenis;
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      // Fallback standard
+      window.scrollTo(0, 0);
+    }
   }, [pathname]);
 
   return null;

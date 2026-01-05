@@ -27,8 +27,8 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
       </div>
 
       {/* Badge text - responsive */}
-      <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-6 min-w-0">
-        <span className={`text-xs md:text-xl font-bold tracking-wide uppercase ${
+      <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 min-w-0">
+        <span className={`text-xs sm:text-sm md:text-xl font-bold tracking-wide uppercase ${
           isDarkMode ? 'text-orange-200' : 'text-orange-700'
         }`}>
           <ShuffleText enabled={textEffectsEnabled}>{status}</ShuffleText>
@@ -38,8 +38,8 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
           isDarkMode ? 'text-orange-300/40' : 'text-orange-600/40'
         }`}>•</span>
 
-        <div className="flex flex-col md:flex-row md:items-center gap-0.5 md:gap-3 min-w-0">
-          <span className={`text-sm md:text-2xl font-black ${
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2 md:gap-3 min-w-0">
+          <span className={`text-sm sm:text-base md:text-2xl font-black ${
             isDarkMode ? 'text-beige' : 'text-black'
           }`}>
             <ShuffleText enabled={textEffectsEnabled}>{availableDate}</ShuffleText>
@@ -47,12 +47,12 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
 
           {alternance && (
             <>
-              <span className={`hidden md:inline text-sm ${
+              <span className={`hidden sm:inline text-xs md:text-sm ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
               }`}>
                 &
               </span>
-              <span className={`text-xs md:text-2xl font-black ${
+              <span className={`text-xs sm:text-sm md:text-2xl font-black ${
                 isDarkMode ? 'text-beige' : 'text-black'
               }`}>
                 <ShuffleText enabled={textEffectsEnabled}>{alternance}</ShuffleText>
