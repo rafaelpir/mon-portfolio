@@ -13,6 +13,7 @@ import CVDownloadButton from '../components/CVDownloadButton';
 import ProjectFilters from '../components/ProjectFilters';
 import Timeline from '../components/Timeline';
 import LogoCarousel from '../components/LogoCarousel';
+import WorkInProgressBanner from '../components/WorkInProgressBanner';
 import usePresentationMode from '../hooks/usePresentationMode';
 
 export default function Home() {
@@ -31,7 +32,7 @@ export default function Home() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [textEffectsEnabled, setTextEffectsEnabled] = useState(() => {
     const saved = localStorage.getItem('textEffects');
-    return saved !== null ? JSON.parse(saved) : true;
+    return saved !== null ? JSON.parse(saved) : false;
   });
 
   // Détecter si on est sur mobile pour désactiver Lenis
@@ -255,6 +256,9 @@ export default function Home() {
         ? 'bg-black text-beige'
         : 'bg-white text-black'
     }`}>
+
+      {/* Bannière "En construction" */}
+      <WorkInProgressBanner isDarkMode={isDarkMode} />
 
       {/* Curseur personnalisé (masqué sur mobile) */}
       <div
@@ -544,11 +548,11 @@ export default function Home() {
             </h1>
           </div>
 
-          <p className={`text-sm md:text-2xl font-light tracking-widest px-4 mt-4 md:mt-8 animate-fade-in ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+          <p className={`text-xs sm:text-sm md:text-2xl font-light tracking-widest px-4 mt-4 md:mt-8 animate-fade-in ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
             style={{
               animationDelay: '0.4s'
             }}>
-            <ShuffleText enabled={textEffectsEnabled}>ÉTUDIANT EN 2E ANNEE DE BUT MMI • CRÉATIONS NUMÉRIQUES</ShuffleText>
+            <ShuffleText enabled={textEffectsEnabled}>ÉTUDIANT EN 2E ANNEE DE BUT MMI<br className="sm:hidden" /> • CRÉATIONS NUMÉRIQUES</ShuffleText>
           </p>
 
           {/* Badge de disponibilité */}
@@ -664,7 +668,7 @@ export default function Home() {
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
       >
-        <h2 className="text-xs md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center">
+        <h2 className="text-[10px] md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center">
           <ShuffleText enabled={textEffectsEnabled}>PROJETS SÉLECTIONNÉS</ShuffleText>
         </h2>
 
@@ -685,7 +689,7 @@ export default function Home() {
 
         {/* FlowingMenu avec les projets */}
         <div className="max-w-6xl mx-auto">
-          <div className="h-[300px] md:h-[600px] rounded-lg overflow-hidden">
+          <div className="h-[400px] md:h-[600px] rounded-lg overflow-hidden">
             <FlowingMenu items={menuItems} isDarkMode={isDarkMode} />
           </div>
         </div>
@@ -1030,12 +1034,6 @@ export default function Home() {
                   className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                 >
                   <ShuffleText enabled={textEffectsEnabled}>rafa2002@hotmail.fr</ShuffleText>
-                </a>
-                <a
-                  href="tel:+33600000000"
-                  className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
-                >
-                  <ShuffleText enabled={textEffectsEnabled}>+33 6 XX XX XX XX</ShuffleText>
                 </a>
                 <div className="pt-4 space-y-2">
                   <a

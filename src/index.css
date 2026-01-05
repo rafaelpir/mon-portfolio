@@ -157,6 +157,14 @@ body {
     transition: opacity 0.15s ease !important;
   }
 
+  /* FIX: Assurer que les éléments animés restent visibles sur mobile */
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-slide-down {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   /* Désactiver les vidéos sur mobile pour économiser la batterie */
   video {
     display: none !important;

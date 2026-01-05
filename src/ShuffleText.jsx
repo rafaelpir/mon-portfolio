@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function ShuffleText({ children, className = '', style = {}, enabled = true, fontFamily = 'Satoshi' }) {
+export default function ShuffleText({ children, className = '', style = {}, enabled = false, fontFamily = 'Satoshi' }) {
   const fontWeights = ['300', '400', '500', '600', '700', '800'];
   const fontStyles = ['normal', 'italic'];
 

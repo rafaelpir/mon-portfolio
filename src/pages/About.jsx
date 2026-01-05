@@ -11,7 +11,7 @@ export default function About() {
 
   const [textEffectsEnabled, setTextEffectsEnabled] = useState(() => {
     const saved = localStorage.getItem('textEffects');
-    return saved !== null ? JSON.parse(saved) : true;
+    return saved !== null ? JSON.parse(saved) : false;
   });
 
   const [selectedFont, setSelectedFont] = useState(() => {
@@ -193,62 +193,105 @@ export default function About() {
 
       {/* Compétences & Outils */}
       <section className="min-h-screen flex items-center px-4 md:px-16 py-16">
-        <div className="max-w-6xl mx-auto w-full">
+        <div className="max-w-7xl mx-auto w-full">
           <h2 className="text-4xl md:text-6xl font-light mb-16 text-center">
             <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
               Compétences & Outils
             </ShuffleText>
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-12">
-            {/* Design */}
-            <div className={`p-8 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-              <h3 className="text-2xl font-light mb-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Design Graphique */}
+            <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+              <h3 className="text-xl font-light mb-6">
                 <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
-                  Design
+                  Design Graphique
                 </ShuffleText>
               </h3>
-              <ul className={`space-y-3 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                <li>• Adobe Photoshop</li>
-                <li>• Adobe Illustrator</li>
-                <li>• Adobe InDesign</li>
+              <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <li>• Photoshop</li>
+                <li>• Illustrator</li>
+                <li>• InDesign</li>
+                <li>• Lightroom</li>
+                <li>• Affinity</li>
+                <li>• Canva</li>
                 <li>• Figma</li>
-                <li>• After Effects</li>
-                <li>• Premiere Pro</li>
               </ul>
             </div>
 
-            {/* Développement */}
-            <div className={`p-8 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-              <h3 className="text-2xl font-light mb-6">
+            {/* Audiovisuel */}
+            <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+              <h3 className="text-xl font-light mb-6">
                 <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
-                  Développement
+                  Audiovisuel
                 </ShuffleText>
               </h3>
-              <ul className={`space-y-3 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                <li>• HTML / CSS / JavaScript</li>
-                <li>• React.js</li>
-                <li>• Tailwind CSS</li>
-                <li>• GSAP / Framer Motion</li>
-                <li>• Git / GitHub</li>
+              <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <li>• Da Vinci Resolve</li>
+                <li>• Premiere Pro (bases)</li>
+                <li>• After Effects</li>
+                <li>• Blender (bases)</li>
+              </ul>
+            </div>
+
+            {/* Développement Web */}
+            <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+              <h3 className="text-xl font-light mb-6">
+                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                  Développement Web
+                </ShuffleText>
+              </h3>
+              <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <li>• HTML / CSS</li>
+                <li>• JavaScript</li>
+                <li>• React</li>
                 <li>• WordPress</li>
+                <li>• PHP</li>
+                <li>• Tailwind CSS</li>
+                <li>• Git / GitHub</li>
               </ul>
             </div>
 
             {/* Soft Skills */}
-            <div className={`p-8 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-              <h3 className="text-2xl font-light mb-6">
+            <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+              <h3 className="text-xl font-light mb-6">
                 <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
                   Soft Skills
                 </ShuffleText>
               </h3>
-              <ul className={`space-y-3 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <li>• Sérieux</li>
+                <li>• Autonomie</li>
+                <li>• Esprit d'équipe</li>
+                <li>• Adaptabilité</li>
                 <li>• Créativité</li>
                 <li>• Attention aux détails</li>
                 <li>• Gestion de projet</li>
-                <li>• Travail d'équipe</li>
-                <li>• Autonomie</li>
-                <li>• Curiosité</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Autres compétences */}
+          <div className="mt-8 grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+              <h3 className="text-xl font-light mb-6">
+                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                  Bureautique
+                </ShuffleText>
+              </h3>
+              <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <li>• Suite Microsoft Office</li>
+              </ul>
+            </div>
+
+            <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+              <h3 className="text-xl font-light mb-6">
+                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                  Communication
+                </ShuffleText>
+              </h3>
+              <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <li>• Réseaux sociaux</li>
               </ul>
             </div>
           </div>
@@ -353,7 +396,7 @@ export default function About() {
       <footer className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} px-4 md:px-8 py-8`}>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-600'}`}>
-            © 2024 Rafael Piral. Tous droits réservés.
+            © {new Date().getFullYear()} Rafael Piral. Tous droits réservés.
           </p>
 
           <div className="flex gap-6">
