@@ -75,6 +75,16 @@ export const projects = [
     description: "Lors d'un voyage à New York, j'ai photographié la Statue de la Liberté depuis Liberty Island. Cette photo est devenue le point de départ d'une expérimentation graphique : transformer une image réelle en une composition entièrement faite de caractères ASCII. L'idée était simple : comment réinterpréter un monument aussi iconique avec un langage purement numérique et typographique ? Le résultat joue sur une tension visuelle : de loin, on reconnaît la statue ; de près, on ne voit que du texte. La statue devient une structure de données, quelque chose entre la photographie et le code informatique.",
     thumbnail: "/images/projects/Liberté.webp",
     tags: ["Photoshop", "Photographie"]
+  },
+  {
+    id: 7,
+    title: "À Cœur Ouvert — Identité visuelle d'une ONG",
+    category: "Branding",
+    year: "2025",
+    description: "Projet SAE : création complète de l'identité visuelle pour À Cœur Ouvert, ONG fictive de lutte contre les violences conjugales. J'ai conçu le logo de A à Z, développé la charte graphique (typographie, couleurs, usages) et rédigé un article portrait donnant la parole à une victime. Le nom 'À Cœur Ouvert' symbolise un espace de parole sans jugement. Mon challenge : créer une identité à la fois rassurante et professionnelle, qui véhicule confiance et bienveillance tout en marquant le positionnement inclusif de l'ONG (accueil universel sans distinction de genre, écoute 24h/24 et 7j/7).",
+    thumbnail: "/images/projects/ACoeurOuvert.svg",
+    pdfFile: "/images/projects/portrait.pdf",
+    tags: ["Branding", "Illustrator", "InDesign"]
   }
 ];
 

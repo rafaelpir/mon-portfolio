@@ -6,15 +6,16 @@ import { timelineEvents } from '../data/timeline';
 export default function Timeline({ isDarkMode, textEffectsEnabled, scrollY }) {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   return (
     <motion.section
       ref={containerRef}
       className="py-16 md:py-32 pb-32 md:pb-48 px-4 md:px-16"
-      initial={{ opacity: 0, x: 100 }}
+      initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: 100 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: isMobile ? 0 : 0.6, ease: "easeOut" }}
     >
       <div className="max-w-6xl mx-auto">
         <h2 className={`text-xs md:text-sm tracking-widest mb-12 md:mb-20 text-center ${
@@ -44,11 +45,11 @@ export default function Timeline({ isDarkMode, textEffectsEnabled, scrollY }) {
               return (
                 <motion.div
                   key={event.id}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                  initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : (isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 })}
                   transition={{
-                    duration: 0.6,
-                    delay: index * 0.2,
+                    duration: isMobile ? 0 : 0.6,
+                    delay: isMobile ? 0 : index * 0.2,
                     ease: [0.22, 1, 0.36, 1]
                   }}
                   className={`relative flex items-center ${
