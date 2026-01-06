@@ -205,6 +205,59 @@ export default function ProjectDetail() {
               </motion.div>
             )}
 
+            {/* PDF Document */}
+            {project.pdfFile && (
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mb-20"
+              >
+                <h2 className="text-2xl font-light mb-6 opacity-70">
+                  <ShuffleText>Article portrait</ShuffleText>
+                </h2>
+                <div className="relative rounded-lg overflow-hidden bg-black/5" style={{ height: '800px' }}>
+                  <iframe
+                    src={`https://docs.google.com/viewer?url=${encodeURIComponent(window.location.origin + project.pdfFile)}&embedded=true`}
+                    title={`${project.title} - Article Portrait`}
+                    className="w-full h-full border-0"
+                  />
+                </div>
+                <div className="flex justify-center gap-4 mt-4">
+                  <a
+                    href={project.pdfFile}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-2 px-6 py-3 rounded-full border transition-colors ${
+                      isDarkMode
+                        ? 'border-beige hover:bg-beige hover:text-black'
+                        : 'border-black hover:bg-black hover:text-white'
+                    }`}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    <span className="text-sm tracking-wider">OUVRIR EN PLEIN ÉCRAN</span>
+                  </a>
+                  <a
+                    href={project.pdfFile}
+                    download
+                    className={`inline-flex items-center gap-2 px-6 py-3 rounded-full border transition-colors ${
+                      isDarkMode
+                        ? 'border-beige hover:bg-beige hover:text-black'
+                        : 'border-black hover:bg-black hover:text-white'
+                    }`}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span className="text-sm tracking-wider">TÉLÉCHARGER</span>
+                  </a>
+                </div>
+              </motion.div>
+            )}
+
             {/* Carousel d'images */}
             {project.gallery && project.gallery.length > 0 && (
               <motion.div
