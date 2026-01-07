@@ -7,7 +7,7 @@ import { useForm, ValidationError } from '@formspree/react';
 import { Turnstile } from '@marsidev/react-turnstile';
 import ShuffleText from '../ShuffleText';
 import { ReactLenis } from 'lenis/dist/lenis-react';
-import { projects, skillCategories } from '../data/projects';
+import { projects, experiencesPro, skillCategories } from '../data/projects';
 import GlitchText from '../components/GlitchText';
 import AvailabilityBadge from '../components/AvailabilityBadge';
 import CVDownloadButton from '../components/CVDownloadButton';
@@ -117,14 +117,17 @@ export default function Home() {
     localStorage.setItem('textEffects', JSON.stringify(textEffectsEnabled));
   }, [textEffectsEnabled]);
 
-  // Catégories à afficher dans les filtres
-  const categories = ['Tous', 'Affiches', 'UI/UX Design'];
+  // Fusionner projets universitaires et expériences professionnelles
+  const allProjects = [...experiencesPro, ...projects];
+
+  // Catégories à afficher dans les filtres (Expériences Pro en premier pour mise en avant)
+  const categories = ['Tous', 'Expériences Pro', 'Affiches', 'UI/UX Design', 'Branding', 'Photographie'];
 
   // Extraire tous les tags uniques
-  const allTags = [...new Set(projects.flatMap(p => p.tags || []))].sort();
+  const allTags = [...new Set(allProjects.flatMap(p => p.tags || []))].sort();
 
   // Filtrer les projets selon la catégorie et les tags
-  const filteredProjects = projects.filter(project => {
+  const filteredProjects = allProjects.filter(project => {
     const categoryMatch = selectedCategory === 'Tous' || project.category === selectedCategory;
     const tagMatch = selectedTags.length === 0 || selectedTags.some(tag => (project.tags || []).includes(tag));
     return categoryMatch && tagMatch;
@@ -363,6 +366,42 @@ export default function Home() {
               isDarkMode={isDarkMode}
             />
 
+            {/* Liens réseaux sociaux */}
+            <div className="flex items-center gap-3 ml-2">
+              <a
+                href="https://www.linkedin.com/in/rafaelpiral"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`p-2 rounded-full transition-all duration-300 ${
+                  isDarkMode
+                    ? 'hover:bg-beige/10 text-gray-400 hover:text-beige'
+                    : 'hover:bg-black/10 text-gray-600 hover:text-black'
+                }`}
+                aria-label="LinkedIn"
+                title="LinkedIn"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+              <a
+                href="https://github.com/rafaelpir"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`p-2 rounded-full transition-all duration-300 ${
+                  isDarkMode
+                    ? 'hover:bg-beige/10 text-gray-400 hover:text-beige'
+                    : 'hover:bg-black/10 text-gray-600 hover:text-black'
+                }`}
+                aria-label="GitHub"
+                title="GitHub"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+              </a>
+            </div>
+
             {/* Menu paramètres */}
             <div className="ml-4 relative settings-menu">
               <button
@@ -569,12 +608,23 @@ export default function Home() {
             </h1>
           </div>
 
-          <p className={`text-xs sm:text-sm md:text-2xl font-light tracking-widest px-4 mt-4 md:mt-8 animate-fade-in ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+          <div className={`text-xs sm:text-sm md:text-lg font-light tracking-wide px-4 mt-4 md:mt-8 animate-fade-in space-y-2 md:space-y-3 text-center ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
             style={{
               animationDelay: '0.4s'
             }}>
-            <ShuffleText enabled={textEffectsEnabled}>ÉTUDIANT EN 2E ANNEE DE BUT MMI<br className="sm:hidden" /> • CRÉATIONS NUMÉRIQUES</ShuffleText>
-          </p>
+            <p className="text-sm sm:text-base md:text-2xl tracking-widest">
+              <ShuffleText enabled={textEffectsEnabled}>DESIGN GRAPHIQUE & UI/UX • AUDIOVISUEL</ShuffleText>
+            </p>
+            <p className="text-xs sm:text-sm md:text-base">
+              <ShuffleText enabled={textEffectsEnabled}>BUT2 Métiers du Multimédia et de l'Internet • IUT de Bobigny</ShuffleText>
+            </p>
+            <p className="text-xs sm:text-sm md:text-base">
+              <ShuffleText enabled={textEffectsEnabled}>Parcours Créations Numériques</ShuffleText>
+            </p>
+            <p className={`text-xs sm:text-sm md:text-base font-medium mt-4 ${isDarkMode ? 'text-beige' : 'text-black'}`}>
+              <ShuffleText enabled={textEffectsEnabled}>En recherche de stage de 12 semaines à partir du 7 avril 2026</ShuffleText>
+            </p>
+          </div>
 
           {/* Badge de disponibilité */}
           <div className="mt-6 md:mt-8 animate-fade-in flex justify-center" style={{ animationDelay: '0.5s' }}>
