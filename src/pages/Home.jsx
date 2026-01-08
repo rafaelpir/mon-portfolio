@@ -601,7 +601,7 @@ export default function Home() {
         >
           <div className="animate-slide-down" style={{ animationDelay: '0.2s' }}>
             <h1 className={`text-[18vw] md:text-[15vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <ShuffleText enabled={textEffectsEnabled}>Rafael</ShuffleText>
+              <ShuffleText enabled={textEffectsEnabled}>ⓡafael</ShuffleText>
             </h1>
             <h1 className={`text-[18vw] md:text-[15vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
               <ShuffleText enabled={textEffectsEnabled}>Piral</ShuffleText>
