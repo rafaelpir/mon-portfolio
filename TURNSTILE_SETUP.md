@@ -112,4 +112,6 @@ Cette clé **passe toujours** et permet de tester le fonctionnement sans configu
 ---
 
 **Date de configuration :** 7 janvier 2026
-**Statut :** ✅ Intégré et fonctionnel
+**Dernière mise à jour :** 8 janvier 2026
+**Statut :** ✅ Intégré et configuré avec clé de production
+**Domaine :** rafaelpiral.fr
