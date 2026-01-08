@@ -37,9 +37,9 @@ export const timelineEvents = [
   },
   {
     id: 5,
-    year: "2024-2025",
+    year: "Depuis 2024",
     title: "Projets créatifs & développement",
-    description: "Réalisation de projets variés : affiches graphiques, interfaces web avec React, vidéos et animations. Exploration de l'art ASCII, du motion design et du développement front-end moderne.",
+    description: "Réalisation de projets variés : affiches graphiques, vidéos et animations. Exploration de l'art ASCII, du motion design et du développement front-end moderne.",
     category: "Création",
     icon: ""
   },
