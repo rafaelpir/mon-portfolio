@@ -124,6 +124,20 @@ export const projects = [
     tags: ["Branding", "Illustrator", "InDesign"],
     competences: ["Création d'identité visuelle", "Design graphique", "Charte graphique", "Rédaction de contenu"],
     outils: ["Adobe Illustrator", "Adobe InDesign"]
+  },
+  {
+    id: 8,
+    title: "Gummo — Affiche de film",
+    category: "Affiches",
+    year: "2025",
+    context: "Projet personnel - Création d'affiche de film",
+    period: "Janvier 2025",
+    duration: "1 semaine",
+    description: "Création d'une affiche pour Gummo (1997), film culte de Harmony Korine. Ce film expérimental et controversé explore la marginalité américaine avec une esthétique crue et poétique. L'affiche capture l'univers étrange et dérangeant du film : ambiance désenchantée, imagerie trash et nostalgique, palette de couleurs désaturées évoquant les années 90. Travail typographique inspiré de l'esthétique lo-fi et underground du cinéma indépendant américain de cette époque.",
+    thumbnail: "/images/projects/Gummo.webp",
+    tags: ["Photoshop", "Illustrator"],
+    competences: ["Conception d'affiche", "Direction artistique", "Composition visuelle", "Typographie"],
+    outils: ["Adobe Photoshop", "Adobe Illustrator"]
   }
 ];
 
