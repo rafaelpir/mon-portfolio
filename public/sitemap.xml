@@ -101,4 +101,15 @@
     </image:image>
   </url>
 
+  <url>
+    <loc>https://rafaelpiral.fr/project/8</loc>
+    <lastmod>2026-01-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/Gummo.webp</image:loc>
+      <image:title>Gummo — Affiche de film</image:title>
+    </image:image>
+  </url>
+
 </urlset>
