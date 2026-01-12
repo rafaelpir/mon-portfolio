@@ -102,6 +102,10 @@ export const projects = [
     duration: "3 jours",
     description: "Expérimentation graphique à partir d'une photographie de la Statue de la Liberté prise depuis Liberty Island à New York. Transformation de l'image en composition entièrement faite de caractères ASCII. Le défi : réinterpréter un monument iconique avec un langage purement numérique et typographique. Le résultat joue sur une tension visuelle : de loin, reconnaissance de la statue ; de près, uniquement du texte. La statue devient une structure de données, entre photographie et code informatique.",
     thumbnail: "/images/projects/Liberté.webp",
+    gallery: [
+      { src: "/images/projects/Liberté.webp", description: "Statue de la Liberté en art ASCII : Version finale de l'expérimentation graphique transformant la photographie iconique en composition typographique pure." },
+      { src: "/images/projects/LibertéVerte.webp", description: "Variation verte de la Statue de la Liberté : Déclinaison colorée de la composition ASCII avec une palette verte rappelant la patine du monument." }
+    ],
     tags: ["Photoshop", "Photographie"],
     competences: ["Retouche photo", "Art ASCII", "Expérimentation visuelle", "Traitement numérique"],
     outils: ["Adobe Photoshop"]
