@@ -6,6 +6,7 @@ import About from './pages/About';
 import Legal from './pages/Legal';
 import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
+import GoogleAnalytics from './components/GoogleAnalytics';
 
 function AppRoutes() {
   const location = useLocation();
@@ -26,6 +27,7 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
+      <GoogleAnalytics />
       <AppRoutes />
     </Router>
   );
