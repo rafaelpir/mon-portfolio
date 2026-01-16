@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import ShuffleText from '../ShuffleText';
 
 export default function Legal() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -42,7 +41,7 @@ export default function Legal() {
       <main className="max-w-4xl mx-auto px-4 md:px-8 py-16 md:py-24">
         {/* Titre */}
         <h1 className="text-4xl md:text-6xl font-light mb-4">
-          <ShuffleText enabled={true}>MENTIONS LÉGALES</ShuffleText>
+          MENTIONS LÉGALES
         </h1>
         <p className={`text-sm tracking-widest mb-16 ${
           isDarkMode ? 'text-gray-500' : 'text-gray-500'
@@ -55,7 +54,7 @@ export default function Legal() {
           {/* 1. Éditeur du site */}
           <section>
             <h2 className="text-2xl md:text-3xl font-light mb-6">
-              <ShuffleText enabled={true}>ÉDITEUR DU SITE</ShuffleText>
+              ÉDITEUR DU SITE
             </h2>
             <div className={`space-y-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               <p><strong>Nom :</strong> Rafael Piral</p>
@@ -68,7 +67,7 @@ export default function Legal() {
           {/* 2. Hébergement */}
           <section>
             <h2 className="text-2xl md:text-3xl font-light mb-6">
-              <ShuffleText enabled={true}>HÉBERGEMENT</ShuffleText>
+              HÉBERGEMENT
             </h2>
             <div className={`space-y-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               <p><strong>Hébergeur :</strong> Vercel Inc.</p>
@@ -80,7 +79,7 @@ export default function Legal() {
           {/* 3. Propriété intellectuelle */}
           <section>
             <h2 className="text-2xl md:text-3xl font-light mb-6">
-              <ShuffleText enabled={true}>PROPRIÉTÉ INTELLECTUELLE</ShuffleText>
+              PROPRIÉTÉ INTELLECTUELLE
             </h2>
             <div className={`space-y-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               <p>
@@ -98,7 +97,7 @@ export default function Legal() {
           {/* 4. Données personnelles */}
           <section>
             <h2 className="text-2xl md:text-3xl font-light mb-6">
-              <ShuffleText enabled={true}>PROTECTION DES DONNÉES</ShuffleText>
+              PROTECTION DES DONNÉES
             </h2>
             <div className={`space-y-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               <h3 className="text-xl font-light">Collecte des données</h3>
@@ -126,7 +125,7 @@ export default function Legal() {
           {/* 5. Crédits */}
           <section>
             <h2 className="text-2xl md:text-3xl font-light mb-6">
-              <ShuffleText enabled={true}>CRÉDITS & TECHNOLOGIES</ShuffleText>
+              CRÉDITS & TECHNOLOGIES
             </h2>
             <div className={`space-y-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               <p><strong>Design & Développement :</strong> Rafael Piral</p>
@@ -145,7 +144,7 @@ export default function Legal() {
           {/* 6. Limitation de responsabilité */}
           <section>
             <h2 className="text-2xl md:text-3xl font-light mb-6">
-              <ShuffleText enabled={true}>LIMITATION DE RESPONSABILITÉ</ShuffleText>
+              LIMITATION DE RESPONSABILITÉ
             </h2>
             <div className={`space-y-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               <p>
@@ -162,7 +161,7 @@ export default function Legal() {
             isDarkMode ? 'border-beige/10' : 'border-black/10'
           }`}>
             <h2 className="text-2xl md:text-3xl font-light mb-6">
-              <ShuffleText enabled={true}>CONTACT</ShuffleText>
+              CONTACT
             </h2>
             <div className={`space-y-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               <p>
@@ -184,7 +183,7 @@ export default function Legal() {
                 : 'border-black hover:bg-black hover:text-white'
             }`}
           >
-            <ShuffleText enabled={true}>RETOUR À L'ACCUEIL</ShuffleText>
+            RETOUR À L'ACCUEIL
           </Link>
         </div>
       </main>
