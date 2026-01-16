@@ -14,10 +14,6 @@ export default function About() {
     return saved !== null ? JSON.parse(saved) : false;
   });
 
-  const [selectedFont, setSelectedFont] = useState(() => {
-    return localStorage.getItem('selectedFont') || 'Satoshi';
-  });
-
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -110,7 +106,7 @@ export default function About() {
           <h1
             className="text-[12vw] md:text-[8vw] font-light leading-none tracking-tight mb-8"
           >
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+            <ShuffleText enabled={textEffectsEnabled} >
               À Propos
             </ShuffleText>
           </h1>
@@ -120,7 +116,7 @@ export default function About() {
               isDarkMode ? 'text-gray-300' : 'text-gray-700'
             }`}
           >
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+            <ShuffleText enabled={textEffectsEnabled} >
               Créatif passionné par le design graphique et l'audiovisuel, j'aime donner vie aux idées à travers l'image
             </ShuffleText>
           </p>
@@ -132,7 +128,7 @@ export default function About() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-24">
           <div>
             <h2 className="text-4xl md:text-6xl font-light mb-8">
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+              <ShuffleText enabled={textEffectsEnabled} >
                 Mon Parcours
               </ShuffleText>
             </h2>
@@ -165,7 +161,7 @@ export default function About() {
 
           <div>
             <h2 className="text-4xl md:text-6xl font-light mb-8">
-              <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+              <ShuffleText enabled={textEffectsEnabled} >
                 Ma Vision
               </ShuffleText>
             </h2>
@@ -195,7 +191,7 @@ export default function About() {
       <section className="min-h-screen flex items-center px-4 md:px-16 py-16">
         <div className="max-w-7xl mx-auto w-full">
           <h2 className="text-4xl md:text-6xl font-light mb-16 text-center">
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+            <ShuffleText enabled={textEffectsEnabled} >
               Compétences & Outils
             </ShuffleText>
           </h2>
@@ -204,7 +200,7 @@ export default function About() {
             {/* Design Graphique */}
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                <ShuffleText enabled={textEffectsEnabled} >
                   Design Graphique
                 </ShuffleText>
               </h3>
@@ -222,7 +218,7 @@ export default function About() {
             {/* Audiovisuel */}
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                <ShuffleText enabled={textEffectsEnabled} >
                   Audiovisuel
                 </ShuffleText>
               </h3>
@@ -237,7 +233,7 @@ export default function About() {
             {/* Développement Web */}
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                <ShuffleText enabled={textEffectsEnabled} >
                   Développement Web
                 </ShuffleText>
               </h3>
@@ -255,7 +251,7 @@ export default function About() {
             {/* Soft Skills */}
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                <ShuffleText enabled={textEffectsEnabled} >
                   Soft Skills
                 </ShuffleText>
               </h3>
@@ -275,7 +271,7 @@ export default function About() {
           <div className="mt-8 grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                <ShuffleText enabled={textEffectsEnabled} >
                   Bureautique
                 </ShuffleText>
               </h3>
@@ -286,7 +282,7 @@ export default function About() {
 
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                <ShuffleText enabled={textEffectsEnabled} >
                   Communication
                 </ShuffleText>
               </h3>
@@ -302,7 +298,7 @@ export default function About() {
       <section className="min-h-screen flex items-center px-4 md:px-16 py-16">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-light mb-12">
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+            <ShuffleText enabled={textEffectsEnabled} >
               Mes Inspirations
             </ShuffleText>
           </h2>
@@ -310,7 +306,7 @@ export default function About() {
           <div className="space-y-8 text-base md:text-lg font-light leading-relaxed">
             <div>
               <h3 className="text-2xl mb-4">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                <ShuffleText enabled={textEffectsEnabled} >
                   Design & Inspiration
                 </ShuffleText>
               </h3>
@@ -324,7 +320,7 @@ export default function About() {
 
             <div>
               <h3 className="text-2xl mb-4">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                <ShuffleText enabled={textEffectsEnabled} >
                   Photographie
                 </ShuffleText>
               </h3>
@@ -336,7 +332,7 @@ export default function About() {
 
             <div>
               <h3 className="text-2xl mb-4">
-                <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+                <ShuffleText enabled={textEffectsEnabled} >
                   Apprentissage Continu
                 </ShuffleText>
               </h3>
@@ -354,14 +350,14 @@ export default function About() {
       <section className="min-h-[50vh] flex items-center justify-center px-4 py-16">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-5xl md:text-7xl font-light mb-8">
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+            <ShuffleText enabled={textEffectsEnabled} >
               Travaillons Ensemble
             </ShuffleText>
           </h2>
           <p className={`text-lg md:text-xl font-light mb-12 ${
             isDarkMode ? 'text-gray-400' : 'text-gray-600'
           }`}>
-            <ShuffleText enabled={textEffectsEnabled} fontFamily={selectedFont}>
+            <ShuffleText enabled={textEffectsEnabled} >
               Un projet en tête ? Discutons-en autour d'un café (virtuel ou réel)
             </ShuffleText>
           </p>
