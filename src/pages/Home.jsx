@@ -600,34 +600,34 @@ export default function Home() {
           }}
         >
           <div className="animate-slide-down" style={{ animationDelay: '0.2s' }}>
-            <h1 className={`text-[18vw] md:text-[15vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
+            <h1 className={`text-[14vw] md:text-[10vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
               <ShuffleText enabled={textEffectsEnabled}>Rafael</ShuffleText>
             </h1>
-            <h1 className={`text-[18vw] md:text-[15vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
+            <h1 className={`text-[14vw] md:text-[10vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
               <ShuffleText enabled={textEffectsEnabled}>Piral</ShuffleText>
             </h1>
           </div>
 
-          <div className={`text-xs sm:text-sm md:text-lg font-light tracking-wide px-4 mt-4 md:mt-8 animate-fade-in space-y-2 md:space-y-3 text-center ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+          <div className={`text-xs sm:text-sm md:text-base font-light tracking-wide px-4 mt-4 md:mt-6 animate-fade-in space-y-1 md:space-y-2 text-center ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
             style={{
               animationDelay: '0.4s'
             }}>
-            <p className="text-sm sm:text-base md:text-2xl tracking-widest">
+            <p className="text-xs sm:text-sm md:text-lg tracking-widest">
               <ShuffleText enabled={textEffectsEnabled}>DESIGN GRAPHIQUE & UI/UX • AUDIOVISUEL</ShuffleText>
             </p>
-            <p className="text-xs sm:text-sm md:text-base">
+            <p className="text-[10px] sm:text-xs md:text-sm">
               <ShuffleText enabled={textEffectsEnabled}>BUT2 Métiers du Multimédia et de l'Internet • IUT de Bobigny</ShuffleText>
             </p>
-            <p className="text-xs sm:text-sm md:text-base">
+            <p className="text-[10px] sm:text-xs md:text-sm">
               <ShuffleText enabled={textEffectsEnabled}>Parcours Créations Numériques</ShuffleText>
             </p>
-            <p className={`text-xs sm:text-sm md:text-base font-medium mt-4 ${isDarkMode ? 'text-beige' : 'text-black'}`}>
+            <p className={`text-[10px] sm:text-xs md:text-sm font-medium mt-2 ${isDarkMode ? 'text-beige' : 'text-black'}`}>
               <ShuffleText enabled={textEffectsEnabled}>En recherche de stage de 12 semaines à partir du 7 avril 2026</ShuffleText>
             </p>
           </div>
 
           {/* Badge de disponibilité */}
-          <div className="mt-6 md:mt-8 animate-fade-in flex justify-center" style={{ animationDelay: '0.5s' }}>
+          <div className="mt-4 md:mt-6 animate-fade-in flex justify-center" style={{ animationDelay: '0.5s' }}>
             <AvailabilityBadge
               status="En recherche de stage"
               availableDate="Avril 2026"
