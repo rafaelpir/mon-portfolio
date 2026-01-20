@@ -17,6 +17,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true }) {
   const itemRef = React.useRef(null);
   const marqueeRef = React.useRef(null);
   const marqueeInnerRef = React.useRef(null);
+  const timelineRef = React.useRef(null);
 
   const animationDefaults = { duration: 0.4, ease: 'power2.out' };
 
@@ -28,10 +29,16 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true }) {
 
   const handleMouseEnter = ev => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
+
+    // Tuer l'animation précédente si elle existe
+    if (timelineRef.current) {
+      timelineRef.current.kill();
+    }
+
     const rect = itemRef.current.getBoundingClientRect();
     const edge = findClosestEdge(ev.clientX - rect.left, ev.clientY - rect.top, rect.width, rect.height);
 
-    gsap
+    timelineRef.current = gsap
       .timeline({ defaults: animationDefaults })
       .set(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' })
       .set(marqueeInnerRef.current, { y: edge === 'top' ? '101%' : '-101%' })
@@ -40,13 +47,23 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true }) {
 
   const handleMouseLeave = ev => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
+
+    // Tuer l'animation précédente si elle existe
+    if (timelineRef.current) {
+      timelineRef.current.kill();
+    }
+
     const rect = itemRef.current.getBoundingClientRect();
     const edge = findClosestEdge(ev.clientX - rect.left, ev.clientY - rect.top, rect.width, rect.height);
 
-    gsap
+    // Animer les deux éléments en parallèle
+    timelineRef.current = gsap
       .timeline({ defaults: animationDefaults })
-      .to(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' })
-      .to(marqueeInnerRef.current, { y: edge === 'top' ? '101%' : '-101%' });
+      .to([marqueeRef.current, marqueeInnerRef.current], {
+        y: (index) => index === 0
+          ? (edge === 'top' ? '-101%' : '101%')
+          : (edge === 'top' ? '101%' : '-101%')
+      });
   };
 
   const handleClick = (e) => {
@@ -68,9 +85,14 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true }) {
       </span>
       {image && (
         <div
-          className="w-[200px] h-[7vh] my-[2em] mx-[2vw] p-[1em_0] rounded-[50px] bg-cover bg-center"
-          style={{ backgroundImage: `url(${image})` }}
-        />
+          className="w-[120px] h-[40px] md:w-[180px] md:h-[60px] my-4 mx-4 rounded-lg overflow-hidden flex-shrink-0"
+        >
+          <img
+            src={image}
+            alt=""
+            className="w-full h-full object-cover"
+          />
+        </div>
       )}
     </React.Fragment>
   ));
@@ -98,7 +120,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true }) {
       </a>
       <div
         className={`absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none translate-y-[101%] will-change-transform ${
-          isDarkMode ? 'bg-beige-light' : 'bg-black'
+          isDarkMode ? 'bg-beige' : 'bg-black'
         }`}
         ref={marqueeRef}
         style={{ backfaceVisibility: 'hidden' }}
