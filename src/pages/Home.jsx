@@ -36,6 +36,9 @@ export default function Home() {
     return saved !== null ? JSON.parse(saved) : false;
   });
 
+  // Désactiver tous les effets sur mobile
+  const effectsEnabled = textEffectsEnabled && !isMobile;
+
   // État pour Cloudflare Turnstile
   const [turnstileToken, setTurnstileToken] = useState(null);
 
@@ -594,55 +597,53 @@ export default function Home() {
 
         {/* Contenu principal avec animations améliorées */}
         <div
-          className="text-center relative z-10 animate-fade-in-up"
+          className={`text-center relative z-10 ${!isMobile ? 'animate-fade-in-up' : ''}`}
           style={{
-            opacity: 1 - scrollY / 500
+            opacity: isMobile ? 1 : 1 - scrollY / 500
           }}
         >
-          <div className="animate-slide-down" style={{ animationDelay: '0.2s' }}>
+          <div className={!isMobile ? 'animate-slide-down' : ''} style={!isMobile ? { animationDelay: '0.2s' } : {}}>
             <h1 className={`text-[14vw] md:text-[10vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <ShuffleText enabled={textEffectsEnabled}>Rafael</ShuffleText>
+              <ShuffleText enabled={effectsEnabled}>Rafael</ShuffleText>
             </h1>
             <h1 className={`text-[14vw] md:text-[10vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <ShuffleText enabled={textEffectsEnabled}>Piral</ShuffleText>
+              <ShuffleText enabled={effectsEnabled}>Piral</ShuffleText>
             </h1>
           </div>
 
-          <div className={`text-xs sm:text-sm md:text-base font-light tracking-wide px-4 mt-4 md:mt-6 animate-fade-in space-y-1 md:space-y-2 text-center ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
-            style={{
-              animationDelay: '0.4s'
-            }}>
+          <div className={`text-xs sm:text-sm md:text-base font-light tracking-wide px-4 mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} space-y-1 md:space-y-2 text-center ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+            style={!isMobile ? { animationDelay: '0.4s' } : {}}>
             <p className="text-xs sm:text-sm md:text-lg tracking-widest">
-              <ShuffleText enabled={textEffectsEnabled}>DESIGN GRAPHIQUE & UI/UX • AUDIOVISUEL</ShuffleText>
+              <ShuffleText enabled={effectsEnabled}>DESIGN GRAPHIQUE & UI/UX • AUDIOVISUEL</ShuffleText>
             </p>
             <p className="text-[10px] sm:text-xs md:text-sm">
-              <ShuffleText enabled={textEffectsEnabled}>BUT2 Métiers du Multimédia et de l'Internet • IUT de Bobigny</ShuffleText>
+              <ShuffleText enabled={effectsEnabled}>BUT2 Métiers du Multimédia et de l'Internet • IUT de Bobigny</ShuffleText>
             </p>
             <p className="text-[10px] sm:text-xs md:text-sm">
-              <ShuffleText enabled={textEffectsEnabled}>Parcours Créations Numériques</ShuffleText>
+              <ShuffleText enabled={effectsEnabled}>Parcours Créations Numériques</ShuffleText>
             </p>
             <p className={`text-[10px] sm:text-xs md:text-sm font-medium mt-2 ${isDarkMode ? 'text-beige' : 'text-black'}`}>
-              <ShuffleText enabled={textEffectsEnabled}>En recherche de stage de 12 semaines à partir du 7 avril 2026</ShuffleText>
+              <ShuffleText enabled={effectsEnabled}>En recherche de stage de 12 semaines à partir du 7 avril 2026</ShuffleText>
             </p>
           </div>
 
           {/* Badge de disponibilité */}
-          <div className="mt-4 md:mt-6 animate-fade-in flex justify-center" style={{ animationDelay: '0.5s' }}>
+          <div className={`mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} flex justify-center`} style={!isMobile ? { animationDelay: '0.5s' } : {}}>
             <AvailabilityBadge
               status="En recherche de stage"
               availableDate="Avril 2026"
               alternance="Alternance pour septembre 2026"
               isDarkMode={isDarkMode}
-              textEffectsEnabled={textEffectsEnabled}
+              textEffectsEnabled={effectsEnabled}
             />
           </div>
         </div>
 
         {/* Indicateur de scroll */}
-        <div className={`absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 text-xs md:text-sm tracking-widest animate-bounce flex items-center justify-center ${
+        <div className={`absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 text-xs md:text-sm tracking-widest ${!isMobile ? 'animate-bounce' : ''} flex items-center justify-center ${
           isDarkMode ? 'text-gray-400' : 'text-gray-600'
         }`} style={{ zIndex: 20, whiteSpace: 'nowrap' }}>
-          <ShuffleText enabled={textEffectsEnabled}>DÉFILER</ShuffleText>
+          <ShuffleText enabled={effectsEnabled}>DÉFILER</ShuffleText>
         </div>
       </section>
 
@@ -650,10 +651,10 @@ export default function Home() {
       <motion.section
         id="about"
         className="min-h-screen flex items-center px-4 md:px-16 py-16 md:py-32"
-        initial={{ opacity: 0, x: -100 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={isMobile ? {} : { opacity: 0, x: -100 }}
+        whileInView={isMobile ? {} : { opacity: 1, x: 0 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={isMobile ? {} : { duration: 0.6, ease: "easeOut" }}
       >
         <div className="max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -661,19 +662,19 @@ export default function Home() {
             <div>
               <div className="space-y-6 md:space-y-8 text-lg md:text-3xl font-light leading-relaxed mb-8 md:mb-12">
                 <p>
-                  <ShuffleText enabled={textEffectsEnabled}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
+                  <ShuffleText enabled={effectsEnabled}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
                 </p>
                 <p className="text-gray-400">
-                  <ShuffleText enabled={textEffectsEnabled}>Étudiant en 2ème année de BUT Métiers du Multimédia et de l'Internet, parcours Création Numérique, je me spécialise dans le design graphique, l'audiovisuel et le développement web.</ShuffleText>
+                  <ShuffleText enabled={effectsEnabled}>Étudiant en 2ème année de BUT Métiers du Multimédia et de l'Internet, parcours Création Numérique, je me spécialise dans le design graphique, l'audiovisuel et le développement web.</ShuffleText>
                 </p>
                 <p className="text-gray-400">
-                  <ShuffleText enabled={textEffectsEnabled}>Je suis actuellement à la recherche d'un stage d'au moins 8 semaines à partir d'avril 2026 dans le domaine de la création numérique et de l'audiovisuel. Je cherche à découvrir ce métier de l'intérieur et à participer activement à vos projets.</ShuffleText>
+                  <ShuffleText enabled={effectsEnabled}>Je suis actuellement à la recherche d'un stage d'au moins 8 semaines à partir d'avril 2026 dans le domaine de la création numérique et de l'audiovisuel. Je cherche à découvrir ce métier de l'intérieur et à participer activement à vos projets.</ShuffleText>
                 </p>
                 <p className="text-gray-400">
-                  <ShuffleText enabled={textEffectsEnabled}>Je recherche également une alternance à partir de septembre 2026 pour poursuivre ma formation en BUT MMI tout en contribuant activement à des projets d'entreprise.</ShuffleText>
+                  <ShuffleText enabled={effectsEnabled}>Je recherche également une alternance à partir de septembre 2026 pour poursuivre ma formation en BUT MMI tout en contribuant activement à des projets d'entreprise.</ShuffleText>
                 </p>
                 <p className="text-gray-400">
-                  <ShuffleText enabled={textEffectsEnabled}>Si vous acceptez de partager votre savoir-faire avec quelqu'un de curieux, je serais ravi de vous rencontrer.</ShuffleText>
+                  <ShuffleText enabled={effectsEnabled}>Si vous acceptez de partager votre savoir-faire avec quelqu'un de curieux, je serais ravi de vous rencontrer.</ShuffleText>
                 </p>
               </div>
 
@@ -694,10 +695,10 @@ export default function Home() {
               {/* Vidéo de présentation */}
               <motion.div
                 className="rounded-xl overflow-hidden"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={isMobile ? {} : { opacity: 0, y: 20 }}
+                whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+                transition={isMobile ? {} : { duration: 0.8, delay: 0.4 }}
               >
                 <video
                   autoPlay
@@ -724,7 +725,7 @@ export default function Home() {
                   : 'border-black text-black hover:bg-black hover:text-white'
               }`}
             >
-              <ShuffleText enabled={textEffectsEnabled}>EN SAVOIR PLUS</ShuffleText>
+              <ShuffleText enabled={effectsEnabled}>EN SAVOIR PLUS</ShuffleText>
             </Link>
           </div>
         </div>
@@ -734,13 +735,13 @@ export default function Home() {
       <motion.section
         id="projects"
         className="py-16 md:py-32 px-4 md:px-16"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={isMobile ? {} : { opacity: 0, y: 20 }}
+        whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+        transition={isMobile ? {} : { duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
       >
         <h2 className="text-[10px] md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center">
-          <ShuffleText enabled={textEffectsEnabled}>PROJETS SÉLECTIONNÉS</ShuffleText>
+          <ShuffleText enabled={effectsEnabled}>PROJETS SÉLECTIONNÉS</ShuffleText>
         </h2>
 
         {/* Filtres avancés */}
@@ -777,7 +778,7 @@ export default function Home() {
       >
         <div className="mb-12 text-center">
           <h2 className="text-xs md:text-sm tracking-widest text-gray-500">
-            <ShuffleText enabled={textEffectsEnabled}>COMPÉTENCES</ShuffleText>
+            <ShuffleText enabled={effectsEnabled}>COMPÉTENCES</ShuffleText>
           </h2>
         </div>
 
@@ -800,16 +801,16 @@ export default function Home() {
       <motion.section
         id="contact"
         className="min-h-screen flex items-center justify-center px-4 md:px-8 py-16 md:py-32"
-        initial={{ opacity: 0, x: -100 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={isMobile ? {} : { opacity: 0, x: -100 }}
+        whileInView={isMobile ? {} : { opacity: 1, x: 0 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={isMobile ? {} : { duration: 0.6, ease: "easeOut" }}
       >
         <div className="max-w-4xl w-full">
           <h2 className="text-3xl md:text-7xl lg:text-9xl font-light mb-8 md:mb-20 leading-none text-center">
-            <ShuffleText enabled={textEffectsEnabled}>TRAVAILLONS</ShuffleText>
+            <ShuffleText enabled={effectsEnabled}>TRAVAILLONS</ShuffleText>
             <br />
-            <ShuffleText enabled={textEffectsEnabled}>ENSEMBLE</ShuffleText>
+            <ShuffleText enabled={effectsEnabled}>ENSEMBLE</ShuffleText>
           </h2>
 
           {/* Bouton CV */}
@@ -826,9 +827,9 @@ export default function Home() {
               {formState.succeeded ? (
                 <motion.div
                   className="text-center py-16"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
+                  initial={isMobile ? {} : { opacity: 0, scale: 0.9 }}
+                  animate={isMobile ? {} : { opacity: 1, scale: 1 }}
+                  transition={isMobile ? {} : { duration: 0.5 }}
                 >
                   <div className="mb-6">
                     <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center ${
@@ -840,7 +841,7 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="text-2xl md:text-3xl font-light mb-4">
-                    <ShuffleText enabled={textEffectsEnabled}>
+                    <ShuffleText enabled={effectsEnabled}>
                       Merci pour votre message !
                     </ShuffleText>
                   </p>
@@ -955,10 +956,10 @@ export default function Home() {
             {/* Informations de contact */}
             <div className="flex flex-col justify-center space-y-8 md:space-y-10">
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={isMobile ? {} : { opacity: 0, x: 20 }}
+                whileInView={isMobile ? {} : { opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
+                transition={isMobile ? {} : { delay: 0.1 }}
                 className="group"
               >
                 <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-widest">EMAIL</p>
@@ -978,10 +979,10 @@ export default function Home() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={isMobile ? {} : { opacity: 0, x: 20 }}
+                whileInView={isMobile ? {} : { opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
+                transition={isMobile ? {} : { delay: 0.3 }}
               >
                 <p className="text-xs md:text-sm text-gray-500 mb-6 tracking-widest">RÉSEAUX</p>
                 <div className="grid grid-cols-2 gap-6 md:gap-8">
@@ -1075,10 +1076,10 @@ export default function Home() {
             {/* Column 1 - About */}
             <div>
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
-                <ShuffleText enabled={textEffectsEnabled}>RAFAEL PIRAL</ShuffleText>
+                <ShuffleText enabled={effectsEnabled}>RAFAEL PIRAL</ShuffleText>
               </h3>
               <p className="text-sm md:text-base font-light leading-relaxed opacity-70">
-                <ShuffleText enabled={textEffectsEnabled}>
+                <ShuffleText enabled={effectsEnabled}>
                   Étudiant en 2e année de BUT MMI, passionné par le design graphique et le développement web.
                 </ShuffleText>
               </p>
@@ -1087,20 +1088,20 @@ export default function Home() {
             {/* Column 2 - Navigation */}
             <div>
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
-                <ShuffleText enabled={textEffectsEnabled}>NAVIGATION</ShuffleText>
+                <ShuffleText enabled={effectsEnabled}>NAVIGATION</ShuffleText>
               </h3>
               <nav className="flex flex-col space-y-3">
                 <button onClick={() => scrollToSection('about')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  <ShuffleText enabled={textEffectsEnabled}>À propos</ShuffleText>
+                  <ShuffleText enabled={effectsEnabled}>À propos</ShuffleText>
                 </button>
                 <button onClick={() => scrollToSection('projects')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  <ShuffleText enabled={textEffectsEnabled}>Projets</ShuffleText>
+                  <ShuffleText enabled={effectsEnabled}>Projets</ShuffleText>
                 </button>
                 <button onClick={() => scrollToSection('skills')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  <ShuffleText enabled={textEffectsEnabled}>Compétences</ShuffleText>
+                  <ShuffleText enabled={effectsEnabled}>Compétences</ShuffleText>
                 </button>
                 <button onClick={() => scrollToSection('contact')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  <ShuffleText enabled={textEffectsEnabled}>Contact</ShuffleText>
+                  <ShuffleText enabled={effectsEnabled}>Contact</ShuffleText>
                 </button>
               </nav>
             </div>
@@ -1108,14 +1109,14 @@ export default function Home() {
             {/* Column 3 - Contact & Social */}
             <div>
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
-                <ShuffleText enabled={textEffectsEnabled}>CONTACT</ShuffleText>
+                <ShuffleText enabled={effectsEnabled}>CONTACT</ShuffleText>
               </h3>
               <div className="space-y-3">
                 <a
                   href="mailto:rafa2002@hotmail.fr"
                   className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                 >
-                  <ShuffleText enabled={textEffectsEnabled}>rafa2002@hotmail.fr</ShuffleText>
+                  <ShuffleText enabled={effectsEnabled}>rafa2002@hotmail.fr</ShuffleText>
                 </a>
                 <div className="pt-4 space-y-2">
                   <a
@@ -1124,7 +1125,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                   >
-                    <ShuffleText enabled={textEffectsEnabled}>LinkedIn →</ShuffleText>
+                    <ShuffleText enabled={effectsEnabled}>LinkedIn →</ShuffleText>
                   </a>
                   <a
                     href="https://github.com/rafaelpir"
@@ -1132,7 +1133,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                   >
-                    <ShuffleText enabled={textEffectsEnabled}>GitHub →</ShuffleText>
+                    <ShuffleText enabled={effectsEnabled}>GitHub →</ShuffleText>
                   </a>
                   <a
                     href="https://dribbble.com/RafaelPiral"
@@ -1140,7 +1141,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                   >
-                    <ShuffleText enabled={textEffectsEnabled}>Dribbble →</ShuffleText>
+                    <ShuffleText enabled={effectsEnabled}>Dribbble →</ShuffleText>
                   </a>
                   <a
                     href="https://www.behance.net/rafaelpiral1"
@@ -1148,7 +1149,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                   >
-                    <ShuffleText enabled={textEffectsEnabled}>Behance →</ShuffleText>
+                    <ShuffleText enabled={effectsEnabled}>Behance →</ShuffleText>
                   </a>
                 </div>
               </div>
@@ -1160,16 +1161,16 @@ export default function Home() {
             isDarkMode ? 'border-beige/10' : 'border-black/10'
           }`}>
             <p>
-              <ShuffleText enabled={textEffectsEnabled}>
+              <ShuffleText enabled={effectsEnabled}>
                 © {new Date().getFullYear()} Rafael Piral. Tous droits réservés.
               </ShuffleText>
               {' · '}
               <Link to="/legal" className="hover:opacity-70 transition-opacity underline">
-                <ShuffleText enabled={textEffectsEnabled}>Mentions légales</ShuffleText>
+                <ShuffleText enabled={effectsEnabled}>Mentions légales</ShuffleText>
               </Link>
             </p>
             <p>
-              <ShuffleText enabled={textEffectsEnabled}>
+              <ShuffleText enabled={effectsEnabled}>
                 Conçu et développé avec passion
               </ShuffleText>
             </p>
