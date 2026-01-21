@@ -31,7 +31,7 @@ const PixelTrail = ({
     [dimensions.width, pixelSize]
   );
   const rows = useMemo(
-    () => Math.ceil(dimensions.height / pixelSize),
+    () => Math.max(0, Math.ceil(dimensions.height / pixelSize) - 1),
     [dimensions.height, pixelSize]
   );
 
