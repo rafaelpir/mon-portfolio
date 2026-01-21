@@ -586,7 +586,7 @@ export default function Home() {
 
         {/* Contenu principal avec animations améliorées */}
         <div
-          className={`text-center relative z-10 pointer-events-none ${!isMobile ? 'animate-fade-in-up' : ''}`}
+          className={`text-left relative z-10 pointer-events-none max-w-7xl w-full px-4 md:px-16 ${!isMobile ? 'animate-fade-in-up' : ''}`}
           style={{
             opacity: isMobile ? 1 : 1 - scrollY / 500
           }}
@@ -600,7 +600,7 @@ export default function Home() {
             </h1>
           </div>
 
-          <div className={`text-xs sm:text-sm md:text-base font-light tracking-wide px-4 mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} space-y-1 md:space-y-2 text-center ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+          <div className={`text-xs sm:text-sm md:text-base font-light tracking-wide mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} space-y-1 md:space-y-2 text-left ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
             style={!isMobile ? { animationDelay: '0.4s' } : {}}>
             <p className="text-xs sm:text-sm md:text-lg tracking-widest">
               <ShuffleText enabled={effectsEnabled}>DESIGN GRAPHIQUE & UI/UX • AUDIOVISUEL</ShuffleText>
@@ -617,7 +617,7 @@ export default function Home() {
           </div>
 
           {/* Badge de disponibilité */}
-          <div className={`mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} flex justify-center pointer-events-auto`} style={!isMobile ? { animationDelay: '0.5s' } : {}}>
+          <div className={`mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} flex justify-start pointer-events-auto`} style={!isMobile ? { animationDelay: '0.5s' } : {}}>
             <AvailabilityBadge
               status="En recherche de stage"
               availableDate="Avril 2026"
