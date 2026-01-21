@@ -18,6 +18,7 @@ import WorkInProgressBanner from '../components/WorkInProgressBanner';
 import usePresentationMode from '../hooks/usePresentationMode';
 import { PixelTrail } from '../components/ui/PixelTrail';
 import TextType from '../components/TextType';
+import { GrainGradient } from '@paper-design/shaders-react';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -573,13 +574,30 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center relative overflow-hidden px-4">
+        {/* GrainGradient Background */}
+        <div className="absolute inset-0 z-0">
+          <GrainGradient
+            style={{ width: '100%', height: '100%' }}
+            colors={isDarkMode ? ["#000000", "#000000", "#bababa"] : ["#ffffff", "#ffffff", "#cccccc"]}
+            colorBack={isDarkMode ? "#000000" : "#ffffff"}
+            softness={1}
+            intensity={1}
+            noise={1}
+            shape="truchet"
+            speed={1.02}
+            scale={0.16}
+            rotation={168}
+            offsetX={0.16}
+          />
+        </div>
+
         {/* PixelTrail Background - uniquement sur desktop */}
         {!isMobile && (
           <PixelTrail
             pixelSize={80}
             fadeDuration={3000}
             delay={0}
-            className="absolute inset-0 z-0"
+            className="absolute inset-0 z-[1]"
             pixelClassName={isDarkMode ? "bg-beige/50" : "bg-black/40"}
             autoAnimateInterval={800}
           />
