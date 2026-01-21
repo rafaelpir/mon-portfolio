@@ -97,8 +97,8 @@ export default function LightBoard({
       for (let row = 0; row < CHAR_HEIGHT; row++) {
         const rowData = charData[row] || 0;
         for (let col = 0; col < CHAR_WIDTH; col++) {
-          if (rowData & (1 << col)) {
-            grid[row][x + (CHAR_WIDTH - 1 - col)] = 1;
+          if (rowData & (1 << (CHAR_WIDTH - 1 - col))) {
+            grid[row][x + col] = 1;
           }
         }
       }
