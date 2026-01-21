@@ -576,11 +576,11 @@ export default function Home() {
         {!isMobile && (
           <PixelTrail
             pixelSize={80}
-            fadeDuration={2000}
+            fadeDuration={3000}
             delay={0}
             className="absolute inset-0 z-0"
             pixelClassName={isDarkMode ? "bg-beige/50" : "bg-black/40"}
-            autoAnimateInterval={400}
+            autoAnimateInterval={800}
           />
         )}
 
