@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef, useEffect } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import { useDimensions } from "../../hooks/use-debounced-dimensions";
 
@@ -18,10 +18,44 @@ const PixelTrail = ({
   delay = 0,
   className,
   pixelClassName,
+  autoAnimate = true,
+  autoAnimateInterval = 100,
 }) => {
   const containerRef = useRef(null);
   const dimensions = useDimensions(containerRef);
   const trailId = useRef(generateId());
+  const pixelRefs = useRef({});
+
+  const columns = useMemo(
+    () => Math.ceil(dimensions.width / pixelSize),
+    [dimensions.width, pixelSize]
+  );
+  const rows = useMemo(
+    () => Math.ceil(dimensions.height / pixelSize),
+    [dimensions.height, pixelSize]
+  );
+
+  // Animation automatique
+  useEffect(() => {
+    if (!autoAnimate || columns === 0 || rows === 0) return;
+
+    const interval = setInterval(() => {
+      // Animer 2-4 pixels aléatoires à chaque intervalle
+      const numPixels = Math.floor(Math.random() * 3) + 2;
+      for (let i = 0; i < numPixels; i++) {
+        const randomX = Math.floor(Math.random() * columns);
+        const randomY = Math.floor(Math.random() * rows);
+        const pixelElement = document.getElementById(
+          `${trailId.current}-pixel-${randomX}-${randomY}`
+        );
+        if (pixelElement && pixelElement.__animatePixel) {
+          pixelElement.__animatePixel();
+        }
+      }
+    }, autoAnimateInterval);
+
+    return () => clearInterval(interval);
+  }, [autoAnimate, autoAnimateInterval, columns, rows]);
 
   const handleMouseMove = useCallback(
     (e) => {
@@ -40,15 +74,6 @@ const PixelTrail = ({
       }
     },
     [pixelSize]
-  );
-
-  const columns = useMemo(
-    () => Math.ceil(dimensions.width / pixelSize),
-    [dimensions.width, pixelSize]
-  );
-  const rows = useMemo(
-    () => Math.ceil(dimensions.height / pixelSize),
-    [dimensions.height, pixelSize]
   );
 
   return (

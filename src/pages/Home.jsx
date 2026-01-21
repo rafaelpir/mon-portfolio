@@ -616,7 +616,7 @@ export default function Home() {
           </div>
 
           {/* Badge de disponibilité */}
-          <div className={`mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} flex justify-center`} style={!isMobile ? { animationDelay: '0.5s' } : {}}>
+          <div className={`mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} flex justify-center pointer-events-auto`} style={!isMobile ? { animationDelay: '0.5s' } : {}}>
             <AvailabilityBadge
               status="En recherche de stage"
               availableDate="Avril 2026"
