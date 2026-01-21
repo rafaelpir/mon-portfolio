@@ -575,11 +575,12 @@ export default function Home() {
         {/* PixelTrail Background - uniquement sur desktop */}
         {!isMobile && (
           <PixelTrail
-            pixelSize={50}
-            fadeDuration={1000}
+            pixelSize={80}
+            fadeDuration={1200}
             delay={0}
-            className="absolute inset-0 z-20"
-            pixelClassName={isDarkMode ? "bg-beige/40" : "bg-black/30"}
+            className="absolute inset-0 z-0"
+            pixelClassName={isDarkMode ? "bg-beige/50" : "bg-black/40"}
+            autoAnimateInterval={80}
           />
         )}
 
