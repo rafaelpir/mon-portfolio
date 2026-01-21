@@ -103,7 +103,7 @@ const PixelDot = React.memo(
       <motion.div
         id={id}
         ref={ref}
-        className={cn("cursor-pointer-none", className)}
+        className={cn("cursor-pointer-none rounded-full", className)}
         style={{
           width: `${size}px`,
           height: `${size}px`,

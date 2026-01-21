@@ -575,17 +575,17 @@ export default function Home() {
         {/* PixelTrail Background - uniquement sur desktop */}
         {!isMobile && (
           <PixelTrail
-            pixelSize={24}
-            fadeDuration={800}
+            pixelSize={50}
+            fadeDuration={1000}
             delay={0}
-            className="absolute inset-0 z-0"
-            pixelClassName={isDarkMode ? "bg-beige/30" : "bg-black/20"}
+            className="absolute inset-0 z-20"
+            pixelClassName={isDarkMode ? "bg-beige/40" : "bg-black/30"}
           />
         )}
 
         {/* Contenu principal avec animations améliorées */}
         <div
-          className={`text-center relative z-10 ${!isMobile ? 'animate-fade-in-up' : ''}`}
+          className={`text-center relative z-10 pointer-events-none ${!isMobile ? 'animate-fade-in-up' : ''}`}
           style={{
             opacity: isMobile ? 1 : 1 - scrollY / 500
           }}
@@ -628,9 +628,9 @@ export default function Home() {
         </div>
 
         {/* Indicateur de scroll */}
-        <div className={`absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 text-xs md:text-sm tracking-widest ${!isMobile ? 'animate-bounce' : ''} flex items-center justify-center ${
+        <div className={`absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 text-xs md:text-sm tracking-widest ${!isMobile ? 'animate-bounce' : ''} flex items-center justify-center pointer-events-none ${
           isDarkMode ? 'text-gray-400' : 'text-gray-600'
-        }`} style={{ zIndex: 20, whiteSpace: 'nowrap' }}>
+        }`} style={{ zIndex: 10, whiteSpace: 'nowrap' }}>
           <ShuffleText enabled={effectsEnabled}>DÉFILER</ShuffleText>
         </div>
       </section>
