@@ -601,22 +601,25 @@ export default function Home() {
             </h1>
           </div>
 
-          <div className={`text-xs sm:text-sm md:text-lg font-light tracking-widest mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} text-left ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+          <div className={`text-xs sm:text-sm md:text-base font-light tracking-wide mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} space-y-1 md:space-y-2 text-left ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
             style={!isMobile ? { animationDelay: '0.4s' } : {}}>
-            <TextType
-              texts={[
-                "DESIGN GRAPHIQUE & UI/UX • AUDIOVISUEL",
-                "BUT2 Métiers du Multimédia et de l'Internet • IUT de Bobigny",
-                "Parcours Créations Numériques",
-                "En recherche de stage de 12 semaines à partir du 7 avril 2026"
-              ]}
-              typingSpeed={60}
-              deletingSpeed={30}
-              pauseDuration={2500}
-              showCursor
-              cursorCharacter="|"
-              cursorBlinkDuration={0.5}
-            />
+            <p className="text-xs sm:text-sm md:text-lg tracking-widest">
+              <TextType
+                texts={["DESIGN GRAPHIQUE & UI/UX • AUDIOVISUEL"]}
+                typingSpeed={60}
+                pauseDuration={999999}
+                showCursor={false}
+              />
+            </p>
+            <p className="text-[10px] sm:text-xs md:text-sm">
+              BUT2 Métiers du Multimédia et de l'Internet • IUT de Bobigny
+            </p>
+            <p className="text-[10px] sm:text-xs md:text-sm">
+              Parcours Créations Numériques
+            </p>
+            <p className={`text-[10px] sm:text-xs md:text-sm font-medium mt-2 ${isDarkMode ? 'text-beige' : 'text-black'}`}>
+              En recherche de stage de 12 semaines à partir du 7 avril 2026
+            </p>
           </div>
 
           {/* Badge de disponibilité */}
