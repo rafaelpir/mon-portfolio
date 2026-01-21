@@ -302,10 +302,10 @@ export default function Home() {
 
       {/* Header avec navigation */}
       {!isPresentationMode && (
-      <header className={`fixed top-0 left-0 right-0 z-40 px-4 md:px-8 py-4 md:py-6 border-b transition-colors duration-300 ${
+      <header className={`fixed top-0 left-0 right-0 z-40 px-4 md:px-8 py-4 md:py-6 transition-colors duration-300 ${
         isDarkMode
-          ? 'bg-black/5 border-beige/10'
-          : 'bg-beige/5 border-black/10'
+          ? 'bg-black/5'
+          : 'bg-beige/5'
       }`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo bullet.png avec rotation liée au scroll */}
