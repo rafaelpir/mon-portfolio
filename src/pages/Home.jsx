@@ -17,7 +17,7 @@ import WorkInProgressBanner from '../components/WorkInProgressBanner';
 import usePresentationMode from '../hooks/usePresentationMode';
 import TextType from '../components/TextType';
 import { GrainGradient } from '@paper-design/shaders-react';
-import LightBoard, { LightBoardSize } from '../components/LightBoard';
+import LightBoard from '../components/LightBoard';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -628,10 +628,19 @@ export default function Home() {
           <div className="mt-6">
             <LightBoard
               text="EN RECHERCHE DE STAGE - AVRIL 2026"
-              size={LightBoardSize.Medium}
+              rows={7}
+              gap={1}
+              lightSize={4}
               updateInterval={80}
-              colorOn={isDarkMode ? "#E8DCC4" : "#000000"}
-              colorOff={isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}
+              colors={isDarkMode ? {
+                background: "#0a0a0a",
+                textDim: "#1a1a1a",
+                textBright: "#E8DCC4",
+              } : {
+                background: "#f5f5f5",
+                textDim: "#e0e0e0",
+                textBright: "#000000",
+              }}
             />
           </div>
 
