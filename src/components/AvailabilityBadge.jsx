@@ -80,12 +80,12 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
           {/* Close Button */}
           <button
             onClick={() => setIsModalOpen(false)}
-            className={`absolute top-4 right-4 text-xs tracking-widest transition-opacity hover:opacity-50 ${
+            className={`absolute top-4 right-4 z-10 text-xs tracking-widest transition-opacity hover:opacity-50 pointer-events-auto cursor-pointer ${
               isDarkMode ? 'text-beige' : 'text-black'
             }`}
             aria-label="Fermer"
           >
-            <ShuffleText enabled={textEffectsEnabled}>FERMER ✕</ShuffleText>
+            FERMER ✕
           </button>
 
           {/* Content */}
