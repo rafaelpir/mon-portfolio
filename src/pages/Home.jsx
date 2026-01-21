@@ -17,6 +17,7 @@ import WorkInProgressBanner from '../components/WorkInProgressBanner';
 import usePresentationMode from '../hooks/usePresentationMode';
 import TextType from '../components/TextType';
 import { GrainGradient } from '@paper-design/shaders-react';
+import LightBoard, { LightBoardSize } from '../components/LightBoard';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -623,15 +624,15 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Bandeau défilant */}
-          <div className={`mt-4 overflow-hidden ${isDarkMode ? 'text-beige' : 'text-black'}`}>
-            <div className="flex animate-marquee whitespace-nowrap">
-              {[...Array(6)].map((_, i) => (
-                <span key={i} className="text-[10px] sm:text-xs md:text-sm font-medium mx-4">
-                  EN RECHERCHE DE STAGE DE 12 SEMAINES À PARTIR DU 7 AVRIL 2026 •
-                </span>
-              ))}
-            </div>
+          {/* LightBoard */}
+          <div className="mt-6">
+            <LightBoard
+              text="EN RECHERCHE DE STAGE - AVRIL 2026"
+              size={LightBoardSize.Medium}
+              updateInterval={80}
+              colorOn={isDarkMode ? "#E8DCC4" : "#000000"}
+              colorOff={isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}
+            />
           </div>
 
           {/* Badge de disponibilité */}
