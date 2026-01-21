@@ -601,20 +601,22 @@ export default function Home() {
             </h1>
           </div>
 
-          <div className={`text-xs sm:text-sm md:text-base font-light tracking-wide mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} space-y-1 md:space-y-2 text-left ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+          <div className={`text-xs sm:text-sm md:text-lg font-light tracking-widest mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} text-left ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
             style={!isMobile ? { animationDelay: '0.4s' } : {}}>
-            <p className="text-xs sm:text-sm md:text-lg tracking-widest">
-              <ShuffleText enabled={effectsEnabled}>DESIGN GRAPHIQUE & UI/UX • AUDIOVISUEL</ShuffleText>
-            </p>
-            <p className="text-[10px] sm:text-xs md:text-sm">
-              <ShuffleText enabled={effectsEnabled}>BUT2 Métiers du Multimédia et de l'Internet • IUT de Bobigny</ShuffleText>
-            </p>
-            <p className="text-[10px] sm:text-xs md:text-sm">
-              <ShuffleText enabled={effectsEnabled}>Parcours Créations Numériques</ShuffleText>
-            </p>
-            <p className={`text-[10px] sm:text-xs md:text-sm font-medium mt-2 ${isDarkMode ? 'text-beige' : 'text-black'}`}>
-              <ShuffleText enabled={effectsEnabled}>En recherche de stage de 12 semaines à partir du 7 avril 2026</ShuffleText>
-            </p>
+            <TextType
+              texts={[
+                "DESIGN GRAPHIQUE & UI/UX • AUDIOVISUEL",
+                "BUT2 Métiers du Multimédia et de l'Internet • IUT de Bobigny",
+                "Parcours Créations Numériques",
+                "En recherche de stage de 12 semaines à partir du 7 avril 2026"
+              ]}
+              typingSpeed={60}
+              deletingSpeed={30}
+              pauseDuration={2500}
+              showCursor
+              cursorCharacter="|"
+              cursorBlinkDuration={0.5}
+            />
           </div>
 
           {/* Badge de disponibilité */}
@@ -652,20 +654,7 @@ export default function Home() {
             <div>
               <div className="space-y-6 md:space-y-8 text-lg md:text-3xl font-light leading-relaxed mb-8 md:mb-12">
                 <p>
-                  <TextType
-                    texts={[
-                      "Bonjour, je m'appelle Rafael Piral.",
-                      "Designer graphique & UI/UX.",
-                      "Passionné par l'audiovisuel.",
-                      "Étudiant en BUT MMI."
-                    ]}
-                    typingSpeed={80}
-                    deletingSpeed={40}
-                    pauseDuration={2000}
-                    showCursor
-                    cursorCharacter="|"
-                    cursorBlinkDuration={0.5}
-                  />
+                  <ShuffleText enabled={effectsEnabled}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
                 </p>
                 <p className="text-gray-400">
                   <ShuffleText enabled={effectsEnabled}>Étudiant en 2ème année de BUT Métiers du Multimédia et de l'Internet, parcours Création Numérique, je me spécialise dans le design graphique, l'audiovisuel et le développement web.</ShuffleText>
