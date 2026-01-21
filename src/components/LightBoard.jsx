@@ -57,14 +57,33 @@ export default function LightBoard({
   font = "default",
   updateInterval = 100,
   colors = {
-    background: "#000000",
+    background: "transparent",
     textDim: "rgba(255,255,255,0.1)",
     textBright: "#E8DCC4",
   },
   className = "",
 }) {
   const [offset, setOffset] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
   const canvasRef = useRef(null);
+  const containerRef = useRef(null);
+
+  // Observer la largeur du container
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setContainerWidth(entry.contentRect.width);
+      }
+    });
+
+    resizeObserver.observe(container);
+    setContainerWidth(container.offsetWidth);
+
+    return () => resizeObserver.disconnect();
+  }, []);
 
   // Convertir le texte en pattern (mémorisé)
   const { pattern, cols } = useMemo(() => {
@@ -108,22 +127,27 @@ export default function LightBoard({
   // Rendu avec Canvas pour performance
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || containerWidth === 0) return;
 
     const ctx = canvas.getContext('2d');
     const cellSize = lightSize + gap;
+    const visibleCols = Math.ceil(containerWidth / cellSize);
 
-    canvas.width = cols * cellSize;
+    canvas.width = containerWidth;
     canvas.height = CHAR_HEIGHT * cellSize;
 
     // Background
-    ctx.fillStyle = colors.background;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (colors.background !== "transparent") {
+      ctx.fillStyle = colors.background;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
 
     for (let row = 0; row < CHAR_HEIGHT; row++) {
-      for (let col = 0; col < cols; col++) {
-        const adjustedCol = (col + offset) % cols;
-        const isOn = pattern[row][adjustedCol];
+      for (let col = 0; col < visibleCols; col++) {
+        const patternCol = (col + offset) % cols;
+        const isOn = pattern[row][patternCol];
 
         ctx.beginPath();
         ctx.arc(
@@ -147,16 +171,17 @@ export default function LightBoard({
         ctx.shadowBlur = 0;
       }
     }
-  }, [pattern, cols, offset, lightSize, gap, colors]);
+  }, [pattern, cols, offset, lightSize, gap, colors, containerWidth]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className={className}
-      style={{
-        imageRendering: 'pixelated',
-        borderRadius: '4px',
-      }}
-    />
+    <div ref={containerRef} className={`w-full ${className}`}>
+      <canvas
+        ref={canvasRef}
+        style={{
+          width: '100%',
+          imageRendering: 'pixelated',
+        }}
+      />
+    </div>
   );
 }

@@ -624,26 +624,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* LightBoard */}
-          <div className="mt-6">
-            <LightBoard
-              text="EN RECHERCHE DE STAGE - AVRIL 2026"
-              rows={7}
-              gap={1}
-              lightSize={4}
-              updateInterval={80}
-              colors={isDarkMode ? {
-                background: "#0a0a0a",
-                textDim: "#1a1a1a",
-                textBright: "#E8DCC4",
-              } : {
-                background: "#f5f5f5",
-                textDim: "#e0e0e0",
-                textBright: "#000000",
-              }}
-            />
-          </div>
-
           {/* Badge de disponibilité */}
           <div className={`mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} flex justify-start pointer-events-auto`} style={!isMobile ? { animationDelay: '0.5s' } : {}}>
             <AvailabilityBadge
@@ -656,11 +636,25 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Indicateur de scroll */}
-        <div className={`absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 text-xs md:text-sm tracking-widest ${!isMobile ? 'animate-bounce' : ''} flex items-center justify-center pointer-events-none ${
-          isDarkMode ? 'text-gray-400' : 'text-gray-600'
-        }`} style={{ zIndex: 10, whiteSpace: 'nowrap' }}>
-          <ShuffleText enabled={effectsEnabled}>DÉFILER</ShuffleText>
+        {/* LightBoard en bas pleine largeur */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden">
+          <LightBoard
+            text="EN RECHERCHE DE STAGE - AVRIL 2026   -   EN RECHERCHE DE STAGE - AVRIL 2026   -   "
+            rows={7}
+            gap={1}
+            lightSize={4}
+            updateInterval={60}
+            colors={isDarkMode ? {
+              background: "transparent",
+              textDim: "rgba(232,220,196,0.1)",
+              textBright: "#E8DCC4",
+            } : {
+              background: "transparent",
+              textDim: "rgba(0,0,0,0.1)",
+              textBright: "#000000",
+            }}
+            className="w-full"
+          />
         </div>
       </section>
 
