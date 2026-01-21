@@ -16,6 +16,7 @@ import Timeline from '../components/Timeline';
 import LogoCarousel from '../components/LogoCarousel';
 import WorkInProgressBanner from '../components/WorkInProgressBanner';
 import usePresentationMode from '../hooks/usePresentationMode';
+import { PixelTrail } from '../components/ui/PixelTrail';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -571,29 +572,16 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center relative overflow-hidden px-4">
-        {/* Vidéo de fond */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            opacity: isDarkMode ? 0.15 : 0.1,
-            filter: isDarkMode ? 'none' : 'invert(1)',
-            transform: 'scale(1.1)'
-          }}
-        >
-          <source src="/videos/output_optimized.mp4" type="video/mp4" />
-        </video>
-
-        {/* Gradient overlay animé */}
-        <div className="absolute inset-0" style={{
-          background: isDarkMode
-            ? 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%)'
-            : 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0.05) 0%, transparent 50%)',
-          animation: 'pulse 8s ease-in-out infinite'
-        }} />
+        {/* PixelTrail Background - uniquement sur desktop */}
+        {!isMobile && (
+          <PixelTrail
+            pixelSize={24}
+            fadeDuration={800}
+            delay={0}
+            className="absolute inset-0 z-0"
+            pixelClassName={isDarkMode ? "bg-beige/30" : "bg-black/20"}
+          />
+        )}
 
         {/* Contenu principal avec animations améliorées */}
         <div
