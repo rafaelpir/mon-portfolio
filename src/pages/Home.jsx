@@ -621,9 +621,17 @@ export default function Home() {
             <p className="text-[10px] sm:text-xs md:text-sm">
               Parcours Créations Numériques
             </p>
-            <p className={`text-[10px] sm:text-xs md:text-sm font-medium mt-2 ${isDarkMode ? 'text-beige' : 'text-black'}`}>
-              En recherche de stage de 12 semaines à partir du 7 avril 2026
-            </p>
+          </div>
+
+          {/* Bandeau défilant */}
+          <div className={`mt-4 overflow-hidden ${isDarkMode ? 'text-beige' : 'text-black'}`}>
+            <div className="flex animate-marquee whitespace-nowrap">
+              {[...Array(6)].map((_, i) => (
+                <span key={i} className="text-[10px] sm:text-xs md:text-sm font-medium mx-4">
+                  EN RECHERCHE DE STAGE DE 12 SEMAINES À PARTIR DU 7 AVRIL 2026 •
+                </span>
+              ))}
+            </div>
           </div>
 
           {/* Badge de disponibilité */}
