@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 
-// Font bitmap pour les caractères (5x7 pixels) - corrigé
+// Font bitmap pour les caractères (5x7 pixels)
 const FONT = {
   'A': [0x04,0x0A,0x11,0x11,0x1F,0x11,0x11],
   'B': [0x0F,0x11,0x11,0x0F,0x11,0x11,0x0F],
@@ -49,25 +49,22 @@ const CHAR_WIDTH = 5;
 const CHAR_HEIGHT = 7;
 const CHAR_SPACING = 1;
 
-export const LightBoardSize = {
-  Small: 'small',
-  Medium: 'medium',
-  Large: 'large',
-};
-
 export default function LightBoard({
   text = "HELLO",
-  size = LightBoardSize.Medium,
+  rows = 7,
+  gap = 1,
+  lightSize = 3,
+  font = "default",
   updateInterval = 100,
-  colorOn = "#E8DCC4",
-  colorOff = "rgba(255,255,255,0.05)",
+  colors = {
+    background: "#000000",
+    textDim: "rgba(255,255,255,0.1)",
+    textBright: "#E8DCC4",
+  },
   className = "",
 }) {
   const [offset, setOffset] = useState(0);
   const canvasRef = useRef(null);
-
-  const lightSize = size === 'small' ? 2 : size === 'large' ? 4 : 3;
-  const gap = 1;
 
   // Convertir le texte en pattern (mémorisé)
   const { pattern, cols } = useMemo(() => {
@@ -81,7 +78,6 @@ export default function LightBoard({
       for (let row = 0; row < CHAR_HEIGHT; row++) {
         const rowData = charData[row] || 0;
         for (let col = 0; col < CHAR_WIDTH; col++) {
-          // Lire les bits de gauche à droite
           if (rowData & (1 << col)) {
             grid[row][x + (CHAR_WIDTH - 1 - col)] = 1;
           }
@@ -120,7 +116,9 @@ export default function LightBoard({
     canvas.width = cols * cellSize;
     canvas.height = CHAR_HEIGHT * cellSize;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Background
+    ctx.fillStyle = colors.background;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     for (let row = 0; row < CHAR_HEIGHT; row++) {
       for (let col = 0; col < cols; col++) {
@@ -137,18 +135,19 @@ export default function LightBoard({
         );
 
         if (isOn) {
-          ctx.fillStyle = colorOn;
-          ctx.shadowColor = colorOn;
-          ctx.shadowBlur = lightSize;
+          ctx.fillStyle = colors.textBright;
+          ctx.shadowColor = colors.textBright;
+          ctx.shadowBlur = lightSize * 2;
         } else {
-          ctx.fillStyle = colorOff;
+          ctx.fillStyle = colors.textDim;
           ctx.shadowBlur = 0;
         }
 
         ctx.fill();
+        ctx.shadowBlur = 0;
       }
     }
-  }, [pattern, cols, offset, lightSize, gap, colorOn, colorOff]);
+  }, [pattern, cols, offset, lightSize, gap, colors]);
 
   return (
     <canvas
@@ -156,6 +155,7 @@ export default function LightBoard({
       className={className}
       style={{
         imageRendering: 'pixelated',
+        borderRadius: '4px',
       }}
     />
   );
