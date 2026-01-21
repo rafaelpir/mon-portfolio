@@ -17,6 +17,7 @@ import LogoCarousel from '../components/LogoCarousel';
 import WorkInProgressBanner from '../components/WorkInProgressBanner';
 import usePresentationMode from '../hooks/usePresentationMode';
 import { PixelTrail } from '../components/ui/PixelTrail';
+import TextType from '../components/TextType';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -651,7 +652,20 @@ export default function Home() {
             <div>
               <div className="space-y-6 md:space-y-8 text-lg md:text-3xl font-light leading-relaxed mb-8 md:mb-12">
                 <p>
-                  <ShuffleText enabled={effectsEnabled}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
+                  <TextType
+                    texts={[
+                      "Bonjour, je m'appelle Rafael Piral.",
+                      "Designer graphique & UI/UX.",
+                      "Passionné par l'audiovisuel.",
+                      "Étudiant en BUT MMI."
+                    ]}
+                    typingSpeed={80}
+                    deletingSpeed={40}
+                    pauseDuration={2000}
+                    showCursor
+                    cursorCharacter="|"
+                    cursorBlinkDuration={0.5}
+                  />
                 </p>
                 <p className="text-gray-400">
                   <ShuffleText enabled={effectsEnabled}>Étudiant en 2ème année de BUT Métiers du Multimédia et de l'Internet, parcours Création Numérique, je me spécialise dans le design graphique, l'audiovisuel et le développement web.</ShuffleText>
