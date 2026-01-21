@@ -8,7 +8,6 @@ import { Turnstile } from '@marsidev/react-turnstile';
 import ShuffleText from '../ShuffleText';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { projects, experiencesPro, skillCategories } from '../data/projects';
-import GlitchText from '../components/GlitchText';
 import AvailabilityBadge from '../components/AvailabilityBadge';
 import CVDownloadButton from '../components/CVDownloadButton';
 import ProjectFilters from '../components/ProjectFilters';
@@ -16,7 +15,6 @@ import Timeline from '../components/Timeline';
 import LogoCarousel from '../components/LogoCarousel';
 import WorkInProgressBanner from '../components/WorkInProgressBanner';
 import usePresentationMode from '../hooks/usePresentationMode';
-import { PixelTrail } from '../components/ui/PixelTrail';
 import TextType from '../components/TextType';
 import { GrainGradient } from '@paper-design/shaders-react';
 
@@ -575,7 +573,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center relative overflow-hidden px-4">
         {/* GrainGradient Background */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 opacity-30">
           <GrainGradient
             style={{ width: '100%', height: '100%' }}
             colors={isDarkMode ? ["#000000", "#000000", "#bababa"] : ["#ffffff", "#ffffff", "#cccccc"]}
@@ -590,18 +588,6 @@ export default function Home() {
             offsetX={0.16}
           />
         </div>
-
-        {/* PixelTrail Background - uniquement sur desktop */}
-        {!isMobile && (
-          <PixelTrail
-            pixelSize={80}
-            fadeDuration={3000}
-            delay={0}
-            className="absolute inset-0 z-[1]"
-            pixelClassName={isDarkMode ? "bg-beige/50" : "bg-black/40"}
-            autoAnimateInterval={800}
-          />
-        )}
 
         {/* Contenu principal avec animations améliorées */}
         <div
