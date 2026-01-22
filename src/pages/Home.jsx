@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import FlowingMenu from '../FlowingMenu';
 import { useForm, ValidationError } from '@formspree/react';
-import { Turnstile } from '@marsidev/react-turnstile';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { projects, experiencesPro, skillCategories } from '../data/projects';
 import AvailabilityBadge from '../components/AvailabilityBadge';
@@ -37,12 +36,6 @@ export default function Home() {
     return saved !== null ? JSON.parse(saved) : false;
   });
 
-  // Désactiver tous les effets sur mobile
-  const effectsEnabled = textEffectsEnabled && !isMobile;
-
-  // État pour Cloudflare Turnstile
-  const [turnstileToken, setTurnstileToken] = useState(null);
-
   // Détecter si on est sur mobile pour désactiver Lenis
   const [isMobile, setIsMobile] = useState(false);
 
@@ -55,26 +48,13 @@ export default function Home() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Désactiver tous les effets sur mobile
+  const effectsEnabled = textEffectsEnabled && !isMobile;
+
   // Formspree hook pour le formulaire de contact
   // Remplacez "xjknoepn" par votre vrai ID de formulaire Formspree
   const [formState, handleFormSubmit] = useForm("xjknoepn");
 
-  // Gestion de la soumission avec validation Turnstile
-  const handleFormSubmitWithTurnstile = async (e) => {
-    e.preventDefault();
-
-    // Vérifier que le token Turnstile est présent
-    if (!turnstileToken) {
-      alert('Veuillez compléter la vérification de sécurité');
-      return;
-    }
-
-    // Soumettre le formulaire avec Formspree
-    await handleFormSubmit(e);
-
-    // Réinitialiser le token après soumission
-    setTurnstileToken(null);
-  };
 
   // Fonction de navigation smooth sans changer l'URL
   const scrollToSection = (sectionId) => {
@@ -886,7 +866,7 @@ export default function Home() {
                   </p>
                 </motion.div>
               ) : (
-                <form onSubmit={handleFormSubmitWithTurnstile} className="space-y-6 md:space-y-8">
+                <form onSubmit={handleFormSubmit} className="space-y-6 md:space-y-8">
                   <div className="group">
                     <input
                       type="text"
@@ -946,20 +926,9 @@ export default function Home() {
                     <ValidationError prefix="Message" field="message" errors={formState.errors} />
                   </div>
 
-                  {/* Cloudflare Turnstile */}
-                  <div className="flex justify-center">
-                    <Turnstile
-                      siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
-                      onSuccess={(token) => setTurnstileToken(token)}
-                      onExpire={() => setTurnstileToken(null)}
-                      onError={() => setTurnstileToken(null)}
-                      theme={isDarkMode ? 'dark' : 'light'}
-                    />
-                  </div>
-
                   <button
                     type="submit"
-                    disabled={formState.submitting || !turnstileToken}
+                    disabled={formState.submitting}
                     className={`group relative w-full border-2 py-4 md:py-6 text-base md:text-xl font-light tracking-widest transition-all duration-500 overflow-hidden ${
                       formState.submitting
                         ? 'opacity-50 cursor-not-allowed'
