@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import ShuffleText from '../ShuffleText';
 import { timelineEvents } from '../data/timeline';
 
-export default function Timeline({ isDarkMode, textEffectsEnabled }) {
+export default function Timeline({ isDarkMode }) {
   const ref = useRef(null);
   const containerRef = useRef(null);
   const [height, setHeight] = useState(0);
@@ -35,14 +34,12 @@ export default function Timeline({ isDarkMode, textEffectsEnabled }) {
         <h2 className={`text-xs md:text-sm tracking-widest mb-4 ${
           isDarkMode ? 'text-gray-500' : 'text-gray-600'
         }`}>
-          <ShuffleText enabled={textEffectsEnabled}>MON PARCOURS</ShuffleText>
+          MON PARCOURS
         </h2>
         <p className={`text-2xl md:text-4xl font-light max-w-4xl ${
           isDarkMode ? 'text-beige' : 'text-black'
         }`}>
-          <ShuffleText enabled={textEffectsEnabled}>
-            De la tech à la création numérique
-          </ShuffleText>
+          De la tech à la création numérique
         </p>
         <p className={`text-sm md:text-base max-w-xl mt-4 ${
           isDarkMode ? 'text-gray-400' : 'text-gray-600'
@@ -108,7 +105,7 @@ export default function Timeline({ isDarkMode, textEffectsEnabled }) {
                 <h4 className={`text-lg md:text-2xl font-light mb-3 ${
                   isDarkMode ? 'text-beige' : 'text-black'
                 }`}>
-                  <ShuffleText enabled={textEffectsEnabled}>{event.title}</ShuffleText>
+                  {event.title}
                 </h4>
 
                 {/* Description */}

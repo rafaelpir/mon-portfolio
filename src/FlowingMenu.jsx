@@ -76,14 +76,14 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
   const repeatedMarqueeContent = Array.from({ length: 4 }).map((_, idx) => (
     <React.Fragment key={idx}>
       <span
-        className="uppercase font-normal text-[2vh] md:text-[3vh] leading-tight p-[0.5vh_1vw_0] md:p-[1vh_1vw_0] flex items-center gap-2"
+        className="uppercase font-normal text-[1.4vh] md:text-[2vh] leading-tight p-[0.5vh_1vw_0] md:p-[1vh_1vw_0] flex items-center gap-2"
         style={{
           color: isDarkMode ? '#060010' : '#E8DCC4'
         }}
       >
         {text}
         {type && (
-          <span className={`px-2 py-0.5 text-[1vh] md:text-[1.2vh] font-medium tracking-wider rounded ${
+          <span className={`px-1.5 py-0.5 text-[0.8vh] md:text-[1vh] font-medium tracking-wider rounded ${
             type === 'Universitaire'
               ? 'bg-blue-500/30 text-blue-800'
               : 'bg-orange-500/30 text-orange-800'
@@ -94,7 +94,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
       </span>
       {image && (
         <div
-          className="w-[120px] h-[40px] md:w-[180px] md:h-[60px] my-4 mx-4 rounded-lg overflow-hidden flex-shrink-0"
+          className="w-[80px] h-[30px] md:w-[120px] md:h-[45px] my-2 mx-3 rounded-md overflow-hidden flex-shrink-0"
         >
           <img
             src={image}
@@ -115,7 +115,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
       ref={itemRef}
     >
       <a
-        className={`flex items-center justify-center h-full relative cursor-pointer uppercase no-underline font-semibold text-[2vh] md:text-[3vh] py-6 px-4 md:py-12 md:px-8 transition-colors text-center leading-tight ${
+        className={`flex items-center justify-center h-full relative cursor-pointer uppercase no-underline font-semibold text-[1.4vh] md:text-[2vh] py-4 px-3 md:py-8 md:px-6 transition-colors text-center leading-tight ${
           isDarkMode
             ? 'text-beige hover:text-[#060010] focus:text-beige focus-visible:text-[#060010]'
             : 'text-black hover:text-beige focus:text-black focus-visible:text-beige'
@@ -127,7 +127,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
       >
         <span className="block">{text}</span>
         {type && (
-          <span className={`ml-3 px-2 py-0.5 text-[1vh] md:text-[1.2vh] font-medium tracking-wider rounded ${
+          <span className={`ml-2 px-1.5 py-0.5 text-[0.8vh] md:text-[1vh] font-medium tracking-wider rounded ${
             type === 'Universitaire'
               ? isDarkMode ? 'bg-blue-500/20 text-blue-300' : 'bg-blue-500/20 text-blue-700'
               : isDarkMode ? 'bg-orange-500/20 text-orange-300' : 'bg-orange-500/20 text-orange-700'

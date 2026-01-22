@@ -1,7 +1,6 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { projects } from '../data/projects';
-import ShuffleText from '../ShuffleText';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { useState } from 'react';
 
@@ -113,7 +112,7 @@ export default function ProjectDetail() {
               </div>
 
               <h1 className="text-5xl md:text-7xl font-light mb-6 leading-tight">
-                <ShuffleText>{project.title}</ShuffleText>
+                {project.title}
               </h1>
 
               <p className="text-xl md:text-2xl font-light opacity-70 max-w-3xl">
@@ -149,7 +148,7 @@ export default function ProjectDetail() {
                 className="mb-20"
               >
                 <h2 className="text-2xl font-light mb-6 opacity-70">
-                  <ShuffleText>Présentation vidéo</ShuffleText>
+                  Présentation vidéo
                 </h2>
                 <div className="relative aspect-video rounded-lg overflow-hidden bg-black/5">
                   {project.youtubeId ? (
@@ -185,7 +184,7 @@ export default function ProjectDetail() {
                 className="mb-20"
               >
                 <h2 className="text-2xl font-light mb-6 opacity-70">
-                  <ShuffleText>Prototype interactif</ShuffleText>
+                  Prototype interactif
                 </h2>
                 <div className="relative rounded-lg overflow-hidden bg-black/5" style={{ height: '600px' }}>
                   <iframe
@@ -214,7 +213,7 @@ export default function ProjectDetail() {
                 className="mb-20"
               >
                 <h2 className="text-2xl font-light mb-6 opacity-70">
-                  <ShuffleText>Article portrait</ShuffleText>
+                  Article portrait
                 </h2>
                 <div className="relative rounded-lg overflow-hidden bg-black/5" style={{ height: '800px' }}>
                   <iframe
@@ -267,7 +266,7 @@ export default function ProjectDetail() {
                 className="mb-20"
               >
                 <h2 className="text-2xl font-light mb-6 opacity-70">
-                  <ShuffleText>Maquettes</ShuffleText>
+                  Maquettes
                 </h2>
 
                 {/* Image avec boutons de navigation */}
@@ -338,7 +337,7 @@ export default function ProjectDetail() {
               className="mb-20"
             >
               <h2 className="text-3xl font-light mb-8">
-                <ShuffleText>Détails du projet</ShuffleText>
+                Détails du projet
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
