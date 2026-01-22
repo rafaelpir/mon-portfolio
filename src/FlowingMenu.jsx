@@ -13,7 +13,7 @@ function FlowingMenu({ items = [], isDarkMode = true }) {
   );
 }
 
-function MenuItem({ link, text, image, onClick, isDarkMode = true }) {
+function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
   const itemRef = React.useRef(null);
   const marqueeRef = React.useRef(null);
   const marqueeInnerRef = React.useRef(null);
@@ -76,12 +76,21 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true }) {
   const repeatedMarqueeContent = Array.from({ length: 4 }).map((_, idx) => (
     <React.Fragment key={idx}>
       <span
-        className="uppercase font-normal text-[2vh] md:text-[3vh] leading-tight p-[0.5vh_1vw_0] md:p-[1vh_1vw_0]"
+        className="uppercase font-normal text-[2vh] md:text-[3vh] leading-tight p-[0.5vh_1vw_0] md:p-[1vh_1vw_0] flex items-center gap-2"
         style={{
           color: isDarkMode ? '#060010' : '#E8DCC4'
         }}
       >
         {text}
+        {type && (
+          <span className={`px-2 py-0.5 text-[1vh] md:text-[1.2vh] font-medium tracking-wider rounded ${
+            type === 'Universitaire'
+              ? 'bg-blue-500/30 text-blue-800'
+              : 'bg-orange-500/30 text-orange-800'
+          }`}>
+            {type === 'Universitaire' ? 'UNIV.' : 'PERSO.'}
+          </span>
+        )}
       </span>
       {image && (
         <div
@@ -117,6 +126,15 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true }) {
         onClick={handleClick}
       >
         <span className="block">{text}</span>
+        {type && (
+          <span className={`ml-3 px-2 py-0.5 text-[1vh] md:text-[1.2vh] font-medium tracking-wider rounded ${
+            type === 'Universitaire'
+              ? isDarkMode ? 'bg-blue-500/20 text-blue-300' : 'bg-blue-500/20 text-blue-700'
+              : isDarkMode ? 'bg-orange-500/20 text-orange-300' : 'bg-orange-500/20 text-orange-700'
+          }`}>
+            {type === 'Universitaire' ? 'UNIV.' : 'PERSO.'}
+          </span>
+        )}
       </a>
       <div
         className={`absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none translate-y-[101%] will-change-transform ${

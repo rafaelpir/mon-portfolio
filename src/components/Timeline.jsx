@@ -1,142 +1,152 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import ShuffleText from '../ShuffleText';
 import { timelineEvents } from '../data/timeline';
 
-export default function Timeline({ isDarkMode, textEffectsEnabled, scrollY }) {
+export default function Timeline({ isDarkMode, textEffectsEnabled }) {
+  const ref = useRef(null);
   const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, amount: 0.2 });
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      setHeight(rect.height);
+    }
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 10%", "end 50%"],
+  });
+
+  const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
+  const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 
   return (
-    <motion.section
+    <section
+      className={`w-full font-stamp md:px-10 ${
+        isDarkMode ? 'bg-black' : 'bg-white'
+      }`}
       ref={containerRef}
-      className="py-16 md:py-32 pb-32 md:pb-48 px-4 md:px-16"
-      initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: 100 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: isMobile ? 0 : 0.6, ease: "easeOut" }}
     >
-      <div className="max-w-6xl mx-auto">
-        <h2 className={`text-xs md:text-sm tracking-widest mb-12 md:mb-20 text-center ${
+      {/* Header */}
+      <div className="max-w-7xl mx-auto py-16 md:py-20 px-4 md:px-8 lg:px-10">
+        <h2 className={`text-xs md:text-sm tracking-widest mb-4 ${
           isDarkMode ? 'text-gray-500' : 'text-gray-600'
         }`}>
           <ShuffleText enabled={textEffectsEnabled}>MON PARCOURS</ShuffleText>
         </h2>
+        <p className={`text-2xl md:text-4xl font-light max-w-4xl ${
+          isDarkMode ? 'text-beige' : 'text-black'
+        }`}>
+          <ShuffleText enabled={textEffectsEnabled}>
+            De la tech à la création numérique
+          </ShuffleText>
+        </p>
+        <p className={`text-sm md:text-base max-w-xl mt-4 ${
+          isDarkMode ? 'text-gray-400' : 'text-gray-600'
+        }`}>
+          Un parcours atypique qui mêle compétences techniques et sensibilité artistique.
+        </p>
+      </div>
 
-        <div className="relative">
-          {/* Timeline vertical line - Fil d'Ariane */}
+      {/* Timeline */}
+      <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
+        {timelineEvents.map((event) => (
           <div
-            className={`absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 md:-ml-px ${
-              isDarkMode ? 'bg-beige/40' : 'bg-black/40'
-            }`}
-            style={{
-              boxShadow: isDarkMode
-                ? '0 0 20px rgba(232, 220, 196, 0.3)'
-                : '0 0 20px rgba(0, 0, 0, 0.2)'
-            }}
-          />
+            key={event.id}
+            className="flex justify-start pt-10 md:pt-40 md:gap-10"
+          >
+            {/* Left side - Year indicator (sticky) */}
+            <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
+              {/* Dot */}
+              <div className={`h-10 absolute left-3 md:left-3 w-10 rounded-full flex items-center justify-center ${
+                isDarkMode ? 'bg-black' : 'bg-white'
+              }`}>
+                <div className={`h-4 w-4 rounded-full border p-2 ${
+                  isDarkMode
+                    ? 'bg-beige/10 border-beige/30'
+                    : 'bg-black/10 border-black/30'
+                }`} />
+              </div>
+              {/* Year - Desktop */}
+              <h3 className={`hidden md:block text-xl md:pl-20 md:text-5xl font-bold ${
+                isDarkMode ? 'text-beige/50' : 'text-black/50'
+              }`}>
+                {event.year}
+              </h3>
+            </div>
 
-          {/* Timeline events */}
-          <div className="space-y-12 md:space-y-20">
-            {timelineEvents.map((event, index) => {
-              const isLeft = index % 2 === 0;
+            {/* Right side - Content */}
+            <div className="relative pl-20 pr-4 md:pl-4 w-full">
+              {/* Year - Mobile */}
+              <h3 className={`md:hidden block text-2xl mb-4 text-left font-bold ${
+                isDarkMode ? 'text-beige/50' : 'text-black/50'
+              }`}>
+                {event.year}
+              </h3>
 
-              return (
-                <motion.div
-                  key={event.id}
-                  initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : (isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 })}
-                  transition={{
-                    duration: isMobile ? 0 : 0.6,
-                    delay: isMobile ? 0 : index * 0.2,
-                    ease: [0.22, 1, 0.36, 1]
-                  }}
-                  className={`relative flex items-center ${
-                    isLeft ? 'md:flex-row' : 'md:flex-row-reverse'
-                  } flex-col md:gap-8`}
-                >
-                  {/* Dot on timeline */}
-                  <div
-                    className={`absolute left-0 md:left-1/2 w-4 h-4 rounded-full border-4 z-10 ${
-                      isDarkMode
-                        ? 'bg-black border-beige'
-                        : 'bg-white border-black'
-                    }`}
-                    style={{
-                      transform: 'translateX(-50%)',
-                      top: '24px'
-                    }}
-                  />
+              {/* Content Card */}
+              <div className={`p-6 md:p-8 rounded-lg mb-8 ${
+                isDarkMode
+                  ? 'bg-beige/5 border border-beige/10'
+                  : 'bg-black/5 border border-black/10'
+              }`}>
+                {/* Category badge */}
+                <div className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-4 ${
+                  event.category === 'Formation'
+                    ? isDarkMode ? 'bg-blue-500/20 text-blue-300' : 'bg-blue-500/20 text-blue-700'
+                    : event.category === 'Création'
+                    ? isDarkMode ? 'bg-orange-500/20 text-orange-300' : 'bg-orange-500/20 text-orange-700'
+                    : isDarkMode ? 'bg-green-500/20 text-green-300' : 'bg-green-500/20 text-green-700'
+                }`}>
+                  {event.category}
+                </div>
 
-                  {/* Icon badge */}
-                  <div
-                    className={`absolute left-0 md:left-1/2 w-12 h-12 rounded-full flex items-center justify-center text-2xl z-20 ${
-                      isDarkMode
-                        ? 'bg-beige/10 border-2 border-beige/30'
-                        : 'bg-black/10 border-2 border-black/30'
-                    }`}
-                    style={{
-                      transform: 'translate(-50%, -4px)'
-                    }}
-                  >
-                    {event.icon}
-                  </div>
+                {/* Title */}
+                <h4 className={`text-lg md:text-2xl font-light mb-3 ${
+                  isDarkMode ? 'text-beige' : 'text-black'
+                }`}>
+                  <ShuffleText enabled={textEffectsEnabled}>{event.title}</ShuffleText>
+                </h4>
 
-                  {/* Spacer for mobile */}
-                  <div className="w-16 md:hidden" />
-
-                  {/* Content card */}
-                  <div className={`flex-1 ${isLeft ? 'md:pr-12' : 'md:pl-12'} w-full`}>
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.3 }}
-                      className={`p-6 md:p-8 rounded-lg transition-all duration-300 ${
-                        isDarkMode
-                          ? 'bg-beige/5 hover:bg-beige/10 border border-beige/10'
-                          : 'bg-black/5 hover:bg-black/10 border border-black/10'
-                      }`}
-                    >
-                      {/* Year */}
-                      <div className={`inline-block px-3 py-1 rounded-full text-xs md:text-sm font-medium mb-4 ${
-                        isDarkMode
-                          ? 'bg-beige/20 text-beige'
-                          : 'bg-black/20 text-black'
-                      }`}>
-                        {event.year}
-                      </div>
-
-                      {/* Category badge */}
-                      <div className={`inline-block ml-2 px-2 py-1 rounded text-xs ${
-                        isDarkMode ? 'text-gray-400' : 'text-gray-600'
-                      }`}>
-                        {event.category}
-                      </div>
-
-                      {/* Title */}
-                      <h3 className={`text-xl md:text-2xl font-light mb-3 ${
-                        isDarkMode ? 'text-beige' : 'text-black'
-                      }`}>
-                        <ShuffleText enabled={textEffectsEnabled}>{event.title}</ShuffleText>
-                      </h3>
-
-                      {/* Description */}
-                      <p className={`text-sm md:text-base leading-relaxed ${
-                        isDarkMode ? 'text-gray-400' : 'text-gray-600'
-                      }`}>
-                        <ShuffleText enabled={textEffectsEnabled}>{event.description}</ShuffleText>
-                      </p>
-                    </motion.div>
-                  </div>
-
-                  {/* Empty spacer for desktop alternating layout */}
-                  <div className="hidden md:block flex-1" />
-                </motion.div>
-              );
-            })}
+                {/* Description */}
+                <p className={`text-sm md:text-base leading-relaxed ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
+                  {event.description}
+                </p>
+              </div>
+            </div>
           </div>
+        ))}
+
+        {/* Animated vertical line */}
+        <div
+          style={{
+            height: height + "px",
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)'
+          }}
+          className={`absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] ${
+            isDarkMode
+              ? 'bg-gradient-to-b from-transparent via-beige/20 to-transparent'
+              : 'bg-gradient-to-b from-transparent via-black/20 to-transparent'
+          }`}
+        >
+          <motion.div
+            style={{
+              height: heightTransform,
+              opacity: opacityTransform,
+            }}
+            className={`absolute inset-x-0 top-0 w-[2px] rounded-full ${
+              isDarkMode
+                ? 'bg-gradient-to-t from-orange-500 via-beige to-transparent'
+                : 'bg-gradient-to-t from-orange-500 via-black to-transparent'
+            }`}
+          />
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

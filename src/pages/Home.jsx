@@ -144,6 +144,7 @@ export default function Home() {
       link: `/project/${project.id}`,
       text: project.title,
       image: project.thumbnail,
+      type: project.type,
       onClick: () => navigate(`/project/${project.id}`)
     })),
     [filteredProjects, navigate]
@@ -574,10 +575,10 @@ export default function Home() {
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center relative overflow-hidden px-4">
         {/* GrainGradient Background */}
-        <div className="absolute inset-0 z-0 opacity-30">
+        <div className={`absolute inset-0 z-0 ${isDarkMode ? 'opacity-30' : 'opacity-60'}`}>
           <GrainGradient
             style={{ width: '100%', height: '100%' }}
-            colors={isDarkMode ? ["#000000", "#000000", "#bababa"] : ["#ffffff", "#ffffff", "#cccccc"]}
+            colors={isDarkMode ? ["#000000", "#000000", "#bababa"] : ["#f5f5f5", "#e0e0e0", "#cccccc"]}
             colorBack={isDarkMode ? "#000000" : "#ffffff"}
             softness={1}
             intensity={1}
@@ -592,7 +593,7 @@ export default function Home() {
 
         {/* Contenu principal avec animations améliorées */}
         <div
-          className={`text-left relative z-10 pointer-events-none max-w-7xl w-full px-4 md:px-16 ${!isMobile ? 'animate-fade-in-up' : ''}`}
+          className={`text-center md:text-left relative z-10 pointer-events-none max-w-7xl w-full px-4 md:px-16 ${!isMobile ? 'animate-fade-in-up' : ''}`}
           style={{
             opacity: isMobile ? 1 : 1 - scrollY / 500
           }}
@@ -606,7 +607,7 @@ export default function Home() {
             </h1>
           </div>
 
-          <div className={`text-xs sm:text-sm md:text-base font-light tracking-wide mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} space-y-1 md:space-y-2 text-left ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+          <div className={`text-xs sm:text-sm md:text-base font-light tracking-wide mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} space-y-1 md:space-y-2 text-center md:text-left ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
             style={!isMobile ? { animationDelay: '0.4s' } : {}}>
             <p className="text-xs sm:text-sm md:text-lg tracking-widest">
               <TextType
@@ -625,7 +626,7 @@ export default function Home() {
           </div>
 
           {/* Badge de disponibilité */}
-          <div className={`mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} flex justify-start pointer-events-auto`} style={!isMobile ? { animationDelay: '0.5s' } : {}}>
+          <div className={`mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} flex justify-center pointer-events-auto`} style={!isMobile ? { animationDelay: '0.5s' } : {}}>
             <AvailabilityBadge
               status="En recherche de stage"
               availableDate="Avril 2026"
@@ -639,7 +640,7 @@ export default function Home() {
         {/* LightBoard en bas pleine largeur */}
         <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden">
           <LightBoard
-            text="EN RECHERCHE DE STAGE - AVRIL 2026   -   EN RECHERCHE DE STAGE - AVRIL 2026   -   "
+            text="RECHERCHE DE STAGE - AVRIL 2026   -   RECHERCHE D'ALTERNANCE - SEPTEMBRE 2026"
             rows={7}
             gap={1}
             lightSize={4}
@@ -717,7 +718,7 @@ export default function Home() {
                   muted
                   playsInline
                   className={`w-full h-auto rounded-xl ${
-                    isDarkMode ? 'opacity-90' : 'opacity-80'
+                    isDarkMode ? 'opacity-90' : 'opacity-80 invert'
                   }`}
                 >
                   <source src="/videos/fond_leger.mp4" type="video/mp4" />
@@ -805,7 +806,6 @@ export default function Home() {
       <Timeline
         isDarkMode={isDarkMode}
         textEffectsEnabled={textEffectsEnabled}
-        scrollY={scrollY}
       />
 
       {/* Contact Section */}

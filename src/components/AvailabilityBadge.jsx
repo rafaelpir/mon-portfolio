@@ -8,7 +8,7 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
     <>
     <button
       onClick={() => setIsModalOpen(true)}
-      className={`inline-flex flex-row items-center gap-3 md:gap-8 px-4 md:px-12 py-3 md:py-6 rounded-full transition-all duration-500 hover:scale-105 hover:shadow-2xl backdrop-blur-lg shadow-xl md:shadow-2xl border-2 md:border-4 cursor-pointer ${
+      className={`inline-flex flex-row items-center justify-center gap-3 md:gap-8 w-full px-4 md:px-12 py-3 md:py-6 rounded-lg md:rounded-xl transition-all duration-500 hover:shadow-2xl backdrop-blur-lg shadow-xl md:shadow-2xl border-2 md:border-4 cursor-pointer ${
       isDarkMode
         ? 'bg-gradient-to-r from-orange-500/30 via-red-500/20 to-orange-500/30 border-orange-400/50 shadow-orange-500/20'
         : 'bg-gradient-to-r from-orange-500/40 via-red-500/30 to-orange-500/40 border-orange-600/60 shadow-orange-600/30'
