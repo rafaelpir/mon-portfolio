@@ -178,7 +178,7 @@ export default function About() {
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                 Pour moi, chaque image raconte une histoire. Que ce soit une affiche,
                 une identité visuelle ou une vidéo, je cherche toujours à transmettre
-                une émot ion, à créer une atmosphère qui résonne avec le public.
+                une émotion, à créer une atmosphère qui résonne avec le public.
               </p>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                 J'aime jouer avec la composition, les contrastes, la typographie et les
