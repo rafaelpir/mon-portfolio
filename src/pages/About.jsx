@@ -1,17 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import ShuffleText from '../ShuffleText';
 
 export default function About() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved !== null ? JSON.parse(saved) : true;
-  });
-
-  const [textEffectsEnabled, setTextEffectsEnabled] = useState(() => {
-    const saved = localStorage.getItem('textEffects');
-    return saved !== null ? JSON.parse(saved) : false;
   });
 
   const [scrollY, setScrollY] = useState(0);
@@ -112,22 +106,14 @@ export default function About() {
         }} />
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h1
-            className="text-[12vw] md:text-[8vw] font-light leading-none tracking-tight mb-8"
-          >
-            <ShuffleText enabled={textEffectsEnabled} >
-              À Propos
-            </ShuffleText>
+          <h1 className="text-[12vw] md:text-[8vw] font-light leading-none tracking-tight mb-8">
+            À Propos
           </h1>
 
-          <p
-            className={`text-lg md:text-2xl font-light leading-relaxed ${
-              isDarkMode ? 'text-gray-300' : 'text-gray-700'
-            }`}
-          >
-            <ShuffleText enabled={textEffectsEnabled} >
-              Créatif passionné par le design graphique et l'audiovisuel, j'aime donner vie aux idées à travers l'image
-            </ShuffleText>
+          <p className={`text-lg md:text-2xl font-light leading-relaxed ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-700'
+          }`}>
+            Créatif passionné par le design graphique et l'audiovisuel, j'aime donner vie aux idées à travers l'image
           </p>
         </div>
       </section>
@@ -137,9 +123,7 @@ export default function About() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-24">
           <div>
             <h2 className="text-4xl md:text-6xl font-light mb-8">
-              <ShuffleText enabled={textEffectsEnabled} >
-                Mon Parcours
-              </ShuffleText>
+              Mon Parcours
             </h2>
             <div className="space-y-6 text-base md:text-lg font-light leading-relaxed">
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
@@ -170,9 +154,7 @@ export default function About() {
 
           <div>
             <h2 className="text-4xl md:text-6xl font-light mb-8">
-              <ShuffleText enabled={textEffectsEnabled} >
-                Ma Vision
-              </ShuffleText>
+              Ma Vision
             </h2>
             <div className="space-y-6 text-base md:text-lg font-light leading-relaxed">
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
@@ -200,18 +182,14 @@ export default function About() {
       <section className="min-h-screen flex items-center px-4 md:px-16 py-16">
         <div className="max-w-7xl mx-auto w-full">
           <h2 className="text-4xl md:text-6xl font-light mb-16 text-center">
-            <ShuffleText enabled={textEffectsEnabled} >
-              Compétences & Outils
-            </ShuffleText>
+            Compétences & Outils
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Design Graphique */}
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                <ShuffleText enabled={textEffectsEnabled} >
-                  Design Graphique
-                </ShuffleText>
+                Design Graphique
               </h3>
               <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 <li>• Photoshop</li>
@@ -227,9 +205,7 @@ export default function About() {
             {/* Audiovisuel */}
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                <ShuffleText enabled={textEffectsEnabled} >
-                  Audiovisuel
-                </ShuffleText>
+                Audiovisuel
               </h3>
               <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 <li>• Da Vinci Resolve</li>
@@ -242,9 +218,7 @@ export default function About() {
             {/* Développement Web */}
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                <ShuffleText enabled={textEffectsEnabled} >
-                  Développement Web
-                </ShuffleText>
+                Développement Web
               </h3>
               <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 <li>• HTML / CSS</li>
@@ -260,9 +234,7 @@ export default function About() {
             {/* Soft Skills */}
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                <ShuffleText enabled={textEffectsEnabled} >
-                  Soft Skills
-                </ShuffleText>
+                Soft Skills
               </h3>
               <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 <li>• Sérieux</li>
@@ -280,9 +252,7 @@ export default function About() {
           <div className="mt-8 grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                <ShuffleText enabled={textEffectsEnabled} >
-                  Bureautique
-                </ShuffleText>
+                Bureautique
               </h3>
               <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 <li>• Suite Microsoft Office</li>
@@ -291,9 +261,7 @@ export default function About() {
 
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                <ShuffleText enabled={textEffectsEnabled} >
-                  Communication
-                </ShuffleText>
+                Communication
               </h3>
               <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 <li>• Réseaux sociaux</li>
@@ -307,17 +275,13 @@ export default function About() {
       <section className="min-h-screen flex items-center px-4 md:px-16 py-16">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-light mb-12">
-            <ShuffleText enabled={textEffectsEnabled} >
-              Mes Inspirations
-            </ShuffleText>
+            Mes Inspirations
           </h2>
 
           <div className="space-y-8 text-base md:text-lg font-light leading-relaxed">
             <div>
               <h3 className="text-2xl mb-4">
-                <ShuffleText enabled={textEffectsEnabled} >
-                  Design & Inspiration
-                </ShuffleText>
+                Design & Inspiration
               </h3>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                 Je passe beaucoup de temps à explorer les tendances visuelles, à étudier
@@ -329,9 +293,7 @@ export default function About() {
 
             <div>
               <h3 className="text-2xl mb-4">
-                <ShuffleText enabled={textEffectsEnabled} >
-                  Photographie
-                </ShuffleText>
+                Photographie
               </h3>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                 La photographie m'a appris à voir la composition, la lumière et les détails.
@@ -341,9 +303,7 @@ export default function About() {
 
             <div>
               <h3 className="text-2xl mb-4">
-                <ShuffleText enabled={textEffectsEnabled} >
-                  Apprentissage Continu
-                </ShuffleText>
+                Apprentissage Continu
               </h3>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                 Le design et l'audiovisuel évoluent constamment, et j'adore ça. Je consacre
@@ -359,16 +319,12 @@ export default function About() {
       <section className="min-h-[50vh] flex items-center justify-center px-4 py-16">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-5xl md:text-7xl font-light mb-8">
-            <ShuffleText enabled={textEffectsEnabled} >
-              Travaillons Ensemble
-            </ShuffleText>
+            Travaillons Ensemble
           </h2>
           <p className={`text-lg md:text-xl font-light mb-12 ${
             isDarkMode ? 'text-gray-400' : 'text-gray-600'
           }`}>
-            <ShuffleText enabled={textEffectsEnabled} >
-              Un projet en tête ? Discutons-en autour d'un café (virtuel ou réel)
-            </ShuffleText>
+            Un projet en tête ? Discutons-en autour d'un café (virtuel ou réel)
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center">

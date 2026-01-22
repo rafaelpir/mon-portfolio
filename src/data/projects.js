@@ -213,15 +213,19 @@ export const workInProgressProjects = [
 export const skillCategories = [
   {
     category: "DESIGN GRAPHIQUE",
-    skills: ["Photoshop", "Illustrator", "Figma", "InDesign"]
+    skills: ["Photoshop", "Illustrator", "Figma", "InDesign", "Canva", "Lightroom", "Affinity"]
   },
   {
     category: "DÉVELOPPEMENT WEB",
-    skills: ["HTML/CSS", "JavaScript", "React", "WordPress"]
+    skills: ["HTML/CSS", "JavaScript", "React", "WordPress", "PHP"]
   },
   {
     category: "AUDIOVISUEL",
-    skills: ["Premiere Pro", "After Effects", "Blender"]
+    skills: ["Premiere Pro", "DaVinci Resolve", "Blender"]
+  },
+  {
+    category: "BUREAUTIQUE",
+    skills: ["Excel", "Word", "PowerPoint"]
   }
 ];
 

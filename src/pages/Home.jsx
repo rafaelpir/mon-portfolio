@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import FlowingMenu from '../FlowingMenu';
 import { useForm, ValidationError } from '@formspree/react';
 import { Turnstile } from '@marsidev/react-turnstile';
-import ShuffleText from '../ShuffleText';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { projects, experiencesPro, skillCategories } from '../data/projects';
 import AvailabilityBadge from '../components/AvailabilityBadge';
@@ -16,7 +15,7 @@ import LogoCarousel from '../components/LogoCarousel';
 import WorkInProgressBanner from '../components/WorkInProgressBanner';
 import usePresentationMode from '../hooks/usePresentationMode';
 import TextType from '../components/TextType';
-import { GrainGradient } from '@paper-design/shaders-react';
+import { GrainGradient, LiquidMetal } from '@paper-design/shaders-react';
 import LightBoard from '../components/LightBoard';
 
 export default function Home() {
@@ -85,9 +84,33 @@ export default function Home() {
     }
   };
 
+  // Refs pour le throttling
+  const scrollTicking = useRef(false);
+  const mouseTicking = useRef(false);
+
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    const handleMouseMove = (e) => setMousePosition({ x: e.clientX, y: e.clientY });
+    // Throttle scroll avec requestAnimationFrame
+    const handleScroll = () => {
+      if (!scrollTicking.current) {
+        scrollTicking.current = true;
+        requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          scrollTicking.current = false;
+        });
+      }
+    };
+
+    // Throttle mousemove avec requestAnimationFrame
+    const handleMouseMove = (e) => {
+      if (!mouseTicking.current) {
+        mouseTicking.current = true;
+        requestAnimationFrame(() => {
+          setMousePosition({ x: e.clientX, y: e.clientY });
+          mouseTicking.current = false;
+        });
+      }
+    };
+
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isSettingsOpen) {
         setIsSettingsOpen(false);
@@ -99,8 +122,8 @@ export default function Home() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('click', handleClickOutside);
 
@@ -292,13 +315,13 @@ export default function Home() {
 
       {/* Curseur personnalisé (masqué sur mobile) */}
       <div
-        className={`hidden md:block fixed w-4 h-4 border-2 rounded-full pointer-events-none z-50 mix-blend-difference ${
+        className={`hidden md:block fixed w-4 h-4 border-2 rounded-full pointer-events-none z-50 mix-blend-difference will-change-transform ${
           isDarkMode ? 'border-beige' : 'border-black'
         }`}
         style={{
-          left: mousePosition.x - 8,
-          top: mousePosition.y - 8,
-          transition: 'transform 0.15s ease-out'
+          left: 0,
+          top: 0,
+          transform: `translate3d(${mousePosition.x - 8}px, ${mousePosition.y - 8}px, 0)`
         }}
       />
 
@@ -310,16 +333,22 @@ export default function Home() {
           : 'bg-beige/5'
       }`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo bullet.png avec rotation liée au scroll */}
-          <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
-            <img
-              src="/bullet.png"
-              alt="Logo"
-              className="w-full h-full object-contain"
-              style={{
-                transform: `rotate(${scrollY * 0.5}deg)`,
-                transition: 'transform 0.1s ease-out'
-              }}
+          {/* Logo avec effet LiquidMetal */}
+          <div className="relative w-20 h-20 md:w-32 md:h-32 flex items-center justify-center overflow-hidden">
+            <LiquidMetal
+              style={{ width: '100%', height: '100%' }}
+              image="/images/logos/RP.png"
+              colorBack={isDarkMode ? "#00000000" : "#00000000"}
+              repetition={6}
+              softness={0.8}
+              shiftRed={1}
+              shiftBlue={-1}
+              distortion={0.4}
+              contour={0.4}
+              angle={0}
+              speed={1}
+              scale={0.7}
+              fit="contain"
             />
           </div>
 
@@ -600,10 +629,10 @@ export default function Home() {
         >
           <div className={!isMobile ? 'animate-slide-down' : ''} style={!isMobile ? { animationDelay: '0.2s' } : {}}>
             <h1 className={`text-[14vw] md:text-[10vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <ShuffleText enabled={effectsEnabled}>Rafael</ShuffleText>
+              Rafael
             </h1>
             <h1 className={`text-[14vw] md:text-[10vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <ShuffleText enabled={effectsEnabled}>Piral</ShuffleText>
+              Piral
             </h1>
           </div>
 
@@ -640,7 +669,7 @@ export default function Home() {
         {/* LightBoard en bas pleine largeur */}
         <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden">
           <LightBoard
-            text="RECHERCHE DE STAGE - AVRIL 2026   -   RECHERCHE D'ALTERNANCE - SEPTEMBRE 2026"
+            text="RECHERCHE DE STAGE - AVRIL 2026   -   RECHERCHE D'ALTERNANCE - SEPTEMBRE 2026  "
             rows={7}
             gap={1}
             lightSize={4}
@@ -672,23 +701,21 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Colonne gauche - Texte */}
             <div>
-              <div className="space-y-6 md:space-y-8 text-lg md:text-3xl font-light leading-relaxed mb-8 md:mb-12">
-                <p>
-                  <ShuffleText enabled={effectsEnabled}>Bonjour, je m'appelle Rafael Piral.</ShuffleText>
-                </p>
-                <p className="text-gray-400">
-                  <ShuffleText enabled={effectsEnabled}>Étudiant en 2ème année de BUT Métiers du Multimédia et de l'Internet, parcours Création Numérique, je me spécialise dans le design graphique, l'audiovisuel et le développement web.</ShuffleText>
-                </p>
-                <p className="text-gray-400">
-                  <ShuffleText enabled={effectsEnabled}>Je suis actuellement à la recherche d'un stage d'au moins 8 semaines à partir d'avril 2026 dans le domaine de la création numérique et de l'audiovisuel. Je cherche à découvrir ce métier de l'intérieur et à participer activement à vos projets.</ShuffleText>
-                </p>
-                <p className="text-gray-400">
-                  <ShuffleText enabled={effectsEnabled}>Je recherche également une alternance à partir de septembre 2026 pour poursuivre ma formation en BUT MMI tout en contribuant activement à des projets d'entreprise.</ShuffleText>
-                </p>
-                <p className="text-gray-400">
-                  <ShuffleText enabled={effectsEnabled}>Si vous acceptez de partager votre savoir-faire avec quelqu'un de curieux, je serais ravi de vous rencontrer.</ShuffleText>
-                </p>
-              </div>
+            <div className="space-y-6 md:space-y-8 text-lg md:text-3xl font-light leading-relaxed mb-8 md:mb-12 text-pretty">
+  {/* J'ai ajouté 'text-pretty' dans la div parent ci-dessus pour que ça s'applique partout */}
+  
+  <p>
+    Passionné par le design graphique et<br /> l'audiovisuel, actuellement en BUT2 Métiers du Multimédia et de l'Internet à l'IUT de Bobigny, parcours Création Numérique.
+  </p>
+
+  <p className="text-gray-400">
+    En recherche d'un stage de 12 semaines à partir du 7&nbsp;avril&nbsp;2026 dans le domaine de la création numérique et de l'audiovisuel.
+  </p>
+
+  <p className="text-gray-400">
+    Curieux et motivé, je souhaite découvrir ce métier de l'intérieur et contribuer activement à vos projets.
+  </p>
+</div>
 
               <div className="flex gap-8 text-sm tracking-wider">
                 <div>
@@ -737,7 +764,7 @@ export default function Home() {
                   : 'border-black text-black hover:bg-black hover:text-white'
               }`}
             >
-              <ShuffleText enabled={effectsEnabled}>EN SAVOIR PLUS</ShuffleText>
+              EN SAVOIR PLUS
             </Link>
           </div>
         </div>
@@ -753,7 +780,7 @@ export default function Home() {
         transition={isMobile ? {} : { duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
       >
         <h2 className="text-[10px] md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center">
-          <ShuffleText enabled={effectsEnabled}>PROJETS SÉLECTIONNÉS</ShuffleText>
+          PROJETS SÉLECTIONNÉS
         </h2>
 
         {/* Filtres avancés */}
@@ -790,7 +817,7 @@ export default function Home() {
       >
         <div className="mb-12 text-center">
           <h2 className="text-xs md:text-sm tracking-widest text-gray-500">
-            <ShuffleText enabled={effectsEnabled}>COMPÉTENCES</ShuffleText>
+            COMPÉTENCES
           </h2>
         </div>
 
@@ -819,9 +846,9 @@ export default function Home() {
       >
         <div className="max-w-4xl w-full">
           <h2 className="text-3xl md:text-7xl lg:text-9xl font-light mb-8 md:mb-20 leading-none text-center">
-            <ShuffleText enabled={effectsEnabled}>TRAVAILLONS</ShuffleText>
+            TRAVAILLONS
             <br />
-            <ShuffleText enabled={effectsEnabled}>ENSEMBLE</ShuffleText>
+            ENSEMBLE
           </h2>
 
           {/* Bouton CV */}
@@ -852,9 +879,7 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="text-2xl md:text-3xl font-light mb-4">
-                    <ShuffleText enabled={effectsEnabled}>
-                      Merci pour votre message !
-                    </ShuffleText>
+                    Merci pour votre message !
                   </p>
                   <p className="text-base md:text-xl text-gray-500">
                     Je vous répondrai dans les plus brefs délais.
@@ -1087,32 +1112,30 @@ export default function Home() {
             {/* Column 1 - About */}
             <div>
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
-                <ShuffleText enabled={effectsEnabled}>RAFAEL PIRAL</ShuffleText>
+                RAFAEL PIRAL
               </h3>
               <p className="text-sm md:text-base font-light leading-relaxed opacity-70">
-                <ShuffleText enabled={effectsEnabled}>
-                  Étudiant en 2e année de BUT MMI, passionné par le design graphique et le développement web.
-                </ShuffleText>
+                Étudiant en 2e année de BUT MMI, passionné par le design graphique et le développement web.
               </p>
             </div>
 
             {/* Column 2 - Navigation */}
             <div>
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
-                <ShuffleText enabled={effectsEnabled}>NAVIGATION</ShuffleText>
+                NAVIGATION
               </h3>
               <nav className="flex flex-col space-y-3">
                 <button onClick={() => scrollToSection('about')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  <ShuffleText enabled={effectsEnabled}>À propos</ShuffleText>
+                  À propos
                 </button>
                 <button onClick={() => scrollToSection('projects')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  <ShuffleText enabled={effectsEnabled}>Projets</ShuffleText>
+                  Projets
                 </button>
                 <button onClick={() => scrollToSection('skills')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  <ShuffleText enabled={effectsEnabled}>Compétences</ShuffleText>
+                  Compétences
                 </button>
                 <button onClick={() => scrollToSection('contact')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  <ShuffleText enabled={effectsEnabled}>Contact</ShuffleText>
+                  Contact
                 </button>
               </nav>
             </div>
@@ -1120,14 +1143,14 @@ export default function Home() {
             {/* Column 3 - Contact & Social */}
             <div>
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
-                <ShuffleText enabled={effectsEnabled}>CONTACT</ShuffleText>
+                CONTACT
               </h3>
               <div className="space-y-3">
                 <a
                   href="mailto:rafa2002@hotmail.fr"
                   className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                 >
-                  <ShuffleText enabled={effectsEnabled}>rafa2002@hotmail.fr</ShuffleText>
+                  rafa2002@hotmail.fr
                 </a>
                 <div className="pt-4 space-y-2">
                   <a
@@ -1136,7 +1159,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                   >
-                    <ShuffleText enabled={effectsEnabled}>LinkedIn →</ShuffleText>
+                    LinkedIn →
                   </a>
                   <a
                     href="https://github.com/rafaelpir"
@@ -1144,7 +1167,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                   >
-                    <ShuffleText enabled={effectsEnabled}>GitHub →</ShuffleText>
+                    GitHub →
                   </a>
                   <a
                     href="https://dribbble.com/RafaelPiral"
@@ -1152,7 +1175,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                   >
-                    <ShuffleText enabled={effectsEnabled}>Dribbble →</ShuffleText>
+                    Dribbble →
                   </a>
                   <a
                     href="https://www.behance.net/rafaelpiral1"
@@ -1160,7 +1183,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                   >
-                    <ShuffleText enabled={effectsEnabled}>Behance →</ShuffleText>
+                    Behance →
                   </a>
                 </div>
               </div>
@@ -1172,18 +1195,14 @@ export default function Home() {
             isDarkMode ? 'border-beige/10' : 'border-black/10'
           }`}>
             <p>
-              <ShuffleText enabled={effectsEnabled}>
-                © {new Date().getFullYear()} Rafael Piral. Tous droits réservés.
-              </ShuffleText>
+              © {new Date().getFullYear()} Rafael Piral. Tous droits réservés.
               {' · '}
               <Link to="/legal" className="hover:opacity-70 transition-opacity underline">
-                <ShuffleText enabled={effectsEnabled}>Mentions légales</ShuffleText>
+                Mentions légales
               </Link>
             </p>
             <p>
-              <ShuffleText enabled={effectsEnabled}>
-                Conçu et développé avec passion
-              </ShuffleText>
+              Conçu et développé avec passion
             </p>
           </div>
         </div>

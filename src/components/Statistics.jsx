@@ -2,11 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import ShuffleText from '../ShuffleText';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Statistics({ stats, isDarkMode, textEffectsEnabled, scrollY }) {
+export default function Statistics({ stats, isDarkMode }) {
   const statsRef = useRef(null);
   const countersRef = useRef([]);
 
@@ -65,7 +64,7 @@ export default function Statistics({ stats, isDarkMode, textEffectsEnabled, scro
         <h2 className={`text-xs md:text-sm tracking-widest mb-12 md:mb-16 text-center ${
           isDarkMode ? 'text-gray-500' : 'text-gray-600'
         }`}>
-          <ShuffleText enabled={textEffectsEnabled}>EN CHIFFRES</ShuffleText>
+          EN CHIFFRES
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
@@ -98,7 +97,7 @@ export default function Statistics({ stats, isDarkMode, textEffectsEnabled, scro
               <p className={`mt-4 text-sm md:text-base tracking-widest ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
               }`}>
-                <ShuffleText enabled={textEffectsEnabled}>{stat.label}</ShuffleText>
+                {stat.label}
               </p>
             </div>
           ))}

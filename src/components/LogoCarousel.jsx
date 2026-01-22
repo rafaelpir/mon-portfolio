@@ -1,22 +1,37 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 
 // Map skill names to their logo images in /images/logos/
 const logoMap = {
+  // Design
   'Photoshop': '/images/logos/photoshop.png',
   'Illustrator': '/images/logos/illustrator.png',
   'Figma': '/images/logos/figma.png',
-  'InDesign': null, // Logo manquant
-  'HTML/CSS': '/images/logos/html.png', // Utilisera html.png (CSS disponible aussi)
+  'InDesign': '/images/logos/indesign.png',
+  'Canva': '/images/logos/Canva.png',
+  'Lightroom': '/images/logos/Lightroom.png',
+  'Affinity': '/images/logos/Affinity.png',
+  // Développement
+  'HTML/CSS': '/images/logos/html.png',
+  'CSS': '/images/logos/css.png',
   'JavaScript': '/images/logos/js.png',
   'React': '/images/logos/react.png',
   'WordPress': '/images/logos/wordpress.png',
-  'Premiere Pro': null, // Logo manquant
-  'After Effects': null, // Logo manquant
-  'Blender': null // Logo manquant
+  'PHP': '/images/logos/PHP.png',
+  // Vidéo / 3D
+  'Premiere Pro': '/images/logos/Premiere_Pro.png',
+  'DaVinci Resolve': '/images/logos/DaVinci.png',
+  'Blender': '/images/logos/Blender.png',
+  // Bureautique
+  'Excel': '/images/logos/Excel.svg',
+  'Word': '/images/logos/Word.png',
+  'PowerPoint': '/images/logos/PowerPoint.png',
 };
 
 const LogoCarousel = ({ skillCategories, isDarkMode }) => {
+  const containerRef = useRef(null);
+  const [contentWidth, setContentWidth] = useState(0);
+
   // Si pas de catégories, ne rien afficher
   if (!skillCategories || skillCategories.length === 0) return null;
 
@@ -34,14 +49,24 @@ const LogoCarousel = ({ skillCategories, isDarkMode }) => {
   // Ne rien afficher si pas de logos disponibles
   if (allLogos.length === 0) return null;
 
+  // Mesurer la largeur d'un groupe de logos pour un défilement fluide
+  useEffect(() => {
+    if (containerRef.current) {
+      // La largeur totale divisée par 3 (car on triple les logos)
+      const totalWidth = containerRef.current.scrollWidth / 3;
+      setContentWidth(totalWidth);
+    }
+  }, [allLogos.length]);
+
   return (
     <div className="w-full">
       {/* Logos Grid - Horizontal scrolling carousel */}
       <div className="relative h-32 md:h-40 overflow-hidden rounded-xl">
         <motion.div
+          ref={containerRef}
           className="flex gap-3 md:gap-5 absolute"
           animate={{
-            x: [0, -1000],
+            x: contentWidth > 0 ? [0, -contentWidth] : 0,
           }}
           transition={{
             x: {

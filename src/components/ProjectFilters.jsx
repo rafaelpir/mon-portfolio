@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ShuffleText from '../ShuffleText';
 
 export default function ProjectFilters({
   categories,
@@ -9,7 +8,6 @@ export default function ProjectFilters({
   onCategoryChange,
   onTagsChange,
   isDarkMode,
-  textEffectsEnabled,
   filteredCount
 }) {
   const [showTags, setShowTags] = useState(false);
@@ -46,7 +44,7 @@ export default function ProjectFilters({
                 : '#666666'
             }}
           >
-            <ShuffleText enabled={textEffectsEnabled}>{category}</ShuffleText>
+            {category}
             {selectedCategory === category && (
               <span className={`absolute -bottom-2 left-0 right-0 h-px transition-all duration-300 ${
                 isDarkMode ? 'bg-beige' : 'bg-black'
@@ -65,9 +63,7 @@ export default function ProjectFilters({
           }`}
         >
           <span>
-            <ShuffleText enabled={textEffectsEnabled}>
-              {showTags ? 'MASQUER LES FILTRES' : 'FILTRER PAR OUTIL'}
-            </ShuffleText>
+            {showTags ? 'MASQUER LES FILTRES' : 'FILTRER PAR OUTIL'}
           </span>
           <svg
             className={`w-4 h-4 transition-transform duration-300 ${showTags ? 'rotate-180' : ''}`}
@@ -96,7 +92,7 @@ export default function ProjectFilters({
                     : 'bg-black/10 text-black hover:bg-black/20'
                 }`}
               >
-                <ShuffleText enabled={textEffectsEnabled}>{tag}</ShuffleText>
+                {tag}
               </button>
             ))}
           </div>
@@ -109,9 +105,7 @@ export default function ProjectFilters({
           <span className={`text-xs md:text-sm ${
             isDarkMode ? 'text-gray-400' : 'text-gray-600'
           }`}>
-            <ShuffleText enabled={textEffectsEnabled}>
-              {filteredCount} {filteredCount === 1 ? 'projet' : 'projets'}
-            </ShuffleText>
+            {filteredCount} {filteredCount === 1 ? 'projet' : 'projets'}
           </span>
 
           {selectedTags.length > 0 && (
@@ -132,7 +126,7 @@ export default function ProjectFilters({
                 : 'text-gray-600 hover:text-black'
             }`}
           >
-            <ShuffleText enabled={textEffectsEnabled}>Tout effacer</ShuffleText>
+            Tout effacer
           </button>
         </div>
       )}

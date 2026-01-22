@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import ShuffleText from '../ShuffleText';
 
 export default function NotFound() {
   const navigate = useNavigate();
-  const [isDarkMode, setIsDarkMode] = useState(() => {
+  const [isDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved !== null ? JSON.parse(saved) : true;
   });
@@ -38,20 +37,18 @@ export default function NotFound() {
       <div className="text-center max-w-2xl">
         {/* 404 animé */}
         <h1 className="text-[20vw] md:text-[15vw] font-light leading-none mb-8">
-          <ShuffleText enabled={true}>404</ShuffleText>
+          404
         </h1>
 
         {/* Message d'erreur */}
         <h2 className="text-2xl md:text-4xl font-light mb-6">
-          <ShuffleText enabled={true}>PAGE NON TROUVÉE</ShuffleText>
+          PAGE NON TROUVÉE
         </h2>
 
         <p className={`text-lg md:text-xl font-light mb-12 ${
           isDarkMode ? 'text-gray-400' : 'text-gray-600'
         }`}>
-          <ShuffleText enabled={true}>
-            Désolé, la page que vous recherchez n'existe pas ou a été déplacée.
-          </ShuffleText>
+          Désolé, la page que vous recherchez n'existe pas ou a été déplacée.
         </p>
 
         {/* Countdown et boutons */}
@@ -71,7 +68,7 @@ export default function NotFound() {
                   : 'border-black bg-black text-white hover:bg-transparent hover:text-black'
               }`}
             >
-              <ShuffleText enabled={true}>RETOUR À L'ACCUEIL</ShuffleText>
+              RETOUR À L'ACCUEIL
             </Link>
 
             <button
@@ -82,7 +79,7 @@ export default function NotFound() {
                   : 'border-black/30 hover:border-black hover:bg-black/10'
               }`}
             >
-              <ShuffleText enabled={true}>PAGE PRÉCÉDENTE</ShuffleText>
+              PAGE PRÉCÉDENTE
             </button>
           </div>
         </div>

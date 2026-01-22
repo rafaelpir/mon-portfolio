@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import ShuffleText from '../ShuffleText';
 
-export default function AvailabilityBadge({ availableDate, alternance, status, isDarkMode, textEffectsEnabled }) {
+export default function AvailabilityBadge({ availableDate, alternance, status, isDarkMode }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -31,7 +30,7 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
         <span className={`text-xs sm:text-sm md:text-xl font-bold tracking-wide uppercase ${
           isDarkMode ? 'text-orange-200' : 'text-orange-700'
         }`}>
-          <ShuffleText enabled={textEffectsEnabled}>{status}</ShuffleText>
+          {status}
         </span>
 
         <span className={`hidden md:block text-2xl ${
@@ -42,7 +41,7 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
           <span className={`text-sm sm:text-base md:text-2xl font-black ${
             isDarkMode ? 'text-beige' : 'text-black'
           }`}>
-            <ShuffleText enabled={textEffectsEnabled}>{availableDate}</ShuffleText>
+            {availableDate}
           </span>
 
           {alternance && (
@@ -55,7 +54,7 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
               <span className={`text-xs sm:text-sm md:text-2xl font-black ${
                 isDarkMode ? 'text-beige' : 'text-black'
               }`}>
-                <ShuffleText enabled={textEffectsEnabled}>{alternance}</ShuffleText>
+                {alternance}
               </span>
             </>
           )}
@@ -66,11 +65,11 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
     {/* Modal Popup */}
     {isModalOpen && (
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xl"
+        className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xl"
         onClick={() => setIsModalOpen(false)}
       >
         <div
-          className={`relative max-w-2xl w-full border transition-all duration-500 ${
+          className={`relative max-w-md w-full border transition-all duration-500 ${
             isDarkMode
               ? 'bg-black border-beige/20'
               : 'bg-white border-black/20'
@@ -80,7 +79,7 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
           {/* Close Button */}
           <button
             onClick={() => setIsModalOpen(false)}
-            className={`absolute top-4 right-4 z-10 text-xs tracking-widest transition-opacity hover:opacity-50 pointer-events-auto cursor-pointer ${
+            className={`absolute top-3 right-3 z-10 text-xs tracking-widest transition-opacity hover:opacity-50 pointer-events-auto cursor-pointer ${
               isDarkMode ? 'text-beige' : 'text-black'
             }`}
             aria-label="Fermer"
@@ -89,13 +88,13 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
           </button>
 
           {/* Content */}
-          <div className="p-6 md:p-10">
+          <div className="p-5 md:p-6">
             {/* Header */}
-            <div className="mb-8">
-              <h2 className={`text-3xl md:text-4xl font-light mb-2 ${
+            <div className="mb-5">
+              <h2 className={`text-2xl font-light mb-1 ${
                 isDarkMode ? 'text-beige' : 'text-black'
               }`}>
-                <ShuffleText enabled={textEffectsEnabled}>DISPONIBILITÉS</ShuffleText>
+                DISPONIBILITÉS
               </h2>
               <p className={`text-xs tracking-widest ${
                 isDarkMode ? 'text-gray-500' : 'text-gray-500'
@@ -105,64 +104,64 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
             </div>
 
             {/* Stage Section */}
-            <div className={`mb-8 pb-8 border-b ${
+            <div className={`mb-5 pb-5 border-b ${
               isDarkMode ? 'border-beige/10' : 'border-black/10'
             }`}>
-              <div className="flex items-start gap-3">
-                <div className={`flex-shrink-0 w-2 h-2 rounded-full mt-2 ${
+              <div className="flex items-start gap-2">
+                <div className={`flex-shrink-0 w-2 h-2 rounded-full mt-1.5 ${
                   isDarkMode ? 'bg-orange-400' : 'bg-orange-500'
                 }`}></div>
                 <div className="flex-1">
-                  <h3 className={`text-xl md:text-2xl font-light mb-1 ${
+                  <h3 className={`text-lg font-light mb-0.5 ${
                     isDarkMode ? 'text-beige' : 'text-black'
                   }`}>
-                    <ShuffleText enabled={textEffectsEnabled}>STAGE</ShuffleText>
+                    STAGE
                   </h3>
-                  <p className={`text-xs tracking-widest mb-3 ${
+                  <p className={`text-xs tracking-widest mb-2 ${
                     isDarkMode ? 'text-orange-300' : 'text-orange-600'
                   }`}>
                     AVRIL 2026
                   </p>
-                  <p className={`text-sm md:text-base leading-relaxed font-light ${
+                  <p className={`text-sm leading-relaxed font-light ${
                     isDarkMode ? 'text-gray-400' : 'text-gray-700'
                   }`}>
-                    Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet. Je suis à la recherche d'un stage d'au moins 8 semaines à partir d'avril 2026 dans le domaine de la création numérique et de l'audiovisuel.
+                    Étudiant en 2e année de BUT MMI, je recherche un stage d'au moins 8 semaines à partir d'avril 2026 en création numérique et audiovisuel.
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Alternance Section */}
-            <div className="mb-8">
-              <div className="flex items-start gap-3">
-                <div className={`flex-shrink-0 w-2 h-2 rounded-full mt-2 ${
+            <div className="mb-5">
+              <div className="flex items-start gap-2">
+                <div className={`flex-shrink-0 w-2 h-2 rounded-full mt-1.5 ${
                   isDarkMode ? 'bg-orange-400' : 'bg-orange-500'
                 }`}></div>
                 <div className="flex-1">
-                  <h3 className={`text-xl md:text-2xl font-light mb-1 ${
+                  <h3 className={`text-lg font-light mb-0.5 ${
                     isDarkMode ? 'text-beige' : 'text-black'
                   }`}>
-                    <ShuffleText enabled={textEffectsEnabled}>ALTERNANCE</ShuffleText>
+                    ALTERNANCE
                   </h3>
-                  <p className={`text-xs tracking-widest mb-3 ${
+                  <p className={`text-xs tracking-widest mb-2 ${
                     isDarkMode ? 'text-orange-300' : 'text-orange-600'
                   }`}>
                     SEPTEMBRE 2026
                   </p>
-                  <p className={`text-sm md:text-base leading-relaxed font-light ${
+                  <p className={`text-sm leading-relaxed font-light ${
                     isDarkMode ? 'text-gray-400' : 'text-gray-700'
                   }`}>
-                    Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet. Je suis à la recherche d'une alternance à partir de septembre 2026 dans le domaine de la création numérique et de l'audiovisuel.
+                    Je recherche une alternance à partir de septembre 2026 en création numérique et audiovisuel.
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Footer CTA */}
-            <div className={`pt-6 border-t ${
+            <div className={`pt-4 border-t ${
               isDarkMode ? 'border-beige/10' : 'border-black/10'
             }`}>
-              <p className={`text-xs tracking-widest mb-3 ${
+              <p className={`text-xs tracking-widest mb-2 ${
                 isDarkMode ? 'text-gray-500' : 'text-gray-500'
               }`}>
                 INTÉRESSÉ ?
@@ -180,7 +179,7 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
                     : 'border-black hover:bg-black hover:text-white text-black'
                 }`}
               >
-                <ShuffleText enabled={textEffectsEnabled}>CONTACTEZ-MOI</ShuffleText>
+                CONTACTEZ-MOI
               </button>
             </div>
           </div>

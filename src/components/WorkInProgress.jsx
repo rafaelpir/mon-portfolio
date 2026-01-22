@@ -1,9 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import ShuffleText from '../ShuffleText';
 import { workInProgressProjects } from '../data/projects';
 
-export default function WorkInProgress({ isDarkMode, textEffectsEnabled, scrollY }) {
+export default function WorkInProgress({ isDarkMode }) {
   if (workInProgressProjects.length === 0) return null;
 
   return (
@@ -18,7 +17,7 @@ export default function WorkInProgress({ isDarkMode, textEffectsEnabled, scrollY
         <h2 className={`text-xs md:text-sm tracking-widest mb-12 md:mb-16 text-center ${
           isDarkMode ? 'text-gray-500' : 'text-gray-600'
         }`}>
-          <ShuffleText enabled={textEffectsEnabled}>PROJETS EN COURS</ShuffleText>
+          PROJETS EN COURS
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -61,7 +60,7 @@ export default function WorkInProgress({ isDarkMode, textEffectsEnabled, scrollY
                       ? 'bg-orange-500/20 text-orange-400 border border-orange-400/30'
                       : 'bg-orange-500/20 text-orange-600 border border-orange-600/30'
                   }`}>
-                    <ShuffleText enabled={textEffectsEnabled}>{project.status.toUpperCase()}</ShuffleText>
+                    {project.status.toUpperCase()}
                   </div>
                 </div>
 
@@ -71,21 +70,21 @@ export default function WorkInProgress({ isDarkMode, textEffectsEnabled, scrollY
                   <p className={`text-xs md:text-sm mb-2 ${
                     isDarkMode ? 'text-gray-400' : 'text-gray-600'
                   }`}>
-                    <ShuffleText enabled={textEffectsEnabled}>{project.category}</ShuffleText>
+                    {project.category}
                   </p>
 
                   {/* Title */}
                   <h3 className={`text-xl md:text-2xl font-light mb-3 ${
                     isDarkMode ? 'text-beige' : 'text-black'
                   }`}>
-                    <ShuffleText enabled={textEffectsEnabled}>{project.title}</ShuffleText>
+                    {project.title}
                   </h3>
 
                   {/* Description (visible au hover) */}
                   <p className={`text-sm leading-relaxed mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
                     isDarkMode ? 'text-gray-300' : 'text-gray-700'
                   }`}>
-                    <ShuffleText enabled={textEffectsEnabled}>{project.description}</ShuffleText>
+                    {project.description}
                   </p>
 
                   {/* Progress bar */}
@@ -138,9 +137,7 @@ export default function WorkInProgress({ isDarkMode, textEffectsEnabled, scrollY
           isDarkMode ? 'text-gray-500' : 'text-gray-600'
         }`}>
           <p>
-            <ShuffleText enabled={textEffectsEnabled}>
-              Ces projets sont actuellement en développement et seront bientôt disponibles
-            </ShuffleText>
+            Ces projets sont actuellement en développement et seront bientôt disponibles
           </p>
         </div>
       </div>
