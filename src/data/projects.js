@@ -20,11 +20,6 @@ export const projects = [
     description: "Revisite personnelle de l'affiche classique du film 'Un Homme qui dort' (1974). Conservation de la typographie culte originale avec changement radical de l'iconographie : gros plans texturés et granuleux pour matérialiser l'ennui et l'introspection par la matière plutôt que par le vide. Expérimentation visuelle sur le thème de l'isolement et de la\u00A0mélancolie.",
     thumbnail: "/images/projects/lhommequidort.webp",
     youtubeId: "LUMifnAPafc",
-    gallery: [
-      { src: "/images/projects/homme-qui-dort/1.webp", description: "Image 1 - À compléter" },
-      { src: "/images/projects/homme-qui-dort/2.webp", description: "Image 2 - À compléter" },
-      { src: "/images/projects/homme-qui-dort/3.webp", description: "Image 3 - À compléter" }
-    ],
     tags: ["Photoshop"],
     competences: ["Conception d'affiche", "Retouche photo", "Direction artistique", "Composition visuelle"],
     outils: ["Adobe Photoshop"]
@@ -40,11 +35,6 @@ export const projects = [
     duration: "3 semaines",
     description: "Affiche créée pour le concours officiel de la ville de Saint-Paul-lès-Dax. Au lieu de suivre les codes rouge et blanc classiques des ferias, choix du bleu en référence au Lac de Christus et à l'ambiance estivale de cette ville thermale. La Grande Roue structure la composition et surplombe les scènes locales (course landaise, bandas, folklore). Le flat design apporte clarté et légèreté pour toucher un public\u00A0familial.",
     thumbnail: "/images/projects/Dax.webp",
-    gallery: [
-      { src: "/images/projects/dax/1.webp", description: "Image 1 - À compléter" },
-      { src: "/images/projects/dax/2.webp", description: "Image 2 - À compléter" },
-      { src: "/images/projects/dax/3.webp", description: "Image 3 - À compléter" }
-    ],
     tags: ["Photoshop", "Illustrator"],
     competences: ["Conception d'affiche", "Illustration vectorielle", "Flat design", "Direction artistique"],
     outils: ["Adobe Photoshop", "Adobe Illustrator"]
@@ -60,11 +50,6 @@ export const projects = [
     duration: "1 semaine",
     description: "Hommage personnel à l'album Diamond Life de Sade (1984). Capturer visuellement la sophistication soul/jazz de cet album iconique à travers un traitement rétro avec effet halftone prononcé rappelant les vieilles impressions de journaux. Palette sépia/marron chaud évoquant le vinyle et une nostalgie luxueuse. Contraste typographique entre serif grasse condensée et signature manuscrite renforçant l'élégance\u00A0intemporelle.",
     thumbnail: "/images/projects/sade.webp",
-    gallery: [
-      { src: "/images/projects/sade/1.webp", description: "Image 1 - À compléter" },
-      { src: "/images/projects/sade/2.webp", description: "Image 2 - À compléter" },
-      { src: "/images/projects/sade/3.webp", description: "Image 3 - À compléter" }
-    ],
     tags: ["Photoshop"],
     competences: ["Design d'affiche", "Traitement rétro", "Typographie", "Composition visuelle"],
     outils: ["Adobe Photoshop"]
@@ -108,11 +93,6 @@ export const projects = [
     description: "Conception d'une interface web pour une agence immobilière fictive avec contrainte majeure : optimisation SEO aux normes 2025. L'objectif n'était pas seulement esthétique, mais la conception d'une structure performante pour le référencement naturel. Création de l'identité visuelle complète (logo et Design System) lisible et impactante, déclinable sur tous supports numériques sans alourdir le chargement. Les maquettes Figma (Accueil et Page Lots) travaillent la hiérarchie visuelle pour guider l'utilisateur et faciliter l'indexation par les moteurs de\u00A0recherche.",
     thumbnail: "/images/projects/armorimmo.webp",
     figmaEmbed: "https://embed.figma.com/proto/IySCrSMWMDsUfz9bO51rrz/Site-Immo-Referencement?page-id=6%3A32&node-id=16-2&viewport=154%2C281%2C0.18&scaling=scale-down&content-scaling=fixed&starting-point-node-id=16%3A2&embed-host=share",
-    gallery: [
-      { src: "/images/projects/armorimmo/1.webp", description: "Image 1 - À compléter" },
-      { src: "/images/projects/armorimmo/2.webp", description: "Image 2 - À compléter" },
-      { src: "/images/projects/armorimmo/3.webp", description: "Image 3 - À compléter" }
-    ],
     tags: ["Figma", "UI Design", "Branding", "SEO"],
     competences: ["Conception web", "UI/UX Design", "Branding", "SEO", "Design System", "Architecture de l'information"],
     outils: ["Figma"]
@@ -148,11 +128,6 @@ export const projects = [
     description: "Création complète de l'identité visuelle pour À Cœur Ouvert, ONG fictive de lutte contre les violences conjugales. Conception du logo de A à Z, développement de la charte graphique (typographie, couleurs, usages) et rédaction d'un article portrait donnant la parole à une victime. Le nom 'À Cœur Ouvert' symbolise un espace de parole sans jugement. Mon challenge : créer une identité à la fois rassurante et professionnelle, qui véhicule confiance et bienveillance tout en marquant le positionnement inclusif de l'ONG (accueil universel sans distinction de genre, écoute 24h/24 et\u00A07j/7).",
     thumbnail: "/images/projects/ACoeurOuvert.svg",
     pdfFile: "/images/projects/portrait.pdf",
-    gallery: [
-      { src: "/images/projects/acoeurouvert/1.webp", description: "Image 1 - À compléter" },
-      { src: "/images/projects/acoeurouvert/2.webp", description: "Image 2 - À compléter" },
-      { src: "/images/projects/acoeurouvert/3.webp", description: "Image 3 - À compléter" }
-    ],
     tags: ["Branding", "Illustrator", "InDesign"],
     competences: ["Création d'identité visuelle", "Design graphique", "Charte graphique", "Rédaction de contenu"],
     outils: ["Adobe Illustrator", "Adobe InDesign"]
@@ -168,11 +143,6 @@ export const projects = [
     duration: "1 semaine",
     description: "Création d'une affiche pour Gummo (1997), film culte de Harmony Korine. Ce film expérimental et controversé explore la marginalité américaine avec une esthétique crue et poétique. L'affiche capture l'univers étrange et dérangeant du film : ambiance désenchantée, imagerie trash et nostalgique, palette de couleurs désaturées évoquant les années 90. Travail typographique inspiré de l'esthétique lo-fi et underground du cinéma indépendant américain de cette\u00A0époque.",
     thumbnail: "/images/projects/Gummo.webp",
-    gallery: [
-      { src: "/images/projects/gummo/1.webp", description: "Image 1 - À compléter" },
-      { src: "/images/projects/gummo/2.webp", description: "Image 2 - À compléter" },
-      { src: "/images/projects/gummo/3.webp", description: "Image 3 - À compléter" }
-    ],
     tags: ["Photoshop", "Illustrator"],
     competences: ["Conception d'affiche", "Direction artistique", "Composition visuelle", "Typographie"],
     outils: ["Adobe Photoshop", "Adobe Illustrator"]
