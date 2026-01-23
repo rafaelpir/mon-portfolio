@@ -14,6 +14,22 @@ const Preloader = ({ onComplete, minDuration = 3000 }) => {
     'READY',
   ];
 
+  // Bloquer le scroll pendant le chargement
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.height = '100%';
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+    };
+  }, []);
+
   useEffect(() => {
     const startTime = Date.now();
     let animationFrame;

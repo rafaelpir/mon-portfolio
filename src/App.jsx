@@ -10,36 +10,38 @@ import ScrollToTop from './components/ScrollToTop';
 import GoogleAnalytics from './components/GoogleAnalytics';
 import Preloader from './components/Preloader';
 
-function AppRoutes() {
+function AppContent() {
   const location = useLocation();
-
-  return (
-    <Routes location={location} key={location.pathname}>
-      <Route path="/" element={<Home />} />
-      <Route path="/project/:id" element={<ProjectDetail />} />
-      <Route path="/cv" element={<CV />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/legal" element={<Legal />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  );
-}
-
-export default function App() {
   const [showPreloader, setShowPreloader] = useState(true);
+  const isHomePage = location.pathname === '/';
 
   const handlePreloaderComplete = () => {
     setShowPreloader(false);
   };
 
   return (
-    <Router>
-      {showPreloader && (
-        <Preloader onComplete={handlePreloaderComplete} minDuration={6000} />
+    <>
+      {showPreloader && isHomePage && (
+        <Preloader onComplete={handlePreloaderComplete} minDuration={3000} />
       )}
       <ScrollToTop />
       <GoogleAnalytics />
-      <AppRoutes />
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/project/:id" element={<ProjectDetail />} />
+        <Route path="/cv" element={<CV />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/legal" element={<Legal />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
