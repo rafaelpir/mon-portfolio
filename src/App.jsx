@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import ProjectDetail from './pages/ProjectDetail';
@@ -7,6 +8,7 @@ import Legal from './pages/Legal';
 import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
 import GoogleAnalytics from './components/GoogleAnalytics';
+import Preloader from './components/Preloader';
 
 function AppRoutes() {
   const location = useLocation();
@@ -24,8 +26,17 @@ function AppRoutes() {
 }
 
 export default function App() {
+  const [showPreloader, setShowPreloader] = useState(true);
+
+  const handlePreloaderComplete = () => {
+    setShowPreloader(false);
+  };
+
   return (
     <Router>
+      {showPreloader && (
+        <Preloader onComplete={handlePreloaderComplete} minDuration={6000} />
+      )}
       <ScrollToTop />
       <GoogleAnalytics />
       <AppRoutes />
