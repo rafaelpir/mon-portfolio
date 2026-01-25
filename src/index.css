@@ -51,54 +51,13 @@
   }
 }
 
-/* Satoshi Font Family - Tous les poids utilisent Medium */
+/* Satoshi Font Family - Une seule déclaration avec font-display: swap */
 @font-face {
   font-family: 'Satoshi';
   src: url('/font/Satoshi-Medium.otf') format('opentype');
-  font-weight: 300;
+  font-weight: 100 900;
   font-style: normal;
-}
-
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/font/Satoshi-Medium.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/font/Satoshi-Medium.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/font/Satoshi-Medium.otf') format('opentype');
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/font/Satoshi-Medium.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/font/Satoshi-Medium.otf') format('opentype');
-  font-weight: 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/font/Satoshi-Medium.otf') format('opentype');
-  font-weight: 900;
-  font-style: normal;
+  font-display: swap;
 }
 
 /* Perspective 3D pour le logo */

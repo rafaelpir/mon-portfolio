@@ -724,7 +724,9 @@ export default function Home() {
                   loop
                   muted
                   playsInline
-                  className={`w-full h-auto rounded-xl ${
+                  width="1920"
+                  height="1080"
+                  className={`w-full h-auto rounded-xl aspect-video ${
                     isDarkMode ? 'opacity-90' : 'opacity-80 invert'
                   }`}
                 >

@@ -16,6 +16,17 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: false
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Séparer les vendors lourds
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-animation': ['gsap', 'framer-motion', 'lenis'],
+        }
+      }
+    },
+    // Réduire la taille des chunks
+    chunkSizeWarningLimit: 500
   }
 })
