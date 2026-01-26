@@ -12,18 +12,10 @@ export const timelineEvents = [
     icon: ""
   },
   {
-    id: 5,
-    year: "Depuis 2024",
-    title: "Projets créatifs & développement",
-    description: "Réalisation de projets variés : affiches graphiques, vidéos et animations. Exploration de l'art ASCII, du motion design et du développement front-end moderne.",
-    category: "Création",
-    icon: ""
-  },
-  {
     id: 4,
-    year: "2024",
-    title: "BUT Métiers du Multimédia et de l'Internet",
-    description: "IUT de Bobigny - Réorientation vers la création numérique. Formation complète en design graphique, développement web, audiovisuel et UX/UI. Fusion entre compétences techniques et créativité.",
+    year: "Depuis 2024",
+    title: "BUT MMI & Projets créatifs",
+    description: "IUT de Bobigny - Formation en design graphique, développement web, audiovisuel et UX/UI. En parallèle, réalisation de projets personnels : affiches, vidéos, art ASCII et développement front-end moderne.",
     category: "Formation",
     icon: ""
   },
@@ -31,7 +23,7 @@ export const timelineEvents = [
     id: 3,
     year: "2022-2023",
     title: "BUT Informatique",
-    description: "IUT de Lille - Développement des compétences en programmation, algorithmique et développement logiciel. Fondations techniques solides.",
+    description: "IUT de Lille",
     category: "Formation",
     icon: ""
   },
@@ -39,7 +31,7 @@ export const timelineEvents = [
     id: 2,
     year: "2021-2022",
     title: "Licence Mathématiques Informatique Physique",
-    description: "Université de Nantes - 1ère année. Exploration des fondamentaux scientifiques et découverte de l'informatique théorique et appliquée.",
+    description: "Université de Nantes - 1ère année. Options : Mathématiques, Physique, Informatique.",
     category: "Formation",
     icon: ""
   },

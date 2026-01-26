@@ -291,8 +291,7 @@ export default function CV() {
               <span>Football, Jeux Vidéo, Cinéma</span>
             </div>
           </div>
-          <div className="text-center mt-1 text-gray-400 text-[9px]">
-            CV généré le {new Date().toLocaleDateString('fr-FR')} • 
+          <div className="text-center mt-1 text-gray-400 text-[9px]"> 
             <a href="https://rafaelpiral.fr" target="_blank" rel="noreferrer" className="ml-1 hover:underline text-gray-500 cursor-pointer">
               rafaelpiral.fr
             </a>

@@ -20,6 +20,10 @@ export const projects = [
     description: "Revisite personnelle de l'affiche classique du film 'Un Homme qui dort' (1974). Conservation de la typographie culte originale avec changement radical de l'iconographie : gros plans texturés et granuleux pour matérialiser l'ennui et l'introspection par la matière plutôt que par le vide. Expérimentation visuelle sur le thème de l'isolement et de la\u00A0mélancolie.",
     thumbnail: "/images/projects/lhommequidort.webp",
     youtubeId: "LUMifnAPafc",
+    gallery: [
+      { src: "/images/projects/lhommequidort.webp", description: "Affiche revisitée du film 'Un Homme qui dort' (1974)." },
+      { src: "/images/projects/uhqdmockup.webp", description: "Mockup de présentation de l'affiche revisitée 'Un Homme qui dort'." }
+    ],
     tags: ["Photoshop"],
     competences: ["Conception d'affiche", "Retouche photo", "Direction artistique", "Composition visuelle"],
     outils: ["Adobe Photoshop"]
@@ -34,7 +38,11 @@ export const projects = [
     period: "Décembre 2024 - Janvier 2025",
     duration: "3 semaines",
     description: "Affiche créée pour le concours officiel de la ville de Saint-Paul-lès-Dax. Au lieu de suivre les codes rouge et blanc classiques des ferias, choix du bleu en référence au Lac de Christus et à l'ambiance estivale de cette ville thermale. La Grande Roue structure la composition et surplombe les scènes locales (course landaise, bandas, folklore). Le flat design apporte clarté et légèreté pour toucher un public\u00A0familial.",
-    thumbnail: "/images/projects/Dax.webp",
+    thumbnail: "/images/projects/daxmockup.webp",
+    gallery: [
+      { src: "/images/projects/Dax.webp", description: "Affiche originale des Fêtes Populaires de Saint-Paul-lès-Dax 2025." },
+      { src: "/images/projects/daxmockup.webp", description: "Mockup de présentation de l'affiche des Fêtes Populaires de Saint-Paul-lès-Dax." }
+    ],
     tags: ["Photoshop", "Illustrator"],
     competences: ["Conception d'affiche", "Illustration vectorielle", "Flat design", "Direction artistique"],
     outils: ["Adobe Photoshop", "Adobe Illustrator"]
@@ -49,7 +57,11 @@ export const projects = [
     period: "Décembre 2024",
     duration: "1 semaine",
     description: "Hommage personnel à l'album Diamond Life de Sade (1984). Capturer visuellement la sophistication soul/jazz de cet album iconique à travers un traitement rétro avec effet halftone prononcé rappelant les vieilles impressions de journaux. Palette sépia/marron chaud évoquant le vinyle et une nostalgie luxueuse. Contraste typographique entre serif grasse condensée et signature manuscrite renforçant l'élégance\u00A0intemporelle.",
-    thumbnail: "/images/projects/sade.webp",
+    thumbnail: "/images/projects/sademockup.webp",
+    gallery: [
+      { src: "/images/projects/sade.webp", description: "Poster Tribute original de l'album Diamond Life de Sade." },
+      { src: "/images/projects/sademockup.webp", description: "Mockup de présentation du poster tribute Sade – Diamond Life." }
+    ],
     tags: ["Photoshop"],
     competences: ["Design d'affiche", "Traitement rétro", "Typographie", "Composition visuelle"],
     outils: ["Adobe Photoshop"]
@@ -93,6 +105,11 @@ export const projects = [
     description: "Conception d'une interface web pour une agence immobilière fictive avec contrainte majeure : optimisation SEO aux normes 2025. L'objectif n'était pas seulement esthétique, mais la conception d'une structure performante pour le référencement naturel. Création de l'identité visuelle complète (logo et Design System) lisible et impactante, déclinable sur tous supports numériques sans alourdir le chargement. Les maquettes Figma (Accueil et Page Lots) travaillent la hiérarchie visuelle pour guider l'utilisateur et faciliter l'indexation par les moteurs de\u00A0recherche.",
     thumbnail: "/images/projects/armorimmo.webp",
     figmaEmbed: "https://embed.figma.com/proto/IySCrSMWMDsUfz9bO51rrz/Site-Immo-Referencement?page-id=6%3A32&node-id=16-2&viewport=154%2C281%2C0.18&scaling=scale-down&content-scaling=fixed&starting-point-node-id=16%3A2&embed-host=share",
+    gallery: [
+      { src: "/images/projects/armorimmo.webp", description: "Identité visuelle et Design System de l'agence immobilière Armor Immo." },
+      { src: "/images/projects/armorimmomockup1.webp", description: "Mockup de présentation de la page d'accueil du site Armor Immo." },
+      { src: "/images/projects/armorimmomockup2.webp", description: "Mockup de présentation de la page des lots immobiliers." }
+    ],
     tags: ["Figma", "UI Design", "Branding", "SEO"],
     competences: ["Conception web", "UI/UX Design", "Branding", "SEO", "Design System", "Architecture de l'information"],
     outils: ["Figma"]
@@ -107,10 +124,10 @@ export const projects = [
     period: "Août 2025",
     duration: "3 jours",
     description: "Expérimentation graphique à partir d'une photographie de la Statue de la Liberté prise depuis Liberty Island à New York. Transformation de l'image en composition entièrement faite de caractères ASCII. Le défi : réinterpréter un monument iconique avec un langage purement numérique et typographique. Le résultat joue sur une tension visuelle : de loin, reconnaissance de la statue ; de près, uniquement du texte. La statue devient une structure de données, entre photographie et code\u00A0informatique.",
-    thumbnail: "/images/projects/Liberté.webp",
+    thumbnail: "/images/projects/libertemockup.webp",
     gallery: [
       { src: "/images/projects/Liberté.webp", description: "Statue de la Liberté en art ASCII : Version finale de l'expérimentation graphique transformant la photographie iconique en composition typographique pure." },
-      { src: "/images/projects/LibertéVerte.webp", description: "Variation verte de la Statue de la Liberté : Déclinaison colorée de la composition ASCII avec une palette verte rappelant la patine du monument." }
+      { src: "/images/projects/libertemockup.webp", description: "Mockup de présentation du projet Statue de la Liberté en ASCII." }
     ],
     tags: ["Photoshop", "Photographie"],
     competences: ["Retouche photo", "Art ASCII", "Expérimentation visuelle", "Traitement numérique"],
@@ -122,6 +139,7 @@ export const projects = [
     category: "Branding",
     type: "Universitaire",
     year: "2025",
+    hidden: true,
     context: "Projet SAE BUT2 - Création d'identité visuelle",
     period: "Novembre - Décembre 2025",
     duration: "4 semaines",
@@ -142,7 +160,11 @@ export const projects = [
     period: "Janvier 2026",
     duration: "1 semaine",
     description: "Création d'une affiche pour Gummo (1997), film culte de Harmony Korine. Ce film expérimental et controversé explore la marginalité américaine avec une esthétique crue et poétique. L'affiche capture l'univers étrange et dérangeant du film : ambiance désenchantée, imagerie trash et nostalgique, palette de couleurs désaturées évoquant les années 90. Travail typographique inspiré de l'esthétique lo-fi et underground du cinéma indépendant américain de cette\u00A0époque.",
-    thumbnail: "/images/projects/Gummo.webp",
+    thumbnail: "/images/projects/gummomockup.webp",
+    gallery: [
+      { src: "/images/projects/Gummo.webp", description: "Affiche originale du film Gummo (1997)." },
+      { src: "/images/projects/gummomockup.webp", description: "Mockup de présentation de l'affiche du film Gummo." }
+    ],
     tags: ["Photoshop", "Illustrator"],
     competences: ["Conception d'affiche", "Direction artistique", "Composition visuelle", "Typographie"],
     outils: ["Adobe Photoshop", "Adobe Illustrator"]
