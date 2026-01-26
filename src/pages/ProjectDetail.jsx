@@ -2,7 +2,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { projects } from '../data/projects';
 import { ReactLenis } from 'lenis/dist/lenis-react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -12,6 +12,8 @@ export default function ProjectDetail() {
     return saved !== null ? JSON.parse(saved) : true;
   });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   // Trouver le projet actuel
   const currentIndex = projects.findIndex(p => p.id.toString() === id);
@@ -89,13 +91,46 @@ export default function ProjectDetail() {
           </div>
         </header>
 
+        {/* Fil d'Ariane */}
+        <nav className="fixed top-20 left-0 right-0 z-40 px-8 py-3" aria-label="Fil d'Ariane">
+          <div className="max-w-7xl mx-auto">
+            <ol className="flex items-center gap-2 text-sm">
+              <li>
+                <Link
+                  to="/"
+                  className={`transition-colors ${
+                    isDarkMode ? 'text-beige/50 hover:text-beige' : 'text-black/50 hover:text-black'
+                  }`}
+                >
+                  Accueil
+                </Link>
+              </li>
+              <li className="opacity-30">/</li>
+              <li>
+                <Link
+                  to="/#projects"
+                  className={`transition-colors ${
+                    isDarkMode ? 'text-beige/50 hover:text-beige' : 'text-black/50 hover:text-black'
+                  }`}
+                >
+                  Projets
+                </Link>
+              </li>
+              <li className="opacity-30">/</li>
+              <li className={`truncate max-w-[200px] ${isDarkMode ? 'text-beige' : 'text-black'}`}>
+                {project.title}
+              </li>
+            </ol>
+          </div>
+        </nav>
+
         {/* Contenu principal */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="pt-32 pb-20 px-4 md:px-16"
+          className="pt-40 pb-20 px-4 md:px-16"
         >
           <div className="max-w-6xl mx-auto">
             {/* Titre et infos */}
@@ -225,15 +260,35 @@ export default function ProjectDetail() {
 
                   {/* Image du carousel */}
                   <div
-                    className="relative rounded-lg overflow-hidden bg-black/5 flex-shrink-0"
+                    className="relative rounded-lg overflow-hidden bg-black/5 flex-shrink-0 cursor-grab active:cursor-grabbing md:cursor-default"
                     style={{ maxWidth: '500px' }}
+                    onTouchStart={(e) => {
+                      touchStartX.current = e.touches[0].clientX;
+                    }}
+                    onTouchMove={(e) => {
+                      touchEndX.current = e.touches[0].clientX;
+                    }}
+                    onTouchEnd={() => {
+                      const diff = touchStartX.current - touchEndX.current;
+                      const minSwipeDistance = 50;
+                      if (Math.abs(diff) > minSwipeDistance) {
+                        if (diff > 0) {
+                          handleNextImage();
+                        } else {
+                          handlePrevImage();
+                        }
+                      }
+                      touchStartX.current = 0;
+                      touchEndX.current = 0;
+                    }}
                   >
                     <img
                       src={project.gallery[currentImageIndex].src}
                       alt={`${project.title} - Image ${currentImageIndex + 1}`}
-                      className="w-full h-auto object-contain"
+                      className="w-full h-auto object-contain select-none pointer-events-none"
                       style={{ maxHeight: '450px' }}
                       loading="lazy"
+                      draggable={false}
                     />
                   </div>
 
@@ -253,11 +308,14 @@ export default function ProjectDetail() {
                   </button>
                 </div>
 
-                {/* Compteur */}
+                {/* Compteur et indication swipe mobile */}
                 <div className="text-center mb-4">
                   <span className="text-sm opacity-50">
                     {currentImageIndex + 1} / {project.gallery.length}
                   </span>
+                  <p className="text-xs opacity-30 mt-1 md:hidden">
+                    Glissez pour naviguer
+                  </p>
                 </div>
 
                 {/* Description de l'image */}
@@ -345,40 +403,71 @@ export default function ProjectDetail() {
                 Détails du projet
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Informations */}
                 <div>
-                  <h3 className="text-xl font-light mb-4 opacity-70">Technologies utilisées</h3>
+                  <h3 className="text-xl font-light mb-4 opacity-70">Informations</h3>
+                  <ul className="space-y-3 text-sm">
+                    {project.context && (
+                      <li className="flex flex-col gap-1">
+                        <span className="opacity-50 text-xs tracking-wider">CONTEXTE</span>
+                        <span>{project.context}</span>
+                      </li>
+                    )}
+                    {project.period && (
+                      <li className="flex flex-col gap-1">
+                        <span className="opacity-50 text-xs tracking-wider">PÉRIODE</span>
+                        <span>{project.period}</span>
+                      </li>
+                    )}
+                    {project.duration && (
+                      <li className="flex flex-col gap-1">
+                        <span className="opacity-50 text-xs tracking-wider">DURÉE</span>
+                        <span>{project.duration}</span>
+                      </li>
+                    )}
+                    <li className="flex flex-col gap-1">
+                      <span className="opacity-50 text-xs tracking-wider">TYPE</span>
+                      <span>{project.type || project.category}</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Outils utilisés */}
+                <div>
+                  <h3 className="text-xl font-light mb-4 opacity-70">Outils utilisés</h3>
                   <div className="flex flex-wrap gap-2">
-                    {project.tags && project.tags.map((tag, i) => (
+                    {(project.outils || project.tags || []).map((outil, i) => (
                       <span
                         key={i}
                         className={`px-4 py-2 border rounded-full text-sm ${
                           isDarkMode ? 'border-beige/20' : 'border-black/20'
                         }`}
                       >
-                        {tag}
+                        {outil}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-xl font-light mb-4 opacity-70">Informations</h3>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex justify-between">
-                      <span className="opacity-70">Catégorie</span>
-                      <span>{project.category}</span>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="opacity-70">Année</span>
-                      <span>{project.year}</span>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="opacity-70">Type</span>
-                      <span>Projet {project.category.toLowerCase()}</span>
-                    </li>
-                  </ul>
-                </div>
+                {/* Compétences */}
+                {project.competences && project.competences.length > 0 && (
+                  <div>
+                    <h3 className="text-xl font-light mb-4 opacity-70">Compétences mobilisées</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {project.competences.map((comp, i) => (
+                        <span
+                          key={i}
+                          className={`px-3 py-1 text-sm rounded-full ${
+                            isDarkMode ? 'bg-beige/10' : 'bg-black/10'
+                          }`}
+                        >
+                          {comp}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </motion.div>
 

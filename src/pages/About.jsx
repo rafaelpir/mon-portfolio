@@ -140,11 +140,11 @@ export default function About() {
                 Tout a commencé avec Photoshop. Cette première rencontre avec l'outil
                 a été une révélation : j'ai découvert qu'on pouvait créer des univers,
                 raconter des histoires, et transmettre des émotions uniquement par l'image.
-                Depuis, je ne cesse d'explorer les possibilités infinies du design graphique,
-                du motion design et de l'identité visuelle.
+                Depuis, je ne cesse d'explorer les possibilités infinies du design graphique
+               et de l'identité visuelle.
               </p>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Le développement web est venu compléter naturellement ce parcours,
+                Illustrator et Figma ont compléter naturellement ce parcours,
                 comme un moyen supplémentaire de donner vie à mes créations et de les
                 rendre interactives. Mais c'est avant tout l'aspect visuel et créatif
                 qui guide mon travail.
@@ -286,7 +286,7 @@ export default function About() {
               </h3>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                 Je passe beaucoup de temps à explorer les tendances visuelles, à étudier
-                les travaux de designers et directeurs artistiques que j'admire. Que ce soit
+                les travaux de designers et directeurs artistiques. Que ce soit
                 une affiche de film, un générique, une campagne publicitaire ou un clip musical,
                 chaque création marquante nourrit mon regard et enrichit mon approche créative.
               </p>
@@ -299,9 +299,8 @@ export default function About() {
                 Apprentissage Continu
               </h3>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Le design et l'audiovisuel évoluent constamment, et j'adore ça. Je consacre
-                du temps chaque semaine à expérimenter de nouvelles techniques de composition,
-                d'animation, de montage, ou à maîtriser de nouveaux outils créatifs.
+                Le design et l'audiovisuel évoluent constamment, et j'adore ça.
+                Je suis toujours en recherche de nouvelles connaissances et de nouvelles technologies.
               </p>
             </div>
           </div>
@@ -317,7 +316,7 @@ export default function About() {
           <p className={`text-lg md:text-xl font-light mb-12 ${
             isDarkMode ? 'text-gray-400' : 'text-gray-600'
           }`}>
-            Un projet en tête ? Discutons-en autour d'un café (virtuel ou réel)
+            Un projet en tête ? Discutons-en.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
