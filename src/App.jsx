@@ -14,10 +14,14 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 
 function AppContent() {
   const location = useLocation();
-  const [showPreloader, setShowPreloader] = useState(true);
+  const [showPreloader, setShowPreloader] = useState(() => {
+    // Ne montrer le preloader que s'il n'a pas déjà été affiché dans cette session
+    return !sessionStorage.getItem('preloaderShown');
+  });
   const isHomePage = location.pathname === '/';
 
   const handlePreloaderComplete = () => {
+    sessionStorage.setItem('preloaderShown', 'true');
     setShowPreloader(false);
   };
 

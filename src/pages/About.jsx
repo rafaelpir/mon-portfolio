@@ -123,7 +123,7 @@ export default function About() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-24">
           <div>
             <h2 className="text-4xl md:text-6xl font-light mb-8">
-              Mon Parcours
+              De l'informatique à la création numérique
             </h2>
             <div className="space-y-6 text-base md:text-lg font-light leading-relaxed">
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>

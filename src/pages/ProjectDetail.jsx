@@ -32,9 +32,11 @@ export default function ProjectDetail() {
     }
   };
 
-  // Projets précédent et suivant
-  const previousProject = projects[currentIndex - 1];
-  const nextProject = projects[currentIndex + 1];
+  // Projets précédent et suivant (en excluant les projets cachés)
+  const visibleProjects = projects.filter(p => !p.hidden);
+  const currentVisibleIndex = visibleProjects.findIndex(p => p.id.toString() === id);
+  const previousProject = visibleProjects[currentVisibleIndex - 1];
+  const nextProject = visibleProjects[currentVisibleIndex + 1];
 
   if (!project) {
     return (
@@ -82,7 +84,7 @@ export default function ProjectDetail() {
             </button>
 
             <div className="text-sm tracking-wider opacity-50">
-              {currentIndex + 1} / {projects.length}
+              {currentVisibleIndex + 1} / {visibleProjects.length}
             </div>
           </div>
         </header>
