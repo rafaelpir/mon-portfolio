@@ -128,14 +128,15 @@ export default function Home() {
   // Fusionner projets universitaires et expériences professionnelles
   const allProjects = [...experiencesPro, ...projects];
 
-  // Catégories à afficher dans les filtres (Expériences Pro en premier pour mise en avant)
-  const categories = ['Tous', 'Expériences Pro', 'Affiches', 'UI/UX Design', 'Branding', 'Photographie'];
+  // Catégories à afficher dans les filtres
+  const categories = ['Tous', 'Affiches', 'UI/UX Design'];
 
   // Extraire tous les tags uniques
   const allTags = [...new Set(allProjects.flatMap(p => p.tags || []))].sort();
 
-  // Filtrer les projets selon la catégorie et les tags
+  // Filtrer les projets selon la catégorie et les tags (exclure les projets cachés)
   const filteredProjects = allProjects.filter(project => {
+    if (project.hidden) return false;
     const categoryMatch = selectedCategory === 'Tous' || project.category === selectedCategory;
     const tagMatch = selectedTags.length === 0 || selectedTags.some(tag => (project.tags || []).includes(tag));
     return categoryMatch && tagMatch;

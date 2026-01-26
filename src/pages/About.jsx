@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { LiquidMetal } from '@paper-design/shaders-react';
 
 export default function About() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -8,14 +9,7 @@ export default function About() {
     return saved !== null ? JSON.parse(saved) : true;
   });
 
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
+  
   const toggleDarkMode = () => {
     const newMode = !isDarkMode;
     setIsDarkMode(newMode);
@@ -34,15 +28,21 @@ export default function About() {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-6">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
-            <img
-              src="/bullet.png"
-              alt="Logo Rafael Piral"
-              className="w-full h-full object-contain"
-              style={{
-                transform: `rotate(${scrollY * 0.5}deg)`,
-                transition: 'transform 0.1s ease-out'
-              }}
+          <Link to="/" className="relative w-20 h-20 md:w-32 md:h-32 flex items-center justify-center overflow-hidden">
+            <LiquidMetal
+              style={{ width: '100%', height: '100%' }}
+              image="/images/logos/RP.png"
+              colorBack={isDarkMode ? "#00000000" : "#00000000"}
+              repetition={6}
+              softness={0.8}
+              shiftRed={1}
+              shiftBlue={-1}
+              distortion={0.4}
+              contour={0.4}
+              angle={0}
+              speed={1}
+              scale={0.7}
+              fit="contain"
             />
           </Link>
 
@@ -154,24 +154,25 @@ export default function About() {
 
           <div>
             <h2 className="text-4xl md:text-6xl font-light mb-8">
-              Ma Vision
+              Ce qui m'attire
             </h2>
             <div className="space-y-6 text-base md:text-lg font-light leading-relaxed">
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Pour moi, chaque image raconte une histoire. Que ce soit une affiche,
-                une identité visuelle ou une vidéo, je cherche toujours à transmettre
-                une émotion, à créer une atmosphère qui résonne avec le public.
+                Je me verrais particulièrement évoluer dans deux univers qui me
+                passionnent : le graphisme et l'audiovisuel.
               </p>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                J'aime jouer avec la composition, les contrastes, la typographie et les
-                couleurs pour créer des univers visuels uniques. Mon approche mêle
-                minimalisme et audace : chaque élément a sa raison d'être, chaque
-                détail compte.
+                En tant que graphiste, j'aimerais travailler sur des projets
+                d'identité visuelle, de création d'affiches, de supports print
+                ou digitaux. Concevoir des visuels qui marquent les esprits et
+                racontent une histoire est ce qui me motive au quotidien.
               </p>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Le motion design m'attire particulièrement car il permet d'ajouter
-                une dimension temporelle à mes créations, de guider le regard et
-                d'intensifier l'impact émotionnel d'un message.
+                Le monde de l'audiovisuel m'attire également énormément. Travailler
+                sur des plateaux de tournage, que ce soit en tant qu'assistant
+                réalisateur, perchman, aide sur le plateau ou dans l'équipe technique,
+                serait une expérience enrichissante qui me permettrait de découvrir
+                les coulisses de la création audiovisuelle.
               </p>
             </div>
           </div>
@@ -291,15 +292,7 @@ export default function About() {
               </p>
             </div>
 
-            <div>
-              <h3 className="text-2xl mb-4">
-                Photographie
-              </h3>
-              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                La photographie m'a appris à voir la composition, la lumière et les détails.
-                Ces compétences se retrouvent naturellement dans mon approche du design visuel.
-              </p>
-            </div>
+      
 
             <div>
               <h3 className="text-2xl mb-4">

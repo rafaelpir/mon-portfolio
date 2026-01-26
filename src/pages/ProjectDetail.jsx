@@ -139,71 +139,6 @@ export default function ProjectDetail() {
               </motion.div>
             )}
 
-            {/* Vidéo (si présente) */}
-            {(project.youtubeId || project.video) && (
-              <motion.div
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mb-20"
-              >
-                <h2 className="text-2xl font-light mb-6 opacity-70">
-                  Présentation vidéo
-                </h2>
-                <div className="relative aspect-video rounded-lg overflow-hidden bg-black/5">
-                  {project.youtubeId ? (
-                    // YouTube embed
-                    <iframe
-                      src={`https://www.youtube.com/embed/${project.youtubeId}`}
-                      title={project.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full h-full"
-                    />
-                  ) : (
-                    // Vidéo locale
-                    <video
-                      src={project.video}
-                      controls
-                      autoPlay
-                      loop
-                      muted
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                </div>
-              </motion.div>
-            )}
-
-            {/* Prototype Figma interactif */}
-            {project.figmaEmbed && (
-              <motion.div
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mb-20"
-              >
-                <h2 className="text-2xl font-light mb-6 opacity-70">
-                  Prototype interactif
-                </h2>
-                <div className="relative rounded-lg overflow-hidden bg-black/5" style={{ height: '600px' }}>
-                  <iframe
-                    src={project.figmaEmbed}
-                    title={`${project.title} - Prototype Figma`}
-                    allowFullScreen
-                    className="w-full border-0"
-                    style={{
-                      height: 'calc(100% + 50px)',
-                      marginTop: '-50px'
-                    }}
-                  />
-                </div>
-                <p className="text-center mt-4 text-sm opacity-50">
-                  Cliquez et naviguez dans le prototype pour explorer les maquettes interactives
-                </p>
-              </motion.div>
-            )}
-
             {/* PDF Document */}
             {project.pdfFile && (
               <motion.div
@@ -287,12 +222,15 @@ export default function ProjectDetail() {
                   </button>
 
                   {/* Image du carousel */}
-                  <div className="relative rounded-lg overflow-hidden bg-black/5 flex-shrink-0" style={{ maxWidth: '350px' }}>
+                  <div
+                    className="relative rounded-lg overflow-hidden bg-black/5 flex-shrink-0"
+                    style={{ maxWidth: '500px' }}
+                  >
                     <img
                       src={project.gallery[currentImageIndex].src}
                       alt={`${project.title} - Image ${currentImageIndex + 1}`}
                       className="w-full h-auto object-contain"
-                      style={{ maxHeight: '300px' }}
+                      style={{ maxHeight: '450px' }}
                       loading="lazy"
                     />
                   </div>
@@ -326,6 +264,71 @@ export default function ProjectDetail() {
                     {project.gallery[currentImageIndex].description}
                   </p>
                 )}
+              </motion.div>
+            )}
+
+            {/* Vidéo (si présente) */}
+            {(project.youtubeId || project.video) && (
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.65 }}
+                className="mb-20"
+              >
+                <h2 className="text-2xl font-light mb-6 opacity-70">
+                  Présentation vidéo
+                </h2>
+                <div className="relative aspect-video rounded-lg overflow-hidden bg-black/5">
+                  {project.youtubeId ? (
+                    // YouTube embed
+                    <iframe
+                      src={`https://www.youtube.com/embed/${project.youtubeId}`}
+                      title={project.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full"
+                    />
+                  ) : (
+                    // Vidéo locale
+                    <video
+                      src={project.video}
+                      controls
+                      autoPlay
+                      loop
+                      muted
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Prototype Figma interactif */}
+            {project.figmaEmbed && (
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.7 }}
+                className="mb-20"
+              >
+                <h2 className="text-2xl font-light mb-6 opacity-70">
+                  Prototype interactif
+                </h2>
+                <div className="relative rounded-lg overflow-hidden bg-black/5" style={{ height: '600px' }}>
+                  <iframe
+                    src={project.figmaEmbed}
+                    title={`${project.title} - Prototype Figma`}
+                    allowFullScreen
+                    className="w-full border-0"
+                    style={{
+                      height: 'calc(100% + 50px)',
+                      marginTop: '-50px'
+                    }}
+                  />
+                </div>
+                <p className="text-center mt-4 text-sm opacity-50">
+                  Cliquez et naviguez dans le prototype pour explorer les maquettes interactives
+                </p>
               </motion.div>
             )}
 
