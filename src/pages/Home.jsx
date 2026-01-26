@@ -21,7 +21,6 @@ export default function Home() {
   const navigate = useNavigate();
   const { isPresentationMode, togglePresentationMode, isFullscreenSupported } = usePresentationMode();
   const [scrollY, setScrollY] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [selectedCategory, setSelectedCategory] = useState('Tous');
   const [selectedTags, setSelectedTags] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -31,7 +30,7 @@ export default function Home() {
   });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [textEffectsEnabled, setTextEffectsEnabled] = useState(() => {
+  const [textEffectsEnabled] = useState(() => {
     const saved = localStorage.getItem('textEffects');
     return saved !== null ? JSON.parse(saved) : false;
   });
@@ -64,9 +63,8 @@ export default function Home() {
     }
   };
 
-  // Refs pour le throttling
+  // Ref pour le throttling du scroll
   const scrollTicking = useRef(false);
-  const mouseTicking = useRef(false);
 
   useEffect(() => {
     // Throttle scroll avec requestAnimationFrame
@@ -76,17 +74,6 @@ export default function Home() {
         requestAnimationFrame(() => {
           setScrollY(window.scrollY);
           scrollTicking.current = false;
-        });
-      }
-    };
-
-    // Throttle mousemove avec requestAnimationFrame
-    const handleMouseMove = (e) => {
-      if (!mouseTicking.current) {
-        mouseTicking.current = true;
-        requestAnimationFrame(() => {
-          setMousePosition({ x: e.clientX, y: e.clientY });
-          mouseTicking.current = false;
         });
       }
     };
@@ -103,13 +90,11 @@ export default function Home() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('click', handleClickOutside);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('click', handleClickOutside);
     };
@@ -294,18 +279,6 @@ export default function Home() {
       {/* Bannière "En construction" */}
       <WorkInProgressBanner isDarkMode={isDarkMode} />
 
-      {/* Curseur personnalisé (masqué sur mobile) */}
-      <div
-        className={`hidden md:block fixed w-4 h-4 border-2 rounded-full pointer-events-none z-50 mix-blend-difference will-change-transform ${
-          isDarkMode ? 'border-beige' : 'border-black'
-        }`}
-        style={{
-          left: 0,
-          top: 0,
-          transform: `translate3d(${mousePosition.x - 8}px, ${mousePosition.y - 8}px, 0)`
-        }}
-      />
-
       {/* Header avec navigation */}
       {!isPresentationMode && (
       <header className={`fixed top-0 left-0 right-0 z-40 px-4 md:px-8 py-4 md:py-6 transition-colors duration-300 ${
@@ -453,24 +426,6 @@ export default function Home() {
                   >
                     <span>{isDarkMode ? 'Mode sombre' : 'Mode clair'}</span>
                     {isDarkMode ? '🌙' : '☀️'}
-                  </button>
-
-                  <div className={`my-2 border-t ${isDarkMode ? 'border-black/10' : 'border-beige/10'}`} />
-
-                  {/* Effets de texte */}
-                  <div className={`px-4 py-2 text-xs font-semibold ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`}>
-                    EFFETS DE TEXTE
-                  </div>
-                  <button
-                    onClick={() => setTextEffectsEnabled(!textEffectsEnabled)}
-                    className={`w-full px-4 py-2 text-left flex items-center justify-between ${
-                      isDarkMode ? 'hover:bg-black/5 text-black' : 'hover:bg-beige/10 text-beige'
-                    }`}
-                  >
-                    <span>Effets shuffle</span>
-                    <span className={`text-sm ${textEffectsEnabled ? 'text-green-500' : 'text-red-500'}`}>
-                      {textEffectsEnabled ? 'ON' : 'OFF'}
-                    </span>
                   </button>
 
                   <div className={`my-2 border-t ${isDarkMode ? 'border-black/10' : 'border-beige/10'}`} />

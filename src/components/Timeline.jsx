@@ -44,7 +44,6 @@ export default function Timeline({ isDarkMode }) {
         <p className={`text-sm md:text-base max-w-xl mt-4 ${
           isDarkMode ? 'text-gray-400' : 'text-gray-600'
         }`}>
-          Un parcours atypique qui mêle compétences techniques et sensibilité artistique.
         </p>
       </div>
 
