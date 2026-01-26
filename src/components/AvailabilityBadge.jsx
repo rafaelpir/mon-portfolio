@@ -11,7 +11,9 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
       isDarkMode
         ? 'bg-gradient-to-r from-orange-500/30 via-red-500/20 to-orange-500/30 border-orange-400/50 shadow-orange-500/20'
         : 'bg-gradient-to-r from-orange-500/40 via-red-500/30 to-orange-500/40 border-orange-600/60 shadow-orange-600/30'
-    }`} style={{ animation: 'pulse 2s ease-in-out infinite' }}>
+    }`}
+      style={{ animation: 'pulse 2s ease-in-out infinite' }}
+      aria-label="Voir les disponibilités et informations de contact">
       {/* Pulsing dot avec glow effect */}
       <div className="relative flex items-center justify-center shrink-0">
         <span className={`absolute w-6 h-6 md:w-10 md:h-10 rounded-full animate-ping ${
