@@ -17,7 +17,7 @@ export const projects = [
     context: "Projet personnel - Réinterprétation d'affiche de film",
     period: "Janvier 2025",
     duration: "2 semaines",
-    description: "J'ai voulu revisiter l'affiche du film 'Un Homme qui dort' (1974), un classique qui m'a marqué par son atmosphère si particulière. J'ai gardé la typographie originale que j'adore, mais j'ai complètement repensé l'image : des gros plans texturés et granuleux qui, pour moi, traduisent mieux l'ennui et l'introspection que le vide habituel. Une façon de raconter l'isolement par la\u00A0matière.",
+    description: "J'ai voulu revisiter l'affiche du film 'Un Homme qui dort' (1974), un classique qui m'a marqué par son atmosphère si particulière. J'ai gardé la typographie originale que j'adore, mais j'ai complètement repensé l'image sur Photoshop : des gros plans texturés et granuleux qui, pour moi, traduisent mieux l'ennui et l'introspection que le vide habituel. Une façon de raconter l'isolement par la\u00A0matière.",
     thumbnail: "/images/projects/lhommequidort.webp",
     youtubeId: "LUMifnAPafc",
     gallery: [
@@ -37,7 +37,7 @@ export const projects = [
     context: "Concours officiel - Ville de Saint-Paul-lès-Dax",
     period: "Décembre 2024 - Janvier 2025",
     duration: "3 semaines",
-    description: "J'ai participé au concours officiel d'affiche organisé par la ville de Saint-Paul-lès-Dax pour leurs Fêtes Populaires 2025. L'objectif était de proposer une affiche qui représente l'esprit festif de cet événement\u00A0incontournable.",
+    description: "J'ai participé au concours officiel d'affiche organisé par la ville de Saint-Paul-lès-Dax pour leurs Fêtes Populaires 2025. J'ai conçu une affiche en flat design sur Illustrator et Photoshop, l'objectif était de proposer une affiche qui représente l'esprit festif de cet événement\u00A0incontournable.",
     thumbnail: "/images/projects/daxmockup.webp",
     gallery: [
       { src: "/images/projects/Dax.webp", description: "Affiche originale des Fêtes Populaires de Saint-Paul-lès-Dax 2025." },
@@ -56,7 +56,7 @@ export const projects = [
     context: "Projet personnel - Hommage graphique",
     period: "Décembre 2024",
     duration: "1 semaine",
-    description: "Diamond Life de Sade (1984), c'est un album que j'apprécie. J'ai voulu lui rendre hommage à travers un poster qui capture cette élégance soul/jazz si particulière, avec un traitement rétro et des tons sépia qui évoquent le vinyle et la\u00A0nostalgie.",
+    description: "Diamond Life de Sade (1984), c'est un album que j'apprécie. J'ai voulu lui rendre hommage à travers un poster réalisé sur Photoshop qui capture cette élégance soul/jazz si particulière, avec un traitement rétro et des tons sépia qui évoquent le vinyle et la\u00A0nostalgie.",
     thumbnail: "/images/projects/sademockup.webp",
     gallery: [
       { src: "/images/projects/sade.webp", description: "Poster Tribute original de l'album Diamond Life de Sade." },
@@ -75,9 +75,9 @@ export const projects = [
     context: "Projet SAE BUT2 - Conception d'application mobile",
     period: "Octobre - Novembre 2025",
     duration: "6 semaines",
-    description: "Conception visuelle de Veco, application de location de véhicules électriques entre particuliers. Traduction des valeurs de mobilité douce et d'écologie en interface intuitive. Palette verte et naturelle pour ancrer l'univers éco-responsable. Les maquettes couvrent le parcours complet (géolocalisation, réservation, profil utilisateur) avec un design pensé pour rassurer et simplifier la prise en\u00A0main.",
+    description: "Projet en équipe — Mon rôle : conception visuelle sur Figma de Veco, application de location de véhicules électriques entre particuliers. Traduction des valeurs de mobilité douce et d'écologie en interface intuitive. Palette verte et naturelle pour ancrer l'univers éco-responsable. Les maquettes couvrent le parcours complet (géolocalisation, réservation, profil utilisateur) avec un design pensé pour rassurer et simplifier la prise en\u00A0main.",
     thumbnail: "/images/projects/veco/thumbnail.webp",
-    competences: ["Conception d'interfaces mobiles", "UX Design", "UI Design", "Branding", "Design System"],
+    competences: ["Conception d'interfaces mobiles", "UX Design", "UI Design", "Branding", "Design System", "Travail en équipe", "Communication"],
     outils: ["Figma"],
     gallery: [
       { src: "/images/projects/veco/thumbnail.webp", description: "Présentation de l'application Veco : Vue d'ensemble de l'identité visuelle et du design system de l'application de mobilité électrique." },
@@ -102,7 +102,7 @@ export const projects = [
     context: "Projet SAE BUT2 - Optimisation SEO et conception web",
     period: "Septembre - Octobre 2025",
     duration: "5 semaines",
-    description: "Ce projet avait une contrainte intéressante : penser le design pour le SEO dès le départ. Pas juste faire joli, mais créer une structure qui plaise aussi aux moteurs de recherche. J'ai conçu toute l'identité visuelle — logo, Design System — en veillant à ce que tout reste léger et performant. Les maquettes jouent sur la hiérarchie visuelle pour guider naturellement l'utilisateur tout en facilitant\u00A0l'indexation.",
+    description: "Projet en équipe — Mon rôle : conception de l'identité visuelle et des maquettes sur Figma. Ce projet avait une contrainte intéressante : penser le design pour le SEO dès le départ. Pas juste faire joli, mais créer une structure qui plaise aussi aux moteurs de recherche. J'ai conçu toute l'identité visuelle — logo, Design System — en veillant à ce que tout reste léger et performant. Les maquettes jouent sur la hiérarchie visuelle pour guider naturellement l'utilisateur tout en facilitant\u00A0l'indexation.",
     thumbnail: "/images/projects/armorimmo.webp",
     figmaEmbed: "https://embed.figma.com/proto/IySCrSMWMDsUfz9bO51rrz/Site-Immo-Referencement?page-id=6%3A32&node-id=16-2&viewport=154%2C281%2C0.18&scaling=scale-down&content-scaling=fixed&starting-point-node-id=16%3A2&embed-host=share",
     gallery: [
@@ -111,7 +111,7 @@ export const projects = [
       { src: "/images/projects/armorimmomockup2.webp", description: "Mockup de présentation de la page des lots immobiliers." }
     ],
     tags: ["Figma", "UI Design", "Branding", "SEO"],
-    competences: ["Conception web", "UI/UX Design", "Branding", "SEO", "Design System", "Architecture de l'information"],
+    competences: ["Conception web", "UI/UX Design", "Branding", "SEO", "Design System", "Architecture de l'information", "Travail en équipe", "Esprit d'équipe"],
     outils: ["Figma"]
   },
   {
@@ -123,7 +123,7 @@ export const projects = [
     context: "Projet personnel - Expérimentation graphique",
     period: "Août 2025",
     duration: "3 jours",
-    description: "Lors de mon voyage à New York, j'ai pris cette photo de la Statue de la Liberté depuis Liberty Island. De retour, j'ai eu envie d'expérimenter : transformer l'image en caractères ASCII\u00A0uniquement.",
+    description: "Lors de mon voyage à New York, j'ai pris cette photo de la Statue de la Liberté depuis Liberty Island. De retour, j'ai eu envie d'expérimenter sur Photoshop : transformer l'image en caractères ASCII\u00A0uniquement.",
     thumbnail: "/images/projects/libertemockup.webp",
     gallery: [
       { src: "/images/projects/Liberté.webp", description: "Statue de la Liberté en art ASCII : Version finale de l'expérimentation graphique transformant la photographie iconique en composition typographique pure." },
@@ -143,7 +143,7 @@ export const projects = [
     context: "Projet SAE BUT2 - Création d'identité visuelle",
     period: "Novembre - Décembre 2025",
     duration: "4 semaines",
-    description: "À Cœur Ouvert est une ONG fictive de lutte contre les violences conjugales. J'ai créé toute l'identité visuelle : le logo, la charte graphique, et j'ai aussi rédigé un article portrait donnant la parole à une victime. Le nom évoque un espace de parole sans jugement. Mon défi : trouver le bon équilibre entre une image rassurante et professionnelle, qui inspire confiance et bienveillance. L'ONG se veut inclusive — accueil universel, écoute 24h/24 — et l'identité devait refléter\u00A0ça.",
+    description: "À Cœur Ouvert est une ONG fictive de lutte contre les violences conjugales. J'ai créé toute l'identité visuelle sur Illustrator : le logo, la charte graphique, et j'ai aussi rédigé un article portrait sur InDesign donnant la parole à une victime. Le nom évoque un espace de parole sans jugement. Mon défi : trouver le bon équilibre entre une image rassurante et professionnelle, qui inspire confiance et bienveillance. L'ONG se veut inclusive — accueil universel, écoute 24h/24 — et l'identité devait refléter\u00A0ça.",
     thumbnail: "/images/projects/ACoeurOuvert.svg",
     pdfFile: "/images/projects/portrait.pdf",
     tags: ["Branding", "Illustrator", "InDesign"],
@@ -159,7 +159,7 @@ export const projects = [
     context: "Projet personnel - Création d'affiche de film",
     period: "Janvier 2026",
     duration: "1 semaine",
-    description: "Gummo (1997) d'Harmony Korine, c'est un film qui ne laisse pas indifférent. Expérimental, dérangeant, mais aussi étrangement poétique. J'ai voulu créer une affiche qui capture cette ambiance si particulière : l'imagerie trash et nostalgique, les couleurs désaturées des années 90, cette atmosphère désenchantée. La typo s'inspire de l'esthétique lo-fi et underground du cinéma indépendant américain de cette\u00A0époque.",
+    description: "Gummo (1997) d'Harmony Korine, c'est un film qui ne laisse pas indifférent. Expérimental, dérangeant, mais aussi étrangement poétique. J'ai voulu créer une affiche sur Photoshop et Illustrator qui capture cette ambiance si particulière : l'imagerie trash et nostalgique, les couleurs désaturées des années 90, cette atmosphère désenchantée. La typo s'inspire de l'esthétique lo-fi et underground du cinéma indépendant américain de cette\u00A0époque.",
     thumbnail: "/images/projects/gummomockup.webp",
     youtubeId: "hYalnCwEd5c",
     gallery: [

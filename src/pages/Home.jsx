@@ -718,7 +718,7 @@ export default function Home() {
         transition={isMobile ? {} : { duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
       >
         <h2 className="text-[10px] md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center">
-          PROJETS SÉLECTIONNÉS
+         MES PROJETS 
         </h2>
 
         {/* Filtres avancés */}
