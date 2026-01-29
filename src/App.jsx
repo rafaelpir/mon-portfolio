@@ -8,6 +8,9 @@ import Preloader from './components/Preloader';
 const Home = lazy(() => import('./pages/Home'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const CV = lazy(() => import('./pages/CV'));
+const LettreMotivationGraphiste = lazy(() => import('./pages/LettreMotivationGraphiste'));
+const LettrePanameArtCafe = lazy(() => import('./pages/LettrePanameArtCafe'));
+const LettreCarjackFilms = lazy(() => import('./pages/LettreCarjackFilms'));
 const About = lazy(() => import('./pages/About'));
 const Legal = lazy(() => import('./pages/Legal'));
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -37,6 +40,9 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/cv" element={<CV />} />
+          <Route path="/lettre-motivation-graphiste" element={<LettreMotivationGraphiste />} />
+          <Route path="/lettre-paname-art-cafe" element={<LettrePanameArtCafe />} />
+          <Route path="/lettre-carjack-films" element={<LettreCarjackFilms />} />
           <Route path="/about" element={<About />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="*" element={<NotFound />} />

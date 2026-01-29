@@ -641,11 +641,11 @@ export default function Home() {
   {/* J'ai ajouté 'text-pretty' dans la div parent ci-dessus pour que ça s'applique partout */}
   
   <p>
-    Passionné par le design graphique et<br /> l'audiovisuel, actuellement en BUT2 Métiers du Multimédia et de l'Internet à l'IUT de Bobigny, parcours Création Numérique.
+    Passionné par le graphisme, l'audiovisuel et la communication, actuellement en BUT2 Métiers du Multimédia et de l'Internet à l'IUT de Bobigny, parcours Création Numérique.
   </p>
 
   <p className="text-gray-400">
-    En recherche d'un stage de 12 semaines à partir du 7&nbsp;avril&nbsp;2026 dans le domaine de la création numérique et de l'audiovisuel.
+    En recherche d'un stage de 12 semaines à partir du 7&nbsp;avril&nbsp;2026 dans le domaine de la création numérique, de l'audiovisuel et de la communication.
   </p>
 
   <p className="text-gray-400">

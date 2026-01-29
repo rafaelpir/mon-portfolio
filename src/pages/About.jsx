@@ -113,7 +113,7 @@ export default function About() {
           <p className={`text-lg md:text-2xl font-light leading-relaxed ${
             isDarkMode ? 'text-gray-300' : 'text-gray-700'
           }`}>
-            Créatif passionné par le design graphique et l'audiovisuel, j'aime donner vie aux idées à travers l'image
+            Créatif passionné par le graphisme, l'audiovisuel et la communication, j'aime donner vie aux idées à travers l'image
           </p>
         </div>
       </section>
@@ -134,7 +134,7 @@ export default function About() {
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                 Actuellement à la recherche d'un stage d'au moins 8 semaines à partir
                 d'avril 2026, je souhaite mettre mes compétences au service de projets
-                créatifs dans le domaine de l'audiovisuel et du design graphique.
+                créatifs dans le domaine du graphisme, de l'audiovisuel et de la communication.
               </p>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                 Tout a commencé avec Photoshop. Cette première rencontre avec l'outil
@@ -158,8 +158,8 @@ export default function About() {
             </h2>
             <div className="space-y-6 text-base md:text-lg font-light leading-relaxed">
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Je me verrais particulièrement évoluer dans deux univers qui me
-                passionnent : le graphisme et l'audiovisuel.
+                Je me verrais particulièrement évoluer dans trois univers qui me
+                passionnent : le graphisme, l'audiovisuel et la communication.
               </p>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                 En tant que graphiste, j'aimerais travailler sur des projets
@@ -299,7 +299,7 @@ export default function About() {
                 Apprentissage Continu
               </h3>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Le design et l'audiovisuel évoluent constamment, et j'adore ça.
+                Le design, l'audiovisuel et la communication évoluent constamment, et j'adore ça.
                 Je suis toujours en recherche de nouvelles connaissances et de nouvelles technologies.
               </p>
             </div>
@@ -354,7 +354,7 @@ export default function About() {
 
           <div className="flex gap-6">
             <a
-              href="https://github.com/rafaelpiral"
+              href="https://github.com/rafaelpir"
               target="_blank"
               rel="noopener noreferrer"
               className={`text-sm transition-colors ${
@@ -372,16 +372,6 @@ export default function About() {
               }`}
             >
               LinkedIn
-            </a>
-            <a
-              href="https://instagram.com/rafaelpiral"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`text-sm transition-colors ${
-                isDarkMode ? 'text-gray-500 hover:text-beige' : 'text-gray-600 hover:text-black'
-              }`}
-            >
-              Instagram
             </a>
             <a
               href="https://dribbble.com/RafaelPiral"

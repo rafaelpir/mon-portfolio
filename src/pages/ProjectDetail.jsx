@@ -243,10 +243,10 @@ export default function ProjectDetail() {
 
                 {/* Image avec boutons de navigation */}
                 <div className="flex items-center justify-center gap-6 mb-4">
-                  {/* Bouton précédent */}
+                  {/* Bouton précédent - masqué sur mobile */}
                   <button
                     onClick={handlePrevImage}
-                    className={`p-3 rounded-full border transition-colors flex-shrink-0 ${
+                    className={`hidden md:block p-3 rounded-full border transition-colors flex-shrink-0 ${
                       isDarkMode
                         ? 'border-beige/20 hover:border-beige hover:bg-beige/10'
                         : 'border-black/20 hover:border-black hover:bg-black/10'
@@ -292,10 +292,10 @@ export default function ProjectDetail() {
                     />
                   </div>
 
-                  {/* Bouton suivant */}
+                  {/* Bouton suivant - masqué sur mobile */}
                   <button
                     onClick={handleNextImage}
-                    className={`p-3 rounded-full border transition-colors flex-shrink-0 ${
+                    className={`hidden md:block p-3 rounded-full border transition-colors flex-shrink-0 ${
                       isDarkMode
                         ? 'border-beige/20 hover:border-beige hover:bg-beige/10'
                         : 'border-black/20 hover:border-black hover:bg-black/10'

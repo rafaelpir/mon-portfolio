@@ -1,74 +1,36 @@
 import { useState } from 'react';
+import { projects } from '../data/projects';
+
+// Descriptions courtes pour le CV (sinon la description complète est trop longue)
+const cvDescriptions = {
+  1: "Réinterprétation graphique d'une affiche culte. Composition texturée mêlant typographie d'époque et traitement photo granuleux pour une ambiance mélancolique.",
+  2: "Affiche de concours officiel. Illustration vectorielle (Flat Design) et choix stratégique d'une palette bleue pour rompre avec les codes traditionnels des ferias.",
+  3: "Affiche hommage style rétro. Maîtrise des effets de trame (halftone) et composition typographique élégante évoquant l'esthétique vinyle des années 80.",
+  4: "Conception UX/UI d'une app de mobilité. Création du parcours utilisateur, du Design System et des maquettes interactives haute fidélité sur Figma.",
+  5: "Design d'interface web optimisé pour le SEO. Création de l'identité de marque et structuration de l'information pour maximiser la lisibilité et la conversion.",
+  6: "Expérimentation graphique technique : transformation d'une photographie en composition typographique pure (Art ASCII) jouant sur la densité des caractères.",
+  7: "Création de l'identité visuelle globale (Logo, Charte, Print). Conception d'un univers rassurant et professionnel pour une ONG fictive.",
+  8: "Conception d'affiche au style 'Grunge/90s'. Travail de composition, photomontage et typographie distordue pour refléter l'univers underground du film.",
+  9: "Conception du logo et de la charte graphique pour la plateforme réseau alumni de l'IUT de Bobigny. Identité visuelle institutionnelle modernisée.",
+  10: "Court-métrage pour le Nikon Film Festival 2025. Acteur, monteur, perchman, écriture, storyboard, sous-titrage anglais et réalisation sur le thème « Super-pouvoir »."
+};
+
+// IDs des projets sélectionnés par défaut dans le CV
+const defaultSelectedIds = [8, 1, 2, 3, 4, 5, 6, 7, 10];
 
 export default function CV() {
-  
-  // --- DONNÉES PROJETS ---
-  const customProjects = [
-    {
-      id: 8,
-      title: "Gummo — Affiche de film",
-      category: "Affiches",
-      type: "Personnel",
-      year: "2026",
-      description: "Conception d'affiche au style 'Grunge/90s'. Travail de composition, photomontage et typographie distordue pour refléter l'univers underground du film."
-    },
-    {
-      id: 1,
-      title: "Un Homme qui dort",
-      category: "Affiches",
-      type: "Personnel",
-      year: "2025",
-      description: "Réinterprétation graphique d'une affiche culte. Composition texturée mêlant typographie d'époque et traitement photo granuleux pour une ambiance mélancolique."
-    },
-    {
-      id: 2,
-      title: "Fêtes de Saint-Paul-lès-Dax",
-      category: "Affiches",
-      type: "Universitaire",
-      year: "2025",
-      description: "Affiche de concours officiel. Illustration vectorielle (Flat Design) et choix stratégique d'une palette bleue pour rompre avec les codes traditionnels des ferias."
-    },
-    {
-      id: 3,
-      title: "Sade – Diamond Life",
-      category: "Affiches",
-      type: "Personnel",
-      year: "2025",
-      description: "Affiche hommage style rétro. Maîtrise des effets de trame (halftone) et composition typographique élégante évoquant l'esthétique vinyle des années 80."
-    },
-    {
-      id: 4,
-      title: "Application Veco",
-      category: "UI/UX Design",
-      type: "Universitaire",
-      year: "2025",
-      description: "Conception UX/UI d'une app de mobilité. Création du parcours utilisateur, du Design System et des maquettes interactives haute fidélité sur Figma."
-    },
-    {
-      id: 5,
-      title: "Agence Immobilière Web",
-      category: "UI/UX Design",
-      type: "Universitaire",
-      year: "2025",
-      description: "Design d'interface web optimisé pour le SEO. Création de l'identité de marque et structuration de l'information pour maximiser la lisibilité et la conversion."
-    },
-    {
-      id: 6,
-      title: "Statue de la Liberté ASCII",
-      category: "Photographie",
-      type: "Personnel",
-      year: "2025",
-      description: "Expérimentation graphique technique : transformation d'une photographie en composition typographique pure (Art ASCII) jouant sur la densité des caractères."
-    },
-    {
-      id: 7,
-      title: "ONG À Cœur Ouvert",
-      category: "Branding",
-      type: "Universitaire",
-      year: "2025",
-      description: "Création de l'identité visuelle globale (Logo, Charte, Print). Conception d'un univers rassurant et professionnel pour une ONG fictive."
-    }
-  ];
+  const [selectedIds, setSelectedIds] = useState(defaultSelectedIds);
+  const [showSelector, setShowSelector] = useState(false);
+
+  const toggleProject = (id) => {
+    setSelectedIds(prev =>
+      prev.includes(id) ? prev.filter(pid => pid !== id) : [...prev, id]
+    );
+  };
+
+  const selectedProjects = projects
+    .filter(p => selectedIds.includes(p.id))
+    .sort((a, b) => selectedIds.indexOf(a.id) - selectedIds.indexOf(b.id));
 
   return (
     <div className="min-h-screen font-sans bg-gray-100 text-gray-900 py-10 print:p-0 print:m-0 print:bg-white">
@@ -94,6 +56,52 @@ export default function CV() {
         }
       `}</style>
 
+      {/* --- SÉLECTEUR DE PROJETS --- */}
+      <div className="no-print mx-auto mb-6" style={{ maxWidth: '21cm' }}>
+        <button
+          onClick={() => setShowSelector(!showSelector)}
+          className="flex items-center gap-2 text-sm font-bold text-gray-700 hover:text-black transition-colors"
+        >
+          <svg
+            className={`w-4 h-4 transition-transform duration-200 ${showSelector ? 'rotate-180' : ''}`}
+            fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+          Sélectionner les projets ({selectedIds.length}/{projects.length})
+        </button>
+
+        {showSelector && (
+          <div className="mt-3 p-4 bg-white rounded-lg shadow-md border border-gray-200 grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {projects.map((project) => (
+              <label
+                key={project.id}
+                className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-colors ${
+                  selectedIds.includes(project.id)
+                    ? 'bg-gray-100'
+                    : 'hover:bg-gray-50'
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  checked={selectedIds.includes(project.id)}
+                  onChange={() => toggleProject(project.id)}
+                  className="w-4 h-4 rounded border-gray-300 text-black focus:ring-black accent-black"
+                />
+                <div className="flex-1 min-w-0">
+                  <span className="text-sm font-medium text-gray-900 truncate block">
+                    {project.title}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {project.category} — {project.type} — {project.year}
+                  </span>
+                </div>
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* --- CONTENEUR A4 --- */}
       <div
         className="mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative print:shadow-none print:m-0 print:w-full"
@@ -101,18 +109,18 @@ export default function CV() {
           width: '21cm',
           height: '29.7cm',
           // MODIFICATION ICI : Padding Haut réduit à 1cm (au lieu de 1.5cm) pour remonter le titre
-          padding: '0.5cm 1.5cm 1.5cm 1.5cm', 
+          padding: '1cm 1.5cm 1.5cm 1.5cm',
           boxSizing: 'border-box'
         }}
       >
 
         {/* --- HEADER --- */}
-        <header className="border-b-2 border-gray-900 pb-4 mb-4 shrink-0">
+        <header className="border-b-2 border-gray-900 pb-5 mb-6 shrink-0">
           <div className="flex justify-between items-end">
             <div>
               <h1 className="text-3xl font-bold tracking-widest leading-none mb-1.5">RAFAEL PIRAL</h1>
               <p className="text-xs tracking-widest text-gray-600 uppercase font-medium">
-                Graphiste, Designer UX/UI & Audiovisuel
+                Graphiste, Designer UX/UI, Audiovisuel & Communication
               </p>
             </div>
             <div className="text-right text-[11px] leading-snug text-gray-600 flex flex-col items-end">
@@ -128,13 +136,13 @@ export default function CV() {
         </header>
 
         {/* --- CORPS DU CV --- */}
-        <div className="flex-grow flex flex-col gap-5">
+        <div className="flex-grow flex flex-col gap-7">
 
           {/* 1. PROFIL */}
           <section>
-            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Profil</h2>
-            <p className="text-[11px] text-justify leading-snug text-gray-700">
-              Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'un stage d'au moins 8 semaines à partir d'avril 2026 dans le domaine de la création numérique et de l'audiovisuel. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle.
+            <h2 className="text-xs font-bold border-b border-gray-900 mb-3 uppercase tracking-wider text-black">Profil</h2>
+            <p className="text-[11px] text-justify leading-relaxed text-gray-700">
+              Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'un stage d'au moins 8 semaines à partir d'avril 2026 dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle.
             </p>
           </section>
 
@@ -142,7 +150,7 @@ export default function CV() {
           <section>
             <h2 className="text-xs font-bold border-b border-gray-900 mb-3 uppercase tracking-wider text-black">Compétences</h2>
             
-            <div className="grid grid-cols-2 gap-x-10 gap-y-5 items-start">
+            <div className="grid grid-cols-2 gap-x-10 gap-y-6 items-start">
               
               {/* --- GAUCHE : Design --- */}
               <div>
@@ -172,7 +180,7 @@ export default function CV() {
               <div>
                 <h3 className="font-bold text-[11px] uppercase mb-1 text-gray-500">Transverses</h3>
                 <p className="text-[11px] leading-relaxed text-gray-800">
-                  Suite Office, Réseaux Sociaux, Gestion de projet
+                  Suite Office, Réseaux Sociaux, Gestion de projet, Communication
                 </p>
               </div>
 
@@ -185,8 +193,8 @@ export default function CV() {
               Mes Projets
             </h2>
             <div className="space-y-4">
-              {customProjects.map((project) => {
-                
+              {selectedProjects.map((project) => {
+
                 // --- FONCTION ANTI-ORPHELINS ---
                 const descriptionSansOrphelin = (text) => {
                    if (!text) return "";
@@ -195,9 +203,11 @@ export default function CV() {
                    return text.substring(0, lastSpaceIndex) + "\u00A0" + text.substring(lastSpaceIndex + 1);
                 };
 
+                const desc = cvDescriptions[project.id] || project.description;
+
                 return (
                   <div key={project.id} className="border-l-2 border-gray-900 pl-3 relative">
-                    
+
                     <div className="flex items-baseline justify-between mb-0.5">
                       <div className="flex items-baseline gap-2">
                         <h3 className="font-bold text-[11px] uppercase text-black">{project.title}</h3>
@@ -212,14 +222,14 @@ export default function CV() {
                             PERSO.
                           </span>
                         )}
-                        
+
                       </div>
                       <span className="text-[10px] text-gray-500 font-mono">{project.year}</span>
                     </div>
 
                     <p className="text-[10px] leading-tight text-gray-600 text-left">
                       <span className="text-gray-400 mr-1 font-mono">[{project.category}]</span>
-                      {descriptionSansOrphelin(project.description)}
+                      {descriptionSansOrphelin(desc)}
                     </p>
                   </div>
                 );
@@ -229,8 +239,8 @@ export default function CV() {
 
           {/* 4. EXPÉRIENCES */}
           <section>
-            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Expériences Professionnelles</h2>
-            <div className="space-y-2">
+            <h2 className="text-xs font-bold border-b border-gray-900 mb-3 uppercase tracking-wider text-black">Expériences Professionnelles</h2>
+            <div className="space-y-3">
               <div className="flex flex-col text-[11px]">
                 <div className="flex justify-between items-baseline">
                   <span className="font-bold text-gray-900">JO Paris 2024 — Manutentionnaire (Proman)</span>
@@ -251,8 +261,8 @@ export default function CV() {
 
           {/* 5. FORMATION */}
           <section>
-            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Formation scolaire</h2>
-            <div className="space-y-1 text-[11px] text-gray-800">
+            <h2 className="text-xs font-bold border-b border-gray-900 mb-3 uppercase tracking-wider text-black">Formation scolaire</h2>
+            <div className="space-y-2 text-[11px] text-gray-800">
               
               <div className="flex justify-between items-baseline">
                 <span className="font-bold">BUT MMI (Création Numérique) — IUT Bobigny</span>
@@ -280,7 +290,7 @@ export default function CV() {
         </div>
 
         {/* --- FOOTER --- */}
-        <div className="mt-auto pt-2 border-t border-gray-300 shrink-0">
+        <div className="mt-auto pt-4 border-t border-gray-300 shrink-0">
           <div className="flex justify-between text-[10px] text-gray-600">
             <div className="flex gap-4">
               <span className="font-bold uppercase text-gray-800">Langues:</span>
