@@ -13,6 +13,7 @@ export default function LettreMotivationGraphiste() {
     { id: 'webdesigner', label: 'Webdesigner', domaine: 'le webdesign' },
     { id: 'chef-de-projet', label: 'Chef de Projet Multimédia', domaine: 'la gestion de projets multimédias' },
     { id: 'charge-de-communication', label: 'Chargé de Communication', domaine: 'la communication' },
+    { id: 'assistant-communication', label: 'Assistant Communication', domaine: 'la communication' },
   ];
 
   const [selectedMetier, setSelectedMetier] = useState(metiers[0]);
@@ -42,7 +43,8 @@ export default function LettreMotivationGraphiste() {
       case 'chef-de-projet':
         return '<strong>Figma</strong>, <strong>Notion</strong>, <strong>Suite Adobe</strong> et les <strong>outils collaboratifs</strong>';
       case 'charge-de-communication':
-        return '<strong>Canva</strong>, <strong>Photoshop</strong>, <strong>Illustrator</strong> et <strong>Premiere Pro</strong>';
+      case 'assistant-communication':
+        return '<strong>Canva</strong>, <strong>Photoshop</strong>, <strong>Illustrator</strong> et <strong>DaVinci Resolve</strong>';
       default:
         return '<strong>Illustrator</strong>, <strong>Photoshop</strong>, <strong>InDesign</strong>, <strong>Canva</strong> et <strong>Affinity</strong>';
     }

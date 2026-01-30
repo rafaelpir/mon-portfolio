@@ -3,16 +3,16 @@ import { projects } from '../data/projects';
 
 // Descriptions courtes pour le CV (sinon la description complète est trop longue)
 const cvDescriptions = {
-  1: "Réinterprétation graphique d'une affiche culte. Composition texturée mêlant typographie d'époque et traitement photo granuleux pour une ambiance mélancolique.",
-  2: "Affiche de concours officiel. Illustration vectorielle (Flat Design) et choix stratégique d'une palette bleue pour rompre avec les codes traditionnels des ferias.",
-  3: "Affiche hommage style rétro. Maîtrise des effets de trame (halftone) et composition typographique élégante évoquant l'esthétique vinyle des années 80.",
-  4: "Conception UX/UI d'une app de mobilité. Création du parcours utilisateur, du Design System et des maquettes interactives haute fidélité sur Figma.",
-  5: "Design d'interface web optimisé pour le SEO. Création de l'identité de marque et structuration de l'information pour maximiser la lisibilité et la conversion.",
-  6: "Expérimentation graphique technique : transformation d'une photographie en composition typographique pure (Art ASCII) jouant sur la densité des caractères.",
-  7: "Création de l'identité visuelle globale (Logo, Charte, Print). Conception d'un univers rassurant et professionnel pour une ONG fictive.",
-  8: "Conception d'affiche au style 'Grunge/90s'. Travail de composition, photomontage et typographie distordue pour refléter l'univers underground du film.",
-  9: "Conception du logo et de la charte graphique pour la plateforme réseau alumni de l'IUT de Bobigny. Identité visuelle institutionnelle modernisée.",
-  10: "Court-métrage pour le Nikon Film Festival 2025. Acteur, monteur, perchman, écriture, storyboard, sous-titrage anglais et réalisation sur le thème « Super-pouvoir »."
+  1: "Reproduction et réinterprétation d'une affiche de film sur Photoshop. Travail sur les textures, la typographie et le traitement photo.",
+  2: "Réalisation d'une affiche pour un concours officiel. Illustration vectorielle en Flat Design sur Illustrator avec une palette de couleurs originale.",
+  3: "Création d'une affiche hommage avec un style rétro années 80. Utilisation d'effets de trame (halftone) et mise en page typographique sur Photoshop.",
+  4: "Projet universitaire de conception d'une application de mobilité sur Figma. Parcours utilisateur, Design System et maquettes interactives.",
+  5: "Maquette d'un site web vitrine réalisée sur Figma. Création du logo, de l'identité visuelle et de la mise en page.",
+  6: "Projet créatif : transformation d'une photo en Art ASCII sur Photoshop en jouant sur la densité des caractères.",
+  7: "Création d'une identité visuelle complète pour une ONG fictive : logo, charte graphique et supports print sur Illustrator et InDesign.",
+  8: "Réalisation d'une affiche de film dans un style grunge/années 90. Photomontage et typographie travaillée sur Photoshop.",
+  9: "Création du logo et de la charte graphique pour le réseau alumni de l'IUT de Bobigny. Projet universitaire réalisé sur Illustrator.",
+  10: "Court-métrage réalisé pour le Nikon Film Festival 2025 sur le thème « Super-pouvoir ». J'ai participé à l'écriture, au tournage, au montage et au sous-titrage."
 };
 
 // IDs des projets sélectionnés par défaut dans le CV
@@ -115,7 +115,7 @@ export default function CV() {
       >
 
         {/* --- HEADER --- */}
-        <header className="border-b-2 border-gray-900 pb-5 mb-6 shrink-0">
+        <header className="border-b-2 border-gray-900 pb-3 mb-4 shrink-0">
           <div className="flex justify-between items-end">
             <div>
               <h1 className="text-3xl font-bold tracking-widest leading-none mb-1.5">RAFAEL PIRAL</h1>
@@ -136,11 +136,11 @@ export default function CV() {
         </header>
 
         {/* --- CORPS DU CV --- */}
-        <div className="flex-grow flex flex-col gap-7">
+        <div className="flex-grow flex flex-col gap-4">
 
           {/* 1. PROFIL */}
           <section>
-            <h2 className="text-xs font-bold border-b border-gray-900 mb-3 uppercase tracking-wider text-black">Profil</h2>
+            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Profil</h2>
             <p className="text-[11px] text-justify leading-relaxed text-gray-700">
               Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'un stage d'au moins 8 semaines à partir d'avril 2026 dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle.
             </p>
@@ -148,9 +148,9 @@ export default function CV() {
 
           {/* 2. COMPÉTENCES */}
           <section>
-            <h2 className="text-xs font-bold border-b border-gray-900 mb-3 uppercase tracking-wider text-black">Compétences</h2>
+            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Compétences</h2>
             
-            <div className="grid grid-cols-2 gap-x-10 gap-y-6 items-start">
+            <div className="grid grid-cols-2 gap-x-10 gap-y-3 items-start">
               
               {/* --- GAUCHE : Design --- */}
               <div>
@@ -189,10 +189,10 @@ export default function CV() {
 
           {/* 3. PROJETS */}
           <section>
-            <h2 className="text-xs font-bold border-b border-gray-900 mb-3 uppercase tracking-wider text-black">
+            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">
               Mes Projets
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-2.5">
               {selectedProjects.map((project) => {
 
                 // --- FONCTION ANTI-ORPHELINS ---
@@ -239,8 +239,8 @@ export default function CV() {
 
           {/* 4. EXPÉRIENCES */}
           <section>
-            <h2 className="text-xs font-bold border-b border-gray-900 mb-3 uppercase tracking-wider text-black">Expériences Professionnelles</h2>
-            <div className="space-y-3">
+            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Expériences Professionnelles</h2>
+            <div className="space-y-2">
               <div className="flex flex-col text-[11px]">
                 <div className="flex justify-between items-baseline">
                   <span className="font-bold text-gray-900">JO Paris 2024 — Manutentionnaire (Proman)</span>
@@ -261,7 +261,7 @@ export default function CV() {
 
           {/* 5. FORMATION */}
           <section>
-            <h2 className="text-xs font-bold border-b border-gray-900 mb-3 uppercase tracking-wider text-black">Formation scolaire</h2>
+            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Formation scolaire</h2>
             <div className="space-y-2 text-[11px] text-gray-800">
               
               <div className="flex justify-between items-baseline">
@@ -290,7 +290,7 @@ export default function CV() {
         </div>
 
         {/* --- FOOTER --- */}
-        <div className="mt-auto pt-4 border-t border-gray-300 shrink-0">
+        <div className="mt-auto pt-3 border-t border-gray-300 shrink-0">
           <div className="flex justify-between text-[10px] text-gray-600">
             <div className="flex gap-4">
               <span className="font-bold uppercase text-gray-800">Langues:</span>

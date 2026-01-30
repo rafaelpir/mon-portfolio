@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import GoogleAnalytics from './components/GoogleAnalytics';
 import Preloader from './components/Preloader';
@@ -14,6 +14,12 @@ const LettreCarjackFilms = lazy(() => import('./pages/LettreCarjackFilms'));
 const About = lazy(() => import('./pages/About'));
 const Legal = lazy(() => import('./pages/Legal'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+
+// Routes accessibles uniquement en local (localhost)
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+function LocalOnly({ children }) {
+  return isLocalhost ? children : <Navigate to="/" replace />;
+}
 
 function AppContent() {
   const location = useLocation();
@@ -39,10 +45,10 @@ function AppContent() {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
-          <Route path="/cv" element={<CV />} />
-          <Route path="/lettre-motivation-graphiste" element={<LettreMotivationGraphiste />} />
-          <Route path="/lettre-paname-art-cafe" element={<LettrePanameArtCafe />} />
-          <Route path="/lettre-carjack-films" element={<LettreCarjackFilms />} />
+          <Route path="/cv" element={<LocalOnly><CV /></LocalOnly>} />
+          <Route path="/lettre-motivation-graphiste" element={<LocalOnly><LettreMotivationGraphiste /></LocalOnly>} />
+          <Route path="/lettre-paname-art-cafe" element={<LocalOnly><LettrePanameArtCafe /></LocalOnly>} />
+          <Route path="/lettre-carjack-films" element={<LocalOnly><LettreCarjackFilms /></LocalOnly>} />
           <Route path="/about" element={<About />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="*" element={<NotFound />} />
