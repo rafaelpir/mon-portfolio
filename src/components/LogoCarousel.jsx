@@ -28,7 +28,7 @@ const logoMap = {
   'PowerPoint': '/images/logos/PowerPoint.png',
 };
 
-const LogoCarousel = ({ skillCategories, isDarkMode }) => {
+const LogoCarousel = ({ skillCategories, isDarkMode, performanceTier = 'full' }) => {
   const containerRef = useRef(null);
   const [contentWidth, setContentWidth] = useState(0);
 
@@ -65,48 +65,37 @@ const LogoCarousel = ({ skillCategories, isDarkMode }) => {
         <motion.div
           ref={containerRef}
           className="flex gap-3 md:gap-5 absolute"
-          animate={{
+          animate={performanceTier !== 'none' ? {
             x: contentWidth > 0 ? [0, -contentWidth] : 0,
-          }}
-          transition={{
+          } : {}}
+          transition={performanceTier !== 'none' ? {
             x: {
               repeat: Infinity,
               repeatType: "loop",
-              duration: 20,
+              duration: performanceTier === 'full' ? 20 : 40,
               ease: "linear",
             },
-          }}
+          } : {}}
         >
           {/* Render logos multiple times for seamless loop */}
           {[...allLogos, ...allLogos, ...allLogos].map((logo, idx) => (
-            <motion.div
+            <div
               key={`${logo.id}-${idx}`}
-              className={`group relative flex items-center justify-center py-5 md:py-7 px-6 md:px-8 rounded-xl backdrop-blur-sm transition-all duration-500 cursor-default ${
+              className={`flex items-center justify-center py-5 md:py-7 px-6 md:px-8 rounded-xl cursor-default ${
                 isDarkMode
-                  ? 'bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20'
-                  : 'bg-black/5 border border-black/10 hover:bg-black/10 hover:border-black/20'
+                  ? 'bg-white/5 border border-white/10'
+                  : 'bg-black/5 border border-black/10'
               }`}
-              whileHover={{ scale: 1.05, y: -5 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              {/* Subtle glow effect on hover */}
-              <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
-                isDarkMode
-                  ? 'bg-gradient-to-br from-white/5 to-transparent'
-                  : 'bg-gradient-to-br from-black/5 to-transparent'
-              }`}></div>
-
-              {/* Logo */}
-              <div className="relative z-10 w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
+              <div className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
                 <img
                   src={logo.logoPath}
                   alt={logo.name}
-                  className="max-w-full max-h-full w-full h-full object-contain"
+                  className="w-full h-full object-contain"
                   loading="lazy"
-                  style={{ objectFit: 'contain' }}
                 />
               </div>
-            </motion.div>
+            </div>
           ))}
         </motion.div>
 

@@ -109,21 +109,14 @@ export default function LightBoard({
     return { pattern: grid, cols: totalWidth };
   }, [text]);
 
-  // Animation avec requestAnimationFrame pour fluidité
+  // Animation avec setInterval (plus léger que requestAnimationFrame en boucle)
   useEffect(() => {
-    let animationId;
-    let lastTime = 0;
+    if (updateInterval <= 0) return; // tier 'none' : pas d'animation
+    const intervalId = setInterval(() => {
+      setOffset(prev => (prev + 1) % cols);
+    }, updateInterval);
 
-    const animate = (time) => {
-      if (time - lastTime >= updateInterval) {
-        setOffset(prev => (prev + 1) % cols);
-        lastTime = time;
-      }
-      animationId = requestAnimationFrame(animate);
-    };
-
-    animationId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationId);
+    return () => clearInterval(intervalId);
   }, [cols, updateInterval]);
 
   // Rendu avec Canvas pour performance
@@ -160,17 +153,8 @@ export default function LightBoard({
           Math.PI * 2
         );
 
-        if (isOn) {
-          ctx.fillStyle = colors.textBright;
-          ctx.shadowColor = colors.textBright;
-          ctx.shadowBlur = lightSize * 2;
-        } else {
-          ctx.fillStyle = colors.textDim;
-          ctx.shadowBlur = 0;
-        }
-
+        ctx.fillStyle = isOn ? colors.textBright : colors.textDim;
         ctx.fill();
-        ctx.shadowBlur = 0;
       }
     }
   }, [pattern, cols, offset, lightSize, gap, colors, containerWidth]);

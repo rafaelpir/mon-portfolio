@@ -38,7 +38,6 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: -1;
     border-radius: 4px;
-    will-change: transform, opacity;
   }
 
   .hover-highlight:hover::before {
@@ -100,6 +99,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Fallback Firefox pour backdrop-filter */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl {
+    background-color: rgba(0, 0, 0, 0.85) !important;
+  }
+}
+
+/* Fix Firefox : canvas WebGL (shaders) ne doivent pas dépasser leur conteneur */
+canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
 /* Optimisations de performance pour mobile */
 @media (max-width: 768px) {
   /* Désactiver TOUTES les animations sur mobile */
@@ -137,6 +153,23 @@ body {
   /* Désactiver les vidéos sur mobile pour économiser la batterie */
   video {
     display: none !important;
+  }
+}
+
+/* Accessibilité : respecter prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .melting-effect,
+  .glitch-animation {
+    animation: none !important;
   }
 }
 
@@ -194,19 +227,16 @@ body {
 
 .animate-fade-in-up {
   animation: fade-in-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  will-change: opacity, transform;
 }
 
 .animate-slide-down {
   animation: slide-down 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   opacity: 0;
-  will-change: opacity, transform;
 }
 
 .animate-fade-in {
   animation: fade-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   opacity: 0;
-  will-change: opacity;
 }
 
 /* Animation glitch pour le logo */

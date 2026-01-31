@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function AvailabilityBadge({ availableDate, alternance, status, isDarkMode }) {
+export default function AvailabilityBadge({ availableDate, alternance, status, isDarkMode, performanceTier = 'full' }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -12,19 +12,17 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
         ? 'bg-gradient-to-r from-orange-500/30 via-red-500/20 to-orange-500/30 border-orange-400/50 shadow-orange-500/20'
         : 'bg-gradient-to-r from-orange-500/40 via-red-500/30 to-orange-500/40 border-orange-600/60 shadow-orange-600/30'
     }`}
-      style={{ animation: 'pulse 2s ease-in-out infinite' }}
       aria-label="Voir les disponibilités et informations de contact">
-      {/* Pulsing dot avec glow effect */}
+      {/* Pulsing dot */}
       <div className="relative flex items-center justify-center shrink-0">
-        <span className={`absolute w-6 h-6 md:w-10 md:h-10 rounded-full animate-ping ${
-          isDarkMode ? 'bg-orange-300' : 'bg-orange-500'
-        }`} style={{ opacity: 0.6 }}></span>
-        <span className={`absolute w-4 h-4 md:w-6 md:h-6 rounded-full blur-lg ${
-          isDarkMode ? 'bg-orange-400' : 'bg-orange-500'
-        }`}></span>
+        {performanceTier !== 'none' && (
+          <span className={`absolute w-5 h-5 md:w-8 md:h-8 rounded-full ${
+            performanceTier === 'full' ? 'animate-ping' : 'animate-pulse'
+          } ${isDarkMode ? 'bg-orange-300' : 'bg-orange-500'}`} style={{ opacity: 0.4 }}></span>
+        )}
         <span className={`relative w-3 h-3 md:w-4 md:h-4 rounded-full ${
           isDarkMode ? 'bg-orange-300' : 'bg-orange-500'
-        }`} style={{ boxShadow: '0 0 20px currentColor' }}></span>
+        }`}></span>
       </div>
 
       {/* Badge text - responsive */}

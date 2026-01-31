@@ -13,6 +13,7 @@ export default function TextType({
   variableSpeedEnabled = false,
   variableSpeedMin = 60,
   variableSpeedMax = 120,
+  performanceTier = 'full',
 }) {
   const [displayedText, setDisplayedText] = useState('');
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
@@ -20,9 +21,16 @@ export default function TextType({
   const cursorRef = useRef(null);
   const timeoutRef = useRef(null);
 
+  const effectiveCursor = showCursor && performanceTier === 'full';
+
+  // Rendu statique si tier 'none'
+  if (performanceTier === 'none' && texts.length > 0) {
+    return <span className={className}>{texts[0]}</span>;
+  }
+
   // Animation du curseur clignotant
   useEffect(() => {
-    if (showCursor && cursorRef.current) {
+    if (effectiveCursor && cursorRef.current) {
       gsap.to(cursorRef.current, {
         opacity: 0,
         duration: cursorBlinkDuration,
@@ -31,7 +39,7 @@ export default function TextType({
         ease: 'power1.inOut',
       });
     }
-  }, [showCursor, cursorBlinkDuration]);
+  }, [effectiveCursor, cursorBlinkDuration]);
 
   // Effet de frappe
   useEffect(() => {
@@ -84,7 +92,7 @@ export default function TextType({
   return (
     <span className={className}>
       {displayedText}
-      {showCursor && (
+      {effectiveCursor && (
         <span ref={cursorRef} className="inline-block ml-0.5">
           {cursorCharacter}
         </span>

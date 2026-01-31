@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function GlitchText({ children, className = '' }) {
+export default function GlitchText({ children, className = '', performanceTier = 'full' }) {
   const [redactedIndices, setRedactedIndices] = useState([]);
   const text = typeof children === 'string' ? children : children?.props?.children || '';
 
@@ -28,15 +28,16 @@ export default function GlitchText({ children, className = '' }) {
 
   // Générer les blocs au chargement et animer automatiquement
   useEffect(() => {
+    if (performanceTier === 'none') return;
     generateRandomBlocks();
 
-    // Régénérer les blocs toutes les 2 secondes
+    const intervalMs = performanceTier === 'full' ? 2000 : 6000;
     const interval = setInterval(() => {
       generateRandomBlocks();
-    }, 2000);
+    }, intervalMs);
 
     return () => clearInterval(interval);
-  }, [text]);
+  }, [text, performanceTier]);
 
   const handleMouseEnter = () => {
     // Régénérer les blocs au survol

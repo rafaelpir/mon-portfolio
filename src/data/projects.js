@@ -18,7 +18,7 @@ export const projects = [
     period: "Janvier 2025",
     duration: "1 semaines",
     description: "J'ai voulu revisiter l'affiche du film 'Un Homme qui dort' (1974), un classique qui m'a marqué par son atmosphère si particulière. J'ai gardé la typographie originale que j'adore, mais j'ai complètement repensé l'image sur Photoshop : des gros plans texturés et granuleux qui, pour moi, traduisent mieux l'ennui et l'introspection que le vide habituel. Une façon de raconter l'isolement par la\u00A0matière.",
-    thumbnail: "/images/projects/lhommequidort.webp",
+    thumbnail: "/images/projects/thumbs/lhommequidort.webp",
     youtubeId: "LUMifnAPafc",
     gallery: [
       { src: "/images/projects/lhommequidort.webp", description: "Affiche revisitée du film 'Un Homme qui dort' (1974)." },
@@ -38,7 +38,7 @@ export const projects = [
     period: "Décembre 2024 - Janvier 2025",
     duration: "1 semaines",
     description: "J'ai participé au concours officiel d'affiche organisé par la ville de Saint-Paul-lès-Dax pour leurs Fêtes Populaires 2025. J'ai conçu une affiche en flat design sur Illustrator et Photoshop, l'objectif était de proposer une affiche qui représente l'esprit festif de cet événement\u00A0incontournable.",
-    thumbnail: "/images/projects/daxmockup.webp",
+    thumbnail: "/images/projects/thumbs/daxmockup.webp",
     gallery: [
       { src: "/images/projects/Dax.webp", description: "Affiche originale des Fêtes Populaires de Saint-Paul-lès-Dax 2025." },
       { src: "/images/projects/daxmockup.webp", description: "Mockup de présentation de l'affiche des Fêtes Populaires de Saint-Paul-lès-Dax." }
@@ -57,7 +57,7 @@ export const projects = [
     period: "Décembre 2024",
     duration: "1 semaine",
     description: "Diamond Life de Sade (1984), c'est un album que j'apprécie. J'ai voulu lui rendre hommage à travers un poster réalisé sur Photoshop qui capture cette élégance soul/jazz si particulière, avec un traitement rétro et des tons sépia qui évoquent le vinyle et la\u00A0nostalgie.",
-    thumbnail: "/images/projects/sademockup.webp",
+    thumbnail: "/images/projects/thumbs/sademockup.webp",
     gallery: [
       { src: "/images/projects/sade.webp", description: "Poster Tribute original de l'album Diamond Life de Sade." },
       { src: "/images/projects/sademockup.webp", description: "Mockup de présentation du poster tribute Sade – Diamond Life." }
@@ -124,7 +124,7 @@ export const projects = [
     period: "Août 2025",
     duration: "3 jours",
     description: "Lors de mon voyage à New York, j'ai pris cette photo de la Statue de la Liberté depuis Liberty Island. De retour, j'ai eu envie d'expérimenter sur Photoshop : transformer l'image en caractères ASCII\u00A0uniquement.",
-    thumbnail: "/images/projects/libertemockup.webp",
+    thumbnail: "/images/projects/thumbs/libertemockup.webp",
     gallery: [
       { src: "/images/projects/Liberté.webp", description: "Statue de la Liberté en art ASCII : Version finale de l'expérimentation graphique transformant la photographie iconique en composition typographique pure." },
       { src: "/images/projects/libertemockup.webp", description: "Mockup de présentation du projet Statue de la Liberté en ASCII." }
@@ -160,7 +160,7 @@ export const projects = [
     period: "Janvier 2026",
     duration: "2 jours",
     description: "Gummo (1997) d'Harmony Korine, c'est un film qui ne laisse pas indifférent. Expérimental, dérangeant, mais aussi étrangement poétique. J'ai voulu créer une affiche sur Photoshop et Illustrator qui capture cette ambiance si particulière : l'imagerie trash et nostalgique, les couleurs désaturées des années 90, cette atmosphère désenchantée. La typo s'inspire de l'esthétique lo-fi et underground du cinéma indépendant américain de cette\u00A0époque.",
-    thumbnail: "/images/projects/gummomockup.webp",
+    thumbnail: "/images/projects/thumbs/gummomockup.webp",
     youtubeId: "hYalnCwEd5c",
     gallery: [
       { src: "/images/projects/Gummo.webp", description: "Affiche originale du film Gummo (1997)." },

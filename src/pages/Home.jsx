@@ -13,14 +13,17 @@ import Timeline from '../components/Timeline';
 import LogoCarousel from '../components/LogoCarousel';
 import WorkInProgressBanner from '../components/WorkInProgressBanner';
 import usePresentationMode from '../hooks/usePresentationMode';
+import usePerformanceTier from '../hooks/usePerformanceTier';
 import TextType from '../components/TextType';
-import { GrainGradient, LiquidMetal } from '@paper-design/shaders-react';
+import { GrainGradient } from '@paper-design/shaders-react';
 import LightBoard from '../components/LightBoard';
+import LazyShader from '../components/LazyShader';
 
 export default function Home() {
   const navigate = useNavigate();
   const { isPresentationMode, togglePresentationMode, isFullscreenSupported } = usePresentationMode();
-  const [scrollY, setScrollY] = useState(0);
+  const tier = usePerformanceTier();
+  const heroRef = useRef(null);
   const [selectedCategory, setSelectedCategory] = useState('Tous');
   const [selectedTags, setSelectedTags] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -67,12 +70,14 @@ export default function Home() {
   const scrollTicking = useRef(false);
 
   useEffect(() => {
-    // Throttle scroll avec requestAnimationFrame
+    // Mise à jour directe du DOM pour le fade du hero (évite les re-renders)
     const handleScroll = () => {
       if (!scrollTicking.current) {
         scrollTicking.current = true;
         requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
+          if (heroRef.current) {
+            heroRef.current.style.opacity = Math.max(0, 1 - window.scrollY / 500);
+          }
           scrollTicking.current = false;
         });
       }
@@ -287,22 +292,12 @@ export default function Home() {
           : 'bg-beige/5'
       }`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo avec effet LiquidMetal */}
+          {/* Logo */}
           <div className="relative w-20 h-20 md:w-32 md:h-32 flex items-center justify-center overflow-hidden">
-            <LiquidMetal
-              style={{ width: '100%', height: '100%' }}
-              image="/images/logos/RP.png"
-              colorBack={isDarkMode ? "#00000000" : "#00000000"}
-              repetition={6}
-              softness={0.8}
-              shiftRed={1}
-              shiftBlue={-1}
-              distortion={0.4}
-              contour={0.4}
-              angle={0}
-              speed={1}
-              scale={0.7}
-              fit="contain"
+            <img
+              src="/images/logos/RP.png"
+              alt="RP"
+              className={`w-full h-full object-contain ${isDarkMode ? 'invert' : ''}`}
             />
           </div>
 
@@ -539,29 +534,31 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center relative overflow-hidden px-4">
-        {/* GrainGradient Background */}
-        <div className={`absolute inset-0 z-0 ${isDarkMode ? 'opacity-30' : 'opacity-60'}`}>
-          <GrainGradient
-            style={{ width: '100%', height: '100%' }}
-            colors={isDarkMode ? ["#000000", "#000000", "#bababa"] : ["#f5f5f5", "#e0e0e0", "#cccccc"]}
-            colorBack={isDarkMode ? "#000000" : "#ffffff"}
-            softness={1}
-            intensity={1}
-            noise={1}
-            shape="truchet"
-            speed={1.02}
-            scale={0.16}
-            rotation={168}
-            offsetX={0.16}
-          />
-        </div>
+        {/* GrainGradient Background - lazy: détruit quand hors viewport */}
+        {tier === 'full' ? (
+          <LazyShader className={`absolute inset-0 z-0 ${isDarkMode ? 'opacity-30' : 'opacity-60'}`}>
+            <GrainGradient
+              style={{ width: '100%', height: '100%' }}
+              colors={isDarkMode ? ["#000000", "#000000", "#bababa"] : ["#f5f5f5", "#e0e0e0", "#cccccc"]}
+              colorBack={isDarkMode ? "#000000" : "#ffffff"}
+              softness={1}
+              intensity={1}
+              noise={1}
+              shape="truchet"
+              speed={1.02}
+              scale={0.16}
+              rotation={168}
+              offsetX={0.16}
+            />
+          </LazyShader>
+        ) : tier === 'reduced' ? (
+          <div className={`absolute inset-0 z-0 bg-gradient-to-br ${isDarkMode ? 'from-gray-900 to-black opacity-30' : 'from-gray-100 to-white opacity-60'}`} />
+        ) : null}
 
         {/* Contenu principal avec animations améliorées */}
         <div
+          ref={heroRef}
           className={`text-center md:text-left relative z-10 pointer-events-none max-w-7xl w-full px-4 md:px-16 ${!isMobile ? 'animate-fade-in-up' : ''}`}
-          style={{
-            opacity: isMobile ? 1 : 1 - scrollY / 500
-          }}
         >
           <div className={!isMobile ? 'animate-slide-down' : ''} style={!isMobile ? { animationDelay: '0.2s' } : {}}>
             <h1 className={`text-[14vw] md:text-[10vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
@@ -580,6 +577,7 @@ export default function Home() {
                 typingSpeed={60}
                 pauseDuration={999999}
                 showCursor={false}
+                performanceTier={tier}
               />
             </p>
             <p className="text-[10px] sm:text-xs md:text-sm">
@@ -598,6 +596,7 @@ export default function Home() {
               alternance="Alternance pour septembre 2026"
               isDarkMode={isDarkMode}
               textEffectsEnabled={effectsEnabled}
+              performanceTier={tier}
             />
           </div>
         </div>
@@ -609,7 +608,7 @@ export default function Home() {
             rows={7}
             gap={1}
             lightSize={4}
-            updateInterval={60}
+            updateInterval={tier === 'full' ? 60 : tier === 'reduced' ? 200 : 0}
             colors={isDarkMode ? {
               background: "transparent",
               textDim: "rgba(232,220,196,0.1)",
@@ -628,10 +627,10 @@ export default function Home() {
       <motion.section
         id="about"
         className="min-h-screen flex items-center px-4 md:px-16 py-16 md:py-32"
-        initial={isMobile ? {} : { opacity: 0, x: -100 }}
-        whileInView={isMobile ? {} : { opacity: 1, x: 0 }}
+        initial={tier === 'full' ? { opacity: 0, x: -100 } : tier === 'reduced' ? { opacity: 0 } : {}}
+        whileInView={tier !== 'none' ? { opacity: 1, x: 0 } : {}}
         viewport={{ once: true, amount: 0.3 }}
-        transition={isMobile ? {} : { duration: 0.6, ease: "easeOut" }}
+        transition={tier === 'full' ? { duration: 0.6, ease: "easeOut" } : tier === 'reduced' ? { duration: 0.3 } : {}}
       >
         <div className="max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -670,10 +669,10 @@ export default function Home() {
               {/* Vidéo de présentation */}
               <motion.div
                 className="rounded-xl overflow-hidden"
-                initial={isMobile ? {} : { opacity: 0, y: 20 }}
-                whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
+                initial={tier === 'full' ? { opacity: 0, y: 20 } : tier === 'reduced' ? { opacity: 0 } : {}}
+                whileInView={tier !== 'none' ? { opacity: 1, y: 0 } : {}}
                 viewport={{ once: true }}
-                transition={isMobile ? {} : { duration: 0.8, delay: 0.4 }}
+                transition={tier === 'full' ? { duration: 0.8, delay: 0.4 } : tier === 'reduced' ? { duration: 0.3 } : {}}
               >
                 <video
                   autoPlay
@@ -712,10 +711,10 @@ export default function Home() {
       <motion.section
         id="projects"
         className="py-16 md:py-32 px-4 md:px-16"
-        initial={isMobile ? {} : { opacity: 0, y: 20 }}
-        whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
+        initial={tier === 'full' ? { opacity: 0, y: 20 } : tier === 'reduced' ? { opacity: 0 } : {}}
+        whileInView={tier !== 'none' ? { opacity: 1, y: 0 } : {}}
         viewport={{ once: true, amount: 0.2 }}
-        transition={isMobile ? {} : { duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+        transition={tier === 'full' ? { duration: 0.4, ease: [0.4, 0, 0.2, 1] } : tier === 'reduced' ? { duration: 0.3 } : {}}
       >
         <h2 className="text-[10px] md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center">
          MES PROJETS 
@@ -763,6 +762,7 @@ export default function Home() {
           <LogoCarousel
             skillCategories={skillCategories}
             isDarkMode={isDarkMode}
+            performanceTier={tier}
           />
         </div>
       </section>
@@ -777,10 +777,10 @@ export default function Home() {
       <motion.section
         id="contact"
         className="min-h-screen flex items-center justify-center px-4 md:px-8 py-16 md:py-32"
-        initial={isMobile ? {} : { opacity: 0, x: -100 }}
-        whileInView={isMobile ? {} : { opacity: 1, x: 0 }}
+        initial={tier === 'full' ? { opacity: 0, x: -100 } : tier === 'reduced' ? { opacity: 0 } : {}}
+        whileInView={tier !== 'none' ? { opacity: 1, x: 0 } : {}}
         viewport={{ once: true, amount: 0.3 }}
-        transition={isMobile ? {} : { duration: 0.6, ease: "easeOut" }}
+        transition={tier === 'full' ? { duration: 0.6, ease: "easeOut" } : tier === 'reduced' ? { duration: 0.3 } : {}}
       >
         <div className="max-w-4xl w-full">
           <h2 className="text-3xl md:text-7xl lg:text-9xl font-light mb-8 md:mb-20 leading-none text-center">
@@ -803,9 +803,9 @@ export default function Home() {
               {formState.succeeded ? (
                 <motion.div
                   className="text-center py-16"
-                  initial={isMobile ? {} : { opacity: 0, scale: 0.9 }}
-                  animate={isMobile ? {} : { opacity: 1, scale: 1 }}
-                  transition={isMobile ? {} : { duration: 0.5 }}
+                  initial={tier !== 'none' ? { opacity: 0, scale: 0.9 } : {}}
+                  animate={tier !== 'none' ? { opacity: 1, scale: 1 } : {}}
+                  transition={tier !== 'none' ? { duration: 0.5 } : {}}
                 >
                   <div className="mb-6">
                     <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center ${
@@ -919,10 +919,10 @@ export default function Home() {
             {/* Informations de contact */}
             <div className="flex flex-col justify-center space-y-8 md:space-y-10">
               <motion.div
-                initial={isMobile ? {} : { opacity: 0, x: 20 }}
-                whileInView={isMobile ? {} : { opacity: 1, x: 0 }}
+                initial={tier !== 'none' ? { opacity: 0, x: 20 } : {}}
+                whileInView={tier !== 'none' ? { opacity: 1, x: 0 } : {}}
                 viewport={{ once: true }}
-                transition={isMobile ? {} : { delay: 0.1 }}
+                transition={tier !== 'none' ? { delay: 0.1 } : {}}
                 className="group"
               >
                 <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-widest">EMAIL</p>
@@ -942,10 +942,10 @@ export default function Home() {
               </motion.div>
 
               <motion.div
-                initial={isMobile ? {} : { opacity: 0, x: 20 }}
-                whileInView={isMobile ? {} : { opacity: 1, x: 0 }}
+                initial={tier !== 'none' ? { opacity: 0, x: 20 } : {}}
+                whileInView={tier !== 'none' ? { opacity: 1, x: 0 } : {}}
                 viewport={{ once: true }}
-                transition={isMobile ? {} : { delay: 0.3 }}
+                transition={tier !== 'none' ? { delay: 0.3 } : {}}
               >
                 <p className="text-xs md:text-sm text-gray-500 mb-6 tracking-widest">RÉSEAUX</p>
                 <div className="grid grid-cols-2 gap-6 md:gap-8">

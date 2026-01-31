@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function HorizontalScroll({ children, isDarkMode }) {
+export default function HorizontalScroll({ children, isDarkMode, performanceTier = 'full' }) {
   const containerRef = useRef(null);
   const scrollContainerRef = useRef(null);
 
@@ -45,27 +45,29 @@ export default function HorizontalScroll({ children, isDarkMode }) {
       ease: 'none',
     });
 
-    // Ajouter des effets parallax avec rotation sur chaque section
-    sections.forEach((section, index) => {
-      const parallaxElements = section.querySelectorAll('[data-parallax]');
+    // Ajouter des effets parallax avec rotation sur chaque section (tier full uniquement)
+    if (performanceTier === 'full') {
+      sections.forEach((section, index) => {
+        const parallaxElements = section.querySelectorAll('[data-parallax]');
 
-      parallaxElements.forEach((el) => {
-        const speed = parseFloat(el.getAttribute('data-parallax')) || 0.5;
-        const rotation = parseFloat(el.getAttribute('data-rotation')) || 0;
+        parallaxElements.forEach((el) => {
+          const speed = parseFloat(el.getAttribute('data-parallax')) || 0.5;
+          const rotation = parseFloat(el.getAttribute('data-rotation')) || 0;
 
-        gsap.to(el, {
-          x: () => (section.offsetWidth * speed) * (index % 2 === 0 ? 1 : -1),
-          rotation: rotation * (index % 2 === 0 ? 1 : -1),
-          scrollTrigger: {
-            trigger: section,
-            start: 'left right',
-            end: 'right left',
-            scrub: 1,
-            containerAnimation: tl,
-          }
+          gsap.to(el, {
+            x: () => (section.offsetWidth * speed) * (index % 2 === 0 ? 1 : -1),
+            rotation: rotation * (index % 2 === 0 ? 1 : -1),
+            scrollTrigger: {
+              trigger: section,
+              start: 'left right',
+              end: 'right left',
+              scrub: 1,
+              containerAnimation: tl,
+            }
+          });
         });
       });
-    });
+    }
 
     // Nettoyer lors du démontage
     return () => {
