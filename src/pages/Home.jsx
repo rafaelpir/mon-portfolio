@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
@@ -23,7 +23,7 @@ export default function Home() {
   const navigate = useNavigate();
   const { isPresentationMode, togglePresentationMode, isFullscreenSupported } = usePresentationMode();
   const tier = usePerformanceTier();
-  const heroRef = useRef(null);
+
   const [selectedCategory, setSelectedCategory] = useState('Tous');
   const [selectedTags, setSelectedTags] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -66,23 +66,7 @@ export default function Home() {
     }
   };
 
-  // Ref pour le throttling du scroll
-  const scrollTicking = useRef(false);
-
   useEffect(() => {
-    // Mise à jour directe du DOM pour le fade du hero (évite les re-renders)
-    const handleScroll = () => {
-      if (!scrollTicking.current) {
-        scrollTicking.current = true;
-        requestAnimationFrame(() => {
-          if (heroRef.current) {
-            heroRef.current.style.opacity = Math.max(0, 1 - window.scrollY / 500);
-          }
-          scrollTicking.current = false;
-        });
-      }
-    };
-
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isSettingsOpen) {
         setIsSettingsOpen(false);
@@ -94,12 +78,10 @@ export default function Home() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('click', handleClickOutside);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('click', handleClickOutside);
     };
@@ -539,6 +521,7 @@ export default function Home() {
           <LazyShader className={`absolute inset-0 z-0 ${isDarkMode ? 'opacity-30' : 'opacity-60'}`}>
             <GrainGradient
               style={{ width: '100%', height: '100%' }}
+              minPixelRatio={1}
               colors={isDarkMode ? ["#000000", "#000000", "#bababa"] : ["#f5f5f5", "#e0e0e0", "#cccccc"]}
               colorBack={isDarkMode ? "#000000" : "#ffffff"}
               softness={1}
@@ -557,7 +540,6 @@ export default function Home() {
 
         {/* Contenu principal avec animations améliorées */}
         <div
-          ref={heroRef}
           className={`text-center md:text-left relative z-10 pointer-events-none max-w-7xl w-full px-4 md:px-16 ${!isMobile ? 'animate-fade-in-up' : ''}`}
         >
           <div className={!isMobile ? 'animate-slide-down' : ''} style={!isMobile ? { animationDelay: '0.2s' } : {}}>
@@ -639,10 +621,10 @@ export default function Home() {
       <motion.section
         id="about"
         className="min-h-screen flex items-center px-4 md:px-16 py-16 md:py-32"
-        initial={tier === 'full' ? { opacity: 0, x: -100 } : tier === 'reduced' ? { opacity: 0 } : {}}
-        whileInView={tier !== 'none' ? { opacity: 1, x: 0 } : {}}
+        initial={tier === 'full' ? { opacity: 0, x: -100 } : {}}
+        whileInView={tier === 'full' ? { opacity: 1, x: 0 } : {}}
         viewport={{ once: true, amount: 0.3 }}
-        transition={tier === 'full' ? { duration: 0.6, ease: "easeOut" } : tier === 'reduced' ? { duration: 0.3 } : {}}
+        transition={tier === 'full' ? { duration: 0.6, ease: "easeOut" } : {}}
       >
         <div className="max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -681,10 +663,10 @@ export default function Home() {
               {/* Vidéo de présentation */}
               <motion.div
                 className="rounded-xl overflow-hidden"
-                initial={tier === 'full' ? { opacity: 0, y: 20 } : tier === 'reduced' ? { opacity: 0 } : {}}
-                whileInView={tier !== 'none' ? { opacity: 1, y: 0 } : {}}
+                initial={tier === 'full' ? { opacity: 0, y: 20 } : {}}
+                whileInView={tier === 'full' ? { opacity: 1, y: 0 } : {}}
                 viewport={{ once: true }}
-                transition={tier === 'full' ? { duration: 0.8, delay: 0.4 } : tier === 'reduced' ? { duration: 0.3 } : {}}
+                transition={tier === 'full' ? { duration: 0.8, delay: 0.4 } : {}}
               >
                 {tier === 'full' ? (
                   <video
@@ -735,10 +717,10 @@ export default function Home() {
       <motion.section
         id="projects"
         className="py-16 md:py-32 px-4 md:px-16"
-        initial={tier === 'full' ? { opacity: 0, y: 20 } : tier === 'reduced' ? { opacity: 0 } : {}}
-        whileInView={tier !== 'none' ? { opacity: 1, y: 0 } : {}}
+        initial={tier === 'full' ? { opacity: 0, y: 20 } : {}}
+        whileInView={tier === 'full' ? { opacity: 1, y: 0 } : {}}
         viewport={{ once: true, amount: 0.2 }}
-        transition={tier === 'full' ? { duration: 0.4, ease: [0.4, 0, 0.2, 1] } : tier === 'reduced' ? { duration: 0.3 } : {}}
+        transition={tier === 'full' ? { duration: 0.4, ease: [0.4, 0, 0.2, 1] } : {}}
       >
         <h2 className="text-[10px] md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center">
          MES PROJETS 
@@ -801,10 +783,10 @@ export default function Home() {
       <motion.section
         id="contact"
         className="min-h-screen flex items-center justify-center px-4 md:px-8 py-16 md:py-32"
-        initial={tier === 'full' ? { opacity: 0, x: -100 } : tier === 'reduced' ? { opacity: 0 } : {}}
-        whileInView={tier !== 'none' ? { opacity: 1, x: 0 } : {}}
+        initial={tier === 'full' ? { opacity: 0, x: -100 } : {}}
+        whileInView={tier === 'full' ? { opacity: 1, x: 0 } : {}}
         viewport={{ once: true, amount: 0.3 }}
-        transition={tier === 'full' ? { duration: 0.6, ease: "easeOut" } : tier === 'reduced' ? { duration: 0.3 } : {}}
+        transition={tier === 'full' ? { duration: 0.6, ease: "easeOut" } : {}}
       >
         <div className="max-w-4xl w-full">
           <h2 className="text-3xl md:text-7xl lg:text-9xl font-light mb-8 md:mb-20 leading-none text-center">
@@ -827,9 +809,9 @@ export default function Home() {
               {formState.succeeded ? (
                 <motion.div
                   className="text-center py-16"
-                  initial={tier !== 'none' ? { opacity: 0, scale: 0.9 } : {}}
-                  animate={tier !== 'none' ? { opacity: 1, scale: 1 } : {}}
-                  transition={tier !== 'none' ? { duration: 0.5 } : {}}
+                  initial={tier === 'full' ? { opacity: 0, scale: 0.9 } : {}}
+                  animate={tier === 'full' ? { opacity: 1, scale: 1 } : {}}
+                  transition={tier === 'full' ? { duration: 0.5 } : {}}
                 >
                   <div className="mb-6">
                     <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center ${
@@ -943,10 +925,10 @@ export default function Home() {
             {/* Informations de contact */}
             <div className="flex flex-col justify-center space-y-8 md:space-y-10">
               <motion.div
-                initial={tier !== 'none' ? { opacity: 0, x: 20 } : {}}
-                whileInView={tier !== 'none' ? { opacity: 1, x: 0 } : {}}
+                initial={tier === 'full' ? { opacity: 0, x: 20 } : {}}
+                whileInView={tier === 'full' ? { opacity: 1, x: 0 } : {}}
                 viewport={{ once: true }}
-                transition={tier !== 'none' ? { delay: 0.1 } : {}}
+                transition={tier === 'full' ? { delay: 0.1 } : {}}
                 className="group"
               >
                 <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-widest">EMAIL</p>
@@ -966,10 +948,10 @@ export default function Home() {
               </motion.div>
 
               <motion.div
-                initial={tier !== 'none' ? { opacity: 0, x: 20 } : {}}
-                whileInView={tier !== 'none' ? { opacity: 1, x: 0 } : {}}
+                initial={tier === 'full' ? { opacity: 0, x: 20 } : {}}
+                whileInView={tier === 'full' ? { opacity: 1, x: 0 } : {}}
                 viewport={{ once: true }}
-                transition={tier !== 'none' ? { delay: 0.3 } : {}}
+                transition={tier === 'full' ? { delay: 0.3 } : {}}
               >
                 <p className="text-xs md:text-sm text-gray-500 mb-6 tracking-widest">RÉSEAUX</p>
                 <div className="grid grid-cols-2 gap-6 md:gap-8">
@@ -1162,8 +1144,8 @@ export default function Home() {
     </div>
   );
 
-  // Return conditionnel : Lenis sur desktop, scroll natif sur mobile
-  if (isMobile) {
+  // Return conditionnel : Lenis uniquement sur desktop en tier full
+  if (isMobile || tier !== 'full') {
     return (
       <>
         {helmet}

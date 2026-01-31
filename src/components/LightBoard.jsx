@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 // Font bitmap 5x7 - chaque valeur représente une ligne, bit 4 = gauche, bit 0 = droite
 const FONT = {
@@ -64,27 +64,8 @@ export default function LightBoard({
   },
   className = "",
 }) {
-  const [offset, setOffset] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(0);
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
-
-  // Observer la largeur du container
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        setContainerWidth(entry.contentRect.width);
-      }
-    });
-
-    resizeObserver.observe(container);
-    setContainerWidth(container.offsetWidth);
-
-    return () => resizeObserver.disconnect();
-  }, []);
 
   // Convertir le texte en pattern (mémorisé)
   const { pattern, cols } = useMemo(() => {
@@ -98,7 +79,6 @@ export default function LightBoard({
       for (let row = 0; row < CHAR_HEIGHT; row++) {
         const rowData = charData[row] || 0;
         for (let col = 0; col < CHAR_WIDTH; col++) {
-          // Bit 0 = colonne 0 (gauche), Bit 4 = colonne 4 (droite)
           if (rowData & (1 << col)) {
             grid[row][x + col] = 1;
           }
@@ -109,55 +89,79 @@ export default function LightBoard({
     return { pattern: grid, cols: totalWidth };
   }, [text]);
 
-  // Animation avec setInterval (plus léger que requestAnimationFrame en boucle)
-  useEffect(() => {
-    if (updateInterval <= 0) return; // tier 'none' : pas d'animation
-    const intervalId = setInterval(() => {
-      setOffset(prev => (prev + 1) % cols);
-    }, updateInterval);
-
-    return () => clearInterval(intervalId);
-  }, [cols, updateInterval]);
-
-  // Rendu avec Canvas pour performance
+  // Animation RAF directe — zéro re-render React
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || containerWidth === 0) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
 
     const ctx = canvas.getContext('2d');
-    const cellSize = lightSize + gap;
-    const visibleCols = Math.ceil(containerWidth / cellSize);
+    let offset = 0;
+    let lastTick = 0;
+    let animId;
+    const stopped = updateInterval <= 0;
 
-    canvas.width = containerWidth;
-    canvas.height = CHAR_HEIGHT * cellSize;
+    function draw(width) {
+      const cellSize = lightSize + gap;
+      const halfLight = lightSize / 2;
+      const visibleCols = Math.ceil(width / cellSize);
 
-    // Background
-    if (colors.background !== "transparent") {
-      ctx.fillStyle = colors.background;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    } else {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
+      canvas.width = width;
+      canvas.height = CHAR_HEIGHT * cellSize;
 
-    for (let row = 0; row < CHAR_HEIGHT; row++) {
-      for (let col = 0; col < visibleCols; col++) {
-        const patternCol = (col + offset) % cols;
-        const isOn = pattern[row][patternCol];
+      if (colors.background !== "transparent") {
+        ctx.fillStyle = colors.background;
+        ctx.fillRect(0, 0, width, canvas.height);
+      } else {
+        ctx.clearRect(0, 0, width, canvas.height);
+      }
 
-        ctx.beginPath();
-        ctx.arc(
-          col * cellSize + lightSize / 2,
-          row * cellSize + lightSize / 2,
-          lightSize / 2,
-          0,
-          Math.PI * 2
-        );
-
-        ctx.fillStyle = isOn ? colors.textBright : colors.textDim;
-        ctx.fill();
+      // fillRect au lieu de arc() — beaucoup moins coûteux
+      for (let row = 0; row < CHAR_HEIGHT; row++) {
+        for (let col = 0; col < visibleCols; col++) {
+          const patternCol = (col + offset) % cols;
+          ctx.fillStyle = pattern[row][patternCol] ? colors.textBright : colors.textDim;
+          ctx.fillRect(
+            col * cellSize,
+            row * cellSize,
+            lightSize,
+            lightSize
+          );
+        }
       }
     }
-  }, [pattern, cols, offset, lightSize, gap, colors, containerWidth]);
+
+    // Dessin initial
+    let currentWidth = container.offsetWidth;
+    if (currentWidth > 0) draw(currentWidth);
+
+    // Observer la taille du container
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        currentWidth = entry.contentRect.width;
+        if (currentWidth > 0) draw(currentWidth);
+      }
+    });
+    resizeObserver.observe(container);
+
+    // Boucle d'animation sans setState
+    if (!stopped) {
+      const loop = (timestamp) => {
+        if (timestamp - lastTick >= updateInterval) {
+          lastTick = timestamp;
+          offset = (offset + 1) % cols;
+          if (currentWidth > 0) draw(currentWidth);
+        }
+        animId = requestAnimationFrame(loop);
+      };
+      animId = requestAnimationFrame(loop);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+      if (animId) cancelAnimationFrame(animId);
+    };
+  }, [pattern, cols, lightSize, gap, colors, updateInterval]);
 
   return (
     <div ref={containerRef} className={`w-full ${className}`}>

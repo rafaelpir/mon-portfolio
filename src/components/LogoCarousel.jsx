@@ -65,14 +65,14 @@ const LogoCarousel = ({ skillCategories, isDarkMode, performanceTier = 'full' })
         <motion.div
           ref={containerRef}
           className="flex gap-3 md:gap-5 absolute"
-          animate={performanceTier !== 'none' ? {
+          animate={performanceTier === 'full' ? {
             x: contentWidth > 0 ? [0, -contentWidth] : 0,
           } : {}}
-          transition={performanceTier !== 'none' ? {
+          transition={performanceTier === 'full' ? {
             x: {
               repeat: Infinity,
               repeatType: "loop",
-              duration: performanceTier === 'full' ? 20 : 40,
+              duration: 20,
               ease: "linear",
             },
           } : {}}
