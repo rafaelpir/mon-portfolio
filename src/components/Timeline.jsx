@@ -122,6 +122,7 @@ export default function Timeline({ isDarkMode }) {
         <div
           style={{
             height: height + "px",
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
             maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)'
           }}
           className={`absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] ${

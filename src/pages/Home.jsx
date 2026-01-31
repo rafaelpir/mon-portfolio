@@ -297,7 +297,7 @@ export default function Home() {
             <img
               src="/images/logos/RP.png"
               alt="RP"
-              className={`w-full h-full object-contain ${isDarkMode ? 'invert' : ''}`}
+              className={`w-full h-full object-contain ${isDarkMode ? '' : 'invert'}`}
             />
           </div>
 
@@ -601,25 +601,37 @@ export default function Home() {
           </div>
         </div>
 
-        {/* LightBoard en bas pleine largeur */}
+        {/* LightBoard en bas pleine largeur — ou vidéo de fond si désactivé */}
         <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden">
-          <LightBoard
-            text="RECHERCHE DE STAGE - AVRIL 2026   -   RECHERCHE D'ALTERNANCE - SEPTEMBRE 2026  "
-            rows={7}
-            gap={1}
-            lightSize={4}
-            updateInterval={tier === 'full' ? 60 : tier === 'reduced' ? 200 : 0}
-            colors={isDarkMode ? {
-              background: "transparent",
-              textDim: "rgba(232,220,196,0.1)",
-              textBright: "#E8DCC4",
-            } : {
-              background: "transparent",
-              textDim: "rgba(0,0,0,0.1)",
-              textBright: "#000000",
-            }}
-            className="w-full"
-          />
+          {tier !== 'none' ? (
+            <LightBoard
+              text="RECHERCHE DE STAGE - AVRIL 2026   -   RECHERCHE D'ALTERNANCE - SEPTEMBRE 2026  "
+              rows={7}
+              gap={1}
+              lightSize={4}
+              updateInterval={tier === 'full' ? 60 : 200}
+              colors={isDarkMode ? {
+                background: "transparent",
+                textDim: "rgba(232,220,196,0.1)",
+                textBright: "#E8DCC4",
+              } : {
+                background: "transparent",
+                textDim: "rgba(0,0,0,0.1)",
+                textBright: "#000000",
+              }}
+              className="w-full"
+            />
+          ) : (
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className={`w-full h-auto ${isDarkMode ? 'opacity-40' : 'opacity-30 invert'}`}
+            >
+              <source src="/videos/output.mp4" type="video/mp4" />
+            </video>
+          )}
         </div>
       </section>
 
@@ -674,19 +686,31 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={tier === 'full' ? { duration: 0.8, delay: 0.4 } : tier === 'reduced' ? { duration: 0.3 } : {}}
               >
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  width="1920"
-                  height="1080"
-                  className={`w-full h-auto rounded-xl aspect-video ${
-                    isDarkMode ? 'opacity-90' : 'opacity-80 invert'
-                  }`}
-                >
-                  <source src="/videos/fond_leger.mp4" type="video/mp4" />
-                </video>
+                {tier === 'full' ? (
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    width="1920"
+                    height="1080"
+                    className={`w-full h-auto rounded-xl aspect-video ${
+                      isDarkMode ? 'opacity-90' : 'opacity-80 invert'
+                    }`}
+                  >
+                    <source src="/videos/fond_leger.mp4" type="video/mp4" />
+                  </video>
+                ) : (
+                  <img
+                    src="/videos/fond_leger_poster.webp"
+                    alt=""
+                    width="1920"
+                    height="1080"
+                    className={`w-full h-auto rounded-xl aspect-video object-cover ${
+                      isDarkMode ? 'opacity-90' : 'opacity-80 invert'
+                    }`}
+                  />
+                )}
               </motion.div>
             </div>
           </div>

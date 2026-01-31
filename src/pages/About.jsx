@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { LiquidMetal } from '@paper-design/shaders-react';
 
 export default function About() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -29,20 +28,10 @@ export default function About() {
       <header className="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-6">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link to="/" className="relative w-20 h-20 md:w-32 md:h-32 flex items-center justify-center overflow-hidden">
-            <LiquidMetal
-              style={{ width: '100%', height: '100%' }}
-              image="/images/logos/RP.png"
-              colorBack={isDarkMode ? "#00000000" : "#00000000"}
-              repetition={6}
-              softness={0.8}
-              shiftRed={1}
-              shiftBlue={-1}
-              distortion={0.4}
-              contour={0.4}
-              angle={0}
-              speed={1}
-              scale={0.7}
-              fit="contain"
+            <img
+              src="/images/logos/RP.png"
+              alt="RP"
+              className={`w-full h-full object-contain ${isDarkMode ? 'invert' : ''}`}
             />
           </Link>
 

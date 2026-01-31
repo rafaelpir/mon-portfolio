@@ -18,6 +18,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
   const marqueeRef = React.useRef(null);
   const marqueeInnerRef = React.useRef(null);
   const timelineRef = React.useRef(null);
+  const [isHovered, setIsHovered] = React.useState(false);
 
   const animationDefaults = { duration: 0.4, ease: 'power2.out' };
 
@@ -38,6 +39,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
     const rect = itemRef.current.getBoundingClientRect();
     const edge = findClosestEdge(ev.clientX - rect.left, ev.clientY - rect.top, rect.width, rect.height);
 
+    setIsHovered(true);
     timelineRef.current = gsap
       .timeline({ defaults: animationDefaults })
       .set(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' })
@@ -62,7 +64,8 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
       .to([marqueeRef.current, marqueeInnerRef.current], {
         y: (index) => index === 0
           ? (edge === 'top' ? '-101%' : '101%')
-          : (edge === 'top' ? '101%' : '-101%')
+          : (edge === 'top' ? '101%' : '-101%'),
+        onComplete: () => setIsHovered(false)
       });
   };
 
@@ -73,7 +76,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
     }
   };
 
-  const repeatedMarqueeContent = Array.from({ length: 4 }).map((_, idx) => (
+  const repeatedMarqueeContent = Array.from({ length: 2 }).map((_, idx) => (
     <React.Fragment key={idx}>
       <span
         className="uppercase font-normal text-[1.4vh] md:text-[2vh] leading-tight p-[0.5vh_1vw_0] md:p-[1vh_1vw_0] flex items-center gap-2"
@@ -100,6 +103,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
             src={image}
             alt=""
             className="w-full h-full object-cover"
+            loading="lazy"
           />
         </div>
       )}
@@ -137,14 +141,13 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
         )}
       </a>
       <div
-        className={`absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none translate-y-[101%] will-change-transform ${
+        className={`absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none translate-y-[101%] ${
           isDarkMode ? 'bg-beige' : 'bg-black'
         }`}
         ref={marqueeRef}
-        style={{ backfaceVisibility: 'hidden' }}
       >
-        <div className="h-full w-[200%] flex will-change-transform" ref={marqueeInnerRef} style={{ backfaceVisibility: 'hidden' }}>
-          <div className="flex items-center relative h-full w-[200%] will-change-transform animate-marquee">
+        <div className="h-full w-[200%] flex" ref={marqueeInnerRef}>
+          <div className={`flex items-center relative h-full w-[200%] ${isHovered ? 'animate-marquee' : ''}`}>
             {repeatedMarqueeContent}
           </div>
         </div>
