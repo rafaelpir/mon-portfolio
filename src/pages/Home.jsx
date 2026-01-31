@@ -629,7 +629,7 @@ export default function Home() {
               playsInline
               className={`w-full h-auto ${isDarkMode ? 'opacity-40' : 'opacity-30 invert'}`}
             >
-              <source src="/videos/output.mp4" type="video/mp4" />
+              <source src="/videos/output_optimized.mp4" type="video/mp4" />
             </video>
           )}
         </div>
