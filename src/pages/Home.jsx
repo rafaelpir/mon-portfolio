@@ -517,25 +517,23 @@ export default function Home() {
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center relative overflow-hidden px-4">
         {/* GrainGradient Background - lazy: détruit quand hors viewport */}
-        {tier === 'full' ? (
+        {(tier === 'full' || tier === 'reduced') ? (
           <LazyShader className={`absolute inset-0 z-0 ${isDarkMode ? 'opacity-30' : 'opacity-60'}`}>
             <GrainGradient
               style={{ width: '100%', height: '100%' }}
-              minPixelRatio={1}
+              minPixelRatio={tier === 'full' ? 1 : 0.5}
               colors={isDarkMode ? ["#000000", "#000000", "#bababa"] : ["#f5f5f5", "#e0e0e0", "#cccccc"]}
               colorBack={isDarkMode ? "#000000" : "#ffffff"}
               softness={1}
-              intensity={1}
-              noise={1}
+              intensity={0.4}
+              noise={0.5}
               shape="truchet"
-              speed={1.02}
+              speed={tier === 'full' ? 1.02 : 0.3}
               scale={0.16}
               rotation={168}
               offsetX={0.16}
             />
           </LazyShader>
-        ) : tier === 'reduced' ? (
-          <div className={`absolute inset-0 z-0 bg-gradient-to-br ${isDarkMode ? 'from-gray-900 to-black opacity-30' : 'from-gray-100 to-white opacity-60'}`} />
         ) : null}
 
         {/* Contenu principal avec animations améliorées */}
@@ -603,17 +601,7 @@ export default function Home() {
               }}
               className="w-full"
             />
-          ) : (
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className={`w-full h-auto ${isDarkMode ? 'opacity-40' : 'opacity-30 invert'}`}
-            >
-              <source src="/videos/output_optimized.mp4" type="video/mp4" />
-            </video>
-          )}
+          ) : null}
         </div>
       </section>
 
