@@ -601,7 +601,17 @@ export default function Home() {
               }}
               className="w-full"
             />
-          ) : null}
+          ) : (
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className={`w-full h-auto ${isDarkMode ? 'opacity-40' : 'opacity-30 invert'}`}
+            >
+              <source src="/videos/fond_leger.mp4" type="video/mp4" />
+            </video>
+          )}
         </div>
       </section>
 
@@ -656,7 +666,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={tier === 'full' ? { duration: 0.8, delay: 0.4 } : {}}
               >
-                {tier === 'full' ? (
+                {tier !== 'none' ? (
                   <video
                     autoPlay
                     loop
