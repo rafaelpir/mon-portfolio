@@ -656,31 +656,19 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={tier === 'full' ? { duration: 0.8, delay: 0.4 } : {}}
               >
-                {tier !== 'none' ? (
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    width="1920"
-                    height="1080"
-                    className={`w-full h-auto rounded-xl aspect-video ${
-                      isDarkMode ? 'opacity-90' : 'opacity-80 invert'
-                    }`}
-                  >
-                    <source src="/videos/fond_leger.mp4" type="video/mp4" />
-                  </video>
-                ) : (
-                  <img
-                    src="/videos/fond_leger_poster.webp"
-                    alt=""
-                    width="1920"
-                    height="1080"
-                    className={`w-full h-auto rounded-xl aspect-video object-cover ${
-                      isDarkMode ? 'opacity-90' : 'opacity-80 invert'
-                    }`}
-                  />
-                )}
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  width="1920"
+                  height="1080"
+                  className={`w-full h-auto rounded-xl aspect-video ${
+                    isDarkMode ? 'opacity-90' : 'opacity-80 invert'
+                  }`}
+                >
+                  <source src="/videos/fond_leger.mp4" type="video/mp4" />
+                </video>
               </motion.div>
             </div>
           </div>
