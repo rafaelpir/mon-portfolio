@@ -601,17 +601,7 @@ export default function Home() {
               }}
               className="w-full"
             />
-          ) : (
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className={`w-full h-auto ${isDarkMode ? 'opacity-40' : 'opacity-30 invert'}`}
-            >
-              <source src="/videos/fond_leger.mp4" type="video/mp4" />
-            </video>
-          )}
+          ) : null}
         </div>
       </section>
 
