@@ -12,7 +12,6 @@ import ProjectFilters from '../components/ProjectFilters';
 import Timeline from '../components/Timeline';
 import LogoCarousel from '../components/LogoCarousel';
 import WorkInProgressBanner from '../components/WorkInProgressBanner';
-import usePresentationMode from '../hooks/usePresentationMode';
 import usePerformanceTier from '../hooks/usePerformanceTier';
 import TextType from '../components/TextType';
 import { GrainGradient } from '@paper-design/shaders-react';
@@ -21,7 +20,6 @@ import LazyShader from '../components/LazyShader';
 
 export default function Home() {
   const navigate = useNavigate();
-  const { isPresentationMode, togglePresentationMode, isFullscreenSupported } = usePresentationMode();
   const tier = usePerformanceTier();
 
   const [selectedCategory, setSelectedCategory] = useState('Tous');
@@ -272,7 +270,6 @@ export default function Home() {
       <WorkInProgressBanner isDarkMode={isDarkMode} />
 
       {/* Header avec navigation */}
-      {!isPresentationMode && (
       <header className={`fixed top-0 left-0 right-0 z-40 px-4 md:px-8 py-2 md:py-3 transition-colors duration-300 ${
         isDarkMode
           ? 'bg-black/5'
@@ -412,26 +409,6 @@ export default function Home() {
                     <span>{isDarkMode ? 'Mode sombre' : 'Mode clair'}</span>
                     {isDarkMode ? '🌙' : '☀️'}
                   </button>
-
-                  <div className={`my-2 border-t ${isDarkMode ? 'border-black/10' : 'border-beige/10'}`} />
-
-                  {/* Mode Présentation */}
-                  <div className={`px-4 py-2 text-xs font-semibold ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`}>
-                    MODE PRÉSENTATION
-                  </div>
-                  <button
-                    onClick={togglePresentationMode}
-                    className={`w-full px-4 py-2 text-left flex items-center justify-between ${
-                      isDarkMode ? 'hover:bg-black/5 text-black' : 'hover:bg-beige/10 text-beige'
-                    }`}
-                    title="Raccourci: Ctrl+P"
-                  >
-                    <span>Plein écran {!isFullscreenSupported && '(Non supporté)'}</span>
-                    <span className={`text-sm ${isPresentationMode ? 'text-green-500' : 'text-gray-500'}`}>
-                      {isPresentationMode ? '✓ Actif' : 'Ctrl+P'}
-                    </span>
-                  </button>
-
                 </div>
               )}
             </div>
@@ -520,7 +497,6 @@ export default function Home() {
           </div>
         )}
       </header>
-      )}
 
       {/* Hero Section */}
       <section className="h-screen flex items-center justify-center relative overflow-hidden px-4">
@@ -1020,7 +996,6 @@ export default function Home() {
       </motion.section>
 
       {/* Footer */}
-      {!isPresentationMode && (
       <footer className={`border-t py-16 md:py-24 px-4 md:px-16 ${
         isDarkMode ? 'border-beige/20' : 'border-black/20'
       }`}>
@@ -1125,7 +1100,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-      )}
     </div>
   );
 
