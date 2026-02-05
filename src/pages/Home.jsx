@@ -131,9 +131,9 @@ export default function Home() {
     <Helmet>
       {/* Meta Tags Essentiels */}
       <html lang="fr" />
-        <title>Rafael Piral - Portfolio Développeur Web & Designer UI/UX | Piral Rafael</title>
-        <meta name="description" content="Rafael Piral (Piral) - Portfolio officiel. Rafael, développeur web et designer UI/UX. Étudiant BUT MMI spécialisé en développement React, JavaScript, design Figma et motion design. Découvrez les projets créatifs de Rafael Piral." />
-        <meta name="keywords" content="Rafael, Rafael Piral, Piral, Rafael développeur, Rafael designer, Rafael portfolio, Piral portfolio, Rafael développeur web, Rafael MMI, Rafael React, Rafael JavaScript, Piral développeur, Piral designer, développeur web Rafael Piral, designer Rafael Piral, Rafael BUT MMI, Piral BUT MMI, Rafael Paris, Piral Paris, Rafael Le Pré Saint Gervais, UI/UX design, Figma, motion design, stage développeur Paris" />
+        <title>Rafael Piral - Étudiant BUT MMI | Portfolio Design Graphique & Audiovisuel</title>
+        <meta name="description" content="Piral Rafael - Étudiant MMI en 2ème année de BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny. Portfolio de projets en design graphique, UI/UX design et audiovisuel. Parcours Créations Numériques. Disponible pour stage avril 2026." />
+        <meta name="keywords" content="Piral, Rafael Piral, étudiant MMI, BUT MMI, étudiant BUT MMI, Métiers du Multimédia et de l'Internet, IUT Bobigny, portfolio étudiant MMI, design graphique, UI/UX design, audiovisuel, créations numériques, stage MMI 2026, Piral portfolio, Rafael designer, Figma, Photoshop, Premiere Pro" />
         <meta name="author" content="Rafael Piral (Piral)" />
         <meta name="geo.region" content="FR-75" />
         <meta name="geo.placename" content="Le Pré Saint Gervais" />
@@ -141,8 +141,8 @@ export default function Home() {
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.rafaelpiral.fr/" />
-        <meta property="og:title" content="Rafael Piral - Portfolio Développeur Web & Designer UI/UX" />
-        <meta property="og:description" content="Découvrez le portfolio de Rafael Piral. Rafael, développeur web et designer UI/UX spécialisé en React, JavaScript et Figma. Projets créatifs et innovants." />
+        <meta property="og:title" content="Rafael Piral - Étudiant BUT MMI | Portfolio Design & Audiovisuel" />
+        <meta property="og:description" content="Piral - Étudiant MMI en BUT Métiers du Multimédia et de l'Internet. Portfolio design graphique, UI/UX, audiovisuel. IUT Bobigny, parcours Créations Numériques." />
         <meta property="og:image" content="https://www.rafaelpiral.fr/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -152,8 +152,8 @@ export default function Home() {
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content="https://www.rafaelpiral.fr/" />
-        <meta name="twitter:title" content="Rafael Piral - Développeur Web & Designer UI/UX" />
-        <meta name="twitter:description" content="Portfolio de Rafael Piral. Rafael, développeur web React, JavaScript et designer UI/UX Figma. Étudiant BUT MMI." />
+        <meta name="twitter:title" content="Rafael Piral - Étudiant BUT MMI | Portfolio Design & Audiovisuel" />
+        <meta name="twitter:description" content="Piral - Étudiant MMI en BUT Métiers du Multimédia et de l'Internet. Portfolio design graphique, UI/UX, audiovisuel. IUT Bobigny." />
         <meta name="twitter:image" content="https://www.rafaelpiral.fr/og-image.jpg" />
         <meta name="twitter:creator" content="@rafaelpiral" />
         <meta name="twitter:site" content="@rafaelpiral" />
@@ -178,13 +178,14 @@ export default function Home() {
               "https://github.com/rafaelpir",
               "https://www.rafaelpiral.fr"
             ],
-            "jobTitle": "Développeur Web & Designer UI/UX",
+            "jobTitle": "Étudiant BUT MMI - Designer Graphique & Audiovisuel",
             "worksFor": {
               "@type": "EducationalOrganization",
-              "name": "BUT MMI"
+              "name": "IUT de Bobigny - BUT MMI",
+              "description": "BUT Métiers du Multimédia et de l'Internet"
             },
-            "description": "Rafael Piral (Piral) - Étudiant en 2ème année de BUT MMI spécialisé en développement web, design UI/UX et motion design. Disponible pour stage en 2026.",
-            "knowsAbout": ["Développement Web", "React", "JavaScript", "UI/UX Design", "Figma", "Photoshop", "Motion Design", "Adobe Suite"],
+            "description": "Piral Rafael - Étudiant MMI en 2ème année de BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny. Spécialisé en design graphique, UI/UX design et audiovisuel. Parcours Créations Numériques. Disponible pour stage avril 2026.",
+            "knowsAbout": ["Design Graphique", "UI/UX Design", "Audiovisuel", "Figma", "Photoshop", "Illustrator", "Premiere Pro", "DaVinci Resolve", "Motion Design", "Branding"],
             "address": {
               "@type": "PostalAddress",
               "addressLocality": "Le Pré Saint Gervais",
@@ -192,7 +193,11 @@ export default function Home() {
               "addressCountry": "FR"
             },
             "email": "rafa2002@hotmail.fr",
-            "alumniOf": "BUT MMI"
+            "alumniOf": {
+              "@type": "EducationalOrganization",
+              "name": "IUT de Bobigny",
+              "department": "BUT Métiers du Multimédia et de l'Internet (MMI)"
+            }
           })}
         </script>
 
@@ -201,10 +206,10 @@ export default function Home() {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "Rafael Piral - Portfolio",
-            "alternateName": "Piral Portfolio",
+            "name": "Rafael Piral - Étudiant BUT MMI Portfolio",
+            "alternateName": ["Piral Portfolio", "Portfolio étudiant MMI"],
             "url": "https://www.rafaelpiral.fr",
-            "description": "Portfolio officiel de Rafael Piral (Piral) - Développeur web et designer UI/UX",
+            "description": "Portfolio officiel de Piral Rafael - Étudiant MMI en BUT Métiers du Multimédia et de l'Internet. Design graphique, UI/UX et audiovisuel.",
             "author": {
               "@type": "Person",
               "name": "Rafael Piral",
@@ -279,6 +284,9 @@ export default function Home() {
             <img
               src="/images/logos/RP.png"
               alt="RP"
+              width={80}
+              height={80}
+              fetchPriority="high"
               className={`w-full h-full object-contain ${isDarkMode ? '' : 'invert'}`}
             />
           </div>
@@ -581,9 +589,9 @@ export default function Home() {
           </div>
         </div>
 
-        {/* LightBoard en bas pleine largeur — ou vidéo de fond si désactivé */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden">
-          {tier !== 'none' ? (
+        {/* LightBoard en bas pleine largeur — espace réservé pour éviter CLS */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden" style={{ minHeight: '56px' }}>
+          {tier !== 'none' && (
             <LightBoard
               text="RECHERCHE DE STAGE - AVRIL 2026   -   RECHERCHE D'ALTERNANCE - SEPTEMBRE 2026  "
               rows={7}
@@ -601,7 +609,7 @@ export default function Home() {
               }}
               className="w-full"
             />
-          ) : null}
+          )}
         </div>
       </section>
 
@@ -661,6 +669,7 @@ export default function Home() {
                   loop
                   muted
                   playsInline
+                  preload="none"
                   width="1920"
                   height="1080"
                   className={`w-full h-auto rounded-xl aspect-video ${

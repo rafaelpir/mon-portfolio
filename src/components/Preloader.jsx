@@ -50,8 +50,8 @@ const Preloader = ({ onComplete, minDuration = 3000 }) => {
           setTimeout(() => {
             setIsVisible(false);
             if (onComplete) onComplete();
-          }, 1000);
-        }, 300);
+          }, 500);
+        }, 100);
       }
     };
 
@@ -219,7 +219,7 @@ const Preloader = ({ onComplete, minDuration = 3000 }) => {
           letter-spacing: 2px !important;
         }
         .preloader--fading {
-          animation: preloader-fadeout 1s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+          animation: preloader-fadeout 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
         }
         @keyframes preloader-fadeout {
           0% {

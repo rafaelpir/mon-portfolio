@@ -165,7 +165,9 @@ export default function ProjectDetail() {
                 transition={{ delay: 0.4 }}
                 className="mb-12"
               >
-                <div className="relative rounded-lg overflow-hidden bg-black/5 max-h-[600px] flex items-center justify-center">
+                <div
+                  className="relative rounded-lg overflow-hidden bg-black/5 max-h-[600px] flex items-center justify-center"
+                >
                   <img
                     src={project.thumbnail}
                     alt={project.title}
@@ -260,8 +262,8 @@ export default function ProjectDetail() {
 
                   {/* Image du carousel */}
                   <div
-                    className="relative rounded-lg overflow-hidden bg-black/5 flex-shrink-0 cursor-grab active:cursor-grabbing md:cursor-default"
-                    style={{ maxWidth: '500px' }}
+                    className="relative rounded-lg overflow-hidden bg-black/5 flex-shrink-0 cursor-grab active:cursor-grabbing flex items-center justify-center"
+                    style={{ width: '500px', height: '450px' }}
                     onTouchStart={(e) => {
                       touchStartX.current = e.touches[0].clientX;
                     }}
@@ -285,8 +287,7 @@ export default function ProjectDetail() {
                     <img
                       src={project.gallery[currentImageIndex].src}
                       alt={`${project.title} - Image ${currentImageIndex + 1}`}
-                      className="w-full h-auto object-contain select-none pointer-events-none"
-                      style={{ maxHeight: '450px' }}
+                      className="max-w-full max-h-full object-contain select-none pointer-events-none"
                       loading="lazy"
                       draggable={false}
                     />
@@ -408,6 +409,12 @@ export default function ProjectDetail() {
                 <div>
                   <h3 className="text-xl font-light mb-4 opacity-70">Informations</h3>
                   <ul className="space-y-3 text-sm">
+                    {project.role && (
+                      <li className="flex flex-col gap-1">
+                        <span className="opacity-50 text-xs tracking-wider">RÔLE</span>
+                        <span>{project.role}</span>
+                      </li>
+                    )}
                     {project.context && (
                       <li className="flex flex-col gap-1">
                         <span className="opacity-50 text-xs tracking-wider">CONTEXTE</span>
@@ -430,6 +437,24 @@ export default function ProjectDetail() {
                       <span className="opacity-50 text-xs tracking-wider">TYPE</span>
                       <span>{project.type || project.category}</span>
                     </li>
+                    {project.team && (
+                      <li className="flex flex-col gap-1">
+                        <span className="opacity-50 text-xs tracking-wider">FORMAT</span>
+                        <span>
+                          Binôme avec{' '}
+                          <a
+                            href={project.team.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`underline transition-colors ${
+                              isDarkMode ? 'hover:text-beige/70' : 'hover:text-black/70'
+                            }`}
+                          >
+                            {project.team.name}
+                          </a>
+                        </span>
+                      </li>
+                    )}
                   </ul>
                 </div>
 
@@ -469,6 +494,27 @@ export default function ProjectDetail() {
                   </div>
                 )}
               </div>
+
+              {/* Lien externe */}
+              {project.externalUrl && (
+                <div className="mt-8">
+                  <a
+                    href={project.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-2 px-6 py-3 rounded-full border transition-colors ${
+                      isDarkMode
+                        ? 'border-beige hover:bg-beige hover:text-black'
+                        : 'border-black hover:bg-black hover:text-white'
+                    }`}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    <span className="text-sm tracking-wider">VOIR LE SITE</span>
+                  </a>
+                </div>
+              )}
             </motion.div>
 
             {/* Navigation vers autres projets */}
@@ -531,6 +577,7 @@ export default function ProjectDetail() {
           </div>
         </motion.div>
       </div>
+
     </ReactLenis>
   );
 }

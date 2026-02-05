@@ -38,7 +38,7 @@ function AppContent() {
   return (
     <>
       {showPreloader && isHomePage && (
-        <Preloader onComplete={handlePreloaderComplete} minDuration={3000} />
+        <Preloader onComplete={handlePreloaderComplete} minDuration={1500} />
       )}
       <ScrollToTop />
       <GoogleAnalytics />
