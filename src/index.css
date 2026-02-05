@@ -50,13 +50,23 @@
   }
 }
 
-/* Satoshi Font Family - Une seule déclaration avec font-display: swap */
+/* Satoshi Font Family - Avec font-display: optional pour éviter CLS */
 @font-face {
   font-family: 'Satoshi';
   src: url('/font/Satoshi-Medium.otf') format('opentype');
   font-weight: 100 900;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
+}
+
+/* Fallback font avec size-adjust pour réduire CLS si Satoshi pas disponible */
+@font-face {
+  font-family: 'Satoshi-fallback';
+  src: local('Arial');
+  size-adjust: 100%;
+  ascent-override: 90%;
+  descent-override: 20%;
+  line-gap-override: 0%;
 }
 
 /* Perspective 3D pour le logo */
@@ -69,6 +79,37 @@ html {
   overflow-x: hidden;
   /* Optimisation mobile */
   -webkit-overflow-scrolling: touch;
+}
+
+/* CLS Prevention - Prevent layout shifts from propagating */
+section {
+  contain: layout style;
+}
+
+/* Reserve space for images - prevent CLS */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent video layout shifts */
+video {
+  aspect-ratio: 16 / 9;
+}
+
+/* Hero section - reserve minimum height */
+section:first-of-type {
+  min-height: 100vh;
+}
+
+/* Header - fixed height to prevent CLS */
+header {
+  min-height: 56px;
+}
+
+/* Ensure lazy-loaded images don't cause shifts */
+img[loading="lazy"] {
+  background-color: transparent;
 }
 
 /* Optimisations desktop pour scroll Lenis */
@@ -226,17 +267,15 @@ canvas {
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: fade-in-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 .animate-slide-down {
-  animation: slide-down 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  opacity: 0;
+  animation: slide-down 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 .animate-fade-in {
-  animation: fade-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  opacity: 0;
+  animation: fade-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 /* Animation glitch pour le logo */

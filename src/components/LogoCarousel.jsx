@@ -91,6 +91,8 @@ const LogoCarousel = ({ skillCategories, isDarkMode, performanceTier = 'full' })
                 <img
                   src={logo.logoPath}
                   alt={logo.name}
+                  width={80}
+                  height={80}
                   className="w-full h-full object-contain"
                   loading="lazy"
                 />

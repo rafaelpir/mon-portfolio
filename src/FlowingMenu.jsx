@@ -102,6 +102,8 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
           <img
             src={image}
             alt=""
+            width={120}
+            height={45}
             className="w-full h-full object-cover"
             loading="lazy"
           />
