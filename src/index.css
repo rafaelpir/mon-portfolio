@@ -50,23 +50,13 @@
   }
 }
 
-/* Satoshi Font Family - Avec font-display: optional pour éviter CLS */
+/* Satoshi Font Family */
 @font-face {
   font-family: 'Satoshi';
   src: url('/font/Satoshi-Medium.otf') format('opentype');
   font-weight: 100 900;
   font-style: normal;
-  font-display: optional;
-}
-
-/* Fallback font avec size-adjust pour réduire CLS si Satoshi pas disponible */
-@font-face {
-  font-family: 'Satoshi-fallback';
-  src: local('Arial');
-  size-adjust: 100%;
-  ascent-override: 90%;
-  descent-override: 20%;
-  line-gap-override: 0%;
+  font-display: swap;
 }
 
 /* Perspective 3D pour le logo */
