@@ -1,7 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
+import { useTranslation } from 'react-i18next';
 
 export default function CVDownloadButton({ variant = 'primary', isDarkMode, className = '' }) {
+  const { t } = useTranslation('common');
   const buttonRef = useRef(null);
   const iconRef = useRef(null);
 
@@ -65,10 +67,10 @@ export default function CVDownloadButton({ variant = 'primary', isDarkMode, clas
       ref={buttonRef}
       onClick={handleClick}
       className={`${baseClasses} ${variantClasses[variant]} ${className}`}
-      aria-label="Télécharger CV"
+      aria-label={t('buttons.downloadCV')}
     >
       {variant !== 'iconOnly' && (
-        <span>TÉLÉCHARGER CV</span>
+        <span>{t('buttons.downloadCV')}</span>
       )}
       <svg
         ref={iconRef}

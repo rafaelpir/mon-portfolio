@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import FlowingMenu from '../FlowingMenu';
 import { useForm, ValidationError } from '@formspree/react';
 import { ReactLenis } from 'lenis/dist/lenis-react';
@@ -12,6 +13,7 @@ import ProjectFilters from '../components/ProjectFilters';
 import Timeline from '../components/Timeline';
 import LogoCarousel from '../components/LogoCarousel';
 import WorkInProgressBanner from '../components/WorkInProgressBanner';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 import usePerformanceTier from '../hooks/usePerformanceTier';
 import TextType from '../components/TextType';
 import { GrainGradient } from '@paper-design/shaders-react';
@@ -21,6 +23,7 @@ import LazyShader from '../components/LazyShader';
 export default function Home() {
   const navigate = useNavigate();
   const tier = usePerformanceTier();
+  const { t, i18n } = useTranslation(['home', 'common', 'seo']);
 
   const [selectedCategory, setSelectedCategory] = useState('Tous');
   const [selectedTags, setSelectedTags] = useState([]);
@@ -124,14 +127,16 @@ export default function Home() {
     [filteredProjects, navigate]
   );
 
+  const currentLang = i18n.language?.startsWith('fr') ? 'fr' : 'en';
+
   // Meta tags (toujours rendus, pas affectés par Lenis)
   const helmet = (
     <Helmet>
       {/* Meta Tags Essentiels */}
-      <html lang="fr" />
-        <title>Rafael Piral - Étudiant BUT MMI | Portfolio Design Graphique & Audiovisuel</title>
-        <meta name="description" content="Piral Rafael - Étudiant MMI en 2ème année de BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny. Portfolio de projets en design graphique, UI/UX design et audiovisuel. Parcours Créations Numériques. Disponible pour stage avril 2026." />
-        <meta name="keywords" content="Piral, Rafael Piral, étudiant MMI, BUT MMI, étudiant BUT MMI, Métiers du Multimédia et de l'Internet, IUT Bobigny, portfolio étudiant MMI, design graphique, UI/UX design, audiovisuel, créations numériques, stage MMI 2026, Piral portfolio, Rafael designer, Figma, Photoshop, Premiere Pro" />
+      <html lang={currentLang} />
+        <title>{t('seo:home.title')}</title>
+        <meta name="description" content={t('seo:home.description')} />
+        <meta name="keywords" content={t('seo:home.keywords')} />
         <meta name="author" content="Rafael Piral (Piral)" />
         <meta name="geo.region" content="FR-75" />
         <meta name="geo.placename" content="Le Pré Saint Gervais" />
@@ -139,19 +144,19 @@ export default function Home() {
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.rafaelpiral.fr/" />
-        <meta property="og:title" content="Rafael Piral - Étudiant BUT MMI | Portfolio Design & Audiovisuel" />
-        <meta property="og:description" content="Piral - Étudiant MMI en BUT Métiers du Multimédia et de l'Internet. Portfolio design graphique, UI/UX, audiovisuel. IUT Bobigny, parcours Créations Numériques." />
+        <meta property="og:title" content={t('seo:home.ogTitle')} />
+        <meta property="og:description" content={t('seo:home.ogDescription')} />
         <meta property="og:image" content="https://www.rafaelpiral.fr/og-image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:locale" content="fr_FR" />
-        <meta property="og:site_name" content="Rafael Piral (Piral) Portfolio" />
+        <meta property="og:locale" content={currentLang === 'fr' ? 'fr_FR' : 'en_US'} />
+        <meta property="og:site_name" content="Rafael Piral Portfolio" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content="https://www.rafaelpiral.fr/" />
-        <meta name="twitter:title" content="Rafael Piral - Étudiant BUT MMI | Portfolio Design & Audiovisuel" />
-        <meta name="twitter:description" content="Piral - Étudiant MMI en BUT Métiers du Multimédia et de l'Internet. Portfolio design graphique, UI/UX, audiovisuel. IUT Bobigny." />
+        <meta property="twitter:title" content={t('seo:home.ogTitle')} />
+        <meta property="twitter:description" content={t('seo:home.ogDescription')} />
         <meta name="twitter:image" content="https://www.rafaelpiral.fr/og-image.jpg" />
         <meta name="twitter:creator" content="@rafaelpiral" />
         <meta name="twitter:site" content="@rafaelpiral" />
@@ -298,7 +303,7 @@ export default function Home() {
                   : 'text-gray-700 hover:text-black'
               }`}
             >
-              À PROPOS
+              {t('common:nav.about')}
             </button>
             <button
               onClick={() => scrollToSection('projects')}
@@ -308,7 +313,7 @@ export default function Home() {
                   : 'text-gray-700 hover:text-black'
               }`}
             >
-              PROJETS
+              {t('common:nav.projects')}
             </button>
             <button
               onClick={() => scrollToSection('skills')}
@@ -318,7 +323,7 @@ export default function Home() {
                   : 'text-gray-700 hover:text-black'
               }`}
             >
-              COMPÉTENCES
+              {t('common:nav.skills')}
             </button>
             <button
               onClick={() => scrollToSection('contact')}
@@ -328,7 +333,7 @@ export default function Home() {
                   : 'text-gray-700 hover:text-black'
               }`}
             >
-              CONTACT
+              {t('common:nav.contact')}
             </button>
 
             {/* Bouton CV */}
@@ -373,6 +378,9 @@ export default function Home() {
               </a>
             </div>
 
+            {/* Language Switcher */}
+            <LanguageSwitcher isDarkMode={isDarkMode} />
+
             {/* Menu paramètres */}
             <div className="ml-4 relative settings-menu">
               <button
@@ -385,7 +393,7 @@ export default function Home() {
                     ? 'bg-beige/10 hover:bg-beige/20 text-beige'
                     : 'bg-black/10 hover:bg-black/20 text-black'
                 }`}
-                aria-label="Paramètres"
+                aria-label={t('common:nav.settings')}
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
@@ -398,7 +406,7 @@ export default function Home() {
                 }`}>
                   {/* Thème */}
                   <div className={`px-4 py-2 text-xs font-semibold ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`}>
-                    THÈME
+                    {t('common:theme.title')}
                   </div>
                   <button
                     onClick={() => setIsDarkMode(!isDarkMode)}
@@ -406,7 +414,7 @@ export default function Home() {
                       isDarkMode ? 'hover:bg-black/5 text-black' : 'hover:bg-beige/10 text-beige'
                     }`}
                   >
-                    <span>{isDarkMode ? 'Mode sombre' : 'Mode clair'}</span>
+                    <span>{isDarkMode ? t('common:theme.dark') : t('common:theme.light')}</span>
                     {isDarkMode ? '🌙' : '☀️'}
                   </button>
                 </div>
@@ -461,7 +469,7 @@ export default function Home() {
                     : 'text-gray-700 hover:text-black'
                 }`}
               >
-                À PROPOS
+                {t('common:nav.about')}
               </button>
               <button
                 onClick={() => { scrollToSection('projects'); setIsMobileMenuOpen(false); }}
@@ -471,7 +479,7 @@ export default function Home() {
                     : 'text-gray-700 hover:text-black'
                 }`}
               >
-                PROJETS
+                {t('common:nav.projects')}
               </button>
               <button
                 onClick={() => { scrollToSection('skills'); setIsMobileMenuOpen(false); }}
@@ -481,7 +489,7 @@ export default function Home() {
                     : 'text-gray-700 hover:text-black'
                 }`}
               >
-                COMPÉTENCES
+                {t('common:nav.skills')}
               </button>
               <button
                 onClick={() => { scrollToSection('contact'); setIsMobileMenuOpen(false); }}
@@ -491,8 +499,11 @@ export default function Home() {
                     : 'text-gray-700 hover:text-black'
                 }`}
               >
-                CONTACT
+                {t('common:nav.contact')}
               </button>
+              <div className="px-8 py-4">
+                <LanguageSwitcher isDarkMode={isDarkMode} />
+              </div>
             </nav>
           </div>
         )}
@@ -537,7 +548,7 @@ export default function Home() {
             style={!isMobile ? { animationDelay: '0.4s' } : {}}>
             <p className="text-xs sm:text-sm md:text-lg tracking-widest">
               <TextType
-                texts={["DESIGN GRAPHIQUE & UI/UX • AUDIOVISUEL"]}
+                texts={[t('home:hero.tagline')]}
                 typingSpeed={60}
                 pauseDuration={999999}
                 showCursor={false}
@@ -545,19 +556,19 @@ export default function Home() {
               />
             </p>
             <p className="text-[10px] sm:text-xs md:text-sm">
-              BUT2 Métiers du Multimédia et de l'Internet • IUT de Bobigny
+              {t('home:hero.education')}
             </p>
             <p className="text-[10px] sm:text-xs md:text-sm">
-              Parcours Créations Numériques
+              {t('home:hero.track')}
             </p>
           </div>
 
           {/* Badge de disponibilité */}
           <div className={`mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} flex justify-center pointer-events-auto`} style={!isMobile ? { animationDelay: '0.5s' } : {}}>
             <AvailabilityBadge
-              status="En recherche de stage"
-              availableDate="Avril 2026"
-              alternance="Alternance pour septembre 2026"
+              status={t('home:availability.status')}
+              availableDate={t('home:availability.stageDate')}
+              alternance={t('home:availability.alternance')}
               isDarkMode={isDarkMode}
               textEffectsEnabled={effectsEnabled}
               performanceTier={tier}
@@ -569,7 +580,7 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden" style={{ minHeight: '56px' }}>
           {tier !== 'none' && (
             <LightBoard
-              text="RECHERCHE DE STAGE - AVRIL 2026   -   RECHERCHE D'ALTERNANCE - SEPTEMBRE 2026  "
+              text={t('home:lightboard.text')}
               rows={7}
               gap={1}
               lightSize={4}
@@ -603,29 +614,27 @@ export default function Home() {
             {/* Colonne gauche - Texte */}
             <div>
             <div className="space-y-6 md:space-y-8 text-lg md:text-3xl font-light leading-relaxed mb-8 md:mb-12 text-pretty">
-  {/* J'ai ajouté 'text-pretty' dans la div parent ci-dessus pour que ça s'applique partout */}
-  
   <p>
-    Passionné par le graphisme, l'audiovisuel et la communication, actuellement en BUT2 Métiers du Multimédia et de l'Internet à l'IUT de Bobigny, parcours Création Numérique.
+    {t('home:about.intro1')}
   </p>
 
   <p className="text-gray-400">
-    En recherche d'un stage de 12 semaines à partir du 7&nbsp;avril&nbsp;2026 dans le domaine de la création numérique, de l'audiovisuel et de la communication.
+    {t('home:about.intro2')}
   </p>
 
   <p className="text-gray-400">
-    Curieux et motivé, je souhaite découvrir ce métier de l'intérieur et contribuer activement à vos projets.
+    {t('home:about.intro3')}
   </p>
 </div>
 
               <div className="flex gap-8 text-sm tracking-wider">
                 <div>
-                  <p className="text-gray-500 mb-2">LOCALISATION</p>
-                  <p>Le Pré Saint Gervais, France</p>
+                  <p className="text-gray-500 mb-2">{t('home:about.location')}</p>
+                  <p>{t('home:about.locationValue')}</p>
                 </div>
                 <div>
-                  <p className="text-gray-500 mb-2">DISPONIBILITÉ</p>
-                  <p>Recherche de stage</p>
+                  <p className="text-gray-500 mb-2">{t('home:about.availabilityLabel')}</p>
+                  <p>{t('home:about.availabilityValue')}</p>
                 </div>
               </div>
             </div>
@@ -668,7 +677,7 @@ export default function Home() {
                   : 'border-black text-black hover:bg-black hover:text-white'
               }`}
             >
-              EN SAVOIR PLUS
+              {t('common:buttons.learnMore')}
             </Link>
           </div>
         </div>
@@ -684,7 +693,7 @@ export default function Home() {
         transition={tier === 'full' ? { duration: 0.4, ease: [0.4, 0, 0.2, 1] } : {}}
       >
         <h2 className="text-[10px] md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center">
-         MES PROJETS 
+         {t('home:projects.title')}
         </h2>
 
         {/* Filtres avancés */}
@@ -721,7 +730,7 @@ export default function Home() {
       >
         <div className="mb-12 text-center">
           <h2 className="text-xs md:text-sm tracking-widest text-gray-500">
-            COMPÉTENCES
+            {t('home:skills.title')}
           </h2>
         </div>
 
@@ -751,9 +760,9 @@ export default function Home() {
       >
         <div className="max-w-4xl w-full">
           <h2 className="text-3xl md:text-7xl lg:text-9xl font-light mb-8 md:mb-20 leading-none text-center">
-            TRAVAILLONS
+            {t('home:contact.title1')}
             <br />
-            ENSEMBLE
+            {t('home:contact.title2')}
           </h2>
 
           {/* Bouton CV */}
@@ -784,10 +793,10 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="text-2xl md:text-3xl font-light mb-4">
-                    Merci pour votre message !
+                    {t('common:form.successTitle')}
                   </p>
                   <p className="text-base md:text-xl text-gray-500">
-                    Je vous répondrai dans les plus brefs délais.
+                    {t('common:form.successMessage')}
                   </p>
                 </motion.div>
               ) : (
@@ -796,7 +805,7 @@ export default function Home() {
                     <input
                       type="text"
                       name="name"
-                      placeholder="Votre nom *"
+                      placeholder={t('common:form.name')}
                       className={`w-full bg-transparent border-b-2 py-3 md:py-4 text-base md:text-xl font-light focus:outline-none transition-all duration-300 ${
                         isDarkMode
                           ? 'border-gray-800 focus:border-beige placeholder:text-gray-600'
@@ -811,7 +820,7 @@ export default function Home() {
                     <input
                       type="email"
                       name="email"
-                      placeholder="Votre email *"
+                      placeholder={t('common:form.email')}
                       className={`w-full bg-transparent border-b-2 py-3 md:py-4 text-base md:text-xl font-light focus:outline-none transition-all duration-300 ${
                         isDarkMode
                           ? 'border-gray-800 focus:border-beige placeholder:text-gray-600'
@@ -826,7 +835,7 @@ export default function Home() {
                     <input
                       type="text"
                       name="subject"
-                      placeholder="Sujet"
+                      placeholder={t('common:form.subject')}
                       className={`w-full bg-transparent border-b-2 py-3 md:py-4 text-base md:text-xl font-light focus:outline-none transition-all duration-300 ${
                         isDarkMode
                           ? 'border-gray-800 focus:border-beige placeholder:text-gray-600'
@@ -839,7 +848,7 @@ export default function Home() {
                   <div className="group">
                     <textarea
                       name="message"
-                      placeholder="Votre message *"
+                      placeholder={t('common:form.message')}
                       rows="5"
                       className={`w-full bg-transparent border-b-2 py-3 md:py-4 text-base md:text-xl font-light focus:outline-none transition-all duration-300 resize-none ${
                         isDarkMode
@@ -874,9 +883,9 @@ export default function Home() {
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                           </svg>
-                          ENVOI EN COURS...
+                          {t('common:buttons.sending')}
                         </span>
-                      ) : 'ENVOYER LE MESSAGE'}
+                      ) : t('common:buttons.sendMessage')}
                     </span>
                   </button>
                 </form>
@@ -892,7 +901,7 @@ export default function Home() {
                 transition={tier === 'full' ? { delay: 0.1 } : {}}
                 className="group"
               >
-                <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-widest">EMAIL</p>
+                <p className="text-xs md:text-sm text-gray-500 mb-3 tracking-widest">{t('common:contact.email')}</p>
                 <a
                   href="mailto:rafa2002@hotmail.fr"
                   className={`text-lg md:text-2xl font-light transition-all duration-300 break-all inline-block relative ${
@@ -914,7 +923,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={tier === 'full' ? { delay: 0.3 } : {}}
               >
-                <p className="text-xs md:text-sm text-gray-500 mb-6 tracking-widest">RÉSEAUX</p>
+                <p className="text-xs md:text-sm text-gray-500 mb-6 tracking-widest">{t('common:contact.social')}</p>
                 <div className="grid grid-cols-2 gap-6 md:gap-8">
                   <a
                     href="https://www.linkedin.com/in/rafaelpiral"
@@ -1005,30 +1014,30 @@ export default function Home() {
             {/* Column 1 - About */}
             <div>
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
-                RAFAEL PIRAL
+                {t('common:footer.name')}
               </h3>
               <p className="text-sm md:text-base font-light leading-relaxed opacity-70">
-                Étudiant en 2e année de BUT MMI, passionné par le design graphique et le développement web.
+                {t('common:footer.description')}
               </p>
             </div>
 
             {/* Column 2 - Navigation */}
             <div>
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
-                NAVIGATION
+                {t('common:footer.navigation')}
               </h3>
               <nav className="flex flex-col space-y-3">
                 <button onClick={() => scrollToSection('about')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  À propos
+                  {t('common:footer.aboutLink')}
                 </button>
                 <button onClick={() => scrollToSection('projects')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  Projets
+                  {t('common:footer.projectsLink')}
                 </button>
                 <button onClick={() => scrollToSection('skills')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  Compétences
+                  {t('common:footer.skillsLink')}
                 </button>
                 <button onClick={() => scrollToSection('contact')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  Contact
+                  {t('common:footer.contactLink')}
                 </button>
               </nav>
             </div>
@@ -1036,7 +1045,7 @@ export default function Home() {
             {/* Column 3 - Contact & Social */}
             <div>
               <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
-                CONTACT
+                {t('common:footer.contact')}
               </h3>
               <div className="space-y-3">
                 <a
@@ -1088,14 +1097,14 @@ export default function Home() {
             isDarkMode ? 'border-beige/10' : 'border-black/10'
           }`}>
             <p>
-              © {new Date().getFullYear()} Rafael Piral. Tous droits réservés.
+              © {new Date().getFullYear()} Rafael Piral. {t('common:footer.rights')}
               {' · '}
               <Link to="/legal" className="hover:opacity-70 transition-opacity underline">
-                Mentions légales
+                {t('common:footer.legal')}
               </Link>
             </p>
             <p>
-              Conçu et développé avec passion
+              {t('common:footer.madeWith')}
             </p>
           </div>
         </div>

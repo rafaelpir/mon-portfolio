@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import CVNavigation from '../components/CVNavigation';
 
-export default function LettreCarjackFilms() {
+export default function LettreAssistantTechniqueAV() {
   const [mode, setMode] = useState('stage'); // 'stage' ou 'alternance'
+  const [entreprise, setEntreprise] = useState('');
+  const [adresse, setAdresse] = useState('');
 
   const today = new Date();
   const options = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -56,6 +58,27 @@ export default function LettreCarjackFilms() {
               Alternance
             </button>
           </div>
+
+          {/* Destinataire */}
+          <div className="mt-4">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Destinataire</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                placeholder="Nom de l'entreprise"
+                value={entreprise}
+                onChange={(e) => setEntreprise(e.target.value)}
+                className="px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
+              />
+              <input
+                type="text"
+                placeholder="Adresse"
+                value={adresse}
+                onChange={(e) => setAdresse(e.target.value)}
+                className="px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -81,15 +104,19 @@ export default function LettreCarjackFilms() {
               <p className="font-medium text-gray-800">07.69.67.04.07</p>
               <p>rafa2002@hotmail.fr</p>
               <p>Le Pré Saint-Gervais</p>
+              <p>Permis B</p>
             </div>
           </div>
 
           {/* Destinataire - Droite */}
           <div className="text-right mt-6">
             <p className="text-[12px] text-gray-500 mb-6">Le Pré Saint-Gervais, le {formattedDate}</p>
-            <div className="text-[12px] text-gray-700 mb-2">
-              <p className="font-medium">CARJACK FILMS</p>
-            </div>
+            {(entreprise || adresse) && (
+              <div className="text-[12px] text-gray-700 mb-2">
+                {entreprise && <p className="font-medium">{entreprise}</p>}
+                {adresse && <p>{adresse}</p>}
+              </div>
+            )}
           </div>
         </header>
 
@@ -99,8 +126,8 @@ export default function LettreCarjackFilms() {
             <span className="font-bold text-gray-800">Objet :</span>
             <span className="text-gray-700 ml-2">
               {mode === 'stage'
-                ? "Candidature au poste d'Assistant·e Production & Développement Commercial (stage)"
-                : "Candidature au poste d'Assistant·e Production & Développement Commercial (alternance)"
+                ? "Candidature pour un stage d'assistant·e technique audiovisuel"
+                : "Candidature pour une alternance d'assistant·e technique audiovisuel"
               }
             </span>
           </p>
@@ -114,41 +141,33 @@ export default function LettreCarjackFilms() {
           <p>
             Actuellement étudiant en 2<sup>e</sup> année de BUT Métiers du Multimédia et de l'Internet,
             {mode === 'stage'
-              ? <> je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026 en tant qu'assistant·e production &amp; développement commercial.</>
-              : <> je suis à la recherche d'une alternance à partir de septembre 2026 en tant qu'assistant·e production &amp; développement commercial.</>
+              ? <> je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026 en tant qu'assistant·e technique audiovisuel.</>
+              : <> je suis à la recherche d'une alternance à partir de septembre 2026 en tant qu'assistant·e technique audiovisuel.</>
             }
           </p>
 
           <p>
             Après une première année de BUT MMI où j'ai eu l'opportunité de travailler en équipe
-            sur plusieurs projets créatifs, j'ai développé une solide maîtrise des outils de
-            création. J'utilise régulièrement <strong>Premiere Pro</strong>, <strong>DaVinci Resolve</strong>,
-            {' '}<strong>Photoshop</strong>, <strong>Illustrator</strong> et <strong>Blender</strong> pour
-            concevoir des visuels variés et des contenus de qualité.
-            Ces expériences m'ont également permis de développer mon autonomie dans la gestion
-            de projets, ma capacité à travailler en équipe, et m'ont poussé à faire une veille
-            créative constante pour rester à l'affût des nouvelles tendances dans la production audiovisuelle.
+            sur plusieurs projets audiovisuels, j'ai développé des compétences concrètes en
+            <strong> captation son</strong>, <strong>prise de vue</strong>, <strong>éclairage</strong> et montage.
+            J'utilise régulièrement <strong>Premiere Pro</strong>, <strong>DaVinci Resolve</strong> et
+            divers outils de post-production pour mener des projets de bout en bout.
+            Ces expériences m'ont également permis de me familiariser avec la mise en place
+            et la gestion du matériel technique lors de tournages et de productions universitaires.
           </p>
 
           <p>
-            Ce qui m'attire chez CARJACK FILMS, c'est la possibilité de découvrir la production
-            audiovisuelle de l'intérieur, du suivi de projet au développement commercial. J'aimerais
-            apprendre comment une société de production structure ses projets, coordonne ses équipes
-            et développe ses partenariats. {mode === 'stage' ? 'Ce stage' : 'Cette alternance'} serait l'occasion idéale de comprendre les
-            coulisses de la production et d'y contribuer&nbsp;concrètement.
+            Ces expériences m'ont donné le goût du terrain et l'envie de découvrir le support
+            technique audiovisuel dans un cadre professionnel. Je suis convaincu que votre structure
+            est l'endroit idéal pour continuer à apprendre et progresser dans ce domaine.
+            {' '}{mode === 'stage' ? 'Ce stage' : 'Cette alternance'} me permettrait d'acquérir une
+            expérience solide en maintenance et gestion du parc matériel, en complément de ma formation.
           </p>
 
           <p>
-            Cette curiosité me permet aujourd'hui d'apporter des idées fraîches et actuelles à mes
-            réalisations. Je suis convaincu que votre entreprise est l'endroit idéal pour continuer
-            à apprendre et progresser dans ce domaine. {mode === 'stage' ? 'Ce stage' : 'Cette alternance'} me permettrait d'acquérir une expérience
-            professionnelle solide, en complément de ma formation.
-          </p>
-
-          <p>
-            Je suis enthousiaste à l'idée de contribuer à vos projets et de mettre
-            en pratique mes compétences créatives. Je suis également prêt à découvrir de nouveaux
-            outils et à m'adapter rapidement à vos méthodes de travail.
+            Je suis enthousiaste à l'idée de contribuer au bon fonctionnement de vos équipements et
+            de mettre en pratique mes compétences techniques. Je suis également prêt à découvrir de
+            nouveaux outils et à m'adapter rapidement à vos méthodes de travail.
           </p>
 
           <p>
@@ -170,7 +189,7 @@ export default function LettreCarjackFilms() {
         {/* --- FOOTER --- */}
         <div className="mt-auto pt-6 border-t border-gray-200">
           <div className="flex justify-between items-center text-[10px] text-gray-400">
-            <span>Rafael Piral — Candidature Assistant·e Production & Développement Commercial — CARJACK FILMS</span>
+            <span>Rafael Piral — Candidature Assistant·e Technique Audiovisuel</span>
             <a href="https://rafaelpiral.fr" target="_blank" rel="noreferrer" className="hover:underline cursor-pointer hover:text-gray-600">
               rafaelpiral.fr
             </a>

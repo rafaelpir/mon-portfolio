@@ -197,7 +197,10 @@ export const projects = [
     context: "Projet universitaire - BUT MMI 1ère année",
     period: "2024 - 2025",
     description: "Création d'un site web sur Jimdo dédié à l'univers de Batman : The Dark Knight. Le site explore l'œuvre et ses projets transversaux — films, séries, jeux vidéo, parcs d'attractions, vêtements, goodies — pour montrer comment une franchise se décline sur différents supports et médias. Réalisation d'un GIF animé intégré en page\u00A0d'accueil.",
-    thumbnail: "/images/projects/placeholder.webp",
+    thumbnail: "/images/projects/batman-dark-knight.png",
+    gallery: [
+      { src: "/images/projects/batman-dark-knight.png", description: "Page d'accueil du site Batman : The Dark Knight sur Jimdo." }
+    ],
     externalUrl: "https://batmandarknnight.jimdofree.com/",
     tags: ["Jimdo", "Web", "Rédaction", "GIF"],
     competences: ["Création de site web", "Rédaction de contenu", "Architecture de l'information", "Analyse transmédiatique", "Veille culturelle", "Création de GIF animé"],

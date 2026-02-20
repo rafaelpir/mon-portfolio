@@ -12,6 +12,11 @@ const CV = lazy(() => import('./pages/CV'));
 const LettreMotivationGraphiste = lazy(() => import('./pages/LettreMotivationGraphiste'));
 const LettrePanameArtCafe = lazy(() => import('./pages/LettrePanameArtCafe'));
 const LettreCarjackFilms = lazy(() => import('./pages/LettreCarjackFilms'));
+const LettreRegiePlateau = lazy(() => import('./pages/LettreRegiePlateau'));
+const LettrePreparateurCommande = lazy(() => import('./pages/LettrePreparateurCommande'));
+const LettreAssistantTechniqueAV = lazy(() => import('./pages/LettreAssistantTechniqueAV'));
+const CoverLetterEN = lazy(() => import('./pages/CoverLetterEN'));
+const CVEN = lazy(() => import('./pages/CVEN'));
 const About = lazy(() => import('./pages/About'));
 const Legal = lazy(() => import('./pages/Legal'));
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -51,6 +56,11 @@ function AppContent() {
           <Route path="/lettre-motivation-graphiste" element={<LocalOnly><LettreMotivationGraphiste /></LocalOnly>} />
           <Route path="/lettre-paname-art-cafe" element={<LocalOnly><LettrePanameArtCafe /></LocalOnly>} />
           <Route path="/lettre-carjack-films" element={<LocalOnly><LettreCarjackFilms /></LocalOnly>} />
+          <Route path="/lettre-regie-plateau" element={<LocalOnly><LettreRegiePlateau /></LocalOnly>} />
+          <Route path="/lettre-preparateur-commande" element={<LocalOnly><LettrePreparateurCommande /></LocalOnly>} />
+          <Route path="/lettre-assistant-technique-av" element={<LocalOnly><LettreAssistantTechniqueAV /></LocalOnly>} />
+          <Route path="/cover-letter" element={<LocalOnly><CoverLetterEN /></LocalOnly>} />
+          <Route path="/cv-en" element={<LocalOnly><CVEN /></LocalOnly>} />
           <Route path="/about" element={<About />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="*" element={<NotFound />} />

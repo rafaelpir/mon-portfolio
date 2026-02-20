@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "title": "About - Rafael Piral | Creative Developer",
+    "description": "Discover my journey, passions and vision for design and web development."
+  },
+  "header": {
+    "back": "BACK"
+  },
+  "hero": {
+    "title": "About",
+    "tagline": "A creative passionate about graphic design, audiovisual production and communication, I love bringing ideas to life through visuals"
+  },
+  "journey": {
+    "title": "From computer science to digital creation",
+    "paragraphs": [
+      "A 2nd year Digital Media & Internet Studies student, I'm a creative at heart, always seeking new ways to express ideas through design and visuals.",
+      "Currently looking for an 8+ week internship starting April 2026, I want to put my skills to work on creative projects in graphic design, audiovisual production and communication.",
+      "It all started with Photoshop. That first encounter was a revelation: I discovered you could create worlds, tell stories, and convey emotions through images alone. Since then, I've been constantly exploring the infinite possibilities of graphic design and visual identity.",
+      "Illustrator and Figma naturally complemented this journey as additional ways to bring my creations to life and make them interactive. But it's primarily the visual and creative aspects that guide my work."
+    ]
+  },
+  "interests": {
+    "title": "What attracts me",
+    "paragraphs": [
+      "I see myself evolving in three areas I'm passionate about: graphic design, audiovisual production and communication.",
+      "As a graphic designer, I'd love to work on visual identity projects, poster creation, print or digital materials. Designing visuals that make an impact and tell a story is what motivates me every day.",
+      "The audiovisual world also attracts me enormously. Working on film sets, whether as an assistant director, boom operator, set assistant or with the technical crew, would be an enriching experience that would let me discover the behind-the-scenes of audiovisual creation."
+    ]
+  },
+  "skills": {
+    "title": "Skills & Tools",
+    "categories": {
+      "design": {
+        "title": "Graphic Design",
+        "items": ["Photoshop", "Illustrator", "InDesign", "Lightroom", "Affinity", "Canva", "Figma"]
+      },
+      "audiovisual": {
+        "title": "Audiovisual",
+        "items": ["DaVinci Resolve", "Premiere Pro (basics)", "After Effects", "Blender (basics)"]
+      },
+      "web": {
+        "title": "Web Development",
+        "items": ["HTML / CSS", "JavaScript", "React", "WordPress", "PHP", "Tailwind CSS", "Git / GitHub"]
+      },
+      "soft": {
+        "title": "Soft Skills",
+        "items": ["Reliability", "Autonomy", "Teamwork", "Adaptability", "Creativity", "Attention to detail", "Project management"]
+      },
+      "office": {
+        "title": "Office Suite",
+        "items": ["Microsoft Office Suite"]
+      },
+      "communication": {
+        "title": "Communication",
+        "items": ["Social media"]
+      }
+    }
+  },
+  "inspirations": {
+    "title": "My Inspirations",
+    "design": {
+      "title": "Design & Inspiration",
+      "content": "I spend a lot of time exploring visual trends and studying the work of designers and art directors. Whether it's a movie poster, opening credits, an advertising campaign or a music video, every striking creation enriches my perspective and enhances my creative approach."
+    },
+    "learning": {
+      "title": "Continuous Learning",
+      "content": "Design, audiovisual and communication are constantly evolving, and I love that. I'm always seeking new knowledge and technologies."
+    }
+  },
+  "cta": {
+    "title": "Let's Work Together",
+    "subtitle": "Have a project in mind? Let's talk.",
+    "email": "SEND AN EMAIL",
+    "projects": "VIEW MY PROJECTS"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "nav": {
+    "about": "ABOUT",
+    "projects": "PROJECTS",
+    "skills": "SKILLS",
+    "contact": "CONTACT",
+    "downloadCV": "DOWNLOAD RESUME",
+    "settings": "Settings"
+  },
+  "theme": {
+    "title": "THEME",
+    "dark": "Dark mode",
+    "light": "Light mode"
+  },
+  "buttons": {
+    "learnMore": "LEARN MORE",
+    "sendMessage": "SEND MESSAGE",
+    "sending": "SENDING...",
+    "back": "BACK",
+    "backToHome": "BACK TO HOME",
+    "previousPage": "PREVIOUS PAGE",
+    "download": "DOWNLOAD",
+    "downloadCV": "DOWNLOAD RESUME",
+    "viewSite": "VIEW SITE",
+    "openFullscreen": "OPEN FULLSCREEN",
+    "previous": "PREVIOUS",
+    "next": "NEXT",
+    "close": "CLOSE",
+    "contactMe": "CONTACT ME"
+  },
+  "form": {
+    "name": "Your name *",
+    "email": "Your email *",
+    "subject": "Subject",
+    "message": "Your message *",
+    "successTitle": "Thank you for your message!",
+    "successMessage": "I will get back to you as soon as possible."
+  },
+  "contact": {
+    "email": "EMAIL",
+    "social": "SOCIAL",
+    "interested": "INTERESTED?"
+  },
+  "footer": {
+    "name": "RAFAEL PIRAL",
+    "description": "2nd year BUT MMI student, passionate about graphic design and web development.",
+    "navigation": "NAVIGATION",
+    "contact": "CONTACT",
+    "aboutLink": "About",
+    "projectsLink": "Projects",
+    "skillsLink": "Skills",
+    "contactLink": "Contact",
+    "rights": "All rights reserved.",
+    "legal": "Legal notice",
+    "madeWith": "Designed and developed with passion"
+  },
+  "accessibility": {
+    "skipToContent": "Skip to main content",
+    "toggleMenu": "Toggle menu",
+    "toggleTheme": "Toggle theme"
+  },
+  "filters": {
+    "hideFilters": "HIDE FILTERS",
+    "filterByTool": "FILTER BY TOOL",
+    "resetFilters": "RESET FILTERS",
+    "all": "All"
+  },
+  "projectTypes": {
+    "university": "ACAD.",
+    "personal": "PERS."
+  },
+  "languages": {
+    "fr": "FR",
+    "en": "EN"
+  },
+  "availability": {
+    "title": "AVAILABILITY",
+    "subtitle": "SEEKING OPPORTUNITIES",
+    "ariaLabel": "View availability and contact information",
+    "internship": {
+      "title": "INTERNSHIP",
+      "date": "APRIL 2026",
+      "description": "2nd year BUT MMI student seeking a minimum 8-week internship starting April 2026 in digital creation and audiovisual."
+    },
+    "apprenticeship": {
+      "title": "APPRENTICESHIP",
+      "date": "SEPTEMBER 2026",
+      "description": "Looking for an apprenticeship starting September 2026 in digital creation and audiovisual."
+    }
+  }
+}

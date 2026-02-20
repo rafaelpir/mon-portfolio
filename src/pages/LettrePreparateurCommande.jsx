@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import CVNavigation from '../components/CVNavigation';
 
-export default function LettreCarjackFilms() {
-  const [mode, setMode] = useState('stage'); // 'stage' ou 'alternance'
+export default function LettrePreparateurCommande() {
+  const [entreprise, setEntreprise] = useState('');
+  const [adresse, setAdresse] = useState('');
 
   const today = new Date();
   const options = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -34,27 +35,27 @@ export default function LettreCarjackFilms() {
 
       <CVNavigation />
 
-      {/* --- SÉLECTEUR MODE --- */}
+      {/* --- DESTINATAIRE --- */}
       <div className="max-w-4xl mx-auto mb-6 no-print">
         <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Type de candidature</h2>
-          <div className="flex rounded-full overflow-hidden border border-gray-300 w-fit">
-            <button
-              onClick={() => setMode('stage')}
-              className={`px-4 py-1.5 text-sm font-medium transition-all ${
-                mode === 'stage' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              Stage
-            </button>
-            <button
-              onClick={() => setMode('alternance')}
-              className={`px-4 py-1.5 text-sm font-medium transition-all ${
-                mode === 'alternance' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              Alternance
-            </button>
+          <div>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Destinataire</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                placeholder="Nom de l'entreprise"
+                value={entreprise}
+                onChange={(e) => setEntreprise(e.target.value)}
+                className="px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
+              />
+              <input
+                type="text"
+                placeholder="Adresse"
+                value={adresse}
+                onChange={(e) => setAdresse(e.target.value)}
+                className="px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-400"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -81,15 +82,19 @@ export default function LettreCarjackFilms() {
               <p className="font-medium text-gray-800">07.69.67.04.07</p>
               <p>rafa2002@hotmail.fr</p>
               <p>Le Pré Saint-Gervais</p>
+              <p>Permis B</p>
             </div>
           </div>
 
           {/* Destinataire - Droite */}
           <div className="text-right mt-6">
             <p className="text-[12px] text-gray-500 mb-6">Le Pré Saint-Gervais, le {formattedDate}</p>
-            <div className="text-[12px] text-gray-700 mb-2">
-              <p className="font-medium">CARJACK FILMS</p>
-            </div>
+            {(entreprise || adresse) && (
+              <div className="text-[12px] text-gray-700 mb-2">
+                {entreprise && <p className="font-medium">{entreprise}</p>}
+                {adresse && <p>{adresse}</p>}
+              </div>
+            )}
           </div>
         </header>
 
@@ -98,10 +103,7 @@ export default function LettreCarjackFilms() {
           <p className="text-[12px]">
             <span className="font-bold text-gray-800">Objet :</span>
             <span className="text-gray-700 ml-2">
-              {mode === 'stage'
-                ? "Candidature au poste d'Assistant·e Production & Développement Commercial (stage)"
-                : "Candidature au poste d'Assistant·e Production & Développement Commercial (alternance)"
-              }
+              Candidature pour un poste de préparateur de commande (travail étudiant)
             </span>
           </p>
         </div>
@@ -112,43 +114,29 @@ export default function LettreCarjackFilms() {
           <p>Madame, Monsieur,</p>
 
           <p>
-            Actuellement étudiant en 2<sup>e</sup> année de BUT Métiers du Multimédia et de l'Internet,
-            {mode === 'stage'
-              ? <> je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026 en tant qu'assistant·e production &amp; développement commercial.</>
-              : <> je suis à la recherche d'une alternance à partir de septembre 2026 en tant qu'assistant·e production &amp; développement commercial.</>
-            }
+            Actuellement étudiant, je suis à la recherche d'un travail étudiant en tant que
+            préparateur de commande.
           </p>
 
           <p>
-            Après une première année de BUT MMI où j'ai eu l'opportunité de travailler en équipe
-            sur plusieurs projets créatifs, j'ai développé une solide maîtrise des outils de
-            création. J'utilise régulièrement <strong>Premiere Pro</strong>, <strong>DaVinci Resolve</strong>,
-            {' '}<strong>Photoshop</strong>, <strong>Illustrator</strong> et <strong>Blender</strong> pour
-            concevoir des visuels variés et des contenus de qualité.
-            Ces expériences m'ont également permis de développer mon autonomie dans la gestion
-            de projets, ma capacité à travailler en équipe, et m'ont poussé à faire une veille
-            créative constante pour rester à l'affût des nouvelles tendances dans la production audiovisuelle.
+            Organisé, rigoureux et autonome, je suis capable de m'adapter rapidement à de nouveaux
+            environnements de travail. Mon dynamisme et ma réactivité me permettent de travailler
+            efficacement, même à un rythme soutenu.
           </p>
 
           <p>
-            Ce qui m'attire chez CARJACK FILMS, c'est la possibilité de découvrir la production
-            audiovisuelle de l'intérieur, du suivi de projet au développement commercial. J'aimerais
-            apprendre comment une société de production structure ses projets, coordonne ses équipes
-            et développe ses partenariats. {mode === 'stage' ? 'Ce stage' : 'Cette alternance'} serait l'occasion idéale de comprendre les
-            coulisses de la production et d'y contribuer&nbsp;concrètement.
+            Je suis une personne sérieuse, ponctuelle et habituée au travail physique. Je suis
+            capable de suivre des consignes précises, de travailler à un rythme soutenu et de
+            veiller à la qualité des commandes préparées. Je suis également à l'aise avec les
+            outils informatiques, ce qui peut être un atout pour la gestion des bons de commande
+            et le suivi des stocks.
           </p>
 
           <p>
-            Cette curiosité me permet aujourd'hui d'apporter des idées fraîches et actuelles à mes
-            réalisations. Je suis convaincu que votre entreprise est l'endroit idéal pour continuer
-            à apprendre et progresser dans ce domaine. {mode === 'stage' ? 'Ce stage' : 'Cette alternance'} me permettrait d'acquérir une expérience
-            professionnelle solide, en complément de ma formation.
-          </p>
-
-          <p>
-            Je suis enthousiaste à l'idée de contribuer à vos projets et de mettre
-            en pratique mes compétences créatives. Je suis également prêt à découvrir de nouveaux
-            outils et à m'adapter rapidement à vos méthodes de travail.
+            Je suis convaincu que votre entreprise est l'endroit idéal pour acquérir une expérience
+            professionnelle solide dans ce domaine. Je suis enthousiaste à l'idée de rejoindre
+            votre équipe et de contribuer au bon fonctionnement de votre activité logistique.
+            Je suis disponible en soirée, le week-end et pendant les vacances scolaires.
           </p>
 
           <p>
@@ -170,7 +158,7 @@ export default function LettreCarjackFilms() {
         {/* --- FOOTER --- */}
         <div className="mt-auto pt-6 border-t border-gray-200">
           <div className="flex justify-between items-center text-[10px] text-gray-400">
-            <span>Rafael Piral — Candidature Assistant·e Production & Développement Commercial — CARJACK FILMS</span>
+            <span>Rafael Piral — Candidature Préparateur de Commande</span>
             <a href="https://rafaelpiral.fr" target="_blank" rel="noreferrer" className="hover:underline cursor-pointer hover:text-gray-600">
               rafaelpiral.fr
             </a>

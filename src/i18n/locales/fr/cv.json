@@ -1,0 +1,103 @@
+{
+  "title": "RAFAEL PIRAL",
+  "subtitle": "Graphiste, Designer UX/UI, Audiovisuel & Communication",
+  "contact": {
+    "location": "Le Pré Saint-Gervais, Île-de-France"
+  },
+  "sections": {
+    "profile": {
+      "title": "Profil",
+      "content": "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026 dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle."
+    },
+    "skills": {
+      "title": "Compétences",
+      "categories": {
+        "design": {
+          "title": "Design & UX/UI",
+          "content": "Figma, Photoshop, Illustrator, InDesign, Canva"
+        },
+        "audiovisual": {
+          "title": "Audiovisuel & 3D",
+          "content": "DaVinci Resolve, Premiere Pro, Blender, Prise de vue/son"
+        },
+        "webdev": {
+          "title": "Développement Web",
+          "content": "HTML / CSS, JavaScript, React, PHP, WordPress"
+        },
+        "soft": {
+          "title": "Transverses",
+          "content": "Suite Office, Réseaux Sociaux, Gestion de projet, Communication"
+        }
+      }
+    },
+    "projects": {
+      "title": "Mes Projets",
+      "types": {
+        "university": "UNIV.",
+        "personal": "PERSO."
+      }
+    },
+    "experience": {
+      "title": "Expériences Professionnelles",
+      "items": [
+        {
+          "title": "JO Paris 2024 — Manutentionnaire (Proman)",
+          "date": "Été 2024",
+          "description": "Préparation logistique des sites : Le Bourget (Escalade) et La Courneuve (Paramarathon)."
+        },
+        {
+          "title": "HBC Nantes — Agent d'accueil (Abalone)",
+          "date": "2021 - 2022",
+          "description": ""
+        }
+      ]
+    },
+    "education": {
+      "title": "Formation scolaire",
+      "items": [
+        {
+          "title": "BUT MMI (Création Numérique) — IUT Bobigny",
+          "date": "Depuis 2024"
+        },
+        {
+          "title": "BUT Informatique (1ère année) — IUT Lille",
+          "date": "2022 - 2023"
+        },
+        {
+          "title": "Licence Mathématiques-Informatique — Université de Nantes",
+          "date": "2021 - 2022"
+        },
+        {
+          "title": "Baccalauréat STI2D (Mention Bien) — Lycée Lucie Aubrac",
+          "date": "2021"
+        }
+      ]
+    }
+  },
+  "footer": {
+    "languages": {
+      "title": "Langues:",
+      "content": "Français (Natif), Anglais (Intermédiaire), Espagnol (Intermédiaire)"
+    },
+    "interests": {
+      "title": "Centres d'intérêts:",
+      "content": "Football, Jeux Vidéo, Cinéma"
+    }
+  },
+  "projectDescriptions": {
+    "1": "Reproduction et réinterprétation d'une affiche de film sur Photoshop. Travail sur les textures, la typographie et le traitement photo.",
+    "2": "Réalisation d'une affiche pour un concours officiel. Illustration vectorielle en Flat Design sur Illustrator avec une palette de couleurs originale.",
+    "3": "Création d'une affiche hommage avec un style rétro années 80. Utilisation d'effets de halftone et mise en page typographique sur Photoshop.",
+    "4": "Projet universitaire de conception d'une application de mobilité sur Figma. Parcours utilisateur, Design System et maquettes interactives.",
+    "5": "Maquette d'un site web vitrine réalisée sur Figma. Création du logo, de l'identité visuelle et de la mise en page.",
+    "6": "Projet créatif : transformation d'une photo en Art ASCII sur Photoshop en jouant sur la densité des caractères.",
+    "7": "Création d'une identité visuelle complète pour une ONG fictive : logo, charte graphique et supports print sur Illustrator et InDesign.",
+    "8": "Réalisation d'une affiche de film dans un style années 90. Photomontage et typographie travaillée sur Photoshop.",
+    "9": "Création du logo et de la charte graphique pour le réseau alumni de l'IUT de Bobigny. Projet universitaire réalisé sur Illustrator.",
+    "10": "Court-métrage réalisé pour le Nikon Film Festival 2025 sur le thème « Super-pouvoir ». J'ai participé à l'écriture, au tournage, au montage et au sous-titrage."
+  },
+  "ui": {
+    "selectProjects": "Sélectionner les projets",
+    "downloadPDF": "PDF"
+  }
+}

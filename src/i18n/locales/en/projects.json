@@ -1,0 +1,200 @@
+{
+  "details": {
+    "back": "BACK",
+    "breadcrumb": {
+      "home": "Home",
+      "projects": "Projects"
+    },
+    "mockups": "Mockups",
+    "videoPresentation": "Video Presentation",
+    "interactivePrototype": "Interactive Prototype",
+    "prototypeHint": "Click and navigate through the prototype to explore interactive mockups",
+    "projectDetails": "Project Details",
+    "info": "Information",
+    "tools": "Tools Used",
+    "skills": "Skills Applied",
+    "otherProjects": "OTHER PROJECTS",
+    "swipeToNavigate": "Swipe to navigate",
+    "context": "CONTEXT",
+    "period": "PERIOD",
+    "duration": "DURATION",
+    "role": "ROLE",
+    "type": "TYPE",
+    "format": "FORMAT",
+    "team": "Team",
+    "teamWith": "Duo with",
+    "portraitArticle": "Portrait Article",
+    "notFound": "Project not found",
+    "backToHome": "Back to home",
+    "previous": "PREVIOUS",
+    "next": "NEXT"
+  },
+  "items": {
+    "1": {
+      "title": "A Man Asleep - Reimagined Poster",
+      "category": "Posters",
+      "type": "Personal",
+      "context": "Personal project - Film poster reinterpretation",
+      "period": "January 2025",
+      "duration": "1 week",
+      "description": "I wanted to revisit the poster for the film 'Un Homme qui dort' (1974), a classic that struck me with its unique atmosphere. I kept the original typography that I love, but completely reimagined the visual in Photoshop: textured, grainy close-ups that, to me, better convey boredom and introspection than the usual emptiness. A way of telling isolation through texture.",
+      "gallery": [
+        "Reimagined poster for 'A Man Asleep' (1974).",
+        "Mockup presentation of the reimagined 'A Man Asleep' poster."
+      ],
+      "competences": ["Poster design", "Photo retouching", "Art direction", "Visual composition"]
+    },
+    "2": {
+      "title": "Poster Contest: Saint-Paul-lès-Dax Festival 2025",
+      "category": "Posters",
+      "type": "Academic",
+      "context": "Official contest - City of Saint-Paul-lès-Dax",
+      "period": "December 2024 - January 2025",
+      "duration": "1 week",
+      "description": "I participated in the official poster contest organized by the city of Saint-Paul-lès-Dax for their 2025 Folk Festival. I designed a flat design poster using Illustrator and Photoshop, aiming to create an image that represents the festive spirit of this iconic event.",
+      "gallery": [
+        "Original poster for Saint-Paul-lès-Dax Folk Festival 2025.",
+        "Mockup presentation of the Saint-Paul-lès-Dax Folk Festival poster."
+      ],
+      "competences": ["Poster design", "Vector illustration", "Flat design", "Art direction"]
+    },
+    "3": {
+      "title": "Poster Tribute: Sade – Diamond Life",
+      "category": "Posters",
+      "type": "Personal",
+      "context": "Personal project - Graphic tribute",
+      "period": "December 2024",
+      "duration": "1 week",
+      "description": "Diamond Life by Sade (1984) is an album I truly appreciate. I wanted to pay tribute through a poster created in Photoshop that captures that distinctive soul/jazz elegance, with retro treatment and sepia tones evoking vinyl and nostalgia.",
+      "gallery": [
+        "Original tribute poster for Sade's Diamond Life album.",
+        "Mockup presentation of the Sade – Diamond Life tribute poster."
+      ],
+      "competences": ["Poster design", "Retro treatment", "Typography", "Visual composition"]
+    },
+    "4": {
+      "title": "UX Design: Veco App",
+      "category": "UI/UX Design",
+      "type": "Academic",
+      "context": "SAE Project BUT2 - Mobile app design",
+      "period": "October - November 2025",
+      "duration": "6 weeks",
+      "description": "Team project — My role: visual design in Figma for Veco, a peer-to-peer electric vehicle rental app. Translated soft mobility and ecology values into an intuitive interface. Green and natural color palette to anchor the eco-friendly universe. Mockups cover the complete journey (geolocation, booking, user profile) with design focused on reassurance and ease of use.",
+      "gallery": [
+        "Veco app presentation: Overview of the visual identity and design system for the electric mobility app.",
+        "Welcome and registration screen: Clean login and registration interface showcasing the app's visual identity from launch.",
+        "Vehicle geolocation: Main map view displaying all available vehicles in real-time around the user's position.",
+        "Vehicle selection and quote: Detailed vehicle card showing characteristics (model, range) and clear trip price estimate.",
+        "Guidance to pickup point: Integrated GPS navigation guiding the user (pedestrian route) to the exact vehicle location.",
+        "Filtering by 'Bike-Taxi' category: Activating the specific 'Bike-Taxi' mode via selector, filtering the map to show only nearby bike-taxis.",
+        "Destination input: Intuitive search interface for choosing arrival point or selecting a favorite destination.",
+        "Confirmation and Payment: Trip summary screen with secure payment method selection before final confirmation.",
+        "Help center and support: Quick access to customer service and FAQ via help button for user assistance.",
+        "Profile and Settings: Configuration menu for managing user account, notification preferences and trip history."
+      ],
+      "competences": ["Mobile interface design", "UX Design", "UI Design", "Branding", "Design System", "Teamwork", "Communication"]
+    },
+    "5": {
+      "title": "UI Design & Branding: Real Estate Agency",
+      "category": "UI/UX Design",
+      "type": "Academic",
+      "context": "University project - BUT MMI 2nd year",
+      "period": "September - November 2025",
+      "duration": "6 weeks",
+      "description": "Team project — My role: visual identity and mockup design in Figma. This project had an interesting constraint: thinking about SEO from the design phase. Not just making it pretty, but creating a structure that search engines would also appreciate. I designed the complete visual identity — logo, Design System — ensuring everything remained lightweight and performant. The mockups leverage visual hierarchy to naturally guide users while facilitating indexing.",
+      "gallery": [
+        "Visual identity and Design System for Armor Immo real estate agency.",
+        "Mockup presentation of the Armor Immo homepage.",
+        "Mockup presentation of the property listings page."
+      ],
+      "competences": ["Web design", "UI/UX Design", "Branding", "SEO", "Design System", "Information architecture", "Teamwork", "Team spirit"]
+    },
+    "6": {
+      "title": "Statue of Liberty — From Photo to ASCII",
+      "category": "Photography",
+      "type": "Personal",
+      "context": "Personal project - Graphic experimentation",
+      "period": "August 2025",
+      "duration": "3 days",
+      "description": "During my trip to New York, I took this photo of the Statue of Liberty from Liberty Island. Back home, I wanted to experiment in Photoshop: transforming the image into ASCII characters only.",
+      "gallery": [
+        "Statue of Liberty in ASCII art: Final version of the graphic experimentation transforming the iconic photograph into pure typographic composition.",
+        "Mockup presentation of the Statue of Liberty ASCII project."
+      ],
+      "competences": ["Photo retouching", "ASCII art", "Visual experimentation", "Digital processing"]
+    },
+    "7": {
+      "title": "Open Heart — NGO Visual Identity",
+      "category": "Branding",
+      "type": "Academic",
+      "context": "SAE Project BUT2 - Visual identity creation",
+      "period": "November - December 2025",
+      "duration": "8 weeks",
+      "description": "Open Heart is a fictional NGO fighting against domestic violence. I created the complete visual identity in Illustrator: logo, brand guidelines, and also wrote a portrait article in InDesign giving voice to a survivor. The name evokes a judgment-free space for speaking out. My challenge: finding the right balance between a reassuring and professional image that inspires trust and kindness.",
+      "gallery": [],
+      "competences": ["Visual identity creation", "Graphic design", "Brand guidelines", "Content writing"]
+    },
+    "8": {
+      "title": "Gummo — Film Poster",
+      "category": "Posters",
+      "type": "Personal",
+      "context": "Personal project - Film poster creation",
+      "period": "January 2026",
+      "duration": "2 days",
+      "description": "Gummo (1997) by Harmony Korine is a film that doesn't leave you indifferent. Experimental, disturbing, yet strangely poetic. I wanted to create a poster in Photoshop and Illustrator that captures this unique atmosphere: the trashy and nostalgic imagery, the desaturated 90s colors, that disenchanted vibe.",
+      "gallery": [
+        "Original poster for the film Gummo (1997).",
+        "Mockup presentation of the Gummo film poster."
+      ],
+      "competences": ["Poster design", "Art direction", "Visual composition", "Typography"]
+    },
+    "10": {
+      "title": "FLEMME — Short Film",
+      "category": "Audiovisual",
+      "type": "Academic",
+      "context": "Nikon Film Festival 2025 Contest — Theme: Superpower",
+      "period": "2025",
+      "duration": "Ongoing",
+      "description": "Fantasy and engaged comedy short film created for the Nikon Film Festival 2025 on the theme 'Superpower'. Luc, a lazy twenty-something, lives a life of total inertia between unemployment, TV and video games. Selfish, lazy and antisocial, he possesses an extraordinary gift: he's nearly omnipotent and can modify the reality of anything he touches.",
+      "gallery": [],
+      "competences": ["Screenwriting", "Directing", "Acting", "Video editing", "Sound recording (Boom)", "English subtitling", "Storyboard", "Art direction", "Visual storytelling", "Storytelling"]
+    },
+    "11": {
+      "title": "Batman: The Dark Knight — Jimdo Website",
+      "category": "Web Development",
+      "type": "Academic",
+      "context": "University project - BUT MMI 1st year",
+      "period": "2024 - 2025",
+      "duration": "",
+      "description": "Creation of a Jimdo website dedicated to the Batman: The Dark Knight universe. The site explores the franchise and its cross-media projects — films, series, video games, theme parks, clothing, merchandise — to show how a franchise extends across different platforms and media.",
+      "gallery": [],
+      "competences": ["Website creation", "Content writing", "Information architecture", "Transmedia analysis", "Cultural monitoring", "Animated GIF creation"]
+    },
+    "9": {
+      "title": "Alumni Network — IUT de Bobigny",
+      "category": "UI/UX Design",
+      "type": "Academic",
+      "context": "SAE Project — Alumni network platform design",
+      "period": "September - December 2025",
+      "duration": "Ongoing",
+      "description": "Team project — My role: creating the logo and brand guidelines for IUT de Bobigny's alumni network platform. This project aims to connect alumni, companies and staff through a platform integrating social network features, CRM, recruiter/candidate matching system.",
+      "gallery": [],
+      "competences": ["Web interface design", "UX Design", "UI Design", "Information architecture", "Design System", "Responsive Design", "Logo creation", "Brand guidelines", "Visual identity", "Branding", "Art direction", "Teamwork"]
+    }
+  },
+  "categories": {
+    "all": "All",
+    "posters": "Posters",
+    "uiux": "UI/UX Design",
+    "branding": "Branding",
+    "audiovisual": "Audiovisual",
+    "photography": "Photography",
+    "webdev": "Web Development"
+  },
+  "skillCategories": {
+    "graphicDesign": "GRAPHIC DESIGN",
+    "webDev": "WEB DEVELOPMENT",
+    "audiovisual": "AUDIOVISUAL",
+    "office": "OFFICE SUITE"
+  }
+}

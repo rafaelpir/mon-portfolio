@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function AvailabilityBadge({ availableDate, alternance, status, isDarkMode, performanceTier = 'full' }) {
+  const { t } = useTranslation('common');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -12,7 +14,7 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
         ? 'bg-gradient-to-r from-orange-500/30 via-red-500/20 to-orange-500/30 border-orange-400/50 shadow-orange-500/20'
         : 'bg-gradient-to-r from-orange-500/40 via-red-500/30 to-orange-500/40 border-orange-600/60 shadow-orange-600/30'
     }`}
-      aria-label="Voir les disponibilités et informations de contact">
+      aria-label={t('availability.ariaLabel')}>
       {/* Pulsing dot */}
       <div className="relative flex items-center justify-center shrink-0">
         {performanceTier !== 'none' && (
@@ -82,9 +84,9 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
             className={`absolute top-3 right-3 z-10 text-xs tracking-widest transition-opacity hover:opacity-50 pointer-events-auto cursor-pointer ${
               isDarkMode ? 'text-beige' : 'text-black'
             }`}
-            aria-label="Fermer"
+            aria-label={t('buttons.close')}
           >
-            FERMER ✕
+            {t('buttons.close')} ✕
           </button>
 
           {/* Content */}
@@ -94,12 +96,12 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
               <h2 className={`text-2xl font-light mb-1 ${
                 isDarkMode ? 'text-beige' : 'text-black'
               }`}>
-                DISPONIBILITÉS
+                {t('availability.title')}
               </h2>
               <p className={`text-xs tracking-widest ${
                 isDarkMode ? 'text-gray-500' : 'text-gray-500'
               }`}>
-                EN RECHERCHE D'OPPORTUNITÉS
+                {t('availability.subtitle')}
               </p>
             </div>
 
@@ -115,17 +117,17 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
                   <h3 className={`text-lg font-light mb-0.5 ${
                     isDarkMode ? 'text-beige' : 'text-black'
                   }`}>
-                    STAGE
+                    {t('availability.internship.title')}
                   </h3>
                   <p className={`text-xs tracking-widest mb-2 ${
                     isDarkMode ? 'text-orange-300' : 'text-orange-600'
                   }`}>
-                    AVRIL 2026
+                    {t('availability.internship.date')}
                   </p>
                   <p className={`text-sm leading-relaxed font-light ${
                     isDarkMode ? 'text-gray-400' : 'text-gray-700'
                   }`}>
-                    Étudiant en 2e année de BUT MMI, je recherche un stage d'au moins 8 semaines à partir d'avril 2026 en création numérique et audiovisuel.
+                    {t('availability.internship.description')}
                   </p>
                 </div>
               </div>
@@ -141,17 +143,17 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
                   <h3 className={`text-lg font-light mb-0.5 ${
                     isDarkMode ? 'text-beige' : 'text-black'
                   }`}>
-                    ALTERNANCE
+                    {t('availability.apprenticeship.title')}
                   </h3>
                   <p className={`text-xs tracking-widest mb-2 ${
                     isDarkMode ? 'text-orange-300' : 'text-orange-600'
                   }`}>
-                    SEPTEMBRE 2026
+                    {t('availability.apprenticeship.date')}
                   </p>
                   <p className={`text-sm leading-relaxed font-light ${
                     isDarkMode ? 'text-gray-400' : 'text-gray-700'
                   }`}>
-                    Je recherche une alternance à partir de septembre 2026 en création numérique et audiovisuel.
+                    {t('availability.apprenticeship.description')}
                   </p>
                 </div>
               </div>
@@ -164,7 +166,7 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
               <p className={`text-xs tracking-widest mb-2 ${
                 isDarkMode ? 'text-gray-500' : 'text-gray-500'
               }`}>
-                INTÉRESSÉ ?
+                {t('contact.interested')}
               </p>
               <button
                 onClick={() => {
@@ -179,7 +181,7 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
                     : 'border-black hover:bg-black hover:text-white text-black'
                 }`}
               >
-                CONTACTEZ-MOI
+                {t('buttons.contactMe')}
               </button>
             </div>
           </div>

@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "title": "À Propos - Rafael Piral | Creative Developer",
+    "description": "Découvrez mon parcours, mes passions et ma vision du design et du développement web."
+  },
+  "header": {
+    "back": "RETOUR"
+  },
+  "hero": {
+    "title": "À Propos",
+    "tagline": "Créatif passionné par le graphisme, l'audiovisuel et la communication, j'aime donner vie aux idées à travers l'image"
+  },
+  "journey": {
+    "title": "De l'informatique à la création numérique",
+    "paragraphs": [
+      "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis un créatif dans l'âme, toujours en quête de nouvelles façons d'exprimer des idées à travers le design et l'image.",
+      "Actuellement à la recherche d'un stage d'au moins 8 semaines à partir d'avril 2026, je souhaite mettre mes compétences au service de projets créatifs dans le domaine du graphisme, de l'audiovisuel et de la communication.",
+      "Tout a commencé avec Photoshop. Cette première rencontre avec l'outil a été une révélation : j'ai découvert qu'on pouvait créer des univers, raconter des histoires, et transmettre des émotions uniquement par l'image. Depuis, je ne cesse d'explorer les possibilités infinies du design graphique et de l'identité visuelle.",
+      "Illustrator et Figma ont complété naturellement ce parcours, comme un moyen supplémentaire de donner vie à mes créations et de les rendre interactives. Mais c'est avant tout l'aspect visuel et créatif qui guide mon travail."
+    ]
+  },
+  "interests": {
+    "title": "Ce qui m'attire",
+    "paragraphs": [
+      "Je me verrais particulièrement évoluer dans trois univers qui me passionnent : le graphisme, l'audiovisuel et la communication.",
+      "En tant que graphiste, j'aimerais travailler sur des projets d'identité visuelle, de création d'affiches, de supports print ou digitaux. Concevoir des visuels qui marquent les esprits et racontent une histoire est ce qui me motive au quotidien.",
+      "Le monde de l'audiovisuel m'attire également énormément. Travailler sur des plateaux de tournage, que ce soit en tant qu'assistant réalisateur, perchman, aide sur le plateau ou dans l'équipe technique, serait une expérience enrichissante qui me permettrait de découvrir les coulisses de la création audiovisuelle."
+    ]
+  },
+  "skills": {
+    "title": "Compétences & Outils",
+    "categories": {
+      "design": {
+        "title": "Design Graphique",
+        "items": ["Photoshop", "Illustrator", "InDesign", "Lightroom", "Affinity", "Canva", "Figma"]
+      },
+      "audiovisual": {
+        "title": "Audiovisuel",
+        "items": ["Da Vinci Resolve", "Premiere Pro (bases)", "After Effects", "Blender (bases)"]
+      },
+      "web": {
+        "title": "Développement Web",
+        "items": ["HTML / CSS", "JavaScript", "React", "WordPress", "PHP", "Tailwind CSS", "Git / GitHub"]
+      },
+      "soft": {
+        "title": "Soft Skills",
+        "items": ["Sérieux", "Autonomie", "Esprit d'équipe", "Adaptabilité", "Créativité", "Attention aux détails", "Gestion de projet"]
+      },
+      "office": {
+        "title": "Bureautique",
+        "items": ["Suite Microsoft Office"]
+      },
+      "communication": {
+        "title": "Communication",
+        "items": ["Réseaux sociaux"]
+      }
+    }
+  },
+  "inspirations": {
+    "title": "Mes Inspirations",
+    "design": {
+      "title": "Design & Inspiration",
+      "content": "Je passe beaucoup de temps à explorer les tendances visuelles, à étudier les travaux de designers et directeurs artistiques. Que ce soit une affiche de film, un générique, une campagne publicitaire ou un clip musical, chaque création marquante nourrit mon regard et enrichit mon approche créative."
+    },
+    "learning": {
+      "title": "Apprentissage Continu",
+      "content": "Le design, l'audiovisuel et la communication évoluent constamment, et j'adore ça. Je suis toujours en recherche de nouvelles connaissances et de nouvelles technologies."
+    }
+  },
+  "cta": {
+    "title": "Travaillons Ensemble",
+    "subtitle": "Un projet en tête ? Discutons-en.",
+    "email": "ENVOYER UN EMAIL",
+    "projects": "VOIR MES PROJETS"
+  },
+  "footer": {
+    "rights": "Tous droits réservés."
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "details": {
+    "back": "RETOUR",
+    "breadcrumb": {
+      "home": "Accueil",
+      "projects": "Projets"
+    },
+    "mockups": "Maquettes",
+    "videoPresentation": "Présentation vidéo",
+    "interactivePrototype": "Prototype interactif",
+    "prototypeHint": "Cliquez et naviguez dans le prototype pour explorer les maquettes interactives",
+    "projectDetails": "Détails du projet",
+    "info": "Informations",
+    "tools": "Outils utilisés",
+    "skills": "Compétences mobilisées",
+    "otherProjects": "AUTRES PROJETS",
+    "swipeToNavigate": "Glissez pour naviguer",
+    "context": "CONTEXTE",
+    "period": "PÉRIODE",
+    "duration": "DURÉE",
+    "role": "RÔLE",
+    "type": "TYPE",
+    "format": "FORMAT",
+    "team": "Équipe",
+    "teamWith": "Binôme avec",
+    "portraitArticle": "Article portrait",
+    "notFound": "Projet non trouvé",
+    "backToHome": "Retour à l'accueil",
+    "previous": "PRÉCÉDENT",
+    "next": "SUIVANT"
+  },
+  "items": {
+    "1": {
+      "title": "Un Homme qui dort - Affiche revisitée",
+      "category": "Affiches",
+      "type": "Personnel",
+      "context": "Projet personnel - Réinterprétation d'affiche de film",
+      "period": "Janvier 2025",
+      "duration": "1 semaine",
+      "description": "J'ai voulu revisiter l'affiche du film 'Un Homme qui dort' (1974), un classique qui m'a marqué par son atmosphère si particulière. J'ai gardé la typographie originale que j'adore, mais j'ai complètement repensé l'image sur Photoshop : des gros plans texturés et granuleux qui, pour moi, traduisent mieux l'ennui et l'introspection que le vide habituel. Une façon de raconter l'isolement par la matière.",
+      "gallery": [
+        "Affiche revisitée du film 'Un Homme qui dort' (1974).",
+        "Mockup de présentation de l'affiche revisitée 'Un Homme qui dort'."
+      ],
+      "competences": ["Conception d'affiche", "Retouche photo", "Direction artistique", "Composition visuelle"]
+    },
+    "2": {
+      "title": "Concours d'affiche : Fêtes Populaires de Saint-Paul-lès-Dax 2025",
+      "category": "Affiches",
+      "type": "Universitaire",
+      "context": "Concours officiel - Ville de Saint-Paul-lès-Dax",
+      "period": "Décembre 2024 - Janvier 2025",
+      "duration": "1 semaine",
+      "description": "J'ai participé au concours officiel d'affiche organisé par la ville de Saint-Paul-lès-Dax pour leurs Fêtes Populaires 2025. J'ai conçu une affiche en flat design sur Illustrator et Photoshop, l'objectif était de proposer une affiche qui représente l'esprit festif de cet événement incontournable.",
+      "gallery": [
+        "Affiche originale des Fêtes Populaires de Saint-Paul-lès-Dax 2025.",
+        "Mockup de présentation de l'affiche des Fêtes Populaires de Saint-Paul-lès-Dax."
+      ],
+      "competences": ["Conception d'affiche", "Illustration vectorielle", "Flat design", "Direction artistique"]
+    },
+    "3": {
+      "title": "Poster Tribute : Sade – Diamond Life",
+      "category": "Affiches",
+      "type": "Personnel",
+      "context": "Projet personnel - Hommage graphique",
+      "period": "Décembre 2024",
+      "duration": "1 semaine",
+      "description": "Diamond Life de Sade (1984), c'est un album que j'apprécie. J'ai voulu lui rendre hommage à travers un poster réalisé sur Photoshop qui capture cette élégance soul/jazz si particulière, avec un traitement rétro et des tons sépia qui évoquent le vinyle et la nostalgie.",
+      "gallery": [
+        "Poster Tribute original de l'album Diamond Life de Sade.",
+        "Mockup de présentation du poster tribute Sade – Diamond Life."
+      ],
+      "competences": ["Design d'affiche", "Traitement rétro", "Typographie", "Composition visuelle"]
+    },
+    "4": {
+      "title": "UX Design : Application Veco",
+      "category": "UI/UX Design",
+      "type": "Universitaire",
+      "context": "Projet SAE BUT2 - Conception d'application mobile",
+      "period": "Octobre - Novembre 2025",
+      "duration": "6 semaines",
+      "description": "Projet en équipe — Mon rôle : conception visuelle sur Figma de Veco, application de location de véhicules électriques entre particuliers. Traduction des valeurs de mobilité douce et d'écologie en interface intuitive. Palette verte et naturelle pour ancrer l'univers éco-responsable. Les maquettes couvrent le parcours complet (géolocalisation, réservation, profil utilisateur) avec un design pensé pour rassurer et simplifier la prise en main.",
+      "gallery": [
+        "Présentation de l'application Veco : Vue d'ensemble de l'identité visuelle et du design system de l'application de mobilité électrique.",
+        "Écran d'accueil et d'inscription : Interface de connexion et d'inscription épurée, mettant en avant l'identité visuelle de l'application dès l'ouverture.",
+        "Géolocalisation des véhicules : Vue principale de la carte interactive affichant en temps réel tous les véhicules disponibles autour de la position de l'utilisateur.",
+        "Sélection du véhicule et devis : Fiche détaillée du véhicule sélectionné, présentant ses caractéristiques (modèle, autonomie) ainsi qu'une estimation claire du prix de la course.",
+        "Guidage vers le point de prise en charge : Navigation GPS intégrée guidant l'utilisateur (itinéraire piéton) pour rejoindre l'emplacement exact où son véhicule est garé.",
+        "Filtrage par catégorie \"Vélo-Taxi\" : Activation du mode spécifique \"Vélo-Taxi\" via le sélecteur, filtrant la carte pour n'afficher que les vélos-taxis disponibles à proximité immédiate.",
+        "Saisie de la destination : Interface de recherche intuitive permettant à l'utilisateur de choisir son point d'arrivée ou de sélectionner une destination favorite.",
+        "Validation et Paiement : Écran récapitulatif de la course avec sélection du moyen de paiement sécurisé avant la validation finale.",
+        "Centre d'aide et support : Accès rapide au service client et à la FAQ via le bouton d'aide, pour assister l'utilisateur en cas de problème.",
+        "Profil et Paramètres : Menu de configuration permettant de gérer le compte utilisateur, les préférences de notification et l'historique des trajets."
+      ],
+      "competences": ["Conception d'interfaces mobiles", "UX Design", "UI Design", "Branding", "Design System", "Travail en équipe", "Communication"]
+    },
+    "5": {
+      "title": "UI Design & Branding : Agence Immobilière",
+      "category": "UI/UX Design",
+      "type": "Universitaire",
+      "context": "Projet universitaire - BUT MMI 2ème année",
+      "period": "Septembre - Novembre 2025",
+      "duration": "6 semaines",
+      "description": "Projet en équipe — Mon rôle : conception de l'identité visuelle et des maquettes sur Figma. Ce projet avait une contrainte intéressante : penser le design pour le SEO dès le départ. Pas juste faire joli, mais créer une structure qui plaise aussi aux moteurs de recherche. J'ai conçu toute l'identité visuelle — logo, Design System — en veillant à ce que tout reste léger et performant. Les maquettes jouent sur la hiérarchie visuelle pour guider naturellement l'utilisateur tout en facilitant l'indexation.",
+      "gallery": [
+        "Identité visuelle et Design System de l'agence immobilière Armor Immo.",
+        "Mockup de présentation de la page d'accueil du site Armor Immo.",
+        "Mockup de présentation de la page des lots immobiliers."
+      ],
+      "competences": ["Conception web", "UI/UX Design", "Branding", "SEO", "Design System", "Architecture de l'information", "Travail en équipe", "Esprit d'équipe"]
+    },
+    "6": {
+      "title": "Statue de la Liberté — De la photo à l'ASCII",
+      "category": "Photographie",
+      "type": "Personnel",
+      "context": "Projet personnel - Expérimentation graphique",
+      "period": "Août 2025",
+      "duration": "3 jours",
+      "description": "Lors de mon voyage à New York, j'ai pris cette photo de la Statue de la Liberté depuis Liberty Island. De retour, j'ai eu envie d'expérimenter sur Photoshop : transformer l'image en caractères ASCII uniquement.",
+      "gallery": [
+        "Statue de la Liberté en art ASCII : Version finale de l'expérimentation graphique transformant la photographie iconique en composition typographique pure.",
+        "Mockup de présentation du projet Statue de la Liberté en ASCII."
+      ],
+      "competences": ["Retouche photo", "Art ASCII", "Expérimentation visuelle", "Traitement numérique"]
+    },
+    "7": {
+      "title": "À Cœur Ouvert — Identité visuelle d'une ONG",
+      "category": "Branding",
+      "type": "Universitaire",
+      "context": "Projet SAE BUT2 - Création d'identité visuelle",
+      "period": "Novembre - Décembre 2025",
+      "duration": "8 semaines",
+      "description": "À Cœur Ouvert est une ONG fictive de lutte contre les violences conjugales. J'ai créé toute l'identité visuelle sur Illustrator : le logo, la charte graphique, et j'ai aussi rédigé un article portrait sur InDesign donnant la parole à une victime. Le nom évoque un espace de parole sans jugement. Mon défi : trouver le bon équilibre entre une image rassurante et professionnelle, qui inspire confiance et bienveillance.",
+      "gallery": [],
+      "competences": ["Création d'identité visuelle", "Design graphique", "Charte graphique", "Rédaction de contenu"]
+    },
+    "8": {
+      "title": "Gummo — Affiche de film",
+      "category": "Affiches",
+      "type": "Personnel",
+      "context": "Projet personnel - Création d'affiche de film",
+      "period": "Janvier 2026",
+      "duration": "2 jours",
+      "description": "Gummo (1997) d'Harmony Korine, c'est un film qui ne laisse pas indifférent. Expérimental, dérangeant, mais aussi étrangement poétique. J'ai voulu créer une affiche sur Photoshop et Illustrator qui capture cette ambiance si particulière : l'imagerie trash et nostalgique, les couleurs désaturées des années 90, cette atmosphère désenchantée.",
+      "gallery": [
+        "Affiche originale du film Gummo (1997).",
+        "Mockup de présentation de l'affiche du film Gummo."
+      ],
+      "competences": ["Conception d'affiche", "Direction artistique", "Composition visuelle", "Typographie"]
+    },
+    "10": {
+      "title": "FLEMME — Court-métrage",
+      "category": "Audiovisuel",
+      "type": "Universitaire",
+      "context": "Concours Nikon Film Festival 2025 — Thème : Super-pouvoir",
+      "period": "2025",
+      "duration": "En cours",
+      "description": "Court-métrage de fantaisie et comédie engagée réalisé pour le Nikon Film Festival 2025 sur le thème « Super-pouvoir ». Luc, un jeune flemmard d'une vingtaine d'années, mène une vie d'inertie totale entre chômage, télé et jeux vidéo. Égoïste, paresseux et asocial, il possède pourtant un don extraordinaire : il est quasi omnipotent et peut modifier la réalité de tout ce qu'il touche.",
+      "gallery": [],
+      "competences": ["Écriture de scénario", "Réalisation", "Jeu d'acteur", "Montage vidéo", "Prise de son (Perche)", "Sous-titrage anglais", "Storyboard", "Direction artistique", "Narration visuelle", "Storytelling"]
+    },
+    "11": {
+      "title": "Batman : The Dark Knight — Site web Jimdo",
+      "category": "Développement web",
+      "type": "Universitaire",
+      "context": "Projet universitaire - BUT MMI 1ère année",
+      "period": "2024 - 2025",
+      "duration": "",
+      "description": "Création d'un site web sur Jimdo dédié à l'univers de Batman : The Dark Knight. Le site explore l'œuvre et ses projets transversaux — films, séries, jeux vidéo, parcs d'attractions, vêtements, goodies — pour montrer comment une franchise se décline sur différents supports et médias.",
+      "gallery": [],
+      "competences": ["Création de site web", "Rédaction de contenu", "Architecture de l'information", "Analyse transmédiatique", "Veille culturelle", "Création de GIF animé"]
+    },
+    "9": {
+      "title": "Réseau Alumni — IUT de Bobigny",
+      "category": "UI/UX Design",
+      "type": "Universitaire",
+      "context": "Projet SAE — Conception d'une plateforme réseau alumni",
+      "period": "Septembre - Décembre 2025",
+      "duration": "En cours",
+      "description": "Projet en équipe — Mon rôle : création du logo et de la charte graphique pour la plateforme réseau alumni de l'IUT de Bobigny. Ce projet vise à connecter anciens diplômés, entreprises et personnels de l'établissement à travers une plateforme intégrant des fonctionnalités de réseau social, un CRM, un système de mise en relation recruteurs/candidats.",
+      "gallery": [],
+      "competences": ["Conception d'interfaces web", "UX Design", "UI Design", "Architecture de l'information", "Design System", "Responsive Design", "Création de logo", "Charte graphique", "Identité visuelle", "Branding", "Direction artistique", "Travail en équipe"]
+    }
+  },
+  "categories": {
+    "all": "Tous",
+    "posters": "Affiches",
+    "uiux": "UI/UX Design",
+    "branding": "Branding",
+    "audiovisual": "Audiovisuel",
+    "photography": "Photographie",
+    "webdev": "Développement web"
+  },
+  "skillCategories": {
+    "graphicDesign": "DESIGN GRAPHIQUE",
+    "webDev": "DÉVELOPPEMENT WEB",
+    "audiovisual": "AUDIOVISUEL",
+    "office": "BUREAUTIQUE"
+  }
+}

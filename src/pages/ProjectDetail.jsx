@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { projects } from '../data/projects';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function ProjectDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation(['projects', 'common']);
   const [isDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved !== null ? JSON.parse(saved) : true;
@@ -40,16 +42,35 @@ export default function ProjectDetail() {
   const previousProject = visibleProjects[currentVisibleIndex - 1];
   const nextProject = visibleProjects[currentVisibleIndex + 1];
 
+  // Get translated project data
+  const getProjectData = (proj) => {
+    const translatedProject = t(`projects:items.${proj.id}`, { returnObjects: true });
+    return {
+      ...proj,
+      title: translatedProject?.title || proj.title,
+      description: translatedProject?.description || proj.description,
+      category: translatedProject?.category || proj.category,
+      type: translatedProject?.type || proj.type,
+      context: translatedProject?.context || proj.context,
+      period: translatedProject?.period || proj.period,
+      duration: translatedProject?.duration || proj.duration,
+      competences: translatedProject?.competences || proj.competences,
+      galleryDescriptions: translatedProject?.gallery || []
+    };
+  };
+
+  const translatedProject = project ? getProjectData(project) : null;
+
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-light mb-4">Projet non trouvé</h1>
+          <h1 className="text-4xl font-light mb-4">{t('projects:details.notFound')}</h1>
           <Link
             to="/"
             className="text-beige hover:underline"
           >
-            Retour à l'accueil
+            {t('projects:details.backToHome')}
           </Link>
         </div>
       </div>
@@ -82,7 +103,7 @@ export default function ProjectDetail() {
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              <span className="text-sm tracking-wider">RETOUR</span>
+              <span className="text-sm tracking-wider">{t('projects:details.back')}</span>
             </button>
 
             <div className="text-sm tracking-wider opacity-50">
@@ -92,7 +113,7 @@ export default function ProjectDetail() {
         </header>
 
         {/* Fil d'Ariane */}
-        <nav className="fixed top-20 left-0 right-0 z-40 px-8 py-3" aria-label="Fil d'Ariane">
+        <nav className="fixed top-20 left-0 right-0 z-40 px-8 py-3" aria-label="Breadcrumb">
           <div className="max-w-7xl mx-auto">
             <ol className="flex items-center gap-2 text-sm">
               <li>
@@ -102,7 +123,7 @@ export default function ProjectDetail() {
                     isDarkMode ? 'text-beige/50 hover:text-beige' : 'text-black/50 hover:text-black'
                   }`}
                 >
-                  Accueil
+                  {t('projects:details.breadcrumb.home')}
                 </Link>
               </li>
               <li className="opacity-30">/</li>
@@ -113,12 +134,12 @@ export default function ProjectDetail() {
                     isDarkMode ? 'text-beige/50 hover:text-beige' : 'text-black/50 hover:text-black'
                   }`}
                 >
-                  Projets
+                  {t('projects:details.breadcrumb.projects')}
                 </Link>
               </li>
               <li className="opacity-30">/</li>
               <li className={`truncate max-w-[200px] ${isDarkMode ? 'text-beige' : 'text-black'}`}>
-                {project.title}
+                {translatedProject.title}
               </li>
             </ol>
           </div>
@@ -141,7 +162,7 @@ export default function ProjectDetail() {
               className="mb-12"
             >
               <div className="flex flex-wrap items-center gap-4 mb-6 text-sm opacity-70">
-                <span className="px-3 py-1 border rounded-full">{project.category}</span>
+                <span className="px-3 py-1 border rounded-full">{translatedProject.category}</span>
                 <span>{project.year}</span>
                 {project.tags && project.tags.map((tag, i) => (
                   <span key={i} className="opacity-50">#{tag}</span>
@@ -149,11 +170,11 @@ export default function ProjectDetail() {
               </div>
 
               <h1 className="text-5xl md:text-7xl font-light mb-6 leading-tight">
-                {project.title}
+                {translatedProject.title}
               </h1>
 
               <p className="text-xl md:text-2xl font-light opacity-70 max-w-3xl">
-                {project.description}
+                {translatedProject.description}
               </p>
             </motion.div>
 
@@ -187,7 +208,7 @@ export default function ProjectDetail() {
                 className="mb-20"
               >
                 <h2 className="text-2xl font-light mb-6 opacity-70">
-                  Article portrait
+                  {t('projects:details.portraitArticle')}
                 </h2>
                 <div className="relative rounded-lg overflow-hidden bg-black/5" style={{ height: '800px' }}>
                   <iframe
@@ -211,7 +232,7 @@ export default function ProjectDetail() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
-                    <span className="text-sm tracking-wider">OUVRIR EN PLEIN ÉCRAN</span>
+                    <span className="text-sm tracking-wider">{t('common:buttons.openFullscreen')}</span>
                   </a>
                   <a
                     href={project.pdfFile}
@@ -225,7 +246,7 @@ export default function ProjectDetail() {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    <span className="text-sm tracking-wider">TÉLÉCHARGER</span>
+                    <span className="text-sm tracking-wider">{t('common:buttons.download')}</span>
                   </a>
                 </div>
               </motion.div>
@@ -240,7 +261,7 @@ export default function ProjectDetail() {
                 className="mb-20"
               >
                 <h2 className="text-2xl font-light mb-6 opacity-70">
-                  Maquettes
+                  {t('projects:details.mockups')}
                 </h2>
 
                 {/* Image avec boutons de navigation */}
@@ -315,14 +336,14 @@ export default function ProjectDetail() {
                     {currentImageIndex + 1} / {project.gallery.length}
                   </span>
                   <p className="text-xs opacity-30 mt-1 md:hidden">
-                    Glissez pour naviguer
+                    {t('projects:details.swipeToNavigate')}
                   </p>
                 </div>
 
                 {/* Description de l'image */}
-                {project.gallery[currentImageIndex].description && (
+                {(translatedProject.galleryDescriptions[currentImageIndex] || project.gallery[currentImageIndex].description) && (
                   <p className="text-center text-base opacity-70 max-w-3xl mx-auto">
-                    {project.gallery[currentImageIndex].description}
+                    {translatedProject.galleryDescriptions[currentImageIndex] || project.gallery[currentImageIndex].description}
                   </p>
                 )}
               </motion.div>
@@ -337,7 +358,7 @@ export default function ProjectDetail() {
                 className="mb-20"
               >
                 <h2 className="text-2xl font-light mb-6 opacity-70">
-                  Présentation vidéo
+                  {t('projects:details.videoPresentation')}
                 </h2>
                 <div className="relative aspect-video rounded-lg overflow-hidden bg-black/5">
                   {project.youtubeId ? (
@@ -373,12 +394,12 @@ export default function ProjectDetail() {
                 className="mb-20"
               >
                 <h2 className="text-2xl font-light mb-6 opacity-70">
-                  Prototype interactif
+                  {t('projects:details.interactivePrototype')}
                 </h2>
                 <div className="relative rounded-lg overflow-hidden bg-black/5" style={{ height: '600px' }}>
                   <iframe
                     src={project.figmaEmbed}
-                    title={`${project.title} - Prototype Figma`}
+                    title={`${translatedProject.title} - Prototype Figma`}
                     allowFullScreen
                     className="w-full border-0"
                     style={{
@@ -388,7 +409,7 @@ export default function ProjectDetail() {
                   />
                 </div>
                 <p className="text-center mt-4 text-sm opacity-50">
-                  Cliquez et naviguez dans le prototype pour explorer les maquettes interactives
+                  {t('projects:details.prototypeHint')}
                 </p>
               </motion.div>
             )}
@@ -401,47 +422,47 @@ export default function ProjectDetail() {
               className="mb-20"
             >
               <h2 className="text-3xl font-light mb-8">
-                Détails du projet
+                {t('projects:details.projectDetails')}
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Informations */}
                 <div>
-                  <h3 className="text-xl font-light mb-4 opacity-70">Informations</h3>
+                  <h3 className="text-xl font-light mb-4 opacity-70">{t('projects:details.info')}</h3>
                   <ul className="space-y-3 text-sm">
                     {project.role && (
                       <li className="flex flex-col gap-1">
-                        <span className="opacity-50 text-xs tracking-wider">RÔLE</span>
+                        <span className="opacity-50 text-xs tracking-wider">{t('projects:details.role')}</span>
                         <span>{project.role}</span>
                       </li>
                     )}
-                    {project.context && (
+                    {translatedProject.context && (
                       <li className="flex flex-col gap-1">
-                        <span className="opacity-50 text-xs tracking-wider">CONTEXTE</span>
-                        <span>{project.context}</span>
+                        <span className="opacity-50 text-xs tracking-wider">{t('projects:details.context')}</span>
+                        <span>{translatedProject.context}</span>
                       </li>
                     )}
-                    {project.period && (
+                    {translatedProject.period && (
                       <li className="flex flex-col gap-1">
-                        <span className="opacity-50 text-xs tracking-wider">PÉRIODE</span>
-                        <span>{project.period}</span>
+                        <span className="opacity-50 text-xs tracking-wider">{t('projects:details.period')}</span>
+                        <span>{translatedProject.period}</span>
                       </li>
                     )}
-                    {project.duration && (
+                    {translatedProject.duration && (
                       <li className="flex flex-col gap-1">
-                        <span className="opacity-50 text-xs tracking-wider">DURÉE</span>
-                        <span>{project.duration}</span>
+                        <span className="opacity-50 text-xs tracking-wider">{t('projects:details.duration')}</span>
+                        <span>{translatedProject.duration}</span>
                       </li>
                     )}
                     <li className="flex flex-col gap-1">
-                      <span className="opacity-50 text-xs tracking-wider">TYPE</span>
-                      <span>{project.type || project.category}</span>
+                      <span className="opacity-50 text-xs tracking-wider">{t('projects:details.type')}</span>
+                      <span>{translatedProject.type || translatedProject.category}</span>
                     </li>
                     {project.team && (
                       <li className="flex flex-col gap-1">
-                        <span className="opacity-50 text-xs tracking-wider">FORMAT</span>
+                        <span className="opacity-50 text-xs tracking-wider">{t('projects:details.format')}</span>
                         <span>
-                          Binôme avec{' '}
+                          {t('projects:details.teamWith')}{' '}
                           <a
                             href={project.team.url}
                             target="_blank"
@@ -460,7 +481,7 @@ export default function ProjectDetail() {
 
                 {/* Outils utilisés */}
                 <div>
-                  <h3 className="text-xl font-light mb-4 opacity-70">Outils utilisés</h3>
+                  <h3 className="text-xl font-light mb-4 opacity-70">{t('projects:details.tools')}</h3>
                   <div className="flex flex-wrap gap-2">
                     {(project.outils || project.tags || []).map((outil, i) => (
                       <span
@@ -476,11 +497,11 @@ export default function ProjectDetail() {
                 </div>
 
                 {/* Compétences */}
-                {project.competences && project.competences.length > 0 && (
+                {translatedProject.competences && translatedProject.competences.length > 0 && (
                   <div>
-                    <h3 className="text-xl font-light mb-4 opacity-70">Compétences mobilisées</h3>
+                    <h3 className="text-xl font-light mb-4 opacity-70">{t('projects:details.skills')}</h3>
                     <div className="flex flex-wrap gap-2">
-                      {project.competences.map((comp, i) => (
+                      {translatedProject.competences.map((comp, i) => (
                         <span
                           key={i}
                           className={`px-3 py-1 text-sm rounded-full ${
@@ -511,7 +532,7 @@ export default function ProjectDetail() {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
-                    <span className="text-sm tracking-wider">VOIR LE SITE</span>
+                    <span className="text-sm tracking-wider">{t('common:buttons.viewSite')}</span>
                   </a>
                 </div>
               )}
@@ -526,7 +547,7 @@ export default function ProjectDetail() {
                 isDarkMode ? 'border-beige/20' : 'border-black/20'
               }`}
             >
-              <h3 className="text-sm tracking-wider opacity-50 mb-8">AUTRES PROJETS</h3>
+              <h3 className="text-sm tracking-wider opacity-50 mb-8">{t('projects:details.otherProjects')}</h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Projet précédent */}
@@ -544,8 +565,8 @@ export default function ProjectDetail() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
                       <div>
-                        <div className="text-xs opacity-70 mb-2">← PRÉCÉDENT</div>
-                        <div className="text-xl font-light">{previousProject.title}</div>
+                        <div className="text-xs opacity-70 mb-2">← {t('projects:details.previous')}</div>
+                        <div className="text-xl font-light">{t(`projects:items.${previousProject.id}.title`, previousProject.title)}</div>
                       </div>
                     </div>
                   </Link>
@@ -566,8 +587,8 @@ export default function ProjectDetail() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
                       <div className="ml-auto text-right">
-                        <div className="text-xs opacity-70 mb-2">SUIVANT →</div>
-                        <div className="text-xl font-light">{nextProject.title}</div>
+                        <div className="text-xs opacity-70 mb-2">{t('projects:details.next')} →</div>
+                        <div className="text-xl font-light">{t(`projects:items.${nextProject.id}.title`, nextProject.title)}</div>
                       </div>
                     </div>
                   </Link>

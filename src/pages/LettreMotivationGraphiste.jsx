@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CVNavigation from '../components/CVNavigation';
 
 export default function LettreMotivationGraphiste() {
   // Liste des métiers
@@ -14,11 +15,13 @@ export default function LettreMotivationGraphiste() {
     { id: 'chef-de-projet', label: 'Chef de Projet Multimédia', domaine: 'la gestion de projets multimédias' },
     { id: 'charge-de-communication', label: 'Chargé de Communication', domaine: 'la communication' },
     { id: 'assistant-communication', label: 'Assistant Communication', domaine: 'la communication' },
+    { id: 'community-manager', label: 'Community Manager', domaine: 'le community management' },
   ];
 
   const [selectedMetier, setSelectedMetier] = useState(metiers[0]);
   const [entreprise, setEntreprise] = useState('');
   const [adresse, setAdresse] = useState('');
+  const [mode, setMode] = useState('stage'); // 'stage' ou 'alternance'
 
   // Date automatique
   const today = new Date();
@@ -45,6 +48,8 @@ export default function LettreMotivationGraphiste() {
       case 'charge-de-communication':
       case 'assistant-communication':
         return '<strong>Canva</strong>, <strong>Photoshop</strong>, <strong>Illustrator</strong> et <strong>DaVinci Resolve</strong>';
+      case 'community-manager':
+        return '<strong>Canva</strong>, <strong>Photoshop</strong>, <strong>Premiere Pro</strong>, <strong>DaVinci Resolve</strong> et les <strong>réseaux sociaux</strong>';
       default:
         return '<strong>Illustrator</strong>, <strong>Photoshop</strong>, <strong>InDesign</strong>, <strong>Canva</strong> et <strong>Affinity</strong>';
     }
@@ -74,9 +79,34 @@ export default function LettreMotivationGraphiste() {
         }
       `}</style>
 
+      <CVNavigation />
+
       {/* --- SÉLECTEUR DE MÉTIER ET DESTINATAIRE --- */}
       <div className="max-w-4xl mx-auto mb-6 no-print">
         <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
+          {/* Type de candidature */}
+          <div>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Type de candidature</h2>
+            <div className="flex rounded-full overflow-hidden border border-gray-300 w-fit mb-6">
+              <button
+                onClick={() => setMode('stage')}
+                className={`px-4 py-1.5 text-sm font-medium transition-all ${
+                  mode === 'stage' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                Stage
+              </button>
+              <button
+                onClick={() => setMode('alternance')}
+                className={`px-4 py-1.5 text-sm font-medium transition-all ${
+                  mode === 'alternance' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                Alternance
+              </button>
+            </div>
+          </div>
+
           {/* Métier */}
           <div>
             <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Sélectionnez un métier</h2>
@@ -162,7 +192,12 @@ export default function LettreMotivationGraphiste() {
         <div className="mb-8 pb-4 border-b border-gray-200">
           <p className="text-[12px]">
             <span className="font-bold text-gray-800">Objet :</span>
-            <span className="text-gray-700 ml-2">Candidature pour un stage de {selectedMetier.label.toLowerCase()} (8 semaines minimum - Avril 2026)</span>
+            <span className="text-gray-700 ml-2">
+              {mode === 'stage'
+                ? `Candidature pour un stage de ${selectedMetier.label.toLowerCase()} (10 semaines minimum - Avril 2026)`
+                : `Candidature pour une alternance de ${selectedMetier.label.toLowerCase()} à partir de septembre 2026`
+              }
+            </span>
           </p>
         </div>
 
@@ -173,8 +208,10 @@ export default function LettreMotivationGraphiste() {
 
           <p>
             Actuellement étudiant en 2<sup>e</sup> année de BUT Métiers du Multimédia et de l'Internet,
-            je suis à la recherche d'un stage d'au moins 8 semaines à partir d'avril 2026
-            en tant que {selectedMetier.label.toLowerCase()}.
+            {mode === 'stage'
+              ? <> je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026 en tant que {selectedMetier.label.toLowerCase()}.</>
+              : <> je suis à la recherche d'une alternance pour ma 3<sup>e</sup> année à partir de septembre 2026 en tant que {selectedMetier.label.toLowerCase()}.</>
+            }
           </p>
 
           <p>
@@ -187,9 +224,9 @@ export default function LettreMotivationGraphiste() {
           </p>
 
           <p>
-            Cette curiosité me permet aujourd'hui d'apporter des idées fraîches et actuelles à mes
+            Cette curiosité me permet aujourd'hui d'apporter des idées nouvelles et actuelles à mes
             réalisations. Je suis convaincu que votre entreprise est l'endroit idéal pour continuer
-            à apprendre et progresser dans ce domaine. Ce stage me permettrait d'acquérir une expérience
+            à apprendre et progresser dans ce domaine. {mode === 'stage' ? 'Ce stage' : 'Cette alternance'} me permettrait d'acquérir une expérience
             professionnelle solide, en complément de ma formation.
           </p>
 
@@ -218,7 +255,7 @@ export default function LettreMotivationGraphiste() {
         {/* --- FOOTER --- */}
         <div className="mt-auto pt-6 border-t border-gray-200">
           <div className="flex justify-between items-center text-[10px] text-gray-400">
-            <span>Rafael Piral — Candidature Stage {selectedMetier.label}</span>
+            <span>Rafael Piral — Candidature {mode === 'stage' ? 'Stage' : 'Alternance'} {selectedMetier.label}</span>
             <a href="https://rafaelpiral.fr" target="_blank" rel="noreferrer" className="hover:underline cursor-pointer hover:text-gray-600">
               rafaelpiral.fr
             </a>

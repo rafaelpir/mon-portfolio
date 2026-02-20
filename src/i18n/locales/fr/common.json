@@ -1,0 +1,91 @@
+{
+  "nav": {
+    "about": "À PROPOS",
+    "projects": "PROJETS",
+    "skills": "COMPÉTENCES",
+    "contact": "CONTACT",
+    "downloadCV": "TÉLÉCHARGER CV",
+    "settings": "Paramètres"
+  },
+  "theme": {
+    "title": "THÈME",
+    "dark": "Mode sombre",
+    "light": "Mode clair"
+  },
+  "buttons": {
+    "learnMore": "EN SAVOIR PLUS",
+    "sendMessage": "ENVOYER LE MESSAGE",
+    "sending": "ENVOI EN COURS...",
+    "back": "RETOUR",
+    "backToHome": "RETOUR À L'ACCUEIL",
+    "previousPage": "PAGE PRÉCÉDENTE",
+    "download": "TÉLÉCHARGER",
+    "downloadCV": "TÉLÉCHARGER CV",
+    "viewSite": "VOIR LE SITE",
+    "openFullscreen": "OUVRIR EN PLEIN ÉCRAN",
+    "previous": "PRÉCÉDENT",
+    "next": "SUIVANT",
+    "close": "FERMER",
+    "contactMe": "CONTACTEZ-MOI"
+  },
+  "form": {
+    "name": "Votre nom *",
+    "email": "Votre email *",
+    "subject": "Sujet",
+    "message": "Votre message *",
+    "successTitle": "Merci pour votre message !",
+    "successMessage": "Je vous répondrai dans les plus brefs délais."
+  },
+  "contact": {
+    "email": "EMAIL",
+    "social": "RÉSEAUX",
+    "interested": "INTÉRESSÉ ?"
+  },
+  "footer": {
+    "name": "RAFAEL PIRAL",
+    "description": "Étudiant en 2e année de BUT MMI, passionné par le design graphique et le développement web.",
+    "navigation": "NAVIGATION",
+    "contact": "CONTACT",
+    "aboutLink": "À propos",
+    "projectsLink": "Projets",
+    "skillsLink": "Compétences",
+    "contactLink": "Contact",
+    "rights": "Tous droits réservés.",
+    "legal": "Mentions légales",
+    "madeWith": "Conçu et développé avec passion"
+  },
+  "accessibility": {
+    "skipToContent": "Aller au contenu principal",
+    "toggleMenu": "Toggle menu",
+    "toggleTheme": "Toggle theme"
+  },
+  "filters": {
+    "hideFilters": "MASQUER LES FILTRES",
+    "filterByTool": "FILTRER PAR OUTIL",
+    "resetFilters": "RÉINITIALISER LES FILTRES",
+    "all": "Tous"
+  },
+  "projectTypes": {
+    "university": "UNIV.",
+    "personal": "PERSO."
+  },
+  "languages": {
+    "fr": "FR",
+    "en": "EN"
+  },
+  "availability": {
+    "title": "DISPONIBILITÉS",
+    "subtitle": "EN RECHERCHE D'OPPORTUNITÉS",
+    "ariaLabel": "Voir les disponibilités et informations de contact",
+    "internship": {
+      "title": "STAGE",
+      "date": "AVRIL 2026",
+      "description": "Étudiant en 2e année de BUT MMI, je recherche un stage d'au moins 8 semaines à partir d'avril 2026 en création numérique et audiovisuel."
+    },
+    "apprenticeship": {
+      "title": "ALTERNANCE",
+      "date": "SEPTEMBRE 2026",
+      "description": "Je recherche une alternance à partir de septembre 2026 en création numérique et audiovisuel."
+    }
+  }
+}

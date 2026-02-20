@@ -1,0 +1,103 @@
+{
+  "title": "RAFAEL PIRAL",
+  "subtitle": "Graphic Designer, UX/UI Designer, Audiovisual & Communication",
+  "contact": {
+    "location": "Le Pré Saint-Gervais, Paris Area, France"
+  },
+  "sections": {
+    "profile": {
+      "title": "Profile",
+      "content": "Second-year Digital Media & Internet Studies student seeking a 10+ week internship starting April 2026 in digital creation, audiovisual production, or communication. Eager to contribute to creative and innovative projects while developing professional expertise."
+    },
+    "skills": {
+      "title": "Skills",
+      "categories": {
+        "design": {
+          "title": "Design & UX/UI",
+          "content": "Figma, Photoshop, Illustrator, InDesign, Canva"
+        },
+        "audiovisual": {
+          "title": "Audiovisual & 3D",
+          "content": "DaVinci Resolve, Premiere Pro, Blender, Photography/Audio"
+        },
+        "webdev": {
+          "title": "Web Development",
+          "content": "HTML/CSS, JavaScript, React, PHP, WordPress"
+        },
+        "soft": {
+          "title": "Soft Skills",
+          "content": "Office Suite, Social Media, Project Management, Communication"
+        }
+      }
+    },
+    "projects": {
+      "title": "Selected Projects",
+      "types": {
+        "university": "ACAD.",
+        "personal": "PERS."
+      }
+    },
+    "experience": {
+      "title": "Work Experience",
+      "items": [
+        {
+          "title": "Paris 2024 Olympics — Warehouse Associate (Proman)",
+          "date": "Summer 2024",
+          "description": "Logistics preparation for Olympic venues: Le Bourget (Climbing) and La Courneuve (Paramarathon)."
+        },
+        {
+          "title": "HBC Nantes — Front Desk Associate (Abalone)",
+          "date": "2021 - 2022",
+          "description": ""
+        }
+      ]
+    },
+    "education": {
+      "title": "Education",
+      "items": [
+        {
+          "title": "BUT Digital Media & Internet (Digital Creations) — IUT Bobigny",
+          "date": "Since 2024"
+        },
+        {
+          "title": "BUT Computer Science (1st year) — IUT Lille",
+          "date": "2022 - 2023"
+        },
+        {
+          "title": "Bachelor's in Mathematics-Computer Science — University of Nantes",
+          "date": "2021 - 2022"
+        },
+        {
+          "title": "Baccalaureate STI2D (With Honors) — Lycée Lucie Aubrac",
+          "date": "2021"
+        }
+      ]
+    }
+  },
+  "footer": {
+    "languages": {
+      "title": "Languages:",
+      "content": "French (Native), English (Intermediate), Spanish (Intermediate)"
+    },
+    "interests": {
+      "title": "Interests:",
+      "content": "Soccer, Video Games, Cinema"
+    }
+  },
+  "projectDescriptions": {
+    "1": "Film poster reproduction and reinterpretation in Photoshop. Work on textures, typography and photo treatment.",
+    "2": "Official contest poster design. Flat design vector illustration in Illustrator with original color palette.",
+    "3": "Tribute poster with 80s retro style. Halftone effects and typographic layout in Photoshop.",
+    "4": "University project: mobility app design in Figma. User journey, Design System and interactive mockups.",
+    "5": "Showcase website mockup in Figma. Logo, visual identity and layout creation.",
+    "6": "Creative project: transforming a photo into ASCII art in Photoshop using character density.",
+    "7": "Complete visual identity for a fictional NGO: logo, brand guidelines and print materials in Illustrator and InDesign.",
+    "8": "90s-style film poster. Photomontage and refined typography in Photoshop.",
+    "9": "Logo and brand guidelines for IUT de Bobigny alumni network. University project in Illustrator.",
+    "10": "Short film for Nikon Film Festival 2025 on 'Superpower' theme. Contributed to writing, filming, editing and subtitling."
+  },
+  "ui": {
+    "selectProjects": "Select projects",
+    "downloadPDF": "PDF"
+  }
+}

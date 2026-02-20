@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function About() {
+  const { t, i18n } = useTranslation(['about', 'common']);
+  const currentLang = i18n.language?.startsWith('fr') ? 'fr' : 'en';
+
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved !== null ? JSON.parse(saved) : true;
   });
 
-  
   const toggleDarkMode = () => {
     const newMode = !isDarkMode;
     setIsDarkMode(newMode);
@@ -20,8 +24,9 @@ export default function About() {
       isDarkMode ? 'bg-black text-beige' : 'bg-white text-black'
     }`}>
       <Helmet>
-        <title>À Propos - Rafael Piral | Creative Developer</title>
-        <meta name="description" content="Découvrez mon parcours, mes passions et ma vision du design et du développement web." />
+        <html lang={currentLang} />
+        <title>{t('about:meta.title')}</title>
+        <meta name="description" content={t('about:meta.description')} />
       </Helmet>
 
       {/* Header */}
@@ -31,6 +36,8 @@ export default function About() {
             <img
               src="/images/logos/RP.png"
               alt="RP"
+              width={128}
+              height={128}
               className={`w-full h-full object-contain ${isDarkMode ? 'invert' : ''}`}
             />
           </Link>
@@ -42,8 +49,10 @@ export default function About() {
                 isDarkMode ? 'text-gray-400 hover:text-beige' : 'text-gray-700 hover:text-black'
               }`}
             >
-              RETOUR
+              {t('about:header.back')}
             </Link>
+
+            <LanguageSwitcher isDarkMode={isDarkMode} />
 
             <button
               onClick={toggleDarkMode}
@@ -76,6 +85,8 @@ export default function About() {
           loop
           muted
           playsInline
+          width={1920}
+          height={1080}
           className="absolute inset-0 w-full h-full object-cover"
           style={{
             opacity: isDarkMode ? 0.15 : 0.1,
@@ -96,13 +107,13 @@ export default function About() {
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h1 className="text-[12vw] md:text-[8vw] font-light leading-none tracking-tight mb-8">
-            À Propos
+            {t('about:hero.title')}
           </h1>
 
           <p className={`text-lg md:text-2xl font-light leading-relaxed ${
             isDarkMode ? 'text-gray-300' : 'text-gray-700'
           }`}>
-            Créatif passionné par le graphisme, l'audiovisuel et la communication, j'aime donner vie aux idées à travers l'image
+            {t('about:hero.tagline')}
           </p>
         </div>
       </section>
@@ -112,57 +123,27 @@ export default function About() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-24">
           <div>
             <h2 className="text-4xl md:text-6xl font-light mb-8">
-              De l'informatique à la création numérique
+              {t('about:journey.title')}
             </h2>
             <div className="space-y-6 text-base md:text-lg font-light leading-relaxed">
-              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet,
-                je suis un créatif dans l'âme, toujours en quête de nouvelles façons
-                d'exprimer des idées à travers le design et l'image.
-              </p>
-              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Actuellement à la recherche d'un stage d'au moins 8 semaines à partir
-                d'avril 2026, je souhaite mettre mes compétences au service de projets
-                créatifs dans le domaine du graphisme, de l'audiovisuel et de la communication.
-              </p>
-              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Tout a commencé avec Photoshop. Cette première rencontre avec l'outil
-                a été une révélation : j'ai découvert qu'on pouvait créer des univers,
-                raconter des histoires, et transmettre des émotions uniquement par l'image.
-                Depuis, je ne cesse d'explorer les possibilités infinies du design graphique
-               et de l'identité visuelle.
-              </p>
-              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Illustrator et Figma ont compléter naturellement ce parcours,
-                comme un moyen supplémentaire de donner vie à mes créations et de les
-                rendre interactives. Mais c'est avant tout l'aspect visuel et créatif
-                qui guide mon travail.
-              </p>
+              {t('about:journey.paragraphs', { returnObjects: true }).map((paragraph, index) => (
+                <p key={index} className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                  {paragraph}
+                </p>
+              ))}
             </div>
           </div>
 
           <div>
             <h2 className="text-4xl md:text-6xl font-light mb-8">
-              Ce qui m'attire
+              {t('about:interests.title')}
             </h2>
             <div className="space-y-6 text-base md:text-lg font-light leading-relaxed">
-              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Je me verrais particulièrement évoluer dans trois univers qui me
-                passionnent : le graphisme, l'audiovisuel et la communication.
-              </p>
-              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                En tant que graphiste, j'aimerais travailler sur des projets
-                d'identité visuelle, de création d'affiches, de supports print
-                ou digitaux. Concevoir des visuels qui marquent les esprits et
-                racontent une histoire est ce qui me motive au quotidien.
-              </p>
-              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Le monde de l'audiovisuel m'attire également énormément. Travailler
-                sur des plateaux de tournage, que ce soit en tant qu'assistant
-                réalisateur, perchman, aide sur le plateau ou dans l'équipe technique,
-                serait une expérience enrichissante qui me permettrait de découvrir
-                les coulisses de la création audiovisuelle.
-              </p>
+              {t('about:interests.paragraphs', { returnObjects: true }).map((paragraph, index) => (
+                <p key={index} className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                  {paragraph}
+                </p>
+              ))}
             </div>
           </div>
         </div>
@@ -172,68 +153,55 @@ export default function About() {
       <section className="min-h-screen flex items-center px-4 md:px-16 py-16">
         <div className="max-w-7xl mx-auto w-full">
           <h2 className="text-4xl md:text-6xl font-light mb-16 text-center">
-            Compétences & Outils
+            {t('about:skills.title')}
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Design Graphique */}
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                Design Graphique
+                {t('about:skills.categories.design.title')}
               </h3>
               <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                <li>• Photoshop</li>
-                <li>• Illustrator</li>
-                <li>• InDesign</li>
-                <li>• Lightroom</li>
-                <li>• Affinity</li>
-                <li>• Canva</li>
-                <li>• Figma</li>
+                {t('about:skills.categories.design.items', { returnObjects: true }).map((item, index) => (
+                  <li key={index}>• {item}</li>
+                ))}
               </ul>
             </div>
 
             {/* Audiovisuel */}
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                Audiovisuel
+                {t('about:skills.categories.audiovisual.title')}
               </h3>
               <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                <li>• Da Vinci Resolve</li>
-                <li>• Premiere Pro (bases)</li>
-                <li>• After Effects</li>
-                <li>• Blender (bases)</li>
+                {t('about:skills.categories.audiovisual.items', { returnObjects: true }).map((item, index) => (
+                  <li key={index}>• {item}</li>
+                ))}
               </ul>
             </div>
 
             {/* Développement Web */}
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                Développement Web
+                {t('about:skills.categories.web.title')}
               </h3>
               <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                <li>• HTML / CSS</li>
-                <li>• JavaScript</li>
-                <li>• React</li>
-                <li>• WordPress</li>
-                <li>• PHP</li>
-                <li>• Tailwind CSS</li>
-                <li>• Git / GitHub</li>
+                {t('about:skills.categories.web.items', { returnObjects: true }).map((item, index) => (
+                  <li key={index}>• {item}</li>
+                ))}
               </ul>
             </div>
 
             {/* Soft Skills */}
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                Soft Skills
+                {t('about:skills.categories.soft.title')}
               </h3>
               <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                <li>• Sérieux</li>
-                <li>• Autonomie</li>
-                <li>• Esprit d'équipe</li>
-                <li>• Adaptabilité</li>
-                <li>• Créativité</li>
-                <li>• Attention aux détails</li>
-                <li>• Gestion de projet</li>
+                {t('about:skills.categories.soft.items', { returnObjects: true }).map((item, index) => (
+                  <li key={index}>• {item}</li>
+                ))}
               </ul>
             </div>
           </div>
@@ -242,19 +210,23 @@ export default function About() {
           <div className="mt-8 grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                Bureautique
+                {t('about:skills.categories.office.title')}
               </h3>
               <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                <li>• Suite Microsoft Office</li>
+                {t('about:skills.categories.office.items', { returnObjects: true }).map((item, index) => (
+                  <li key={index}>• {item}</li>
+                ))}
               </ul>
             </div>
 
             <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
               <h3 className="text-xl font-light mb-6">
-                Communication
+                {t('about:skills.categories.communication.title')}
               </h3>
               <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                <li>• Réseaux sociaux</li>
+                {t('about:skills.categories.communication.items', { returnObjects: true }).map((item, index) => (
+                  <li key={index}>• {item}</li>
+                ))}
               </ul>
             </div>
           </div>
@@ -265,31 +237,25 @@ export default function About() {
       <section className="min-h-screen flex items-center px-4 md:px-16 py-16">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-light mb-12">
-            Mes Inspirations
+            {t('about:inspirations.title')}
           </h2>
 
           <div className="space-y-8 text-base md:text-lg font-light leading-relaxed">
             <div>
               <h3 className="text-2xl mb-4">
-                Design & Inspiration
+                {t('about:inspirations.design.title')}
               </h3>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Je passe beaucoup de temps à explorer les tendances visuelles, à étudier
-                les travaux de designers et directeurs artistiques. Que ce soit
-                une affiche de film, un générique, une campagne publicitaire ou un clip musical,
-                chaque création marquante nourrit mon regard et enrichit mon approche créative.
+                {t('about:inspirations.design.content')}
               </p>
             </div>
 
-      
-
             <div>
               <h3 className="text-2xl mb-4">
-                Apprentissage Continu
+                {t('about:inspirations.learning.title')}
               </h3>
               <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Le design, l'audiovisuel et la communication évoluent constamment, et j'adore ça.
-                Je suis toujours en recherche de nouvelles connaissances et de nouvelles technologies.
+                {t('about:inspirations.learning.content')}
               </p>
             </div>
           </div>
@@ -300,12 +266,12 @@ export default function About() {
       <section className="min-h-[50vh] flex items-center justify-center px-4 py-16">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-5xl md:text-7xl font-light mb-8">
-            Travaillons Ensemble
+            {t('about:cta.title')}
           </h2>
           <p className={`text-lg md:text-xl font-light mb-12 ${
             isDarkMode ? 'text-gray-400' : 'text-gray-600'
           }`}>
-            Un projet en tête ? Discutons-en.
+            {t('about:cta.subtitle')}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -317,7 +283,7 @@ export default function About() {
                   : 'border-black text-black hover:bg-black hover:text-white'
               }`}
             >
-              ENVOYER UN EMAIL
+              {t('about:cta.email')}
             </a>
 
             <Link
@@ -328,7 +294,7 @@ export default function About() {
                   : 'border-gray-400 text-gray-600 hover:border-black hover:text-black'
               }`}
             >
-              VOIR MES PROJETS
+              {t('about:cta.projects')}
             </Link>
           </div>
         </div>
@@ -338,7 +304,7 @@ export default function About() {
       <footer className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} px-4 md:px-8 py-8`}>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-600'}`}>
-            © {new Date().getFullYear()} Rafael Piral. Tous droits réservés.
+            © {new Date().getFullYear()} Rafael Piral. {t('about:footer.rights')}
           </p>
 
           <div className="flex gap-6">

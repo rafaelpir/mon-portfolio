@@ -1,3 +1,5 @@
+import CVNavigation from '../components/CVNavigation';
+
 export default function LettrePanameArtCafe() {
   // Date automatique
   const today = new Date();
@@ -27,6 +29,8 @@ export default function LettrePanameArtCafe() {
           }
         }
       `}</style>
+
+      <CVNavigation />
 
       {/* --- CONTENEUR A4 --- */}
       <div

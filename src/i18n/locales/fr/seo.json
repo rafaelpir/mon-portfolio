@@ -1,0 +1,38 @@
+{
+  "home": {
+    "title": "Rafael Piral - Étudiant BUT MMI | Portfolio Design Graphique & Audiovisuel",
+    "description": "Piral Rafael - Étudiant MMI en 2ème année de BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny. Portfolio de projets en design graphique, UI/UX design et audiovisuel. Parcours Créations Numériques. Disponible pour stage avril 2026.",
+    "keywords": "Piral, Rafael Piral, étudiant MMI, BUT MMI, étudiant BUT MMI, Métiers du Multimédia et de l'Internet, IUT Bobigny, portfolio étudiant MMI, design graphique, UI/UX design, audiovisuel, créations numériques, stage MMI 2026, Piral portfolio, Rafael designer, Figma, Photoshop, Premiere Pro",
+    "ogTitle": "Rafael Piral - Étudiant BUT MMI | Portfolio Design & Audiovisuel",
+    "ogDescription": "Piral - Étudiant MMI en BUT Métiers du Multimédia et de l'Internet. Portfolio design graphique, UI/UX, audiovisuel. IUT Bobigny, parcours Créations Numériques."
+  },
+  "about": {
+    "title": "À Propos - Rafael Piral | Design Graphique & Audiovisuel",
+    "description": "Découvrez mon parcours : de l'informatique à la création numérique. Étudiant en BUT MMI à l'IUT de Bobigny, spécialisé en design graphique et audiovisuel."
+  },
+  "legal": {
+    "title": "Mentions Légales - Rafael Piral",
+    "description": "Mentions légales du site portfolio de Rafael Piral."
+  },
+  "notFound": {
+    "title": "Page non trouvée - Rafael Piral",
+    "heading": "404",
+    "subheading": "PAGE NON TROUVÉE",
+    "message": "Désolé, la page que vous recherchez n'existe pas ou a été déplacée.",
+    "redirect": "Redirection automatique dans {{seconds}} secondes"
+  },
+  "jsonLd": {
+    "jobTitle": "Étudiant BUT MMI - Designer Graphique & Audiovisuel",
+    "worksForName": "IUT de Bobigny - BUT MMI",
+    "worksForDescription": "BUT Métiers du Multimédia et de l'Internet",
+    "description": "Piral Rafael - Étudiant MMI en 2ème année de BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny. Spécialisé en design graphique, UI/UX design et audiovisuel. Parcours Créations Numériques. Disponible pour stage avril 2026.",
+    "websiteName": "Rafael Piral - Étudiant BUT MMI Portfolio",
+    "websiteDescription": "Portfolio officiel de Piral Rafael - Étudiant MMI en BUT Métiers du Multimédia et de l'Internet. Design graphique, UI/UX et audiovisuel.",
+    "breadcrumbs": {
+      "home": "Accueil",
+      "projects": "Projets",
+      "about": "À propos",
+      "contact": "Contact"
+    }
+  }
+}

@@ -2,27 +2,52 @@ import { useState } from 'react';
 import { projects } from '../data/projects';
 import CVNavigation from '../components/CVNavigation';
 
-// Descriptions courtes pour le CV (sinon la description complète est trop longue)
+// Short English descriptions for the CV
 const cvDescriptions = {
-  1: "Reproduction et réinterprétation d'une affiche de film sur Photoshop. Travail sur les textures, la typographie et le traitement photo.",
-  2: "Réalisation d'une affiche pour un concours officiel. Illustration vectorielle en Flat Design sur Illustrator avec une palette de couleurs originale.",
-  3: "Création d'une affiche hommage avec un style rétro années 80. Utilisation d'effets de halftone et mise en page typographique sur Photoshop.",
-  4: "Projet universitaire de conception d'une application de mobilité sur Figma. Parcours utilisateur, Design System et maquettes interactives.",
-  5: "Maquette d'un site web vitrine réalisée sur Figma. Création du logo, de l'identité visuelle et de la mise en page.",
-  6: "Projet créatif : transformation d'une photo en Art ASCII sur Photoshop en jouant sur la densité des caractères.",
-  7: "Création d'une identité visuelle complète pour une ONG fictive : logo, charte graphique et supports print sur Illustrator et InDesign.",
-  8: "Réalisation d'une affiche de film dans un style années 90. Photomontage et typographie travaillée sur Photoshop.",
-  9: "Création du logo et de la charte graphique pour le réseau alumni de l'IUT de Bobigny. Projet universitaire réalisé sur Illustrator.",
-  10:"Court-métrage réalisé pour le Nikon Film Festival 2025 sur le thème « Super-pouvoir ». J'ai participé à l'écriture, au tournage, au montage et au sous-titrage."
+  1: "Reproduction and reinterpretation of a film poster in Photoshop. Work on textures, typography and photo editing.",
+  2: "Poster created for an official competition. Vector illustration in Flat Design using Illustrator with an original colour palette.",
+  3: "Tribute poster with a retro 80s style. Halftone effects and typographic layout created in Photoshop.",
+  4: "University project: design of a mobility app in Figma. User journey, Design System and interactive mockups.",
+  5: "Showcase website mockup designed in Figma. Logo creation, visual identity and page layout.",
+  6: "Creative project: transforming a photo into ASCII Art in Photoshop by playing with character density.",
+  7: "Full visual identity for a fictional NGO: logo, brand guidelines and print materials in Illustrator and InDesign.",
+  8: "Film poster in a 90s style. Photo montage and refined typography in Photoshop.",
+  9: "Logo and brand guidelines for the IUT de Bobigny alumni network. University project made in Illustrator.",
+  10: "Short film made for the Nikon Film Festival 2025 on the theme 'Super-power'. I took part in writing, filming, editing and subtitling.",
+  11: "Website built on Jimdo dedicated to the Batman: The Dark Knight franchise. Exploration of cross-media adaptations and animated GIF creation."
+};
+
+// Translate French project titles to English
+const titleEN = {
+  1: "A Man Asleep — Reimagined Poster",
+  2: "Poster Competition: Saint-Paul-lès-Dax Festival 2025",
+  3: "Poster Tribute: Sade – Diamond Life",
+  4: "UX Design: Veco App",
+  5: "UI Design & Branding: Real Estate Agency",
+  6: "Statue of Liberty — From Photo to ASCII",
+  7: "À Cœur Ouvert — NGO Visual Identity",
+  8: "Gummo — Film Poster",
+  9: "Alumni Network — IUT de Bobigny",
+  10: "FLEMME — Short Film",
+  11: "Batman: The Dark Knight — Jimdo Website",
+};
+
+// Translate French categories to English
+const categoryEN = {
+  'Affiches': 'Posters',
+  'UI/UX Design': 'UI/UX Design',
+  'Photographie': 'Photography',
+  'Branding': 'Branding',
+  'Audiovisuel': 'Audiovisual',
+  'Développement web': 'Web Development',
 };
 
 // IDs des projets sélectionnés par défaut dans le CV
 const defaultSelectedIds = [8, 1, 2, 3, 4, 5, 6, 7, 10];
 
-export default function CV() {
+export default function CVEN() {
   const [selectedIds, setSelectedIds] = useState(defaultSelectedIds);
   const [showSelector, setShowSelector] = useState(false);
-  const [mode, setMode] = useState('stage'); // 'stage' ou 'alternance'
 
   const toggleProject = (id) => {
     setSelectedIds(prev =>
@@ -65,32 +90,8 @@ export default function CV() {
 
       <CVNavigation />
 
-      {/* --- SÉLECTEUR MODE + PROJETS --- */}
+      {/* --- SÉLECTEUR DE PROJETS --- */}
       <div className="no-print mx-auto mb-6" style={{ maxWidth: '21cm' }}>
-
-        {/* Toggle Stage / Alternance */}
-        <div className="flex items-center gap-3 mb-4">
-          <span className="text-sm font-bold text-gray-700">Type de candidature :</span>
-          <div className="flex rounded-full overflow-hidden border border-gray-300">
-            <button
-              onClick={() => setMode('stage')}
-              className={`px-4 py-1.5 text-sm font-medium transition-all ${
-                mode === 'stage' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              Stage
-            </button>
-            <button
-              onClick={() => setMode('alternance')}
-              className={`px-4 py-1.5 text-sm font-medium transition-all ${
-                mode === 'alternance' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              Alternance
-            </button>
-          </div>
-        </div>
-
         <button
           onClick={() => setShowSelector(!showSelector)}
           className="flex items-center gap-2 text-sm font-bold text-gray-700 hover:text-black transition-colors"
@@ -101,7 +102,7 @@ export default function CV() {
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
-          Sélectionner les projets ({selectedIds.length}/{projects.length})
+          Select projects ({selectedIds.length}/{projects.length})
         </button>
 
         {showSelector && (
@@ -123,10 +124,10 @@ export default function CV() {
                 />
                 <div className="flex-1 min-w-0">
                   <span className="text-sm font-medium text-gray-900 truncate block">
-                    {project.title}
+                    {titleEN[project.id] || project.title}
                   </span>
                   <span className="text-xs text-gray-500">
-                    {project.category} — {project.type} — {project.year}
+                    {categoryEN[project.category] || project.category} — {project.year}
                   </span>
                 </div>
               </label>
@@ -141,7 +142,6 @@ export default function CV() {
         style={{
           width: '21cm',
           height: '29.7cm',
-          // MODIFICATION ICI : Padding Haut réduit à 1cm (au lieu de 1.5cm) pour remonter le titre
           padding: '1cm 1.5cm 1.5cm 1.5cm',
           boxSizing: 'border-box'
         }}
@@ -153,7 +153,7 @@ export default function CV() {
             <div>
               <h1 className="text-3xl font-bold tracking-widest leading-none mb-1.5">RAFAEL PIRAL</h1>
               <p className="text-xs tracking-widest text-gray-600 uppercase font-medium">
-                Graphiste, Designer UX/UI, Audiovisuel & Communication
+                Graphic Designer, UX/UI Designer, Audiovisual & Communications
               </p>
             </div>
             <div className="text-right text-[11px] leading-snug text-gray-600 flex flex-col items-end">
@@ -163,7 +163,7 @@ export default function CV() {
               <a href="https://rafaelpiral.fr" target="_blank" rel="noreferrer" className="hover:underline decoration-black text-gray-900 cursor-pointer">
                 rafaelpiral.fr
               </a>
-              <p>Le Pré Saint-Gervais, Île-de-France</p>
+              <p>Le Pré Saint-Gervais, Île-de-France, France</p>
             </div>
           </div>
         </header>
@@ -171,20 +171,17 @@ export default function CV() {
         {/* --- CORPS DU CV --- */}
         <div className="flex-grow flex flex-col gap-4">
 
-          {/* 1. PROFIL */}
+          {/* 1. PROFILE */}
           <section>
-            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Profil</h2>
+            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Profile</h2>
             <p className="text-[11px] text-justify leading-relaxed text-gray-700">
-              {mode === 'stage'
-                ? "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026 dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle."
-                : "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'une alternance à partir de septembre 2026 dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle."
-              }
+              {"Second-year Bachelor's degree student in Multimedia and Internet Techniques with a major in Digital Creation (MIT), seeking a minimum 10-week internship from April 2026 in digital creation, audiovisual production and communications. Eager to contribute to creative and innovative projects while developing professional expertise."}
             </p>
           </section>
 
-          {/* 2. COMPÉTENCES */}
+          {/* 2. SKILLS */}
           <section>
-            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Compétences</h2>
+            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Skills</h2>
 
             <div className="grid grid-cols-2 gap-x-10 gap-y-3 items-start">
 
@@ -198,15 +195,15 @@ export default function CV() {
 
               {/* --- DROITE : Audiovisuel --- */}
               <div>
-                <h3 className="font-bold text-[11px] uppercase mb-1 text-gray-500">Audiovisuel & 3D</h3>
+                <h3 className="font-bold text-[11px] uppercase mb-1 text-gray-500">{"Audiovisual & 3D"}</h3>
                 <p className="text-[11px] leading-relaxed text-gray-800">
-                  DaVinci Resolve, Premiere Pro, Blender, Prise de vue/son
+                  DaVinci Resolve, Premiere Pro, Blender, Camera/Sound
                 </p>
               </div>
 
               {/* --- GAUCHE : Dev Web --- */}
               <div>
-                <h3 className="font-bold text-[11px] uppercase mb-1 text-gray-500">Développement Web</h3>
+                <h3 className="font-bold text-[11px] uppercase mb-1 text-gray-500">Web Development</h3>
                 <p className="text-[11px] leading-relaxed text-gray-800">
                   HTML / CSS, JavaScript, React, PHP, WordPress
                 </p>
@@ -214,19 +211,19 @@ export default function CV() {
 
               {/* --- DROITE : Transverses --- */}
               <div>
-                <h3 className="font-bold text-[11px] uppercase mb-1 text-gray-500">Transverses</h3>
+                <h3 className="font-bold text-[11px] uppercase mb-1 text-gray-500">Soft Skills</h3>
                 <p className="text-[11px] leading-relaxed text-gray-800">
-                  Suite Office, Réseaux Sociaux, Gestion de projet, Communication
+                  Office Suite, Social Media, Project Management, Communications
                 </p>
               </div>
 
             </div>
           </section>
 
-          {/* 3. PROJETS */}
+          {/* 3. PROJECTS */}
           <section>
             <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">
-              Mes Projets
+              Projects
             </h2>
             <div className="space-y-2.5">
               {selectedProjects.map((project) => {
@@ -246,7 +243,7 @@ export default function CV() {
 
                     <div className="flex items-baseline justify-between mb-0.5">
                       <div className="flex items-baseline gap-2">
-                        <h3 className="font-bold text-[11px] uppercase text-black">{project.title}</h3>
+                        <h3 className="font-bold text-[11px] uppercase text-black">{titleEN[project.id] || project.title}</h3>
 
                         {/* --- BADGES --- */}
                         {project.type === 'Universitaire' ? (
@@ -255,7 +252,7 @@ export default function CV() {
                           </span>
                         ) : (
                           <span className="px-1.5 py-0.5 text-[8px] font-bold tracking-wider rounded bg-orange-100 text-orange-800 border border-orange-200">
-                            PERSO.
+                            PERS.
                           </span>
                         )}
 
@@ -264,7 +261,7 @@ export default function CV() {
                     </div>
 
                     <p className="text-[10px] leading-tight text-gray-600 text-left">
-                      <span className="text-gray-400 mr-1 font-mono">[{project.category}]</span>
+                      <span className="text-gray-400 mr-1 font-mono">[{categoryEN[project.category] || project.category}]</span>
                       {descriptionSansOrphelin(desc)}
                     </p>
                   </div>
@@ -273,50 +270,50 @@ export default function CV() {
             </div>
           </section>
 
-          {/* 4. EXPÉRIENCES */}
+          {/* 4. WORK EXPERIENCE */}
           <section>
-            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Expériences Professionnelles</h2>
+            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Work Experience</h2>
             <div className="space-y-2">
               <div className="flex flex-col text-[11px]">
                 <div className="flex justify-between items-baseline">
-                  <span className="font-bold text-gray-900">JO Paris 2024 — Manutentionnaire (Proman)</span>
-                  <span className="text-[10px] text-gray-500">Été 2024</span>
+                  <span className="font-bold text-gray-900">Paris 2024 Olympics — Warehouse Operative (Proman)</span>
+                  <span className="text-[10px] text-gray-500">Summer 2024</span>
                 </div>
                 <p className="text-gray-600 text-[10px]">
-                  Préparation logistique des sites : Le Bourget (Escalade) et La Courneuve (Paramarathon).
+                  Logistics preparation for Olympic venues: Le Bourget (Climbing) and La Courneuve (Paramarathon).
                 </p>
               </div>
               <div className="flex flex-col text-[11px]">
                 <div className="flex justify-between items-baseline">
-                  <span className="font-bold text-gray-900">HBC Nantes — Agent d'accueil (Abalone)</span>
+                  <span className="font-bold text-gray-900">HBC Nantes — Front Desk Agent (Abalone)</span>
                   <span className="text-[10px] text-gray-500">2021 - 2022</span>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* 5. FORMATION */}
+          {/* 5. EDUCATION */}
           <section>
-            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Formation scolaire</h2>
+            <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Education</h2>
             <div className="space-y-2 text-[11px] text-gray-800">
 
               <div className="flex justify-between items-baseline">
-                <span className="font-bold">BUT MMI (Création Numérique) — IUT Bobigny</span>
-                <span className="text-gray-500 text-[10px]">Depuis 2024</span>
+                <span className="font-bold">{"Bachelor's in MIT (Digital Creation) — IUT Bobigny"}</span>
+                <span className="text-gray-500 text-[10px]">Since 2024</span>
               </div>
 
               <div className="flex justify-between items-baseline">
-                <span className="font-bold">BUT Informatique (1ère année) — IUT Lille</span>
+                <span className="font-bold">{"Bachelor's in Computer Science (1st year) — IUT Lille"}</span>
                 <span className="text-gray-500 text-[10px]">2022 - 2023</span>
               </div>
 
               <div className="flex justify-between items-baseline">
-                <span className="font-bold">Licence Mathématiques-Informatique — Université de Nantes</span>
+                <span className="font-bold">BSc Mathematics-Computer Science — University of Nantes</span>
                 <span className="text-gray-500 text-[10px]">2021 - 2022</span>
               </div>
 
               <div className="flex justify-between items-baseline">
-                <span className="font-bold">Baccalauréat STI2D — Lycée Lucie Aubrac</span>
+                <span className="font-bold">{"Baccalauréat STI2D — Lycée Lucie Aubrac"}</span>
                 <span className="text-gray-500 text-[10px]">2021</span>
               </div>
 
@@ -329,12 +326,12 @@ export default function CV() {
         <div className="mt-auto pt-3 border-t border-gray-300 shrink-0">
           <div className="flex justify-between text-[10px] text-gray-600">
             <div className="flex gap-4">
-              <span className="font-bold uppercase text-gray-800">Langues:</span>
-              <span>Français (Natif), Anglais (Intermédiaire), Espagnol (Intermédiaire)</span>
+              <span className="font-bold uppercase text-gray-800">Languages:</span>
+              <span>French (Native), English (Intermediate), Spanish (Intermediate)</span>
             </div>
             <div className="flex gap-4">
-              <span className="font-bold uppercase text-gray-800">Centres d'intérêts:</span>
-              <span>Football, Jeux Vidéo, Cinéma</span>
+              <span className="font-bold uppercase text-gray-800">Interests:</span>
+              <span>Football, Video Games, Cinema</span>
             </div>
           </div>
           <div className="text-center mt-1 text-gray-400 text-[9px]">
