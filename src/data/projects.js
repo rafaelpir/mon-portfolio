@@ -207,6 +207,45 @@ export const projects = [
     outils: ["Jimdo"]
   },
   {
+    id: 12,
+    title: "Atelier Affiches — Reproduction & Typographie",
+    category: "Affiches",
+    type: "Universitaire",
+    year: "2025",
+    layout: "double",
+    thumbnail: "/images/projects/poster11.webp",
+    tags: ["Photoshop", "Illustrator", "InDesign"],
+    competences: ["Reproduction graphique", "Typographie", "Conception d'affiche", "Composition visuelle", "Direction artistique"],
+    outils: ["Adobe Photoshop", "Adobe Illustrator", "Adobe InDesign"],
+    subProjects: [
+      {
+        key: "reproduction",
+        title: "Reproduction d'une affiche de musée",
+        context: "Projet universitaire — Reproduction fidèle d'affiche institutionnelle",
+        period: "2025",
+        duration: "1 semaine",
+        description: "Reproduction fidèle de l'affiche de l'exposition « Bollywood Superstars — Histoire d'un Cinéma Indien » du Musée du quai Branly - Jacques Chirac. L'objectif était de recréer à l'identique l'affiche originale sur Photoshop et Illustrator en analysant la composition, la typographie et les choix chromatiques. Un exercice technique pour maîtriser les outils et comprendre les codes du design d'affiche\u00A0institutionnelle.",
+        tags: ["Photoshop", "Illustrator"],
+        gallery: [
+          { src: "/images/projects/affichedebase.webp", description: "Affiche originale — Exposition « Bollywood Superstars » au Musée du quai Branly - Jacques Chirac." },
+          { src: "/images/projects/poster11.webp", description: "Ma reproduction de l'affiche." }
+        ]
+      },
+      {
+        key: "typographie",
+        title: "Création d'une affiche typographique",
+        context: "Projet universitaire — Affiche typographique inspirée de l'exposition",
+        period: "2025",
+        duration: "1 semaine",
+        description: "Création d'une affiche typographique originale autour de l'exposition « Bollywood Superstars — Histoire d'un Cinéma Indien » du Musée du quai Branly - Jacques Chirac. Le défi : faire vivre l'univers du cinéma indien uniquement par le jeu des caractères, des poids, des espacements et de la composition. La lettre devient image, sur Illustrator et InDesign pour une maîtrise précise de la\u00A0mise en page.",
+        tags: ["Photoshop", "Illustrator"],
+        gallery: [
+          { src: "/images/projects/poster1.webp", description: "Affiche typographique — Exposition « Bollywood Superstars » au Musée du quai Branly - Jacques Chirac." }
+        ]
+      }
+    ]
+  },
+  {
     id: 9,
     title: "Réseau Alumni — IUT de Bobigny",
     category: "UI/UX Design",
