@@ -42,7 +42,12 @@
         "Affiche revisitée du film 'Un Homme qui dort' (1974).",
         "Mockup de présentation de l'affiche revisitée 'Un Homme qui dort'."
       ],
-      "competences": ["Conception d'affiche", "Retouche photo", "Direction artistique", "Composition visuelle"]
+      "competences": [
+        "Conception d'affiche",
+        "Retouche photo",
+        "Direction artistique",
+        "Composition visuelle"
+      ]
     },
     "2": {
       "title": "Concours d'affiche : Fêtes Populaires de Saint-Paul-lès-Dax 2025",
@@ -56,7 +61,12 @@
         "Affiche originale des Fêtes Populaires de Saint-Paul-lès-Dax 2025.",
         "Mockup de présentation de l'affiche des Fêtes Populaires de Saint-Paul-lès-Dax."
       ],
-      "competences": ["Conception d'affiche", "Illustration vectorielle", "Flat design", "Direction artistique"]
+      "competences": [
+        "Conception d'affiche",
+        "Illustration vectorielle",
+        "Flat design",
+        "Direction artistique"
+      ]
     },
     "3": {
       "title": "Poster Tribute : Sade – Diamond Life",
@@ -70,7 +80,12 @@
         "Poster Tribute original de l'album Diamond Life de Sade.",
         "Mockup de présentation du poster tribute Sade – Diamond Life."
       ],
-      "competences": ["Design d'affiche", "Traitement rétro", "Typographie", "Composition visuelle"]
+      "competences": [
+        "Design d'affiche",
+        "Traitement rétro",
+        "Typographie",
+        "Composition visuelle"
+      ]
     },
     "4": {
       "title": "UX Design : Application Veco",
@@ -92,7 +107,15 @@
         "Centre d'aide et support : Accès rapide au service client et à la FAQ via le bouton d'aide, pour assister l'utilisateur en cas de problème.",
         "Profil et Paramètres : Menu de configuration permettant de gérer le compte utilisateur, les préférences de notification et l'historique des trajets."
       ],
-      "competences": ["Conception d'interfaces mobiles", "UX Design", "UI Design", "Branding", "Design System", "Travail en équipe", "Communication"]
+      "competences": [
+        "Conception d'interfaces mobiles",
+        "UX Design",
+        "UI Design",
+        "Branding",
+        "Design System",
+        "Travail en équipe",
+        "Communication"
+      ]
     },
     "5": {
       "title": "UI Design & Branding : Agence Immobilière",
@@ -107,7 +130,16 @@
         "Mockup de présentation de la page d'accueil du site Armor Immo.",
         "Mockup de présentation de la page des lots immobiliers."
       ],
-      "competences": ["Conception web", "UI/UX Design", "Branding", "SEO", "Design System", "Architecture de l'information", "Travail en équipe", "Esprit d'équipe"]
+      "competences": [
+        "Conception web",
+        "UI/UX Design",
+        "Branding",
+        "SEO",
+        "Design System",
+        "Architecture de l'information",
+        "Travail en équipe",
+        "Esprit d'équipe"
+      ]
     },
     "6": {
       "title": "Statue de la Liberté — De la photo à l'ASCII",
@@ -121,7 +153,12 @@
         "Statue de la Liberté en art ASCII : Version finale de l'expérimentation graphique transformant la photographie iconique en composition typographique pure.",
         "Mockup de présentation du projet Statue de la Liberté en ASCII."
       ],
-      "competences": ["Retouche photo", "Art ASCII", "Expérimentation visuelle", "Traitement numérique"]
+      "competences": [
+        "Retouche photo",
+        "Art ASCII",
+        "Expérimentation visuelle",
+        "Traitement numérique"
+      ]
     },
     "7": {
       "title": "À Cœur Ouvert — Identité visuelle d'une ONG",
@@ -132,7 +169,12 @@
       "duration": "8 semaines",
       "description": "À Cœur Ouvert est une ONG fictive de lutte contre les violences conjugales. J'ai créé toute l'identité visuelle sur Illustrator : le logo, la charte graphique, et j'ai aussi rédigé un article portrait sur InDesign donnant la parole à une victime. Le nom évoque un espace de parole sans jugement. Mon défi : trouver le bon équilibre entre une image rassurante et professionnelle, qui inspire confiance et bienveillance.",
       "gallery": [],
-      "competences": ["Création d'identité visuelle", "Design graphique", "Charte graphique", "Rédaction de contenu"]
+      "competences": [
+        "Création d'identité visuelle",
+        "Design graphique",
+        "Charte graphique",
+        "Rédaction de contenu"
+      ]
     },
     "8": {
       "title": "Gummo — Affiche de film",
@@ -146,7 +188,12 @@
         "Affiche originale du film Gummo (1997).",
         "Mockup de présentation de l'affiche du film Gummo."
       ],
-      "competences": ["Conception d'affiche", "Direction artistique", "Composition visuelle", "Typographie"]
+      "competences": [
+        "Conception d'affiche",
+        "Direction artistique",
+        "Composition visuelle",
+        "Typographie"
+      ]
     },
     "10": {
       "title": "FLEMME — Court-métrage",
@@ -157,7 +204,18 @@
       "duration": "En cours",
       "description": "Court-métrage de fantaisie et comédie engagée réalisé pour le Nikon Film Festival 2025 sur le thème « Super-pouvoir ». Luc, un jeune flemmard d'une vingtaine d'années, mène une vie d'inertie totale entre chômage, télé et jeux vidéo. Égoïste, paresseux et asocial, il possède pourtant un don extraordinaire : il est quasi omnipotent et peut modifier la réalité de tout ce qu'il touche.",
       "gallery": [],
-      "competences": ["Écriture de scénario", "Réalisation", "Jeu d'acteur", "Montage vidéo", "Prise de son (Perche)", "Sous-titrage anglais", "Storyboard", "Direction artistique", "Narration visuelle", "Storytelling"]
+      "competences": [
+        "Écriture de scénario",
+        "Réalisation",
+        "Jeu d'acteur",
+        "Montage vidéo",
+        "Prise de son (Perche)",
+        "Sous-titrage anglais",
+        "Storyboard",
+        "Direction artistique",
+        "Narration visuelle",
+        "Storytelling"
+      ]
     },
     "11": {
       "title": "Batman : The Dark Knight — Site web Jimdo",
@@ -168,7 +226,54 @@
       "duration": "",
       "description": "Création d'un site web sur Jimdo dédié à l'univers de Batman : The Dark Knight. Le site explore l'œuvre et ses projets transversaux — films, séries, jeux vidéo, parcs d'attractions, vêtements, goodies — pour montrer comment une franchise se décline sur différents supports et médias.",
       "gallery": [],
-      "competences": ["Création de site web", "Rédaction de contenu", "Architecture de l'information", "Analyse transmédiatique", "Veille culturelle", "Création de GIF animé"]
+      "competences": [
+        "Création de site web",
+        "Rédaction de contenu",
+        "Architecture de l'information",
+        "Analyse transmédiatique",
+        "Veille culturelle",
+        "Création de GIF animé"
+      ]
+    },
+    "12": {
+      "title": "Reproduction d'une affiche de film",
+      "category": "Affiches",
+      "type": "Personnel",
+      "context": "Projet personnel - Reproduction fidèle d'affiche existante",
+      "period": "2025",
+      "duration": "1 semaine",
+      "description": "Exercice de reproduction fidèle d'une affiche de film culte. L'objectif était de recréer à l'identique une affiche existante sur Photoshop et Illustrator en analysant la composition, la typographie et les choix chromatiques. Un défi technique pour maîtriser les outils et comprendre les codes du design d'affiche cinématographique.",
+      "gallery": [
+        "Reproduction de l'affiche originale.",
+        "Mockup de présentation de la reproduction."
+      ],
+      "competences": [
+        "Reproduction graphique",
+        "Conception d'affiche",
+        "Typographie",
+        "Composition visuelle"
+      ]
+    },
+    "13": {
+      "title": "Affiche Ricardo Kaká",
+      "category": "Affiches",
+      "type": "Personnel",
+      "context": "Projet personnel - Affiche typographique autour de Ricardo Kaká",
+      "period": "2026",
+      "duration": "1 jour",
+      "description": "Création d'une affiche graphique autour du footballeur Ricardo Kaká. Un travail typographique et chromographique où la composition visuelle et le traitement de l'image servent le sujet.",
+      "gallery": [
+        "Affiche Ricardo Kaká — Version graphique et dégradé.",
+        "Déclinaison couleurs — Version chromée.",
+        "Déclinaison noir & blanc.",
+        "Déclinaison inversée — Version contrastée."
+      ],
+      "competences": [
+        "Conception d'affiche",
+        "Typographie",
+        "Direction artistique",
+        "Composition visuelle"
+      ]
     },
     "9": {
       "title": "Réseau Alumni — IUT de Bobigny",
@@ -179,7 +284,20 @@
       "duration": "En cours",
       "description": "Projet en équipe — Mon rôle : création du logo et de la charte graphique pour la plateforme réseau alumni de l'IUT de Bobigny. Ce projet vise à connecter anciens diplômés, entreprises et personnels de l'établissement à travers une plateforme intégrant des fonctionnalités de réseau social, un CRM, un système de mise en relation recruteurs/candidats.",
       "gallery": [],
-      "competences": ["Conception d'interfaces web", "UX Design", "UI Design", "Architecture de l'information", "Design System", "Responsive Design", "Création de logo", "Charte graphique", "Identité visuelle", "Branding", "Direction artistique", "Travail en équipe"]
+      "competences": [
+        "Conception d'interfaces web",
+        "UX Design",
+        "UI Design",
+        "Architecture de l'information",
+        "Design System",
+        "Responsive Design",
+        "Création de logo",
+        "Charte graphique",
+        "Identité visuelle",
+        "Branding",
+        "Direction artistique",
+        "Travail en équipe"
+      ]
     }
   },
   "categories": {

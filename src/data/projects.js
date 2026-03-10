@@ -275,6 +275,27 @@ export const projects = [
       "Travail en équipe"
     ],
     outils: ["Figma", "Adobe Illustrator"]
+  },
+  {
+    id: 13,
+    title: "Affiche Ricardo Kaká",
+    category: "Affiches",
+    type: "Personnel",
+    year: "2026",
+    context: "Projet personnel - Affiche typographique autour de Ricardo Kaká",
+    period: "2026",
+    duration: "1 jour",
+    description: "Création d'une affiche graphique autour du footballeur Ricardo Kaká. Un travail typographique et chromographique où la composition visuelle et le traitement de l'image servent le sujet.",
+    thumbnail: "/images/projects/thumbs/kaka.webp",
+    gallery: [
+      { src: "/images/projects/rickakagra.webp", description: "Affiche Ricardo Kaká — Version graphique et dégradé." },
+      { src: "/images/projects/kakabien.webp", description: "Déclinaison couleurs — Version chromée." },
+      { src: "/images/projects/kakanb.webp", description: "Déclinaison noir & blanc." },
+      { src: "/images/projects/kakaoui.webp", description: "Déclinaison inversée — Version contrastée." }
+    ],
+    tags: ["Photoshop"],
+    competences: ["Conception d'affiche", "Typographie", "Direction artistique", "Composition visuelle"],
+    outils: ["Adobe Photoshop"]
   }
 ];
 

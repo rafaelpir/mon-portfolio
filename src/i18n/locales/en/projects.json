@@ -42,7 +42,12 @@
         "Reimagined poster for 'A Man Asleep' (1974).",
         "Mockup presentation of the reimagined 'A Man Asleep' poster."
       ],
-      "competences": ["Poster design", "Photo retouching", "Art direction", "Visual composition"]
+      "competences": [
+        "Poster design",
+        "Photo retouching",
+        "Art direction",
+        "Visual composition"
+      ]
     },
     "2": {
       "title": "Poster Contest: Saint-Paul-lès-Dax Festival 2025",
@@ -56,7 +61,12 @@
         "Original poster for Saint-Paul-lès-Dax Folk Festival 2025.",
         "Mockup presentation of the Saint-Paul-lès-Dax Folk Festival poster."
       ],
-      "competences": ["Poster design", "Vector illustration", "Flat design", "Art direction"]
+      "competences": [
+        "Poster design",
+        "Vector illustration",
+        "Flat design",
+        "Art direction"
+      ]
     },
     "3": {
       "title": "Poster Tribute: Sade – Diamond Life",
@@ -70,7 +80,12 @@
         "Original tribute poster for Sade's Diamond Life album.",
         "Mockup presentation of the Sade – Diamond Life tribute poster."
       ],
-      "competences": ["Poster design", "Retro treatment", "Typography", "Visual composition"]
+      "competences": [
+        "Poster design",
+        "Retro treatment",
+        "Typography",
+        "Visual composition"
+      ]
     },
     "4": {
       "title": "UX Design: Veco App",
@@ -92,7 +107,15 @@
         "Help center and support: Quick access to customer service and FAQ via help button for user assistance.",
         "Profile and Settings: Configuration menu for managing user account, notification preferences and trip history."
       ],
-      "competences": ["Mobile interface design", "UX Design", "UI Design", "Branding", "Design System", "Teamwork", "Communication"]
+      "competences": [
+        "Mobile interface design",
+        "UX Design",
+        "UI Design",
+        "Branding",
+        "Design System",
+        "Teamwork",
+        "Communication"
+      ]
     },
     "5": {
       "title": "UI Design & Branding: Real Estate Agency",
@@ -107,7 +130,16 @@
         "Mockup presentation of the Armor Immo homepage.",
         "Mockup presentation of the property listings page."
       ],
-      "competences": ["Web design", "UI/UX Design", "Branding", "SEO", "Design System", "Information architecture", "Teamwork", "Team spirit"]
+      "competences": [
+        "Web design",
+        "UI/UX Design",
+        "Branding",
+        "SEO",
+        "Design System",
+        "Information architecture",
+        "Teamwork",
+        "Team spirit"
+      ]
     },
     "6": {
       "title": "Statue of Liberty — From Photo to ASCII",
@@ -121,7 +153,12 @@
         "Statue of Liberty in ASCII art: Final version of the graphic experimentation transforming the iconic photograph into pure typographic composition.",
         "Mockup presentation of the Statue of Liberty ASCII project."
       ],
-      "competences": ["Photo retouching", "ASCII art", "Visual experimentation", "Digital processing"]
+      "competences": [
+        "Photo retouching",
+        "ASCII art",
+        "Visual experimentation",
+        "Digital processing"
+      ]
     },
     "7": {
       "title": "Open Heart — NGO Visual Identity",
@@ -132,7 +169,12 @@
       "duration": "8 weeks",
       "description": "Open Heart is a fictional NGO fighting against domestic violence. I created the complete visual identity in Illustrator: logo, brand guidelines, and also wrote a portrait article in InDesign giving voice to a survivor. The name evokes a judgment-free space for speaking out. My challenge: finding the right balance between a reassuring and professional image that inspires trust and kindness.",
       "gallery": [],
-      "competences": ["Visual identity creation", "Graphic design", "Brand guidelines", "Content writing"]
+      "competences": [
+        "Visual identity creation",
+        "Graphic design",
+        "Brand guidelines",
+        "Content writing"
+      ]
     },
     "8": {
       "title": "Gummo — Film Poster",
@@ -146,7 +188,12 @@
         "Original poster for the film Gummo (1997).",
         "Mockup presentation of the Gummo film poster."
       ],
-      "competences": ["Poster design", "Art direction", "Visual composition", "Typography"]
+      "competences": [
+        "Poster design",
+        "Art direction",
+        "Visual composition",
+        "Typography"
+      ]
     },
     "10": {
       "title": "FLEMME — Short Film",
@@ -157,7 +204,18 @@
       "duration": "Ongoing",
       "description": "Fantasy and engaged comedy short film created for the Nikon Film Festival 2025 on the theme 'Superpower'. Luc, a lazy twenty-something, lives a life of total inertia between unemployment, TV and video games. Selfish, lazy and antisocial, he possesses an extraordinary gift: he's nearly omnipotent and can modify the reality of anything he touches.",
       "gallery": [],
-      "competences": ["Screenwriting", "Directing", "Acting", "Video editing", "Sound recording (Boom)", "English subtitling", "Storyboard", "Art direction", "Visual storytelling", "Storytelling"]
+      "competences": [
+        "Screenwriting",
+        "Directing",
+        "Acting",
+        "Video editing",
+        "Sound recording (Boom)",
+        "English subtitling",
+        "Storyboard",
+        "Art direction",
+        "Visual storytelling",
+        "Storytelling"
+      ]
     },
     "11": {
       "title": "Batman: The Dark Knight — Jimdo Website",
@@ -168,7 +226,54 @@
       "duration": "",
       "description": "Creation of a Jimdo website dedicated to the Batman: The Dark Knight universe. The site explores the franchise and its cross-media projects — films, series, video games, theme parks, clothing, merchandise — to show how a franchise extends across different platforms and media.",
       "gallery": [],
-      "competences": ["Website creation", "Content writing", "Information architecture", "Transmedia analysis", "Cultural monitoring", "Animated GIF creation"]
+      "competences": [
+        "Website creation",
+        "Content writing",
+        "Information architecture",
+        "Transmedia analysis",
+        "Cultural monitoring",
+        "Animated GIF creation"
+      ]
+    },
+    "12": {
+      "title": "Film Poster Reproduction",
+      "category": "Posters",
+      "type": "Personal",
+      "context": "Personal project - Faithful reproduction of existing poster",
+      "period": "2025",
+      "duration": "1 week",
+      "description": "Exercise in faithfully reproducing a cult film poster. The goal was to recreate an existing poster identically in Photoshop and Illustrator by analyzing composition, typography and color choices. A technical challenge to master the tools and understand the codes of cinematic poster design.",
+      "gallery": [
+        "Reproduction of the original poster.",
+        "Mockup presentation of the reproduction."
+      ],
+      "competences": [
+        "Graphic reproduction",
+        "Poster design",
+        "Typography",
+        "Visual composition"
+      ]
+    },
+    "13": {
+      "title": "Ricardo Kaká Poster",
+      "category": "Posters",
+      "type": "Personal",
+      "context": "Personal project - Typographic poster around Ricardo Kaká",
+      "period": "2026",
+      "duration": "1 day",
+      "description": "Creation of a graphic poster around footballer Ricardo Kaká. A typographic and chromatic work where visual composition and image treatment serve the subject.",
+      "gallery": [
+        "Ricardo Kaká poster — Graphic and gradient version.",
+        "Color variation — Chrome version.",
+        "Black & white variation.",
+        "Inverted variation — High contrast version."
+      ],
+      "competences": [
+        "Poster design",
+        "Typography",
+        "Art direction",
+        "Visual composition"
+      ]
     },
     "9": {
       "title": "Alumni Network — IUT de Bobigny",
@@ -179,7 +284,20 @@
       "duration": "Ongoing",
       "description": "Team project — My role: creating the logo and brand guidelines for IUT de Bobigny's alumni network platform. This project aims to connect alumni, companies and staff through a platform integrating social network features, CRM, recruiter/candidate matching system.",
       "gallery": [],
-      "competences": ["Web interface design", "UX Design", "UI Design", "Information architecture", "Design System", "Responsive Design", "Logo creation", "Brand guidelines", "Visual identity", "Branding", "Art direction", "Teamwork"]
+      "competences": [
+        "Web interface design",
+        "UX Design",
+        "UI Design",
+        "Information architecture",
+        "Design System",
+        "Responsive Design",
+        "Logo creation",
+        "Brand guidelines",
+        "Visual identity",
+        "Branding",
+        "Art direction",
+        "Teamwork"
+      ]
     }
   },
   "categories": {
