@@ -2,10 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Police Satoshi Medium par défaut */
+/* Police Satoshi Medium par défaut, Bebas Neue pour les titres */
 @layer base {
   body {
     font-weight: 500;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Bebas Neue', sans-serif;
   }
 
   /* Optimisations de performance pour scroll fluide */

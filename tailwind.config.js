@@ -8,6 +8,7 @@ module.exports = {
         fontFamily: {
           sans: ['Satoshi', 'system-ui', 'sans-serif'],
           stamp: ['Satoshi', 'sans-serif'],
+          heading: ['Bebas Neue', 'sans-serif'],
         },
         colors: {
           beige: {

@@ -4,6 +4,7 @@ import { projects } from '../data/projects';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import ProjectDoubleDetail from './ProjectDoubleDetail';
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -59,6 +60,11 @@ export default function ProjectDetail() {
     };
   };
 
+  // Layout double : déléguer au composant dédié
+  if (project?.layout === 'double') {
+    return <ProjectDoubleDetail project={project} />;
+  }
+
   const translatedProject = project ? getProjectData(project) : null;
 
   if (!project) {
@@ -105,6 +111,10 @@ export default function ProjectDetail() {
               </svg>
               <span className="text-sm tracking-wider">{t('projects:details.back')}</span>
             </button>
+
+            <span className="text-sm tracking-widest font-light">
+              Rafael Piral
+            </span>
 
             <div className="text-sm tracking-wider opacity-50">
               {currentVisibleIndex + 1} / {visibleProjects.length}
