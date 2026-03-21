@@ -16,6 +16,7 @@ export default function LettreMotivationGraphiste() {
     { id: 'charge-de-communication', label: 'Chargé de Communication', domaine: 'la communication' },
     { id: 'assistant-communication', label: 'Assistant Communication', domaine: 'la communication' },
     { id: 'community-manager', label: 'Community Manager', domaine: 'le community management' },
+    { id: 'social-media-design', label: 'Social Media & Design Graphique', domaine: 'le social media et le design graphique' },
   ];
 
   const [selectedMetier, setSelectedMetier] = useState(metiers[0]);

@@ -161,7 +161,7 @@
       ]
     },
     "7": {
-      "title": "Open Heart — NGO Visual Identity",
+      "title": "Open Heart, NGO Visual Identity",
       "category": "Branding",
       "type": "Academic",
       "context": "SAE Project BUT2 - Visual identity creation",
@@ -174,6 +174,55 @@
         "Graphic design",
         "Brand guidelines",
         "Content writing"
+      ],
+      "parts": [
+        {
+          "title": "The Challenge",
+          "subtitle": "Giving a voice to all victims",
+          "paragraphs": [
+            "Behind every statistic, there is a person. A person seeking to be heard. That is the premise behind Open Heart: a fictional NGO dedicated to domestic violence victims, available 24/7. In a landscape dominated by established organisations like Fondation des Femmes or Elles Imaginent, the challenge was to build a strong visual identity and a 360° communication strategy capable of standing out."
+          ]
+        },
+        {
+          "title": "Strategy & 360° Communication",
+          "image": "/images/projects/afficheaco.webp",
+          "paragraphs": [
+            "Building an NGO from scratch means first understanding the environment it will operate in. Before any visual creation, I took part in developing a comprehensive strategy.",
+            "It began with a thorough competitive audit: a comparative analysis of three major NGOs — Fondation des Femmes, Elles Imaginent and Women's Aid — covering their brand guidelines, editorial lines, social media and communication strategies. A deep dive to identify the sector's codes, but also its blind spots.",
+            "From there, we defined Open Heart's positioning: an organisation that welcomes all victims with a warm, empathetic, non-judgmental tone. This editorial stance was translated into a complete framework — tone, themes, content formats, multichannel strategy — tailored to each platform: Instagram, Facebook, LinkedIn, X.",
+            "Finally, a 360° campaign was designed to bring this identity to life: awareness posters, two 30-second video spots, newsletters and social media content, all structured around a consistent publication schedule."
+          ]
+        },
+        {
+          "title": "UX/UI Design & Visual Identity",
+          "image": "/images/projects/group40.webp",
+          "imageMaxWidth": "260px",
+          "paragraphs": [
+            "A visual identity is not just about aesthetics. For an NGO like Open Heart, every design choice is a choice of welcome.",
+            "The responsive website was designed so that everyone finds their place immediately: a clear information architecture, navigation structured by user profile — victims, witnesses, professionals, donors. Desktop and mobile mockups were created in Figma, guided by a single question: can someone in distress find what they need, quickly, without effort?",
+            "The design system follows the same logic. Purple — historically associated with the fight against violence — pairs with white and soft tones to create a reassuring visual space. The logo — a stylised heart — evokes both listening and openness, without ever slipping into pathos.",
+            "Among the features designed for the most vulnerable users: an emergency button enabling instant redirection to an innocuous page — an ordinary Google search — to protect victims who might visit the site in a dangerous situation. A technical detail, but a deeply human decision.",
+            "Finally, educational content was structured to ease access to information: articles, anonymous testimonials, legal and psychological resources — designed to be found, understood, and used."
+          ]
+        },
+        {
+          "title": "Impact & Learnings",
+          "paragraphs": [
+            "This was one of the most demanding projects of my studies — not technically, but humanly. Working on a cause as sensitive as domestic violence means never losing sight of what is at stake behind every creative choice.",
+            "I came away with a broader understanding of what it means to communicate for a committed organisation: adapting tone to each channel — institutional on LinkedIn, warm and empathetic on Instagram —, designing user journeys built for a vulnerable audience, and holding together strategic rigour, documentary research and human sensitivity.",
+            "The outcome: a strong and consistent visual identity, a strategy deployed across all channels, a website built for accessibility and safety, and a full campaign including video spots, posters, social media content and newsletters."
+          ]
+        }
+      ],
+      "livrables": [
+        "Competitive audit",
+        "Editorial & brand guidelines",
+        "Responsive website (desktop + mobile)",
+        "2 × 30s ad spots",
+        "Awareness posters",
+        "Social media editorial calendar",
+        "Creative brief",
+        "Figma prototype"
       ]
     },
     "8": {

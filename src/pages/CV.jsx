@@ -22,7 +22,6 @@ const defaultSelectedIds = [8, 1, 2, 3, 4, 5, 6, 7, 10];
 export default function CV() {
   const [selectedIds, setSelectedIds] = useState(defaultSelectedIds);
   const [showSelector, setShowSelector] = useState(false);
-  const [mode, setMode] = useState('stage'); // 'stage' ou 'alternance'
 
   const toggleProject = (id) => {
     setSelectedIds(prev =>
@@ -43,6 +42,10 @@ export default function CV() {
         section {
           contain: none !important;
           min-height: unset !important;
+        }
+        /* Satoshi pour h2/h3 dans le CV (sauf h1 qui reste Bebas Neue) */
+        .cv-page h2, .cv-page h3, .cv-page h4 {
+          font-family: 'Satoshi', system-ui, sans-serif !important;
         }
         @media print {
           body {
@@ -67,29 +70,6 @@ export default function CV() {
 
       {/* --- SÉLECTEUR MODE + PROJETS --- */}
       <div className="no-print mx-auto mb-6" style={{ maxWidth: '21cm' }}>
-
-        {/* Toggle Stage / Alternance */}
-        <div className="flex items-center gap-3 mb-4">
-          <span className="text-sm font-bold text-gray-700">Type de candidature :</span>
-          <div className="flex rounded-full overflow-hidden border border-gray-300">
-            <button
-              onClick={() => setMode('stage')}
-              className={`px-4 py-1.5 text-sm font-medium transition-all ${
-                mode === 'stage' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              Stage
-            </button>
-            <button
-              onClick={() => setMode('alternance')}
-              className={`px-4 py-1.5 text-sm font-medium transition-all ${
-                mode === 'alternance' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              Alternance
-            </button>
-          </div>
-        </div>
 
         <button
           onClick={() => setShowSelector(!showSelector)}
@@ -137,7 +117,7 @@ export default function CV() {
 
       {/* --- CONTENEUR A4 --- */}
       <div
-        className="mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative print:shadow-none print:m-0 print:w-full"
+        className="cv-page mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative print:shadow-none print:m-0 print:w-full"
         style={{
           width: '21cm',
           height: '29.7cm',
@@ -154,6 +134,9 @@ export default function CV() {
               <h1 className="text-3xl font-bold tracking-widest leading-none mb-1.5">RAFAEL PIRAL</h1>
               <p className="text-xs tracking-widest text-gray-600 uppercase font-medium">
                 Graphiste, Designer UX/UI, Audiovisuel & Communication
+              </p>
+              <p className="text-[10px] tracking-wider text-gray-500 uppercase font-medium mt-0.5">
+                Recherche de stage (avril 2026, 10 sem. min.) & alternance (sept. 2026)
               </p>
             </div>
             <div className="text-right text-[11px] leading-snug text-gray-600 flex flex-col items-end">
@@ -175,10 +158,7 @@ export default function CV() {
           <section>
             <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Profil</h2>
             <p className="text-[11px] text-justify leading-relaxed text-gray-700">
-              {mode === 'stage'
-                ? "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026 dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle."
-                : "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'une alternance à partir de septembre 2026 dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle."
-              }
+              Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026 et d'une alternance à partir de septembre 2026, dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle.
             </p>
           </section>
 

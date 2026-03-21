@@ -15,6 +15,9 @@ const LettreCarjackFilms = lazy(() => import('./pages/LettreCarjackFilms'));
 const LettreRegiePlateau = lazy(() => import('./pages/LettreRegiePlateau'));
 const LettrePreparateurCommande = lazy(() => import('./pages/LettrePreparateurCommande'));
 const LettreAssistantTechniqueAV = lazy(() => import('./pages/LettreAssistantTechniqueAV'));
+const LettreAssistantSonPlateau = lazy(() => import('./pages/LettreAssistantSonPlateau'));
+const Lettre27eRegion = lazy(() => import('./pages/Lettre27eRegion'));
+const PortfolioPDF = lazy(() => import('./pages/PortfolioPDF'));
 const CoverLetterEN = lazy(() => import('./pages/CoverLetterEN'));
 const CVEN = lazy(() => import('./pages/CVEN'));
 const About = lazy(() => import('./pages/About'));
@@ -59,6 +62,9 @@ function AppContent() {
           <Route path="/lettre-regie-plateau" element={<LocalOnly><LettreRegiePlateau /></LocalOnly>} />
           <Route path="/lettre-preparateur-commande" element={<LocalOnly><LettrePreparateurCommande /></LocalOnly>} />
           <Route path="/lettre-assistant-technique-av" element={<LocalOnly><LettreAssistantTechniqueAV /></LocalOnly>} />
+          <Route path="/lettre-assistant-son-plateau" element={<LocalOnly><LettreAssistantSonPlateau /></LocalOnly>} />
+          <Route path="/lettre-27e-region" element={<LocalOnly><Lettre27eRegion /></LocalOnly>} />
+          <Route path="/portfolio-pdf" element={<LocalOnly><PortfolioPDF /></LocalOnly>} />
           <Route path="/cover-letter" element={<LocalOnly><CoverLetterEN /></LocalOnly>} />
           <Route path="/cv-en" element={<LocalOnly><CVEN /></LocalOnly>} />
           <Route path="/about" element={<About />} />

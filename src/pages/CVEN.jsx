@@ -25,7 +25,7 @@ const titleEN = {
   4: "UX Design: Veco App",
   5: "UI Design & Branding: Real Estate Agency",
   6: "Statue of Liberty — From Photo to ASCII",
-  7: "À Cœur Ouvert — NGO Visual Identity",
+  7: "À Cœur Ouvert, NGO Visual Identity",
   8: "Gummo — Film Poster",
   9: "Alumni Network — IUT de Bobigny",
   10: "FLEMME — Short Film",

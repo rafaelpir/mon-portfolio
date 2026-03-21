@@ -96,7 +96,8 @@ export default function ProjectDoubleDetail({ project }) {
     return saved !== null ? JSON.parse(saved) : true;
   });
 
-  const visibleProjects = projects.filter(p => !p.hidden);
+  const isLocalhost = window.location.hostname === 'localhost';
+  const visibleProjects = projects.filter(p => !p.hidden || isLocalhost);
   const currentVisibleIndex = visibleProjects.findIndex(p => p.id === project.id);
   const previousProject = visibleProjects[currentVisibleIndex - 1];
   const nextProject = visibleProjects[currentVisibleIndex + 1];
