@@ -107,9 +107,11 @@ export default function Home() {
   // Extraire tous les tags uniques
   const allTags = [...new Set(allProjects.flatMap(p => p.tags || []))].sort();
 
+  const isLocalhost = window.location.hostname === 'localhost';
+
   // Filtrer les projets selon la catégorie et les tags (exclure les projets cachés)
   const filteredProjects = allProjects.filter(project => {
-    if (project.hidden) return false;
+    if (project.hidden && !isLocalhost) return false;
     const categoryMatch = selectedCategory === 'Tous' || project.category === selectedCategory;
     const tagMatch = selectedTags.length === 0 || selectedTags.some(tag => (project.tags || []).includes(tag));
     return categoryMatch && tagMatch;
@@ -282,16 +284,7 @@ export default function Home() {
       }`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
-          <div className="relative w-12 h-12 md:w-20 md:h-20 flex items-center justify-center overflow-hidden">
-            <img
-              src="/images/logos/RP.png"
-              alt="RP"
-              width={80}
-              height={80}
-              fetchPriority="high"
-              className={`w-full h-full object-contain ${isDarkMode ? '' : 'invert'}`}
-            />
-          </div>
+          <div className="w-12 md:w-20" />
 
           {/* Navigation */}
           <nav className="hidden md:flex gap-8 items-center">
