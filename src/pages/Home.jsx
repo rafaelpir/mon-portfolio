@@ -1096,9 +1096,6 @@ export default function Home() {
                 {t('common:footer.legal')}
               </Link>
             </p>
-            <p>
-              {t('common:footer.madeWith')}
-            </p>
           </div>
         </div>
       </footer>
