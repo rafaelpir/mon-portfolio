@@ -260,6 +260,7 @@ export const projects = [
     thumbnail: "/images/projects/Alumni.png",
     thumbnailMaxHeight: "500px",
     thumbnailMaxWidth: "600px",
+    gallery: [],
     role: "Charte graphique & Logo",
     tags: ["Figma", "UI Design", "UX Design", "CRM", "Illustrator", "Branding", "Charte graphique"],
     competences: [
