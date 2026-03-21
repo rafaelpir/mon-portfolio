@@ -508,10 +508,17 @@ export default function ProjectDetail() {
                     )
                   ) : null;
 
-                  return (
+                  const isCarousel = part.images && part.images.length > 0;
+
+                  return isCarousel ? (
                     <div key={index} className="flex flex-col gap-8">
                       {textBlock}
                       {imageBlock}
+                    </div>
+                  ) : (
+                    <div key={index} className={`grid grid-cols-1 ${hasMedia ? 'md:grid-cols-2' : ''} gap-12 items-center`}>
+                      {hasMedia && !isImageRight ? imageBlock : textBlock}
+                      {hasMedia && (isImageRight ? imageBlock : textBlock)}
                     </div>
                   );
                 })}
