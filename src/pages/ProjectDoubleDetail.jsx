@@ -6,6 +6,7 @@ import { projects } from '../data/projects';
 
 function SubProjectGallery({ subProject, isDarkMode }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [expanded, setExpanded] = useState(false);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const gallery = subProject.gallery || [];
@@ -34,27 +35,29 @@ function SubProjectGallery({ subProject, isDarkMode }) {
           </button>
         )}
 
-        <div
-          className={`relative rounded-lg overflow-hidden flex items-center justify-center ${
-            isDarkMode ? 'bg-white/5' : 'bg-black/5'
-          }`}
-          style={{ width: '100%', maxWidth: '460px', height: '340px' }}
-          onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
-          onTouchMove={(e) => { touchEndX.current = e.touches[0].clientX; }}
-          onTouchEnd={() => {
-            const diff = touchStartX.current - touchEndX.current;
-            if (Math.abs(diff) > 50) diff > 0 ? handleNext() : handlePrev();
-            touchStartX.current = 0;
-            touchEndX.current = 0;
-          }}
-        >
-          <img
-            src={gallery[currentIndex].src}
-            alt={`${subProject.title} - Image ${currentIndex + 1}`}
-            className="max-w-full max-h-full object-contain select-none pointer-events-none"
-            loading="lazy"
-            draggable={false}
-          />
+        <div className="w-full" style={{ maxWidth: '460px' }}>
+          <div
+            className={`relative rounded-lg overflow-hidden flex items-center justify-center ${isDarkMode ? 'bg-white/5' : 'bg-black/5'}`}
+            style={expanded ? { height: 'auto' } : { height: '340px' }}
+            onClick={() => setExpanded(!expanded)}
+            onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+            onTouchMove={(e) => { touchEndX.current = e.touches[0].clientX; }}
+            onTouchEnd={() => {
+              const diff = touchStartX.current - touchEndX.current;
+              if (Math.abs(diff) > 50) diff > 0 ? handleNext() : handlePrev();
+              touchStartX.current = 0;
+              touchEndX.current = 0;
+            }}
+          >
+            <img
+              src={gallery[currentIndex].src}
+              alt={`${subProject.title} - Image ${currentIndex + 1}`}
+              className="max-w-full max-h-full object-contain select-none pointer-events-none transition-all duration-300"
+              style={{ cursor: expanded ? 'zoom-out' : 'zoom-in', maxHeight: expanded ? 'none' : '100%' }}
+              loading="lazy"
+              draggable={false}
+            />
+          </div>
         </div>
 
         {gallery.length > 1 && (
@@ -105,6 +108,7 @@ export default function ProjectDoubleDetail({ project }) {
   const [subA, subB] = project.subProjects || [];
 
   return (
+    <>
     <ReactLenis root options={{ lerp: 0.05, duration: 1.2, smoothWheel: true }}>
       <div className={`min-h-screen font-stamp ${isDarkMode ? 'bg-black text-beige' : 'bg-beige text-black'}`}>
 
@@ -183,7 +187,7 @@ export default function ProjectDoubleDetail({ project }) {
               </h1>
 
               <p className="text-lg opacity-50 max-w-2xl mb-8">
-                Deux exercices autour de l'exposition « Bollywood Superstars » du Musée du quai Branly — reproduction fidèle de l'affiche originale, puis création d'une affiche typographique sur le même thème.
+                Deux exercices autour de l'exposition « Bollywood Superstars » du Musée du quai Branly  reproduction fidèle de l'affiche originale, puis création d'une affiche typographique sur le même thème.
               </p>
 
               {/* Métadonnées communes */}
@@ -221,7 +225,7 @@ export default function ProjectDoubleDetail({ project }) {
               <div className={`flex-1 h-px ${isDarkMode ? 'bg-beige/10' : 'bg-black/10'}`} />
             </motion.div>
 
-            {/* Sous-projet A — Reproduction */}
+            {/* Sous-projet A  Reproduction */}
             {subA && (
               <motion.div
                 initial={{ y: 40, opacity: 0 }}
@@ -276,7 +280,7 @@ export default function ProjectDoubleDetail({ project }) {
               <div className={`flex-1 h-px ${isDarkMode ? 'bg-beige/10' : 'bg-black/10'}`} />
             </motion.div>
 
-            {/* Sous-projet B — Typographie */}
+            {/* Sous-projet B  Typographie */}
             {subB && (
               <motion.div
                 initial={{ y: 40, opacity: 0 }}
@@ -399,5 +403,7 @@ export default function ProjectDoubleDetail({ project }) {
         </motion.div>
       </div>
     </ReactLenis>
+
+    </>
   );
 }

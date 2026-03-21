@@ -569,7 +569,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* LightBoard en bas pleine largeur — espace réservé pour éviter CLS */}
+        {/* LightBoard en bas pleine largeur  espace réservé pour éviter CLS */}
         <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden" style={{ minHeight: '56px' }}>
           {tier !== 'none' && (
             <LightBoard

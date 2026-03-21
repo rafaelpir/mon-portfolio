@@ -89,7 +89,7 @@ export default function LightBoard({
     return { pattern: grid, cols: totalWidth };
   }, [text]);
 
-  // Animation RAF directe — zéro re-render React
+  // Animation RAF directe  zéro re-render React
   useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
@@ -116,7 +116,7 @@ export default function LightBoard({
         ctx.clearRect(0, 0, width, canvas.height);
       }
 
-      // fillRect au lieu de arc() — beaucoup moins coûteux
+      // fillRect au lieu de arc()  beaucoup moins coûteux
       for (let row = 0; row < CHAR_HEIGHT; row++) {
         for (let col = 0; col < visibleCols; col++) {
           const patternCol = (col + offset) % cols;

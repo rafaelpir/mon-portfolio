@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { projects } from '../data/projects';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { useState, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 
 function PartCarousel({ images, title, isDarkMode, imageMaxWidth, imageMaxHeight }) {
@@ -65,6 +64,7 @@ export default function ProjectDetail() {
     return saved !== null ? JSON.parse(saved) : true;
   });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageExpanded, setImageExpanded] = useState(false);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
@@ -76,6 +76,7 @@ export default function ProjectDetail() {
   const handleNextImage = () => {
     if (project.gallery) {
       setCurrentImageIndex((prev) => (prev + 1) % project.gallery.length);
+      setImageExpanded(false);
     }
   };
 
@@ -84,6 +85,7 @@ export default function ProjectDetail() {
       setCurrentImageIndex((prev) =>
         prev === 0 ? project.gallery.length - 1 : prev - 1
       );
+      setImageExpanded(false);
     }
   };
 
@@ -137,6 +139,7 @@ export default function ProjectDetail() {
   }
 
   return (
+    <>
     <ReactLenis
       root
       options={{
@@ -249,17 +252,17 @@ export default function ProjectDetail() {
                 transition={{ delay: 0.4 }}
                 className="mb-12"
               >
-                <div
-                  className="relative rounded-lg overflow-hidden bg-black/5 flex items-center justify-center"
-                  style={{ maxHeight: project.thumbnailMaxHeight || '600px' }}
-                >
-                  <img
-                    src={project.thumbnail}
-                    alt={project.title}
-                    className="object-contain"
-                    style={{ maxHeight: project.thumbnailMaxHeight || '600px', maxWidth: project.thumbnailMaxWidth || '100%' }}
-                    loading="lazy"
-                  />
+                <div className="flex items-center justify-center">
+                  <div className="w-full" style={{ maxWidth: project.thumbnailMaxWidth || '100%' }}>
+                    <img
+                      src={project.thumbnail}
+                      alt={project.title}
+                      className="w-full object-contain rounded-lg transition-all duration-300"
+                      style={{ cursor: imageExpanded ? 'zoom-out' : 'zoom-in', maxHeight: imageExpanded ? 'none' : (project.thumbnailMaxHeight || undefined) }}
+                      loading="lazy"
+                      onClick={() => setImageExpanded(!imageExpanded)}
+                    />
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -296,8 +299,9 @@ export default function ProjectDetail() {
 
                   {/* Image du carousel */}
                   <div
-                    className="relative rounded-lg overflow-hidden bg-black/5 flex-shrink-0 cursor-grab active:cursor-grabbing flex items-center justify-center"
-                    style={{ width: '500px', height: '450px' }}
+                    className="relative rounded-lg bg-black/5 flex-shrink-0 flex items-center justify-center transition-all duration-300"
+                    style={{ width: '500px', cursor: imageExpanded ? 'zoom-out' : 'zoom-in' }}
+                    onClick={() => setImageExpanded(!imageExpanded)}
                     onTouchStart={(e) => {
                       touchStartX.current = e.touches[0].clientX;
                     }}
@@ -321,7 +325,8 @@ export default function ProjectDetail() {
                     <img
                       src={project.gallery[currentImageIndex].src}
                       alt={`${project.title} - Image ${currentImageIndex + 1}`}
-                      className="max-w-full max-h-full object-contain select-none pointer-events-none"
+                      className="w-full object-contain select-none pointer-events-none transition-all duration-300 rounded-lg"
+                      style={{ maxHeight: imageExpanded ? 'none' : '450px' }}
                       loading="lazy"
                       draggable={false}
                     />
@@ -711,5 +716,7 @@ export default function ProjectDetail() {
       </div>
 
     </ReactLenis>
+
+    </>
   );
 }

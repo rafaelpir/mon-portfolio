@@ -75,7 +75,7 @@ export const projects = [
     context: "Projet SAE BUT2 - Conception d'application mobile",
     period: "Octobre - Novembre 2025",
     duration: "6 semaines",
-    description: "Projet en équipe — Mon rôle : conception visuelle sur Figma de Veco, application de location de véhicules électriques entre particuliers. Traduction des valeurs de mobilité douce et d'écologie en interface intuitive. Palette verte et naturelle pour ancrer l'univers éco-responsable. Les maquettes couvrent le parcours complet (géolocalisation, réservation, profil utilisateur) avec un design pensé pour rassurer et simplifier la prise en\u00A0main.",
+    description: "Projet en équipe  Mon rôle : conception visuelle sur Figma de Veco, application de location de véhicules électriques entre particuliers. Traduction des valeurs de mobilité douce et d'écologie en interface intuitive. Palette verte et naturelle pour ancrer l'univers éco-responsable. Les maquettes couvrent le parcours complet (géolocalisation, réservation, profil utilisateur) avec un design pensé pour rassurer et simplifier la prise en\u00A0main.",
     thumbnail: "/images/projects/veco/thumbnail.webp",
     competences: ["Conception d'interfaces mobiles", "UX Design", "UI Design", "Branding", "Design System", "Travail en équipe", "Communication"],
     outils: ["Figma"],
@@ -104,7 +104,7 @@ export const projects = [
     period: "Septembre - Novembre 2025",
     duration: "6 semaines",
     team: { name: "Edem Hamrouni", url: "https://www.edemh.com/" },
-    description: "Projet en équipe — Mon rôle : conception de l'identité visuelle et des maquettes sur Figma. Ce projet avait une contrainte intéressante : penser le design pour le SEO dès le départ. Pas juste faire joli, mais créer une structure qui plaise aussi aux moteurs de recherche. J'ai conçu toute l'identité visuelle — logo, Design System — en veillant à ce que tout reste léger et performant. Les maquettes jouent sur la hiérarchie visuelle pour guider naturellement l'utilisateur tout en facilitant\u00A0l'indexation.",
+    description: "Projet en équipe  Mon rôle : conception de l'identité visuelle et des maquettes sur Figma. Ce projet avait une contrainte intéressante : penser le design pour le SEO dès le départ. Pas juste faire joli, mais créer une structure qui plaise aussi aux moteurs de recherche. J'ai conçu toute l'identité visuelle  logo, Design System  en veillant à ce que tout reste léger et performant. Les maquettes jouent sur la hiérarchie visuelle pour guider naturellement l'utilisateur tout en facilitant\u00A0l'indexation.",
     thumbnail: "/images/projects/armorimmo.webp",
     figmaEmbed: "https://embed.figma.com/proto/IySCrSMWMDsUfz9bO51rrz/Site-Immo-Referencement?page-id=6%3A32&node-id=16-2&viewport=154%2C281%2C0.18&scaling=scale-down&content-scaling=fixed&starting-point-node-id=16%3A2&embed-host=share",
     gallery: [
@@ -118,7 +118,7 @@ export const projects = [
   },
   {
     id: 6,
-    title: "Statue de la Liberté — De la photo à l'ASCII",
+    title: "Statue de la Liberté  De la photo à l'ASCII",
     category: "Photographie",
     type: "Personnel",
     year: "2025",
@@ -144,7 +144,7 @@ export const projects = [
     context: "Projet SAE BUT2 - Création d'identité visuelle",
     period: "Novembre - Décembre 2025",
     duration: "8 semaines",
-    description: "À Cœur Ouvert est une ONG fictive de lutte contre les violences conjugales. J'ai créé toute l'identité visuelle sur Illustrator : le logo, la charte graphique, et j'ai aussi rédigé un article portrait sur InDesign donnant la parole à une victime. Le nom évoque un espace de parole sans jugement. Mon défi : trouver le bon équilibre entre une image rassurante et professionnelle, qui inspire confiance et bienveillance. L'ONG se veut inclusive — accueil universel, écoute 24h/24 — et l'identité devait refléter\u00A0ça.",
+    description: "À Cœur Ouvert est une ONG fictive de lutte contre les violences conjugales. J'ai créé toute l'identité visuelle sur Illustrator : le logo, la charte graphique, et j'ai aussi rédigé un article portrait sur InDesign donnant la parole à une victime. Le nom évoque un espace de parole sans jugement. Mon défi : trouver le bon équilibre entre une image rassurante et professionnelle, qui inspire confiance et bienveillance. L'ONG se veut inclusive  accueil universel, écoute 24h/24  et l'identité devait refléter\u00A0ça.",
     thumbnail: "/images/projects/ACoeurOuvert.svg",
     role: "Identité visuelle, Logo & Charte graphique",
     thumbnailMaxHeight: "350px",
@@ -156,7 +156,7 @@ export const projects = [
   },
   {
     id: 8,
-    title: "Gummo — Affiche de film",
+    title: "Gummo  Affiche de film",
     category: "Affiches",
     type: "Personnel",
     year: "2026",
@@ -176,15 +176,15 @@ export const projects = [
   },
   {
     id: 10,
-    title: "FLEMME — Court-métrage",
+    title: "FLEMME  Court-métrage",
     category: "Audiovisuel",
     type: "Universitaire",
     year: "2025",
     hidden: true,
-    context: "Concours Nikon Film Festival 2025 — Thème : Super-pouvoir",
+    context: "Concours Nikon Film Festival 2025  Thème : Super-pouvoir",
     period: "2025",
     duration: "En cours",
-    description: "Court-métrage de fantaisie et comédie engagée réalisé pour le Nikon Film Festival 2025 sur le thème « Super-pouvoir ». Luc, un jeune flemmard d'une vingtaine d'années, mène une vie d'inertie totale entre chômage, télé et jeux vidéo. Égoïste, paresseux et asocial, il possède pourtant un don extraordinaire : il est quasi omnipotent et peut modifier la réalité de tout ce qu'il touche — mais ne s'en sert que pour se simplifier la vie. Témoin d'une urgence cardiaque chez son voisin, il intervient à contrecœur et regrette amèrement d'avoir aidé son prochain quand tout le quartier se met à le harceler pour des faveurs futiles et égoïstes. Le film interroge : un grand pouvoir implique-t-il vraiment de grandes responsabilités, surtout quand on n'a rien\u00A0demandé\u00A0?",
+    description: "Court-métrage de fantaisie et comédie engagée réalisé pour le Nikon Film Festival 2025 sur le thème « Super-pouvoir ». Luc, un jeune flemmard d'une vingtaine d'années, mène une vie d'inertie totale entre chômage, télé et jeux vidéo. Égoïste, paresseux et asocial, il possède pourtant un don extraordinaire : il est quasi omnipotent et peut modifier la réalité de tout ce qu'il touche  mais ne s'en sert que pour se simplifier la vie. Témoin d'une urgence cardiaque chez son voisin, il intervient à contrecœur et regrette amèrement d'avoir aidé son prochain quand tout le quartier se met à le harceler pour des faveurs futiles et égoïstes. Le film interroge : un grand pouvoir implique-t-il vraiment de grandes responsabilités, surtout quand on n'a rien\u00A0demandé\u00A0?",
     thumbnail: "/images/projects/flemme.webp",
     tags: ["Court-métrage", "Écriture", "Réalisation", "Acteur", "Montage", "Perchman", "Sous-titrage"],
     competences: ["Écriture de scénario", "Réalisation", "Jeu d'acteur", "Montage vidéo", "Prise de son (Perche)", "Sous-titrage anglais", "Storyboard", "Direction artistique", "Narration visuelle", "Storytelling"],
@@ -192,13 +192,13 @@ export const projects = [
   },
   {
     id: 11,
-    title: "Batman : The Dark Knight — Site web Jimdo",
+    title: "Batman : The Dark Knight  Site web Jimdo",
     category: "Développement web",
     type: "Universitaire",
     year: "2025",
     context: "Projet universitaire - BUT MMI 1ère année",
     period: "2024 - 2025",
-    description: "Création d'un site web sur Jimdo dédié à l'univers de Batman : The Dark Knight. Le site explore l'œuvre et ses projets transversaux — films, séries, jeux vidéo, parcs d'attractions, vêtements, goodies — pour montrer comment une franchise se décline sur différents supports et médias. Réalisation d'un GIF animé intégré en page\u00A0d'accueil.",
+    description: "Création d'un site web sur Jimdo dédié à l'univers de Batman : The Dark Knight. Le site explore l'œuvre et ses projets transversaux  films, séries, jeux vidéo, parcs d'attractions, vêtements, goodies  pour montrer comment une franchise se décline sur différents supports et médias. Réalisation d'un GIF animé intégré en page\u00A0d'accueil.",
     thumbnail: "/images/projects/batman-dark-knight.png",
     gallery: [
       { src: "/images/projects/batman-dark-knight.png", description: "Page d'accueil du site Batman : The Dark Knight sur Jimdo." }
@@ -210,7 +210,7 @@ export const projects = [
   },
   {
     id: 12,
-    title: "Atelier Affiches — Reproduction & Typographie",
+    title: "Atelier Affiches  Reproduction & Typographie",
     category: "Affiches",
     type: "Universitaire",
     year: "2025",
@@ -223,44 +223,43 @@ export const projects = [
       {
         key: "reproduction",
         title: "Reproduction d'une affiche de musée",
-        context: "Projet universitaire — Reproduction fidèle d'affiche institutionnelle",
+        context: "Projet universitaire  Reproduction fidèle d'affiche institutionnelle",
         period: "2025",
         duration: "1 semaine",
-        description: "Reproduction fidèle de l'affiche de l'exposition « Bollywood Superstars — Histoire d'un Cinéma Indien » du Musée du quai Branly - Jacques Chirac. L'objectif était de recréer à l'identique l'affiche originale sur Photoshop et Illustrator en analysant la composition, la typographie et les choix chromatiques. Un exercice technique pour maîtriser les outils et comprendre les codes du design d'affiche\u00A0institutionnelle.",
+        description: "Reproduction fidèle de l'affiche de l'exposition « Bollywood Superstars  Histoire d'un Cinéma Indien » du Musée du quai Branly - Jacques Chirac. L'objectif était de recréer à l'identique l'affiche originale sur Photoshop et Illustrator en analysant la composition, la typographie et les choix chromatiques. Un exercice technique pour maîtriser les outils et comprendre les codes du design d'affiche\u00A0institutionnelle.",
         tags: ["Photoshop", "Illustrator"],
         gallery: [
-          { src: "/images/projects/affichedebase.webp", description: "Affiche originale — Exposition « Bollywood Superstars » au Musée du quai Branly - Jacques Chirac." },
+          { src: "/images/projects/affichedebase.webp", description: "Affiche originale  Exposition « Bollywood Superstars » au Musée du quai Branly - Jacques Chirac." },
           { src: "/images/projects/poster11.webp", description: "Ma reproduction de l'affiche." }
         ]
       },
       {
         key: "typographie",
         title: "Création d'une affiche typographique",
-        context: "Projet universitaire — Affiche typographique inspirée de l'exposition",
+        context: "Projet universitaire  Affiche typographique inspirée de l'exposition",
         period: "2025",
         duration: "1 semaine",
-        description: "Création d'une affiche typographique originale autour de l'exposition « Bollywood Superstars — Histoire d'un Cinéma Indien » du Musée du quai Branly - Jacques Chirac. Le défi : faire vivre l'univers du cinéma indien uniquement par le jeu des caractères, des poids, des espacements et de la composition. La lettre devient image, sur Illustrator et InDesign pour une maîtrise précise de la\u00A0mise en page.",
+        description: "Création d'une affiche typographique originale autour de l'exposition « Bollywood Superstars  Histoire d'un Cinéma Indien » du Musée du quai Branly - Jacques Chirac. Le défi : faire vivre l'univers du cinéma indien uniquement par le jeu des caractères, des poids, des espacements et de la composition. La lettre devient image, sur Illustrator et InDesign pour une maîtrise précise de la\u00A0mise en page.",
         tags: ["Photoshop", "Illustrator"],
         gallery: [
-          { src: "/images/projects/poster1.webp", description: "Affiche typographique — Exposition « Bollywood Superstars » au Musée du quai Branly - Jacques Chirac." }
+          { src: "/images/projects/poster1.webp", description: "Affiche typographique  Exposition « Bollywood Superstars » au Musée du quai Branly - Jacques Chirac." }
         ]
       }
     ]
   },
   {
     id: 9,
-    title: "Réseau Alumni — IUT de Bobigny",
+    title: "Réseau Alumni  IUT de Bobigny",
     category: "UI/UX Design",
     type: "Universitaire",
     year: "2026",
-    context: "Projet SAE — Conception d'une plateforme réseau alumni",
+    context: "Projet SAE  Conception d'une plateforme réseau alumni",
     period: "Septembre - Décembre 2025",
     duration: "En cours",
-    description: "Un réseau alumni, c'est bien plus qu'un simple annuaire : c'est un outil stratégique qui engage une communauté sur le long terme. L'enjeu principal était de concevoir une plateforme capable de connecter anciens diplômés, entreprises et personnels de l'IUT de Bobigny, tout en restant accessible, intuitive et cohérente avec l'image d'un établissement public. Le projet intègre un CRM pour gérer les relations avec les membres, un système de mise en relation recruteurs/candidats, une CVthèque et un annuaire géolocalisé — autant de fonctionnalités qui imposaient une architecture de l'information rigoureuse et des choix UX/UI pensés pour des profils très différents. Mon rôle : concevoir l'identité visuelle complète — logo, palette, typographies, charte graphique — puis traduire cette identité en maquettes Figma, en assurant la cohérence entre le branding et l'expérience\u00A0utilisateur.",
+    description: "Un réseau alumni, c'est bien plus qu'un annuaire : c'est un outil stratégique qui engage une communauté sur le long terme. L'enjeu était de concevoir une plateforme capable de connecter anciens diplômés, entreprises et personnels de l'IUT de Bobigny, tout en restant intuitive et cohérente avec l'image d'un établissement public.",
     thumbnail: "/images/projects/Alumni.png",
     thumbnailMaxHeight: "500px",
     thumbnailMaxWidth: "600px",
-    gallery: [],
     role: "Charte graphique & Logo",
     tags: ["Figma", "UI Design", "UX Design", "CRM", "Illustrator", "Branding", "Charte graphique"],
     competences: [
@@ -293,10 +292,10 @@ export const projects = [
     description: "Création d'une affiche graphique autour du footballeur Ricardo Kaká. Un travail typographique et chromographique où la composition visuelle et le traitement de l'image servent le sujet.",
     thumbnail: "/images/projects/thumbs/kaka.webp",
     gallery: [
-      { src: "/images/projects/rickakagra.webp", description: "Affiche Ricardo Kaká — Version graphique et dégradé." },
-      { src: "/images/projects/kakabien.webp", description: "Déclinaison couleurs — Version chromée." },
+      { src: "/images/projects/rickakagra.webp", description: "Affiche Ricardo Kaká  Version graphique et dégradé." },
+      { src: "/images/projects/kakabien.webp", description: "Déclinaison couleurs  Version chromée." },
       { src: "/images/projects/kakanb.webp", description: "Déclinaison noir & blanc." },
-      { src: "/images/projects/kakaoui.webp", description: "Déclinaison inversée — Version contrastée." }
+      { src: "/images/projects/kakaoui.webp", description: "Déclinaison inversée  Version contrastée." }
     ],
     tags: ["Photoshop"],
     competences: ["Conception d'affiche", "Typographie", "Direction artistique", "Composition visuelle"],

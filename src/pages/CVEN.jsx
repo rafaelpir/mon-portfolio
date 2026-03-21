@@ -19,17 +19,17 @@ const cvDescriptions = {
 
 // Translate French project titles to English
 const titleEN = {
-  1: "A Man Asleep — Reimagined Poster",
+  1: "A Man Asleep  Reimagined Poster",
   2: "Poster Competition: Saint-Paul-lès-Dax Festival 2025",
   3: "Poster Tribute: Sade – Diamond Life",
   4: "UX Design: Veco App",
   5: "UI Design & Branding: Real Estate Agency",
-  6: "Statue of Liberty — From Photo to ASCII",
+  6: "Statue of Liberty  From Photo to ASCII",
   7: "À Cœur Ouvert, NGO Visual Identity",
-  8: "Gummo — Film Poster",
-  9: "Alumni Network — IUT de Bobigny",
-  10: "FLEMME — Short Film",
-  11: "Batman: The Dark Knight — Jimdo Website",
+  8: "Gummo  Film Poster",
+  9: "Alumni Network  IUT de Bobigny",
+  10: "FLEMME  Short Film",
+  11: "Batman: The Dark Knight  Jimdo Website",
 };
 
 // Translate French categories to English
@@ -127,7 +127,7 @@ export default function CVEN() {
                     {titleEN[project.id] || project.title}
                   </span>
                   <span className="text-xs text-gray-500">
-                    {categoryEN[project.category] || project.category} — {project.year}
+                    {categoryEN[project.category] || project.category}  {project.year}
                   </span>
                 </div>
               </label>
@@ -276,7 +276,7 @@ export default function CVEN() {
             <div className="space-y-2">
               <div className="flex flex-col text-[11px]">
                 <div className="flex justify-between items-baseline">
-                  <span className="font-bold text-gray-900">Paris 2024 Olympics — Warehouse Operative (Proman)</span>
+                  <span className="font-bold text-gray-900">Paris 2024 Olympics  Warehouse Operative (Proman)</span>
                   <span className="text-[10px] text-gray-500">Summer 2024</span>
                 </div>
                 <p className="text-gray-600 text-[10px]">
@@ -285,7 +285,7 @@ export default function CVEN() {
               </div>
               <div className="flex flex-col text-[11px]">
                 <div className="flex justify-between items-baseline">
-                  <span className="font-bold text-gray-900">HBC Nantes — Front Desk Agent (Abalone)</span>
+                  <span className="font-bold text-gray-900">HBC Nantes  Front Desk Agent (Abalone)</span>
                   <span className="text-[10px] text-gray-500">2021 - 2022</span>
                 </div>
               </div>
@@ -298,22 +298,22 @@ export default function CVEN() {
             <div className="space-y-2 text-[11px] text-gray-800">
 
               <div className="flex justify-between items-baseline">
-                <span className="font-bold">{"Bachelor's in MIT (Digital Creation) — IUT Bobigny"}</span>
+                <span className="font-bold">{"Bachelor's in MIT (Digital Creation)  IUT Bobigny"}</span>
                 <span className="text-gray-500 text-[10px]">Since 2024</span>
               </div>
 
               <div className="flex justify-between items-baseline">
-                <span className="font-bold">{"Bachelor's in Computer Science (1st year) — IUT Lille"}</span>
+                <span className="font-bold">{"Bachelor's in Computer Science (1st year)  IUT Lille"}</span>
                 <span className="text-gray-500 text-[10px]">2022 - 2023</span>
               </div>
 
               <div className="flex justify-between items-baseline">
-                <span className="font-bold">BSc Mathematics-Computer Science — University of Nantes</span>
+                <span className="font-bold">BSc Mathematics-Computer Science  University of Nantes</span>
                 <span className="text-gray-500 text-[10px]">2021 - 2022</span>
               </div>
 
               <div className="flex justify-between items-baseline">
-                <span className="font-bold">{"Baccalauréat STI2D — Lycée Lucie Aubrac"}</span>
+                <span className="font-bold">{"Baccalauréat STI2D  Lycée Lucie Aubrac"}</span>
                 <span className="text-gray-500 text-[10px]">2021</span>
               </div>
 

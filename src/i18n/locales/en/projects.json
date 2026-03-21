@@ -94,7 +94,7 @@
       "context": "SAE Project BUT2 - Mobile app design",
       "period": "October - November 2025",
       "duration": "6 weeks",
-      "description": "Team project — My role: visual design in Figma for Veco, a peer-to-peer electric vehicle rental app. Translated soft mobility and ecology values into an intuitive interface. Green and natural color palette to anchor the eco-friendly universe. Mockups cover the complete journey (geolocation, booking, user profile) with design focused on reassurance and ease of use.",
+      "description": "Team project  My role: visual design in Figma for Veco, a peer-to-peer electric vehicle rental app. Translated soft mobility and ecology values into an intuitive interface. Green and natural color palette to anchor the eco-friendly universe. Mockups cover the complete journey (geolocation, booking, user profile) with design focused on reassurance and ease of use.",
       "gallery": [
         "Veco app presentation: Overview of the visual identity and design system for the electric mobility app.",
         "Welcome and registration screen: Clean login and registration interface showcasing the app's visual identity from launch.",
@@ -124,7 +124,7 @@
       "context": "University project - BUT MMI 2nd year",
       "period": "September - November 2025",
       "duration": "6 weeks",
-      "description": "Team project — My role: visual identity and mockup design in Figma. This project had an interesting constraint: thinking about SEO from the design phase. Not just making it pretty, but creating a structure that search engines would also appreciate. I designed the complete visual identity — logo, Design System — ensuring everything remained lightweight and performant. The mockups leverage visual hierarchy to naturally guide users while facilitating indexing.",
+      "description": "Team project  My role: visual identity and mockup design in Figma. This project had an interesting constraint: thinking about SEO from the design phase. Not just making it pretty, but creating a structure that search engines would also appreciate. I designed the complete visual identity  logo, Design System  ensuring everything remained lightweight and performant. The mockups leverage visual hierarchy to naturally guide users while facilitating indexing.",
       "gallery": [
         "Visual identity and Design System for Armor Immo real estate agency.",
         "Mockup presentation of the Armor Immo homepage.",
@@ -142,7 +142,7 @@
       ]
     },
     "6": {
-      "title": "Statue of Liberty — From Photo to ASCII",
+      "title": "Statue of Liberty  From Photo to ASCII",
       "category": "Photography",
       "type": "Personal",
       "context": "Personal project - Graphic experimentation",
@@ -188,8 +188,8 @@
           "image": "/images/projects/afficheaco.webp",
           "paragraphs": [
             "Building an NGO from scratch means first understanding the environment it will operate in. Before any visual creation, I took part in developing a comprehensive strategy.",
-            "It began with a thorough competitive audit: a comparative analysis of three major NGOs — Fondation des Femmes, Elles Imaginent and Women's Aid — covering their brand guidelines, editorial lines, social media and communication strategies. A deep dive to identify the sector's codes, but also its blind spots.",
-            "From there, we defined Open Heart's positioning: an organisation that welcomes all victims with a warm, empathetic, non-judgmental tone. This editorial stance was translated into a complete framework — tone, themes, content formats, multichannel strategy — tailored to each platform: Instagram, Facebook, LinkedIn, X.",
+            "It began with a thorough competitive audit: a comparative analysis of three major NGOs  Fondation des Femmes, Elles Imaginent and Women's Aid  covering their brand guidelines, editorial lines, social media and communication strategies. A deep dive to identify the sector's codes, but also its blind spots.",
+            "From there, we defined Open Heart's positioning: an organisation that welcomes all victims with a warm, empathetic, non-judgmental tone. This editorial stance was translated into a complete framework  tone, themes, content formats, multichannel strategy  tailored to each platform: Instagram, Facebook, LinkedIn, X.",
             "Finally, a 360° campaign was designed to bring this identity to life: awareness posters, two 30-second video spots, newsletters and social media content, all structured around a consistent publication schedule."
           ]
         },
@@ -199,17 +199,17 @@
           "imageMaxWidth": "260px",
           "paragraphs": [
             "A visual identity is not just about aesthetics. For an NGO like Open Heart, every design choice is a choice of welcome.",
-            "The responsive website was designed so that everyone finds their place immediately: a clear information architecture, navigation structured by user profile — victims, witnesses, professionals, donors. Desktop and mobile mockups were created in Figma, guided by a single question: can someone in distress find what they need, quickly, without effort?",
-            "The design system follows the same logic. Purple — historically associated with the fight against violence — pairs with white and soft tones to create a reassuring visual space. The logo — a stylised heart — evokes both listening and openness, without ever slipping into pathos.",
-            "Among the features designed for the most vulnerable users: an emergency button enabling instant redirection to an innocuous page — an ordinary Google search — to protect victims who might visit the site in a dangerous situation. A technical detail, but a deeply human decision.",
-            "Finally, educational content was structured to ease access to information: articles, anonymous testimonials, legal and psychological resources — designed to be found, understood, and used."
+            "The responsive website was designed so that everyone finds their place immediately: a clear information architecture, navigation structured by user profile  victims, witnesses, professionals, donors. Desktop and mobile mockups were created in Figma, guided by a single question: can someone in distress find what they need, quickly, without effort?",
+            "The design system follows the same logic. Purple  historically associated with the fight against violence  pairs with white and soft tones to create a reassuring visual space. The logo  a stylised heart  evokes both listening and openness, without ever slipping into pathos.",
+            "Among the features designed for the most vulnerable users: an emergency button enabling instant redirection to an innocuous page  an ordinary Google search  to protect victims who might visit the site in a dangerous situation. A technical detail, but a deeply human decision.",
+            "Finally, educational content was structured to ease access to information: articles, anonymous testimonials, legal and psychological resources  designed to be found, understood, and used."
           ]
         },
         {
           "title": "Impact & Learnings",
           "paragraphs": [
-            "This was one of the most demanding projects of my studies — not technically, but humanly. Working on a cause as sensitive as domestic violence means never losing sight of what is at stake behind every creative choice.",
-            "I came away with a broader understanding of what it means to communicate for a committed organisation: adapting tone to each channel — institutional on LinkedIn, warm and empathetic on Instagram —, designing user journeys built for a vulnerable audience, and holding together strategic rigour, documentary research and human sensitivity.",
+            "This was one of the most demanding projects of my studies  not technically, but humanly. Working on a cause as sensitive as domestic violence means never losing sight of what is at stake behind every creative choice.",
+            "I came away with a broader understanding of what it means to communicate for a committed organisation: adapting tone to each channel  institutional on LinkedIn, warm and empathetic on Instagram , designing user journeys built for a vulnerable audience, and holding together strategic rigour, documentary research and human sensitivity.",
             "The outcome: a strong and consistent visual identity, a strategy deployed across all channels, a website built for accessibility and safety, and a full campaign including video spots, posters, social media content and newsletters."
           ]
         }
@@ -226,7 +226,7 @@
       ]
     },
     "8": {
-      "title": "Gummo — Film Poster",
+      "title": "Gummo  Film Poster",
       "category": "Posters",
       "type": "Personal",
       "context": "Personal project - Film poster creation",
@@ -245,10 +245,10 @@
       ]
     },
     "10": {
-      "title": "FLEMME — Short Film",
+      "title": "FLEMME  Short Film",
       "category": "Audiovisual",
       "type": "Academic",
-      "context": "Nikon Film Festival 2025 Contest — Theme: Superpower",
+      "context": "Nikon Film Festival 2025 Contest  Theme: Superpower",
       "period": "2025",
       "duration": "Ongoing",
       "description": "Fantasy and engaged comedy short film created for the Nikon Film Festival 2025 on the theme 'Superpower'. Luc, a lazy twenty-something, lives a life of total inertia between unemployment, TV and video games. Selfish, lazy and antisocial, he possesses an extraordinary gift: he's nearly omnipotent and can modify the reality of anything he touches.",
@@ -267,13 +267,13 @@
       ]
     },
     "11": {
-      "title": "Batman: The Dark Knight — Jimdo Website",
+      "title": "Batman: The Dark Knight  Jimdo Website",
       "category": "Web Development",
       "type": "Academic",
       "context": "University project - BUT MMI 1st year",
       "period": "2024 - 2025",
       "duration": "",
-      "description": "Creation of a Jimdo website dedicated to the Batman: The Dark Knight universe. The site explores the franchise and its cross-media projects — films, series, video games, theme parks, clothing, merchandise — to show how a franchise extends across different platforms and media.",
+      "description": "Creation of a Jimdo website dedicated to the Batman: The Dark Knight universe. The site explores the franchise and its cross-media projects  films, series, video games, theme parks, clothing, merchandise  to show how a franchise extends across different platforms and media.",
       "gallery": [],
       "competences": [
         "Website creation",
@@ -312,10 +312,10 @@
       "duration": "1 day",
       "description": "Creation of a graphic poster around footballer Ricardo Kaká. A typographic and chromatic work where visual composition and image treatment serve the subject.",
       "gallery": [
-        "Ricardo Kaká poster — Graphic and gradient version.",
-        "Color variation — Chrome version.",
+        "Ricardo Kaká poster  Graphic and gradient version.",
+        "Color variation  Chrome version.",
         "Black & white variation.",
-        "Inverted variation — High contrast version."
+        "Inverted variation  High contrast version."
       ],
       "competences": [
         "Poster design",
@@ -325,13 +325,13 @@
       ]
     },
     "9": {
-      "title": "Alumni Network — IUT de Bobigny",
+      "title": "Alumni Network  IUT de Bobigny",
       "category": "UI/UX Design",
       "type": "Academic",
-      "context": "SAE Project — Alumni network platform design",
+      "context": "SAE Project  Alumni network platform design",
       "period": "September - December 2025",
       "duration": "Ongoing",
-      "description": "Team project — My role: creating the logo and brand guidelines for IUT de Bobigny's alumni network platform. This project aims to connect alumni, companies and staff through a platform integrating social network features, CRM, recruiter/candidate matching system.",
+      "description": "Team project  My role: creating the logo and brand guidelines for IUT de Bobigny's alumni network platform. This project aims to connect alumni, companies and staff through a platform integrating social network features, CRM, recruiter/candidate matching system.",
       "gallery": [],
       "competences": [
         "Web interface design",

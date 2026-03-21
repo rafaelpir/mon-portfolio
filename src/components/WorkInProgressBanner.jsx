@@ -67,7 +67,7 @@ export default function WorkInProgressBanner({ isDarkMode }) {
                   Portfolio en cours de développement
                 </span>
                 <span className="text-xs opacity-70 hidden sm:inline">
-                  — Certaines fonctionnalités sont encore en amélioration
+                   Certaines fonctionnalités sont encore en amélioration
                 </span>
               </div>
             </div>

@@ -168,7 +168,7 @@ export default function CoverLetterEN() {
         <div className="mb-8 pb-4 border-b border-gray-200">
           <p className="text-[12px]">
             <span className="font-bold text-gray-800">Subject:</span>
-            <span className="text-gray-700 ml-2">Application for a {selectedJob.label.toLowerCase()} internship (minimum 10 weeks — April 2026)</span>
+            <span className="text-gray-700 ml-2">Application for a {selectedJob.label.toLowerCase()} internship (minimum 10 weeks  April 2026)</span>
           </p>
         </div>
 
@@ -226,7 +226,7 @@ export default function CoverLetterEN() {
         {/* --- FOOTER --- */}
         <div className="mt-auto pt-6 border-t border-gray-200">
           <div className="flex justify-between items-center text-[10px] text-gray-400">
-            <span>Rafael Piral — {selectedJob.label} Internship Application</span>
+            <span>Rafael Piral  {selectedJob.label} Internship Application</span>
             <a href="https://rafaelpiral.fr" target="_blank" rel="noreferrer" className="hover:underline cursor-pointer hover:text-gray-600">
               rafaelpiral.fr
             </a>

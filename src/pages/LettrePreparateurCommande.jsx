@@ -158,7 +158,7 @@ export default function LettrePreparateurCommande() {
         {/* --- FOOTER --- */}
         <div className="mt-auto pt-6 border-t border-gray-200">
           <div className="flex justify-between items-center text-[10px] text-gray-400">
-            <span>Rafael Piral — Candidature Préparateur de Commande</span>
+            <span>Rafael Piral  Candidature Préparateur de Commande</span>
             <a href="https://rafaelpiral.fr" target="_blank" rel="noreferrer" className="hover:underline cursor-pointer hover:text-gray-600">
               rafaelpiral.fr
             </a>

@@ -106,7 +106,7 @@ export default function CV() {
                     {project.title}
                   </span>
                   <span className="text-xs text-gray-500">
-                    {project.category} — {project.type} — {project.year}
+                    {project.category}  {project.type}  {project.year}
                   </span>
                 </div>
               </label>
@@ -259,7 +259,7 @@ export default function CV() {
             <div className="space-y-2">
               <div className="flex flex-col text-[11px]">
                 <div className="flex justify-between items-baseline">
-                  <span className="font-bold text-gray-900">JO Paris 2024 — Manutentionnaire (Proman)</span>
+                  <span className="font-bold text-gray-900">JO Paris 2024  Manutentionnaire (Proman)</span>
                   <span className="text-[10px] text-gray-500">Été 2024</span>
                 </div>
                 <p className="text-gray-600 text-[10px]">
@@ -268,7 +268,7 @@ export default function CV() {
               </div>
               <div className="flex flex-col text-[11px]">
                 <div className="flex justify-between items-baseline">
-                  <span className="font-bold text-gray-900">HBC Nantes — Agent d'accueil (Abalone)</span>
+                  <span className="font-bold text-gray-900">HBC Nantes  Agent d'accueil (Abalone)</span>
                   <span className="text-[10px] text-gray-500">2021 - 2022</span>
                 </div>
               </div>
@@ -281,22 +281,22 @@ export default function CV() {
             <div className="space-y-2 text-[11px] text-gray-800">
 
               <div className="flex justify-between items-baseline">
-                <span className="font-bold">BUT MMI (Création Numérique) — IUT Bobigny</span>
+                <span className="font-bold">BUT MMI (Création Numérique)  IUT Bobigny</span>
                 <span className="text-gray-500 text-[10px]">Depuis 2024</span>
               </div>
 
               <div className="flex justify-between items-baseline">
-                <span className="font-bold">BUT Informatique (1ère année) — IUT Lille</span>
+                <span className="font-bold">BUT Informatique (1ère année)  IUT Lille</span>
                 <span className="text-gray-500 text-[10px]">2022 - 2023</span>
               </div>
 
               <div className="flex justify-between items-baseline">
-                <span className="font-bold">Licence Mathématiques-Informatique — Université de Nantes</span>
+                <span className="font-bold">Licence Mathématiques-Informatique  Université de Nantes</span>
                 <span className="text-gray-500 text-[10px]">2021 - 2022</span>
               </div>
 
               <div className="flex justify-between items-baseline">
-                <span className="font-bold">Baccalauréat STI2D — Lycée Lucie Aubrac</span>
+                <span className="font-bold">Baccalauréat STI2D  Lycée Lucie Aubrac</span>
                 <span className="text-gray-500 text-[10px]">2021</span>
               </div>
 
