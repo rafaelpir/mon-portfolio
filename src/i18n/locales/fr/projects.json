@@ -161,7 +161,7 @@
       ]
     },
     "7": {
-      "title": "À Cœur Ouvert — Identité visuelle d'une ONG",
+      "title": "À Cœur Ouvert, Identité visuelle d'une ONG",
       "category": "Branding",
       "type": "Universitaire",
       "context": "Projet SAE BUT2 - Création d'identité visuelle",
@@ -174,6 +174,55 @@
         "Design graphique",
         "Charte graphique",
         "Rédaction de contenu"
+      ],
+      "parts": [
+        {
+          "title": "Le Défi",
+          "subtitle": "Donner une voix à toutes les victimes",
+          "paragraphs": [
+            "Derrière chaque statistique, il y a une personne. Une personne qui cherche à être entendue. C'est à partir de ce constat qu'est née À Cœur Ouvert : une ONG fictive dédiée aux victimes de violences conjugales, disponible 24h/24 et 7j/7. Dans un paysage associatif dominé par des organisations établies comme la Fondation des Femmes ou Elles Imaginent, le défi était de construire une identité visuelle forte et une communication à 360° capable de se démarquer."
+          ]
+        },
+        {
+          "title": "Stratégie & Communication 360°",
+          "image": "/images/projects/afficheaco.webp",
+          "paragraphs": [
+            "Construire une ONG de zéro, c'est d'abord comprendre l'environnement dans lequel elle va exister. Avant toute création visuelle, j'ai participé à l'élaboration d'une stratégie complète.",
+            "Cela a commencé par un audit concurrentiel approfondi : analyse comparative de trois ONG majeures (la Fondation des Femmes, Elles Imaginent et Women's Aid) sur leurs chartes graphiques, leurs lignes éditoriales, leurs réseaux sociaux et leurs stratégies de communication. Un travail de fond pour identifier les codes du secteur, mais aussi ses angles morts.",
+            "À partir de là, nous avons défini le positionnement d'À Cœur Ouvert : une organisation qui accueille toutes les victimes avec un ton bienveillant, empathique, sans jugement. Ce parti pris éditorial s'est traduit dans une charte complète (ton, thématiques, formats, stratégie multicanale) adaptée à chaque plateforme : Instagram, Facebook, LinkedIn, X.",
+            "Enfin, une campagne 360° a été conçue pour donner corps à cette identité : affiches de sensibilisation, deux spots vidéo de 30 secondes, newsletters et contenus réseaux sociaux, le tout structuré autour d'un planning de publication cohérent."
+          ]
+        },
+        {
+          "title": "Conception UX/UI & Identité Visuelle",
+          "image": "/images/projects/group40.webp",
+          "imageMaxWidth": "260px",
+          "paragraphs": [
+            "Une identité visuelle, ce n'est pas seulement une question d'esthétique. Pour une ONG comme À Cœur Ouvert, chaque choix de design est un choix d'accueil.",
+            "Le site web responsive a été pensé pour que chacun trouve sa place immédiatement : une architecture de l'information claire, une navigation structurée selon les profils (victimes, témoins, professionnels, donateurs). Les maquettes desktop et mobile ont été réalisées sur Figma, avec comme fil conducteur une seule question : est-ce que quelqu'un en détresse peut trouver ce dont il a besoin, rapidement, sans effort ?",
+            "Le design système répond à cette même logique. Le violet, couleur historiquement associée à la lutte contre les violences, dialogue avec le blanc et des nuances douces pour créer un espace visuel rassurant. Le logo, un cœur stylisé, évoque à la fois l'écoute et l'ouverture, sans jamais tomber dans le pathos.",
+            "Parmi les fonctionnalités pensées pour les utilisateurs les plus vulnérables : un bouton d'urgence permettant une redirection instantanée vers une page anodine (une recherche Google ordinaire) pour protéger les victimes qui consulteraient le site dans une situation de danger immédiat. Un détail technique, mais une décision profondément humaine.",
+            "Enfin, des contenus pédagogiques ont été structurés pour faciliter l'accès à l'information : articles, témoignages anonymes, ressources juridiques et psychologiques, conçus pour être trouvés, compris, et utilisés."
+          ]
+        },
+        {
+          "title": "Impact & Apprentissages",
+          "paragraphs": [
+            "Ce projet a été l'un des plus exigeants de ma formation, pas techniquement, mais humainement. Travailler sur une cause aussi sensible que les violences conjugales oblige à ne jamais perdre de vue ce qui est en jeu derrière chaque choix créatif.",
+            "J'en repars avec une vision plus globale de ce que signifie communiquer pour une organisation engagée : adapter le ton selon les canaux (institutionnel sur LinkedIn, proche et empathique sur Instagram), concevoir des parcours utilisateurs pensés pour un public vulnérable, et tenir ensemble rigueur stratégique, recherche documentaire et sensibilité humaine.",
+            "Le résultat : une identité visuelle forte et cohérente, une stratégie déployée sur tous les supports, un site web conçu pour l'accessibilité et la sécurité, et une campagne complète incluant spots vidéo, affiches, contenus réseaux sociaux et newsletters."
+          ]
+        }
+      ],
+      "livrables": [
+        "Audit concurrentiel",
+        "Charte éditoriale & graphique",
+        "Site web responsive (desktop + mobile)",
+        "2 spots publicitaires 30s",
+        "Affiches de sensibilisation",
+        "Planning éditorial réseaux sociaux",
+        "Cahier des charges",
+        "Prototype Figma"
       ]
     },
     "8": {
@@ -282,7 +331,7 @@
       "context": "Projet SAE — Conception d'une plateforme réseau alumni",
       "period": "Septembre - Décembre 2025",
       "duration": "En cours",
-      "description": "Projet en équipe — Mon rôle : création du logo et de la charte graphique pour la plateforme réseau alumni de l'IUT de Bobigny. Ce projet vise à connecter anciens diplômés, entreprises et personnels de l'établissement à travers une plateforme intégrant des fonctionnalités de réseau social, un CRM, un système de mise en relation recruteurs/candidats.",
+      "description": "Un réseau alumni, c'est bien plus qu'un annuaire : c'est un outil stratégique qui engage une communauté sur le long terme. L'enjeu était de concevoir une plateforme capable de connecter anciens diplômés, entreprises et personnels de l'IUT de Bobigny, tout en restant intuitive et cohérente avec l'image d'un établissement public.",
       "gallery": [],
       "competences": [
         "Conception d'interfaces web",
@@ -297,6 +346,51 @@
         "Branding",
         "Direction artistique",
         "Travail en équipe"
+      ],
+      "parts": [
+        {
+          "title": "L'Enjeu",
+          "subtitle": "Connecter une communauté dispersée",
+          "paragraphs": [
+            "Un diplômé qui quitte l'IUT, c'est souvent un lien qui se perd. Pas de suivi, pas de réseau structuré, pas de canal pour que les entreprises retrouvent les talents formés par l'établissement. Le projet Alumni de l'IUT de Bobigny est né de ce constat : il manquait un espace commun, pensé pour durer, capable de faire vivre une communauté après la formation.",
+            "Le défi n'était pas seulement technique. Il fallait concevoir une plateforme qui s'adresse à des profils très différents — anciens étudiants, recruteurs, personnels administratifs, enseignants — avec des besoins, des usages et des niveaux de familiarité avec le numérique qui ne se ressemblent pas."
+          ]
+        },
+        {
+          "title": "Un CRM au service du lien",
+          "images": ["/images/projects/CRM1.png", "/images/projects/CRM2.png"],
+          "imageMaxWidth": "500px",
+          "imageMaxHeight": "750px",
+          "paragraphs": [
+            "Au cœur du projet : un CRM pensé pour gérer les relations avec les membres de la communauté. Pas seulement une base de données, mais un vrai outil de suivi — relances, événements, mises en relation — qui permettrait à l'IUT d'animer son réseau de façon proactive.",
+            "La plateforme intègre également un système de mise en relation recruteurs/candidats, une CVthèque accessible aux entreprises partenaires, et un annuaire géolocalisé des anciens diplômés. Autant de fonctionnalités qui ont imposé une réflexion rigoureuse sur l'architecture de l'information : comment organiser des contenus aussi différents sans noyer l'utilisateur ?"
+          ]
+        },
+        {
+          "title": "Identité visuelle & Charte graphique",
+          "images": ["/images/projects/AlumniCharte1.png", "/images/projects/Alumnicharte2.png"],
+          "imageMaxWidth": "700px",
+          "paragraphs": [
+            "Mon rôle dans ce projet : concevoir l'identité visuelle complète. Logo, palette de couleurs, typographies, règles d'usage — tout ce qui permet à la plateforme d'avoir une image cohérente, reconnaissable, et en accord avec l'établissement qui la porte.",
+            "Le challenge était d'équilibrer deux exigences en apparente contradiction : respecter le cadre institutionnel de l'IUT (sérieux, confiance, neutralité) tout en proposant une identité moderne, qui donne envie d'appartenir à ce réseau. Le résultat s'articule autour d'une palette sobre, une typographie lisible et un logo qui symbolise la connexion et la transmission."
+          ]
+        },
+        {
+          "title": "Maquettes UX/UI",
+          "image": "/images/projects/alumni_maquette.png",
+          "paragraphs": [
+            "Une fois l'identité posée, il fallait la faire vivre dans l'interface. Les maquettes Figma ont été conçues pour chaque type d'utilisateur, avec des parcours distincts selon le profil : étudiant, diplômé, recruteur ou administrateur.",
+            "L'enjeu UX principal était la lisibilité : une plateforme avec autant de fonctionnalités peut vite devenir un labyrinthe. Chaque écran a été pensé pour réduire la charge cognitive — hiérarchie visuelle claire, actions prioritaires mises en avant, navigation cohérente sur desktop comme sur mobile.",
+            "Ce projet m'a appris à penser le design non pas comme un habillage, mais comme une réponse à de vraies contraintes : des utilisateurs différents, des besoins complexes, et une organisation qui doit pouvoir s'y retrouver à long terme."
+          ]
+        }
+      ],
+      "livrables": [
+        "Logo & charte graphique",
+        "Design system Figma",
+        "Maquettes desktop & mobile",
+        "Architecture de l'information",
+        "Prototype interactif Figma"
       ]
     }
   },

@@ -3,7 +3,57 @@ import { motion } from 'framer-motion';
 import { projects } from '../data/projects';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
+
+function PartCarousel({ images, title, isDarkMode, imageMaxWidth, imageMaxHeight }) {
+  const [current, setCurrent] = useState(0);
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className="flex items-center justify-center">
+      <div className="w-full transition-all duration-300" style={{ maxWidth: expanded ? '100%' : (imageMaxWidth || '384px') }}>
+        <div className="relative group">
+          <img
+            src={images[current]}
+            alt={title}
+            className="w-full object-contain rounded-lg transition-all duration-300"
+            style={{ cursor: expanded ? 'zoom-out' : 'zoom-in', ...(expanded ? {} : (imageMaxHeight ? { maxHeight: imageMaxHeight } : {})) }}
+            loading="lazy"
+            onClick={() => setExpanded(!expanded)}
+          />
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={(e) => { e.stopPropagation(); setCurrent((current - 1 + images.length) % images.length); }}
+                className={`absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ${isDarkMode ? 'bg-black/70 text-beige' : 'bg-white/80 text-black'}`}
+              >
+                ‹
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); setCurrent((current + 1) % images.length); }}
+                className={`absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ${isDarkMode ? 'bg-black/70 text-beige' : 'bg-white/80 text-black'}`}
+              >
+                ›
+              </button>
+            </>
+          )}
+        </div>
+        {images.length > 1 && (
+          <div className="flex justify-center gap-3 mt-3">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`w-2 h-2 rounded-full transition-all ${i === current ? (isDarkMode ? 'bg-beige' : 'bg-black') : 'bg-gray-400'}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 import ProjectDoubleDetail from './ProjectDoubleDetail';
 
 export default function ProjectDetail() {
@@ -38,7 +88,8 @@ export default function ProjectDetail() {
   };
 
   // Projets précédent et suivant (en excluant les projets cachés)
-  const visibleProjects = projects.filter(p => !p.hidden);
+  const isLocalhost = window.location.hostname === 'localhost';
+  const visibleProjects = projects.filter(p => !p.hidden || isLocalhost);
   const currentVisibleIndex = visibleProjects.findIndex(p => p.id.toString() === id);
   const previousProject = visibleProjects[currentVisibleIndex - 1];
   const nextProject = visibleProjects[currentVisibleIndex + 1];
@@ -56,7 +107,9 @@ export default function ProjectDetail() {
       period: translatedProject?.period || proj.period,
       duration: translatedProject?.duration || proj.duration,
       competences: translatedProject?.competences || proj.competences,
-      galleryDescriptions: translatedProject?.gallery || []
+      galleryDescriptions: translatedProject?.gallery || [],
+      parts: translatedProject?.parts || proj.parts || [],
+      livrables: translatedProject?.livrables || proj.livrables || []
     };
   };
 
@@ -197,70 +250,20 @@ export default function ProjectDetail() {
                 className="mb-12"
               >
                 <div
-                  className="relative rounded-lg overflow-hidden bg-black/5 max-h-[600px] flex items-center justify-center"
+                  className="relative rounded-lg overflow-hidden bg-black/5 flex items-center justify-center"
+                  style={{ maxHeight: project.thumbnailMaxHeight || '600px' }}
                 >
                   <img
                     src={project.thumbnail}
                     alt={project.title}
-                    className="w-full h-full object-contain max-h-[600px]"
+                    className="object-contain"
+                    style={{ maxHeight: project.thumbnailMaxHeight || '600px', maxWidth: project.thumbnailMaxWidth || '100%' }}
                     loading="lazy"
                   />
                 </div>
               </motion.div>
             )}
 
-            {/* PDF Document */}
-            {project.pdfFile && (
-              <motion.div
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mb-20"
-              >
-                <h2 className="text-2xl font-light mb-6 opacity-70">
-                  {t('projects:details.portraitArticle')}
-                </h2>
-                <div className="relative rounded-lg overflow-hidden bg-black/5" style={{ height: '800px' }}>
-                  <iframe
-                    src={`https://docs.google.com/viewer?url=${encodeURIComponent(window.location.origin + project.pdfFile)}&embedded=true`}
-                    title={`${project.title} - Article Portrait`}
-                    className="w-full h-full border-0"
-                  />
-                </div>
-                <div className="flex justify-center gap-4 mt-4">
-                  <a
-                    href={project.pdfFile}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`inline-flex items-center gap-2 px-6 py-3 rounded-full border transition-colors ${
-                      isDarkMode
-                        ? 'border-beige hover:bg-beige hover:text-black'
-                        : 'border-black hover:bg-black hover:text-white'
-                    }`}
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                    <span className="text-sm tracking-wider">{t('common:buttons.openFullscreen')}</span>
-                  </a>
-                  <a
-                    href={project.pdfFile}
-                    download
-                    className={`inline-flex items-center gap-2 px-6 py-3 rounded-full border transition-colors ${
-                      isDarkMode
-                        ? 'border-beige hover:bg-beige hover:text-black'
-                        : 'border-black hover:bg-black hover:text-white'
-                    }`}
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <span className="text-sm tracking-wider">{t('common:buttons.download')}</span>
-                  </a>
-                </div>
-              </motion.div>
-            )}
 
             {/* Carousel d'images */}
             {project.gallery && project.gallery.length > 0 && (
@@ -421,6 +424,97 @@ export default function ProjectDetail() {
                 <p className="text-center mt-4 text-sm opacity-50">
                   {t('projects:details.prototypeHint')}
                 </p>
+              </motion.div>
+            )}
+
+            {/* Parties du projet */}
+            {translatedProject.parts && translatedProject.parts.length > 0 && (
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.7 }}
+                className="mb-20 space-y-16"
+              >
+                {translatedProject.parts.map((part, index) => {
+                  const isImageRight = index % 2 === 0;
+                  const textBlock = (
+                    <div className="flex flex-col justify-center">
+                      <span className="text-xs tracking-widest opacity-40 uppercase mb-2">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <h2 className="text-3xl md:text-4xl font-light mb-6">
+                        {part.title}
+                        {part.subtitle && (
+                          <span className="block text-xl md:text-2xl opacity-50 font-light mt-1">
+                            {part.subtitle}
+                          </span>
+                        )}
+                      </h2>
+                      <div className="space-y-4">
+                        {part.paragraphs.map((para, i) => (
+                          <p key={i} className="text-base md:text-lg font-light leading-relaxed opacity-80">
+                            {para}
+                          </p>
+                        ))}
+                      </div>
+                      {index === translatedProject.parts.length - 1 && translatedProject.livrables?.length > 0 && (
+                        <div className="mt-10">
+                          <p className="text-xs tracking-widest opacity-40 uppercase mb-4">Livrables</p>
+                          <div className="flex flex-wrap gap-2">
+                            {translatedProject.livrables.map((livrable, i) => (
+                              <span
+                                key={i}
+                                className={`px-4 py-2 border rounded-full text-sm font-light ${
+                                  isDarkMode ? 'border-beige/20' : 'border-black/20'
+                                }`}
+                              >
+                                {livrable}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                  const isLastPart = index === translatedProject.parts.length - 1;
+                  const hasPdf = isLastPart && project.pdfFile;
+                  const partImages = part.images && part.images.length > 0 ? part.images : (part.image ? [part.image] : null);
+                  const hasMedia = partImages || hasPdf;
+
+                  const imageBlock = hasMedia ? (
+                    hasPdf ? (
+                      <div className="flex items-center justify-center">
+                        <div className="relative rounded-lg overflow-hidden w-full" style={{ maxWidth: part.imageMaxWidth || '384px' }}>
+                          <img
+                            src={project.pdfFile.replace('.pdf', '-preview.webp')}
+                            alt={part.title}
+                            className="w-full object-contain"
+                            loading="lazy"
+                          />
+                          <div className={`absolute inset-0 bg-gradient-to-t ${isDarkMode ? 'from-black/80' : 'from-beige/90'} to-transparent flex items-end p-6`}>
+                            <a
+                              href={project.pdfFile}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`text-sm tracking-wider underline underline-offset-4 transition-opacity hover:opacity-70 ${isDarkMode ? 'text-beige' : 'text-black'}`}
+                            >
+                              Lire l'article entier ici
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <PartCarousel images={partImages} title={part.title} isDarkMode={isDarkMode} imageMaxWidth={part.imageMaxWidth} imageMaxHeight={part.imageMaxHeight} />
+                    )
+                  ) : null;
+
+                  return (
+                    <div key={index} className="flex flex-col gap-8">
+                      {textBlock}
+                      {imageBlock}
+                    </div>
+                  );
+                })}
               </motion.div>
             )}
 
