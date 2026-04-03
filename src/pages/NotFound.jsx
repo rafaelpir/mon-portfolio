@@ -91,7 +91,7 @@ export default function NotFound() {
         {/* Logo qui tourne */}
         <div className="mt-16 flex justify-center opacity-20">
           <img
-            src="/bullet.png"
+            src="/bullet.webp"
             alt="Logo"
             className="w-24 h-24 animate-spin"
             style={{ animationDuration: '3s' }}

@@ -124,6 +124,7 @@ export default function Home() {
       text: project.title,
       image: project.thumbnail,
       type: project.type,
+      isNew: project.isNew ?? false,
       onClick: () => navigate(`/project/${project.id}`)
     })),
     [filteredProjects, navigate]
@@ -706,7 +707,7 @@ export default function Home() {
 
         {/* FlowingMenu avec les projets */}
         <div className="max-w-6xl mx-auto">
-          <div className="h-[400px] md:h-[600px] rounded-lg overflow-hidden">
+          <div className="h-[600px] md:h-[900px] rounded-lg overflow-hidden">
             <FlowingMenu items={menuItems} isDarkMode={isDarkMode} />
           </div>
         </div>

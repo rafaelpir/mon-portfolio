@@ -9,260 +9,499 @@
 
 export const projects = [
   {
-    id: 1,
-    title: "Un Homme qui dort - Affiche revisitée",
-    category: "Affiches",
-    type: "Personnel",
-    year: "2025",
-    context: "Projet personnel - Réinterprétation d'affiche de film",
-    period: "Janvier 2025",
-    duration: "1 semaines",
-    description: "J'ai voulu revisiter l'affiche du film 'Un Homme qui dort' (1974), un classique qui m'a marqué par son atmosphère si particulière. J'ai gardé la typographie originale que j'adore, mais j'ai complètement repensé l'image sur Photoshop : des gros plans texturés et granuleux qui, pour moi, traduisent mieux l'ennui et l'introspection que le vide habituel. Une façon de raconter l'isolement par la\u00A0matière.",
-    thumbnail: "/images/projects/thumbs/lhommequidort.webp",
-    youtubeId: "LUMifnAPafc",
-    gallery: [
-      { src: "/images/projects/lhommequidort.webp", description: "Affiche revisitée du film 'Un Homme qui dort' (1974)." },
-      { src: "/images/projects/uhqdmockup.webp", description: "Mockup de présentation de l'affiche revisitée 'Un Homme qui dort'." }
-    ],
-    tags: ["Photoshop"],
-    competences: ["Conception d'affiche", "Retouche photo", "Direction artistique", "Composition visuelle"],
-    outils: ["Adobe Photoshop"]
-  },
-  {
-    id: 2,
-    title: "Concours d'affiche : Fêtes Populaires de Saint-Paul-lès-Dax 2025",
-    category: "Affiches",
-    type: "Universitaire",
-    year: "2025",
-    context: "Concours officiel - Ville de Saint-Paul-lès-Dax",
-    period: "Décembre 2024 - Janvier 2025",
-    duration: "1 semaines",
-    description: "J'ai participé au concours officiel d'affiche organisé par la ville de Saint-Paul-lès-Dax pour leurs Fêtes Populaires 2025. J'ai conçu une affiche en flat design sur Illustrator et Photoshop, l'objectif était de proposer une affiche qui représente l'esprit festif de cet événement\u00A0incontournable.",
-    thumbnail: "/images/projects/thumbs/daxmockup.webp",
-    gallery: [
-      { src: "/images/projects/Dax.webp", description: "Affiche originale des Fêtes Populaires de Saint-Paul-lès-Dax 2025." },
-      { src: "/images/projects/daxmockup.webp", description: "Mockup de présentation de l'affiche des Fêtes Populaires de Saint-Paul-lès-Dax." }
-    ],
-    tags: ["Photoshop", "Illustrator"],
-    competences: ["Conception d'affiche", "Illustration vectorielle", "Flat design", "Direction artistique"],
-    outils: ["Adobe Photoshop", "Adobe Illustrator"]
-  },
-  {
-    id: 3,
-    title: "Poster Tribute : Sade – Diamond Life",
-    category: "Affiches",
-    type: "Personnel",
-    year: "2025",
-    context: "Projet personnel - Hommage graphique",
-    period: "Décembre 2024",
-    duration: "1 semaine",
-    description: "Diamond Life de Sade (1984), c'est un album que j'apprécie. J'ai voulu lui rendre hommage à travers un poster réalisé sur Photoshop qui capture cette élégance soul/jazz si particulière, avec un traitement rétro et des tons sépia qui évoquent le vinyle et la\u00A0nostalgie.",
-    thumbnail: "/images/projects/thumbs/sademockup.webp",
-    gallery: [
-      { src: "/images/projects/sade.webp", description: "Poster Tribute original de l'album Diamond Life de Sade." },
-      { src: "/images/projects/sademockup.webp", description: "Mockup de présentation du poster tribute Sade – Diamond Life." }
-    ],
-    tags: ["Photoshop"],
-    competences: ["Design d'affiche", "Traitement rétro", "Typographie", "Composition visuelle"],
-    outils: ["Adobe Photoshop"]
-  },
-  {
-    id: 4,
-    title: "UX Design : Application Veco",
-    category: "UI/UX Design",
-    type: "Universitaire",
-    year: "2025",
-    context: "Projet SAE BUT2 - Conception d'application mobile",
-    period: "Octobre - Novembre 2025",
-    duration: "6 semaines",
-    description: "Projet en équipe  Mon rôle : conception visuelle sur Figma de Veco, application de location de véhicules électriques entre particuliers. Traduction des valeurs de mobilité douce et d'écologie en interface intuitive. Palette verte et naturelle pour ancrer l'univers éco-responsable. Les maquettes couvrent le parcours complet (géolocalisation, réservation, profil utilisateur) avec un design pensé pour rassurer et simplifier la prise en\u00A0main.",
-    thumbnail: "/images/projects/veco/thumbnail.webp",
-    competences: ["Conception d'interfaces mobiles", "UX Design", "UI Design", "Branding", "Design System", "Travail en équipe", "Communication"],
-    outils: ["Figma"],
-    gallery: [
-      { src: "/images/projects/veco/thumbnail.webp", description: "Présentation de l'application Veco : Vue d'ensemble de l'identité visuelle et du design system de l'application de mobilité électrique." },
-      { src: "/images/projects/veco/1.webp", description: "Écran d'accueil et d'inscription : Interface de connexion et d'inscription épurée, mettant en avant l'identité visuelle de l'application dès l'ouverture." },
-      { src: "/images/projects/veco/2.webp", description: "Géolocalisation des véhicules : Vue principale de la carte interactive affichant en temps réel tous les véhicules disponibles autour de la position de l'utilisateur." },
-      { src: "/images/projects/veco/3.webp", description: "Sélection du véhicule et devis : Fiche détaillée du véhicule sélectionné, présentant ses caractéristiques (modèle, autonomie) ainsi qu'une estimation claire du prix de la course." },
-      { src: "/images/projects/veco/4.webp", description: "Guidage vers le point de prise en charge : Navigation GPS intégrée guidant l'utilisateur (itinéraire piéton) pour rejoindre l'emplacement exact où son véhicule est garé." },
-      { src: "/images/projects/veco/5.webp", description: "Filtrage par catégorie \"Vélo-Taxi\" : Activation du mode spécifique \"Vélo-Taxi\" via le sélecteur, filtrant la carte pour n'afficher que les vélos-taxis disponibles à proximité immédiate." },
-      { src: "/images/projects/veco/6.webp", description: "Saisie de la destination : Interface de recherche intuitive permettant à l'utilisateur de choisir son point d'arrivée ou de sélectionner une destination favorite." },
-      { src: "/images/projects/veco/7.webp", description: "Validation et Paiement : Écran récapitulatif de la course avec sélection du moyen de paiement sécurisé avant la validation finale." },
-      { src: "/images/projects/veco/8.webp", description: "Centre d'aide et support : Accès rapide au service client et à la FAQ via le bouton d'aide, pour assister l'utilisateur en cas de problème." },
-      { src: "/images/projects/veco/9.webp", description: "Profil et Paramètres : Menu de configuration permettant de gérer le compte utilisateur, les préférences de notification et l'historique des trajets." }
-    ],
-    tags: ["Figma", "UI Design"]
-  },
-  {
-    id: 5,
-    title: "UI Design & Branding : Agence Immobilière",
-    category: "UI/UX Design",
-    type: "Universitaire",
-    year: "2025",
-    context: "Projet universitaire - BUT MMI 2ème année",
-    role: "UX Designer & SEO",
-    period: "Septembre - Novembre 2025",
-    duration: "6 semaines",
-    team: { name: "Edem Hamrouni", url: "https://www.edemh.com/" },
-    description: "Projet en équipe  Mon rôle : conception de l'identité visuelle et des maquettes sur Figma. Ce projet avait une contrainte intéressante : penser le design pour le SEO dès le départ. Pas juste faire joli, mais créer une structure qui plaise aussi aux moteurs de recherche. J'ai conçu toute l'identité visuelle  logo, Design System  en veillant à ce que tout reste léger et performant. Les maquettes jouent sur la hiérarchie visuelle pour guider naturellement l'utilisateur tout en facilitant\u00A0l'indexation.",
-    thumbnail: "/images/projects/armorimmo.webp",
-    figmaEmbed: "https://embed.figma.com/proto/IySCrSMWMDsUfz9bO51rrz/Site-Immo-Referencement?page-id=6%3A32&node-id=16-2&viewport=154%2C281%2C0.18&scaling=scale-down&content-scaling=fixed&starting-point-node-id=16%3A2&embed-host=share",
-    gallery: [
-      { src: "/images/projects/armorimmo.webp", description: "Identité visuelle et Design System de l'agence immobilière Armor Immo." },
-      { src: "/images/projects/armorimmomockup1.webp", description: "Mockup de présentation de la page d'accueil du site Armor Immo." },
-      { src: "/images/projects/armorimmomockup2.webp", description: "Mockup de présentation de la page des lots immobiliers." }
-    ],
-    tags: ["Figma", "UI Design", "Branding", "SEO"],
-    competences: ["Conception web", "UI/UX Design", "Branding", "SEO", "Design System", "Architecture de l'information", "Travail en équipe", "Esprit d'équipe"],
-    outils: ["Figma"]
-  },
-  {
-    id: 6,
-    title: "Statue de la Liberté  De la photo à l'ASCII",
-    category: "Photographie",
-    type: "Personnel",
-    year: "2025",
-    context: "Projet personnel - Expérimentation graphique",
-    period: "Août 2025",
-    duration: "3 jours",
-    description: "Lors de mon voyage à New York, j'ai pris cette photo de la Statue de la Liberté depuis Liberty Island. De retour, j'ai eu envie d'expérimenter sur Photoshop : transformer l'image en caractères ASCII\u00A0uniquement.",
-    thumbnail: "/images/projects/thumbs/libertemockup.webp",
-    gallery: [
-      { src: "/images/projects/Liberté.webp", description: "Statue de la Liberté en art ASCII : Version finale de l'expérimentation graphique transformant la photographie iconique en composition typographique pure." },
-      { src: "/images/projects/libertemockup.webp", description: "Mockup de présentation du projet Statue de la Liberté en ASCII." }
-    ],
-    tags: ["Photoshop", "Photographie"],
-    competences: ["Retouche photo", "Art ASCII", "Expérimentation visuelle", "Traitement numérique"],
-    outils: ["Adobe Photoshop"]
-  },
-  {
-    id: 7,
-    title: "À Cœur Ouvert, Identité visuelle d'une ONG",
-    category: "Branding",
-    type: "Universitaire",
-    year: "2025",
-    context: "Projet SAE BUT2 - Création d'identité visuelle",
-    period: "Novembre - Décembre 2025",
-    duration: "8 semaines",
-    description: "À Cœur Ouvert est une ONG fictive de lutte contre les violences conjugales. J'ai créé toute l'identité visuelle sur Illustrator : le logo, la charte graphique, et j'ai aussi rédigé un article portrait sur InDesign donnant la parole à une victime. Le nom évoque un espace de parole sans jugement. Mon défi : trouver le bon équilibre entre une image rassurante et professionnelle, qui inspire confiance et bienveillance. L'ONG se veut inclusive  accueil universel, écoute 24h/24  et l'identité devait refléter\u00A0ça.",
-    thumbnail: "/images/projects/ACoeurOuvert.svg",
-    role: "Identité visuelle, Logo & Charte graphique",
-    thumbnailMaxHeight: "350px",
-    thumbnailMaxWidth: "400px",
-    pdfFile: "/images/projects/portrait1.pdf",
-    tags: ["Branding", "Illustrator", "InDesign"],
-    competences: ["Création d'identité visuelle", "Design graphique", "Charte graphique", "Rédaction de contenu"],
-    outils: ["Adobe Illustrator", "Adobe InDesign"]
-  },
-  {
-    id: 8,
-    title: "Gummo  Affiche de film",
-    category: "Affiches",
-    type: "Personnel",
-    year: "2026",
-    context: "Projet personnel - Création d'affiche de film",
-    period: "Janvier 2026",
-    duration: "2 jours",
-    description: "Gummo (1997) d'Harmony Korine, c'est un film qui ne laisse pas indifférent. Expérimental, dérangeant, mais aussi étrangement poétique. J'ai voulu créer une affiche sur Photoshop et Illustrator qui capture cette ambiance si particulière : l'imagerie trash et nostalgique, les couleurs désaturées des années 90, cette atmosphère désenchantée. La typo s'inspire de l'esthétique lo-fi et underground du cinéma indépendant américain de cette\u00A0époque.",
-    thumbnail: "/images/projects/thumbs/gummomockup.webp",
-    youtubeId: "hYalnCwEd5c",
-    gallery: [
-      { src: "/images/projects/Gummo.webp", description: "Affiche originale du film Gummo (1997)." },
-      { src: "/images/projects/gummomockup.webp", description: "Mockup de présentation de l'affiche du film Gummo." }
-    ],
-    tags: ["Photoshop", "Illustrator"],
-    competences: ["Conception d'affiche", "Direction artistique", "Composition visuelle", "Typographie"],
-    outils: ["Adobe Photoshop", "Adobe Illustrator"]
-  },
-  {
-    id: 10,
-    title: "FLEMME  Court-métrage",
-    category: "Audiovisuel",
-    type: "Universitaire",
-    year: "2025",
-    hidden: true,
-    context: "Concours Nikon Film Festival 2025  Thème : Super-pouvoir",
-    period: "2025",
-    duration: "En cours",
-    description: "Court-métrage de fantaisie et comédie engagée réalisé pour le Nikon Film Festival 2025 sur le thème « Super-pouvoir ». Luc, un jeune flemmard d'une vingtaine d'années, mène une vie d'inertie totale entre chômage, télé et jeux vidéo. Égoïste, paresseux et asocial, il possède pourtant un don extraordinaire : il est quasi omnipotent et peut modifier la réalité de tout ce qu'il touche  mais ne s'en sert que pour se simplifier la vie. Témoin d'une urgence cardiaque chez son voisin, il intervient à contrecœur et regrette amèrement d'avoir aidé son prochain quand tout le quartier se met à le harceler pour des faveurs futiles et égoïstes. Le film interroge : un grand pouvoir implique-t-il vraiment de grandes responsabilités, surtout quand on n'a rien\u00A0demandé\u00A0?",
-    thumbnail: "/images/projects/flemme.webp",
-    tags: ["Court-métrage", "Écriture", "Réalisation", "Acteur", "Montage", "Perchman", "Sous-titrage"],
-    competences: ["Écriture de scénario", "Réalisation", "Jeu d'acteur", "Montage vidéo", "Prise de son (Perche)", "Sous-titrage anglais", "Storyboard", "Direction artistique", "Narration visuelle", "Storytelling"],
-    outils: ["Premiere Pro", "DaVinci Resolve"]
-  },
-  {
-    id: 11,
-    title: "Batman : The Dark Knight  Site web Jimdo",
-    category: "Développement web",
-    type: "Universitaire",
-    year: "2025",
-    context: "Projet universitaire - BUT MMI 1ère année",
-    period: "2024 - 2025",
-    description: "Création d'un site web sur Jimdo dédié à l'univers de Batman : The Dark Knight. Le site explore l'œuvre et ses projets transversaux  films, séries, jeux vidéo, parcs d'attractions, vêtements, goodies  pour montrer comment une franchise se décline sur différents supports et médias. Réalisation d'un GIF animé intégré en page\u00A0d'accueil.",
-    thumbnail: "/images/projects/batman-dark-knight.png",
-    gallery: [
-      { src: "/images/projects/batman-dark-knight.png", description: "Page d'accueil du site Batman : The Dark Knight sur Jimdo." }
-    ],
-    externalUrl: "https://batmandarknnight.jimdofree.com/",
-    tags: ["Jimdo", "Web", "Rédaction", "GIF"],
-    competences: ["Création de site web", "Rédaction de contenu", "Architecture de l'information", "Analyse transmédiatique", "Veille culturelle", "Création de GIF animé"],
-    outils: ["Jimdo"]
-  },
-  {
-    id: 12,
-    title: "Atelier Affiches  Reproduction & Typographie",
-    category: "Affiches",
-    type: "Universitaire",
-    year: "2025",
-    layout: "double",
-    thumbnail: "/images/projects/poster11.webp",
-    tags: ["Photoshop", "Illustrator", "InDesign"],
-    competences: ["Reproduction graphique", "Typographie", "Conception d'affiche", "Composition visuelle", "Direction artistique"],
-    outils: ["Adobe Photoshop", "Adobe Illustrator", "Adobe InDesign"],
-    subProjects: [
+    "id": 1,
+    "title": "Un Homme qui dort - Affiche revisitée",
+    "category": "Affiches",
+    "type": "Personnel",
+    "year": "2025",
+    "context": "Projet personnel - Réinterprétation d'affiche de film",
+    "period": "Janvier 2025",
+    "duration": "1 semaines",
+    "description": "J'ai voulu revisiter l'affiche du film 'Un Homme qui dort' (1974), un classique qui m'a marqué par son atmosphère si particulière. J'ai gardé la typographie originale que j'adore, mais j'ai complètement repensé l'image sur Photoshop : des gros plans texturés et granuleux qui, pour moi, traduisent mieux l'ennui et l'introspection que le vide habituel. Une façon de raconter l'isolement par la matière.",
+    "thumbnail": "/images/projects/thumbs/lhommequidort.webp",
+    "youtubeId": "LUMifnAPafc",
+    "gallery": [
       {
-        key: "reproduction",
-        title: "Reproduction d'une affiche de musée",
-        context: "Projet universitaire  Reproduction fidèle d'affiche institutionnelle",
-        period: "2025",
-        duration: "1 semaine",
-        description: "Reproduction fidèle de l'affiche de l'exposition « Bollywood Superstars  Histoire d'un Cinéma Indien » du Musée du quai Branly - Jacques Chirac. L'objectif était de recréer à l'identique l'affiche originale sur Photoshop et Illustrator en analysant la composition, la typographie et les choix chromatiques. Un exercice technique pour maîtriser les outils et comprendre les codes du design d'affiche\u00A0institutionnelle.",
-        tags: ["Photoshop", "Illustrator"],
-        gallery: [
-          { src: "/images/projects/affichedebase.webp", description: "Affiche originale  Exposition « Bollywood Superstars » au Musée du quai Branly - Jacques Chirac." },
-          { src: "/images/projects/poster11.webp", description: "Ma reproduction de l'affiche." }
+        "src": "/images/projects/lhommequidort.webp",
+        "description": "Affiche revisitée du film 'Un Homme qui dort' (1974)."
+      },
+      {
+        "src": "/images/projects/uhqdmockup.webp",
+        "description": "Mockup de présentation de l'affiche revisitée 'Un Homme qui dort'."
+      }
+    ],
+    "tags": [
+      "Photoshop"
+    ],
+    "competences": [
+      "Conception d'affiche",
+      "Retouche photo",
+      "Direction artistique",
+      "Composition visuelle"
+    ],
+    "outils": [
+      "Adobe Photoshop"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Concours d'affiche : Fêtes Populaires de Saint-Paul-lès-Dax 2025",
+    "category": "Affiches",
+    "type": "Universitaire",
+    "year": "2025",
+    "context": "Concours officiel - Ville de Saint-Paul-lès-Dax",
+    "period": "Décembre 2024 - Janvier 2025",
+    "duration": "1 semaines",
+    "description": "J'ai participé au concours officiel d'affiche organisé par la ville de Saint-Paul-lès-Dax pour leurs Fêtes Populaires 2025. J'ai conçu une affiche en flat design sur Illustrator et Photoshop, l'objectif était de proposer une affiche qui représente l'esprit festif de cet événement incontournable.",
+    "thumbnail": "/images/projects/thumbs/daxmockup.webp",
+    "gallery": [
+      {
+        "src": "/images/projects/Dax.webp",
+        "description": "Affiche originale des Fêtes Populaires de Saint-Paul-lès-Dax 2025."
+      },
+      {
+        "src": "/images/projects/daxmockup.webp",
+        "description": "Mockup de présentation de l'affiche des Fêtes Populaires de Saint-Paul-lès-Dax."
+      }
+    ],
+    "tags": [
+      "Photoshop",
+      "Illustrator"
+    ],
+    "competences": [
+      "Conception d'affiche",
+      "Illustration vectorielle",
+      "Flat design",
+      "Direction artistique"
+    ],
+    "outils": [
+      "Adobe Photoshop",
+      "Adobe Illustrator"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Poster Tribute : Sade  Diamond Life",
+    "category": "Affiches",
+    "type": "Personnel",
+    "year": "2025",
+    "context": "Projet personnel - Hommage graphique",
+    "period": "Décembre 2024",
+    "duration": "1 semaine",
+    "description": "Diamond Life de Sade (1984), c'est un album que j'apprécie. J'ai voulu lui rendre hommage à travers un poster réalisé sur Photoshop qui capture cette élégance soul/jazz si particulière, avec un traitement rétro et des tons sépia qui évoquent le vinyle et la nostalgie.",
+    "thumbnail": "/images/projects/thumbs/sademockup.webp",
+    "gallery": [
+      {
+        "src": "/images/projects/sade.webp",
+        "description": "Poster Tribute original de l'album Diamond Life de Sade."
+      },
+      {
+        "src": "/images/projects/sademockup.webp",
+        "description": "Mockup de présentation du poster tribute Sade  Diamond Life."
+      }
+    ],
+    "tags": [
+      "Photoshop"
+    ],
+    "competences": [
+      "Design d'affiche",
+      "Traitement rétro",
+      "Typographie",
+      "Composition visuelle"
+    ],
+    "outils": [
+      "Adobe Photoshop"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "UX Design : Application Veco",
+    "category": "UI/UX Design",
+    "type": "Universitaire",
+    "year": "2025",
+    "context": "Projet SAE BUT2 - Conception d'application mobile",
+    "period": "Octobre - Novembre 2025",
+    "duration": "6 semaines",
+    "description": "Projet en équipe  Mon rôle : conception visuelle sur Figma de Veco, application de location de véhicules électriques entre particuliers. Traduction des valeurs de mobilité douce et d'écologie en interface intuitive. Palette verte et naturelle pour ancrer l'univers éco-responsable. Les maquettes couvrent le parcours complet (géolocalisation, réservation, profil utilisateur) avec un design pensé pour rassurer et simplifier la prise en main.",
+    "thumbnail": "/images/projects/veco/thumbnail.webp",
+    "competences": [
+      "Conception d'interfaces mobiles",
+      "UX Design",
+      "UI Design",
+      "Branding",
+      "Design System",
+      "Travail en équipe",
+      "Communication"
+    ],
+    "outils": [
+      "Figma"
+    ],
+    "gallery": [
+      {
+        "src": "/images/projects/veco/thumbnail.webp",
+        "description": "Présentation de l'application Veco : Vue d'ensemble de l'identité visuelle et du design system de l'application de mobilité électrique."
+      },
+      {
+        "src": "/images/projects/veco/1.webp",
+        "description": "Écran d'accueil et d'inscription : Interface de connexion et d'inscription épurée, mettant en avant l'identité visuelle de l'application dès l'ouverture."
+      },
+      {
+        "src": "/images/projects/veco/2.webp",
+        "description": "Géolocalisation des véhicules : Vue principale de la carte interactive affichant en temps réel tous les véhicules disponibles autour de la position de l'utilisateur."
+      },
+      {
+        "src": "/images/projects/veco/3.webp",
+        "description": "Sélection du véhicule et devis : Fiche détaillée du véhicule sélectionné, présentant ses caractéristiques (modèle, autonomie) ainsi qu'une estimation claire du prix de la course."
+      },
+      {
+        "src": "/images/projects/veco/4.webp",
+        "description": "Guidage vers le point de prise en charge : Navigation GPS intégrée guidant l'utilisateur (itinéraire piéton) pour rejoindre l'emplacement exact où son véhicule est garé."
+      },
+      {
+        "src": "/images/projects/veco/5.webp",
+        "description": "Filtrage par catégorie \"Vélo-Taxi\" : Activation du mode spécifique \"Vélo-Taxi\" via le sélecteur, filtrant la carte pour n'afficher que les vélos-taxis disponibles à proximité immédiate."
+      },
+      {
+        "src": "/images/projects/veco/6.webp",
+        "description": "Saisie de la destination : Interface de recherche intuitive permettant à l'utilisateur de choisir son point d'arrivée ou de sélectionner une destination favorite."
+      },
+      {
+        "src": "/images/projects/veco/7.webp",
+        "description": "Validation et Paiement : Écran récapitulatif de la course avec sélection du moyen de paiement sécurisé avant la validation finale."
+      },
+      {
+        "src": "/images/projects/veco/8.webp",
+        "description": "Centre d'aide et support : Accès rapide au service client et à la FAQ via le bouton d'aide, pour assister l'utilisateur en cas de problème."
+      },
+      {
+        "src": "/images/projects/veco/9.webp",
+        "description": "Profil et Paramètres : Menu de configuration permettant de gérer le compte utilisateur, les préférences de notification et l'historique des trajets."
+      }
+    ],
+    "tags": [
+      "Figma",
+      "UI Design"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "UI Design & Branding : Agence Immobilière",
+    "category": "UI/UX Design",
+    "type": "Universitaire",
+    "year": "2025",
+    "context": "Projet universitaire - BUT MMI 2ème année",
+    "role": "UX Designer & SEO",
+    "period": "Septembre - Novembre 2025",
+    "duration": "6 semaines",
+    "team": {
+      "name": "Edem Hamrouni",
+      "url": "https://www.edemh.com/"
+    },
+    "description": "Projet en équipe  Mon rôle : conception de l'identité visuelle et des maquettes sur Figma. Ce projet avait une contrainte intéressante : penser le design pour le SEO dès le départ. Pas juste faire joli, mais créer une structure qui plaise aussi aux moteurs de recherche. J'ai conçu toute l'identité visuelle  logo, Design System  en veillant à ce que tout reste léger et performant. Les maquettes jouent sur la hiérarchie visuelle pour guider naturellement l'utilisateur tout en facilitant l'indexation.",
+    "thumbnail": "/images/projects/armorimmo.webp",
+    "figmaEmbed": "https://embed.figma.com/proto/IySCrSMWMDsUfz9bO51rrz/Site-Immo-Referencement?page-id=6%3A32&node-id=16-2&viewport=154%2C281%2C0.18&scaling=scale-down&content-scaling=fixed&starting-point-node-id=16%3A2&embed-host=share",
+    "gallery": [
+      {
+        "src": "/images/projects/armorimmo.webp",
+        "description": "Identité visuelle et Design System de l'agence immobilière Armor Immo."
+      },
+      {
+        "src": "/images/projects/armorimmomockup1.webp",
+        "description": "Mockup de présentation de la page d'accueil du site Armor Immo."
+      },
+      {
+        "src": "/images/projects/armorimmomockup2.webp",
+        "description": "Mockup de présentation de la page des lots immobiliers."
+      }
+    ],
+    "tags": [
+      "Figma",
+      "UI Design",
+      "Branding",
+      "SEO"
+    ],
+    "competences": [
+      "Conception web",
+      "UI/UX Design",
+      "Branding",
+      "SEO",
+      "Design System",
+      "Architecture de l'information",
+      "Travail en équipe",
+      "Esprit d'équipe"
+    ],
+    "outils": [
+      "Figma"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Statue de la Liberté  De la photo à l'ASCII",
+    "category": "Photographie",
+    "type": "Personnel",
+    "year": "2025",
+    "context": "Projet personnel - Expérimentation graphique",
+    "period": "Août 2025",
+    "duration": "3 jours",
+    "description": "Lors de mon voyage à New York, j'ai pris cette photo de la Statue de la Liberté depuis Liberty Island. De retour, j'ai eu envie d'expérimenter sur Photoshop : transformer l'image en caractères ASCII uniquement.",
+    "thumbnail": "/images/projects/thumbs/libertemockup.webp",
+    "gallery": [
+      {
+        "src": "/images/projects/Liberté.webp",
+        "description": "Statue de la Liberté en art ASCII : Version finale de l'expérimentation graphique transformant la photographie iconique en composition typographique pure."
+      },
+      {
+        "src": "/images/projects/libertemockup.webp",
+        "description": "Mockup de présentation du projet Statue de la Liberté en ASCII."
+      }
+    ],
+    "tags": [
+      "Photoshop",
+      "Photographie"
+    ],
+    "competences": [
+      "Retouche photo",
+      "Art ASCII",
+      "Expérimentation visuelle",
+      "Traitement numérique"
+    ],
+    "outils": [
+      "Adobe Photoshop"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "À Cœur Ouvert, Identité visuelle d'une ONG",
+    "category": "Branding",
+    "type": "Universitaire",
+    "year": "2025",
+    "context": "Projet SAE BUT2 - Création d'identité visuelle",
+    "period": "Novembre - Décembre 2025",
+    "duration": "8 semaines",
+    "description": "À Cœur Ouvert est une ONG fictive de lutte contre les violences conjugales. J'ai créé toute l'identité visuelle sur Illustrator : le logo, la charte graphique, et j'ai aussi rédigé un article portrait sur InDesign donnant la parole à une victime. Le nom évoque un espace de parole sans jugement. Mon défi : trouver le bon équilibre entre une image rassurante et professionnelle, qui inspire confiance et bienveillance. L'ONG se veut inclusive  accueil universel, écoute 24h/24  et l'identité devait refléter ça.",
+    "thumbnail": "/images/projects/ACoeurOuvert.svg",
+    "role": "Identité visuelle, Logo & Charte graphique",
+    "thumbnailMaxHeight": "350px",
+    "thumbnailMaxWidth": "400px",
+    "pdfFile": "/images/projects/portrait1.pdf",
+    "tags": [
+      "Branding",
+      "Illustrator",
+      "InDesign"
+    ],
+    "competences": [
+      "Création d'identité visuelle",
+      "Design graphique",
+      "Charte graphique",
+      "Rédaction de contenu"
+    ],
+    "outils": [
+      "Adobe Illustrator",
+      "Adobe InDesign"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Gummo  Affiche de film",
+    "category": "Affiches",
+    "type": "Personnel",
+    "year": "2026",
+    "context": "Projet personnel - Création d'affiche de film",
+    "period": "Janvier 2026",
+    "duration": "2 jours",
+    "description": "Gummo (1997) d'Harmony Korine, c'est un film qui ne laisse pas indifférent. Expérimental, dérangeant, mais aussi étrangement poétique. J'ai voulu créer une affiche sur Photoshop et Illustrator qui capture cette ambiance si particulière : l'imagerie trash et nostalgique, les couleurs désaturées des années 90, cette atmosphère désenchantée. La typo s'inspire de l'esthétique lo-fi et underground du cinéma indépendant américain de cette époque.",
+    "thumbnail": "/images/projects/thumbs/gummomockup.webp",
+    "youtubeId": "hYalnCwEd5c",
+    "gallery": [
+      {
+        "src": "/images/projects/Gummo.webp",
+        "description": "Affiche originale du film Gummo (1997)."
+      },
+      {
+        "src": "/images/projects/gummomockup.webp",
+        "description": "Mockup de présentation de l'affiche du film Gummo."
+      }
+    ],
+    "tags": [
+      "Photoshop",
+      "Illustrator"
+    ],
+    "competences": [
+      "Conception d'affiche",
+      "Direction artistique",
+      "Composition visuelle",
+      "Typographie"
+    ],
+    "outils": [
+      "Adobe Photoshop",
+      "Adobe Illustrator"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "FLEMME  Court-métrage",
+    "category": "Audiovisuel",
+    "type": "Universitaire",
+    "year": "2025",
+    "hidden": true,
+    "context": "Concours Nikon Film Festival 2025  Thème : Super-pouvoir",
+    "period": "2025",
+    "duration": "En cours",
+    "description": "Court-métrage de fantaisie et comédie engagée réalisé pour le Nikon Film Festival 2025 sur le thème « Super-pouvoir ». Luc, un jeune flemmard d'une vingtaine d'années, mène une vie d'inertie totale entre chômage, télé et jeux vidéo. Égoïste, paresseux et asocial, il possède pourtant un don extraordinaire : il est quasi omnipotent et peut modifier la réalité de tout ce qu'il touche  mais ne s'en sert que pour se simplifier la vie. Témoin d'une urgence cardiaque chez son voisin, il intervient à contrecœur et regrette amèrement d'avoir aidé son prochain quand tout le quartier se met à le harceler pour des faveurs futiles et égoïstes. Le film interroge : un grand pouvoir implique-t-il vraiment de grandes responsabilités, surtout quand on n'a rien demandé ?",
+    "thumbnail": "/images/projects/flemme.webp",
+    "tags": [
+      "Court-métrage",
+      "Écriture",
+      "Réalisation",
+      "Acteur",
+      "Montage",
+      "Perchman",
+      "Sous-titrage"
+    ],
+    "competences": [
+      "Écriture de scénario",
+      "Réalisation",
+      "Jeu d'acteur",
+      "Montage vidéo",
+      "Prise de son (Perche)",
+      "Sous-titrage anglais",
+      "Storyboard",
+      "Direction artistique",
+      "Narration visuelle",
+      "Storytelling"
+    ],
+    "outils": [
+      "Premiere Pro",
+      "DaVinci Resolve"
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Batman : The Dark Knight  Site web Jimdo",
+    "category": "Développement web",
+    "type": "Universitaire",
+    "year": "2025",
+    "context": "Projet universitaire - BUT MMI 1ère année",
+    "period": "2024 - 2025",
+    "description": "Création d'un site web sur Jimdo dédié à l'univers de Batman : The Dark Knight. Le site explore l'œuvre et ses projets transversaux  films, séries, jeux vidéo, parcs d'attractions, vêtements, goodies  pour montrer comment une franchise se décline sur différents supports et médias. Réalisation d'un GIF animé intégré en page d'accueil.",
+    "thumbnail": "/images/projects/batman-dark-knight.webp",
+    "gallery": [
+      {
+        "src": "/images/projects/batman-dark-knight.webp",
+        "description": "Page d'accueil du site Batman : The Dark Knight sur Jimdo."
+      }
+    ],
+    "externalUrl": "https://batmandarknnight.jimdofree.com/",
+    "tags": [
+      "Jimdo",
+      "Web",
+      "Rédaction",
+      "GIF"
+    ],
+    "competences": [
+      "Création de site web",
+      "Rédaction de contenu",
+      "Architecture de l'information",
+      "Analyse transmédiatique",
+      "Veille culturelle",
+      "Création de GIF animé"
+    ],
+    "outils": [
+      "Jimdo"
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Atelier Affiches  Reproduction & Typographie",
+    "category": "Affiches",
+    "type": "Universitaire",
+    "year": "2025",
+    "layout": "double",
+    "thumbnail": "/images/projects/poster11.webp",
+    "tags": [
+      "Photoshop",
+      "Illustrator",
+      "InDesign"
+    ],
+    "competences": [
+      "Reproduction graphique",
+      "Typographie",
+      "Conception d'affiche",
+      "Composition visuelle",
+      "Direction artistique"
+    ],
+    "outils": [
+      "Adobe Photoshop",
+      "Adobe Illustrator",
+      "Adobe InDesign"
+    ],
+    "subProjects": [
+      {
+        "key": "reproduction",
+        "title": "Reproduction d'une affiche de musée",
+        "context": "Projet universitaire  Reproduction fidèle d'affiche institutionnelle",
+        "period": "2025",
+        "duration": "1 semaine",
+        "description": "Reproduction fidèle de l'affiche de l'exposition « Bollywood Superstars  Histoire d'un Cinéma Indien » du Musée du quai Branly - Jacques Chirac. L'objectif était de recréer à l'identique l'affiche originale sur Photoshop et Illustrator en analysant la composition, la typographie et les choix chromatiques. Un exercice technique pour maîtriser les outils et comprendre les codes du design d'affiche institutionnelle.",
+        "tags": [
+          "Photoshop",
+          "Illustrator"
+        ],
+        "gallery": [
+          {
+            "src": "/images/projects/affichedebase.webp",
+            "description": "Affiche originale  Exposition « Bollywood Superstars » au Musée du quai Branly - Jacques Chirac."
+          },
+          {
+            "src": "/images/projects/poster11.webp",
+            "description": "Ma reproduction de l'affiche."
+          }
         ]
       },
       {
-        key: "typographie",
-        title: "Création d'une affiche typographique",
-        context: "Projet universitaire  Affiche typographique inspirée de l'exposition",
-        period: "2025",
-        duration: "1 semaine",
-        description: "Création d'une affiche typographique originale autour de l'exposition « Bollywood Superstars  Histoire d'un Cinéma Indien » du Musée du quai Branly - Jacques Chirac. Le défi : faire vivre l'univers du cinéma indien uniquement par le jeu des caractères, des poids, des espacements et de la composition. La lettre devient image, sur Illustrator et InDesign pour une maîtrise précise de la\u00A0mise en page.",
-        tags: ["Photoshop", "Illustrator"],
-        gallery: [
-          { src: "/images/projects/poster1.webp", description: "Affiche typographique  Exposition « Bollywood Superstars » au Musée du quai Branly - Jacques Chirac." }
+        "key": "typographie",
+        "title": "Création d'une affiche typographique",
+        "context": "Projet universitaire  Affiche typographique inspirée de l'exposition",
+        "period": "2025",
+        "duration": "1 semaine",
+        "description": "Création d'une affiche typographique originale autour de l'exposition « Bollywood Superstars  Histoire d'un Cinéma Indien » du Musée du quai Branly - Jacques Chirac. Le défi : faire vivre l'univers du cinéma indien uniquement par le jeu des caractères, des poids, des espacements et de la composition. La lettre devient image, sur Illustrator et InDesign pour une maîtrise précise de la mise en page.",
+        "tags": [
+          "Photoshop",
+          "Illustrator"
+        ],
+        "gallery": [
+          {
+            "src": "/images/projects/poster1.webp",
+            "description": "Affiche typographique  Exposition « Bollywood Superstars » au Musée du quai Branly - Jacques Chirac."
+          }
         ]
       }
     ]
   },
   {
-    id: 9,
-    title: "Réseau Alumni  IUT de Bobigny",
-    category: "UI/UX Design",
-    type: "Universitaire",
-    year: "2026",
-    context: "Projet SAE  Conception d'une plateforme réseau alumni",
-    period: "Septembre - Décembre 2025",
-    duration: "En cours",
-    description: "Un réseau alumni, c'est bien plus qu'un annuaire : c'est un outil stratégique qui engage une communauté sur le long terme. L'enjeu était de concevoir une plateforme capable de connecter anciens diplômés, entreprises et personnels de l'IUT de Bobigny, tout en restant intuitive et cohérente avec l'image d'un établissement public.",
-    thumbnail: "/images/projects/Alumni.png",
-    thumbnailMaxHeight: "500px",
-    thumbnailMaxWidth: "600px",
-    role: "Charte graphique & Logo",
-    tags: ["Figma", "UI Design", "UX Design", "CRM", "Illustrator", "Branding", "Charte graphique"],
-    competences: [
+    "id": 9,
+    "title": "Réseau Alumni  IUT de Bobigny",
+    "category": "UI/UX Design",
+    "type": "Universitaire",
+    "year": "2026",
+    "context": "Projet SAE  Conception d'une plateforme réseau alumni",
+    "period": "Septembre - Décembre 2025",
+    "duration": "En cours",
+    "description": "Un réseau alumni, c'est bien plus qu'un annuaire : c'est un outil stratégique qui engage une communauté sur le long terme. L'enjeu était de concevoir une plateforme capable de connecter anciens diplômés, entreprises et personnels de l'IUT de Bobigny, tout en restant intuitive et cohérente avec l'image d'un établissement public.",
+    "thumbnail": "/images/projects/Alumni.webp",
+    "thumbnailMaxHeight": "500px",
+    "thumbnailMaxWidth": "600px",
+    "role": "Charte graphique & Logo",
+    "tags": [
+      "Figma",
+      "UI Design",
+      "UX Design",
+      "CRM",
+      "Illustrator",
+      "Branding",
+      "Charte graphique"
+    ],
+    "competences": [
       "Conception d'interfaces web",
       "UX Design",
       "UI Design",
@@ -278,28 +517,171 @@ export const projects = [
       "Direction artistique",
       "Travail en équipe"
     ],
-    outils: ["Figma", "Adobe Illustrator"]
+    "outils": [
+      "Figma",
+      "Adobe Illustrator"
+    ]
   },
   {
-    id: 13,
-    title: "Affiche Ricardo Kaká",
-    category: "Affiches",
-    type: "Personnel",
-    year: "2026",
-    context: "Projet personnel - Affiche typographique autour de Ricardo Kaká",
-    period: "2026",
-    duration: "1 jour",
-    description: "Création d'une affiche graphique autour du footballeur Ricardo Kaká. Un travail typographique et chromographique où la composition visuelle et le traitement de l'image servent le sujet.",
-    thumbnail: "/images/projects/thumbs/kaka.webp",
-    gallery: [
-      { src: "/images/projects/rickakagra.webp", description: "Affiche Ricardo Kaká  Version graphique et dégradé." },
-      { src: "/images/projects/kakabien.webp", description: "Déclinaison couleurs  Version chromée." },
-      { src: "/images/projects/kakanb.webp", description: "Déclinaison noir & blanc." },
-      { src: "/images/projects/kakaoui.webp", description: "Déclinaison inversée  Version contrastée." }
+    "id": 14,
+    "title": "Coffret 20 Ans Alicia Keys",
+    "category": "Branding",
+    "type": "Universitaire",
+    "layout": "double",
+    "year": "2026",
+    "context": "Projet SAE401 - IUT de Bobigny, Département MMI",
+    "period": "2026",
+    "duration": "En cours",
+    "description": "En trinôme, création de la direction artistique complète pour célébrer les 20 ans de scène d'Alicia Keys. Le projet comprend un coffret collector (CD, DVD, livret 16 pages avec biographie en BD et book photo), une affiche de concert déclinée en posts réseaux sociaux, des produits dérivés (goodies) et une animation motion design pour le DVD. Tout l'univers visuel de la tournée anniversaire est pensé dans une direction artistique cohérente : titre de tournée, costume de scène, scénographie et communication globale.",
+    "isNew": true,
+    "thumbnail": "/images/projects/officiel.webp",
+    "tags": [
+      "Branding",
+      "Illustrator",
+      "InDesign",
+      "Photoshop",
+      "Motion Design"
     ],
-    tags: ["Photoshop"],
-    competences: ["Conception d'affiche", "Typographie", "Direction artistique", "Composition visuelle"],
-    outils: ["Adobe Photoshop"]
+    "competences": [
+      "Direction artistique",
+      "Branding",
+      "Conception d'affiche",
+      "Mise en page (InDesign)",
+      "Création d'identité visuelle",
+      "Motion design",
+      "Design de coffret",
+      "Travail en équipe"
+    ],
+    "outils": [
+      "Adobe Illustrator",
+      "Adobe InDesign",
+      "Adobe Photoshop",
+      "Adobe Premiere Pro"
+    ],
+    "collaborators": [
+      { "name": "Eva Poenou", "url": "https://eva-poenou.com/" },
+      { "name": "Armeline NK", "url": "https://armelinenk.com/index.html" }
+    ],
+    "subProjects": [
+      {
+        "key": "communication",
+        "title": "Affiche & Communication",
+        "context": "Projet SAE401 - Direction artistique & communication visuelle",
+        "period": "2026",
+        "duration": "En cours",
+        "description": "Création de l'affiche de concert déclinée en mockup billboard et vinyle, ainsi que des pochettes CD du coffret anniversaire en trois variantes chromatiques : effet granuleux sérigraphique (orange), rendu pictural chaud (doré) et photo retouchée naturelle (ambrée).",
+        "tags": ["Photoshop", "Illustrator", "InDesign"],
+        "gallery": [
+          { "src": "/images/projects/officiel.webp", "description": "" },
+          { "src": "/images/projects/Affiche.webp", "description": "" },
+          { "src": "/images/projects/01 Free Billboard Mockup At Bus Stop.webp", "description": "" },
+          { "src": "/images/projects/1-Vinyl Record Mockup.webp", "description": "" },
+          { "src": "/images/projects/A4 - 3.webp", "description": "Trois déclinaisons de la pochette CD du coffret anniversaire, jouant sur le traitement photo d'Alicia Keys entre effet granuleux sérigraphique (version orange), rendu pictural chaud (version dorée) et photo retouchée naturelle (version ambrée)." }
+        ]
+      },
+      {
+        "key": "identite",
+        "title": "Identité visuelle & Conception",
+        "context": "Projet SAE401 - Recherche graphique & identité",
+        "period": "2026",
+        "duration": "En cours",
+        "description": "Développement de l'identité visuelle complète : interprétation 2D d'Alicia Keys, stickers collector, recherche typographique autour du titre « The 20th Anniversary » et conception de la scénographie de la tournée anniversaire.",
+        "tags": ["Illustrator", "Photoshop"],
+        "gallery": [
+          { "src": "/images/projects/Personnage.webp", "description": "Exploration graphique pour créer une interprétation 2D d'Alicia Keys, adaptée à un univers luxe et scénique. La planche retrace le processus complet : références visuelles (styles flat design et avatar), recherche de proportions par géométrisation du visage, sélection d'une palette de tons chauds (ocre, noir, marron, terracotta), jusqu'au personnage final décliné sur fond doré et marron." },
+          { "src": "/images/projects/album.webp", "description": "Création de deux stickers collector en format circulaire, déclinés en version dorée et marron, intégrant le personnage illustré d'Alicia Keys. Le lettrage arqué « 20TH ANNIVERSARY TOUR » s'inscrit dans les codes du merchandising premium." },
+          { "src": "/images/projects/Titres.webp", "description": "Recherche du titre et de l'univers visuel du coffret autour des mots-clés Renaissance, Feu, Prestige et Héritage. La planche explore trois directions typographiques (massive, calligraphique, épurée) avant de retenir une sans-serif luxe contemporaine." },
+          { "src": "/images/projects/Scénographie.webp", "description": "Proposition de scénographie de concert pensée comme un écrin central mettant en valeur l'artiste, avec sol doré brillant, éclairage LED couleur or et Alicia Keys au piano au centre de la scène." }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Grand Prix de Monaco",
+    "category": "Affiches",
+    "type": "Personnel",
+    "year": "2026",
+    "context": "Projet personnel  Affiche Save the Date",
+    "period": "Mars 2026",
+    "duration": "2 jours",
+    "description": "Affiche Save the Date pour la 83e édition du Grand Prix de Monaco, du 4 au 7 juin 2026. Le rouge domine  couleur de la vitesse et de la Principauté  avec un fond texturé de losanges qui reprend le fuselé d'argent et de gueules des armoiries Grimaldi. Une monoplace surgit en diagonale, le blason de Monaco ancre l'identité institutionnelle.",
+    "isNew": true,
+    "thumbnail": "/images/projects/thumbs/monaco-savethedate.webp",
+    "tags": [
+      "Photoshop",
+      "Illustrator"
+    ],
+    "competences": [
+      "Conception d'affiche",
+      "Direction artistique",
+      "Typographie",
+      "Composition visuelle"
+    ],
+    "outils": [
+      "Adobe Photoshop",
+      "Adobe Illustrator"
+    ],
+    "gallery": [
+      {
+        "src": "/images/projects/formule1.webp",
+        "description": "Affiche Save the Date Grand Prix de Monaco."
+      },
+      {
+        "src": "/images/projects/billboardf1.webp",
+        "description": "Mockup billboard  Affiche Save the Date Grand Prix de Monaco."
+      },
+      {
+        "src": "/images/projects/formule1OR.webp",
+        "description": "Variante dorée  Affiche Save the Date Grand Prix de Monaco."
+      },
+      {
+        "src": "/images/projects/billboardformule.webp",
+        "description": "Mockup billboard  Variante Grand Prix de Monaco."
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Affiche Ricardo Kaká",
+    "category": "Affiches",
+    "type": "Personnel",
+    "year": "2026",
+    "context": "Projet personnel - Affiche typographique autour de Ricardo Kaká",
+    "period": "2026",
+    "duration": "1 jour",
+    "description": "Création d'une affiche graphique autour du footballeur Ricardo Kaká. Un travail typographique et chromographique où la composition visuelle et le traitement de l'image servent le sujet.",
+    "thumbnail": "/images/projects/thumbs/kaka.webp",
+    "tags": [
+      "Photoshop"
+    ],
+    "competences": [
+      "Conception d'affiche",
+      "Typographie",
+      "Direction artistique",
+      "Composition visuelle"
+    ],
+    "outils": [
+      "Adobe Photoshop"
+    ],
+    "gallery": [
+      {
+        "src": "/images/projects/rickakagra.webp",
+        "description": "Affiche Ricardo Kaká  Version graphique et dégradé."
+      },
+      {
+        "src": "/images/projects/kakabien.webp",
+        "description": "Déclinaison couleurs  Version chromée."
+      },
+      {
+        "src": "/images/projects/kakanb.webp",
+        "description": "Déclinaison noir & blanc."
+      },
+      {
+        "src": "/images/projects/kakaoui.webp",
+        "description": "Déclinaison inversée  Version contrastée."
+      }
+    ]
   }
 ];
 

@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 const pages = [
   { path: '/cv', label: 'CV' },
   { path: '/lettre-motivation-graphiste', label: 'Lettre Motivation' },
+  { path: '/lettre-charge-com-digitale', label: 'Chargé Com Digitale' },
   { path: '/lettre-carjack-films', label: 'Carjack Films' },
   { path: '/lettre-paname-art-cafe', label: 'Paname Art Café' },
   { path: '/lettre-regie-plateau', label: 'Régie Plateau' },

@@ -21,7 +21,7 @@ const cvDescriptions = {
 const titleEN = {
   1: "A Man Asleep  Reimagined Poster",
   2: "Poster Competition: Saint-Paul-lès-Dax Festival 2025",
-  3: "Poster Tribute: Sade – Diamond Life",
+  3: "Poster Tribute: Sade  Diamond Life",
   4: "UX Design: Veco App",
   5: "UI Design & Branding: Real Estate Agency",
   6: "Statue of Liberty  From Photo to ASCII",

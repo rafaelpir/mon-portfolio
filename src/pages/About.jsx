@@ -34,7 +34,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link to="/" className="relative w-20 h-20 md:w-32 md:h-32 flex items-center justify-center overflow-hidden">
             <img
-              src="/images/logos/RP.png"
+              src="/images/logos/RP.webp"
               alt="RP"
               width={128}
               height={128}

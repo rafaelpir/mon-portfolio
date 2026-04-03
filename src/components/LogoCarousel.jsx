@@ -4,28 +4,28 @@ import { motion } from 'motion/react';
 // Map skill names to their logo images in /images/logos/
 const logoMap = {
   // Design
-  'Photoshop': '/images/logos/photoshop.png',
-  'Illustrator': '/images/logos/illustrator.png',
-  'Figma': '/images/logos/figma.png',
-  'InDesign': '/images/logos/indesign.png',
-  'Canva': '/images/logos/Canva.png',
-  'Lightroom': '/images/logos/Lightroom.png',
-  'Affinity': '/images/logos/Affinity.png',
+  'Photoshop': '/images/logos/photoshop.webp',
+  'Illustrator': '/images/logos/illustrator.webp',
+  'Figma': '/images/logos/figma.webp',
+  'InDesign': '/images/logos/indesign.webp',
+  'Canva': '/images/logos/Canva.webp',
+  'Lightroom': '/images/logos/Lightroom.webp',
+  'Affinity': '/images/logos/Affinity.webp',
   // Développement
-  'HTML/CSS': '/images/logos/html.png',
-  'CSS': '/images/logos/css.png',
-  'JavaScript': '/images/logos/js.png',
-  'React': '/images/logos/react.png',
-  'WordPress': '/images/logos/wordpress.png',
-  'PHP': '/images/logos/PHP.png',
+  'HTML/CSS': '/images/logos/html.webp',
+  'CSS': '/images/logos/css.webp',
+  'JavaScript': '/images/logos/js.webp',
+  'React': '/images/logos/react.webp',
+  'WordPress': '/images/logos/wordpress.webp',
+  'PHP': '/images/logos/PHP.webp',
   // Vidéo / 3D
-  'Premiere Pro': '/images/logos/Premiere_Pro.png',
-  'DaVinci Resolve': '/images/logos/DaVinci.png',
-  'Blender': '/images/logos/Blender.png',
+  'Premiere Pro': '/images/logos/Premiere_Pro.webp',
+  'DaVinci Resolve': '/images/logos/DaVinci.webp',
+  'Blender': '/images/logos/Blender.webp',
   // Bureautique
   'Excel': '/images/logos/Excel.svg',
-  'Word': '/images/logos/Word.png',
-  'PowerPoint': '/images/logos/PowerPoint.png',
+  'Word': '/images/logos/Word.webp',
+  'PowerPoint': '/images/logos/PowerPoint.webp',
 };
 
 const LogoCarousel = ({ skillCategories, isDarkMode, performanceTier = 'full' }) => {

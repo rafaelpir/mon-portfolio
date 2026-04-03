@@ -91,8 +91,8 @@ video {
   aspect-ratio: 16 / 9;
 }
 
-/* Hero section - reserve minimum height */
-section:first-of-type {
+/* Hero section - reserve minimum height (home page only) */
+.hero-section {
   min-height: 100vh;
 }
 

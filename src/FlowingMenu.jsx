@@ -13,12 +13,13 @@ function FlowingMenu({ items = [], isDarkMode = true }) {
   );
 }
 
-function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
+function MenuItem({ link, text, image, onClick, isDarkMode = true, type, isNew }) {
   const itemRef = React.useRef(null);
   const marqueeRef = React.useRef(null);
   const marqueeInnerRef = React.useRef(null);
-  const timelineRef = React.useRef(null);
-  const [isHovered, setIsHovered] = React.useState(false);
+  const marqueeTrackRef = React.useRef(null);
+  const slideTimelineRef = React.useRef(null);
+  const scrollTweenRef = React.useRef(null);
 
   const animationDefaults = { duration: 0.4, ease: 'power2.out' };
 
@@ -28,44 +29,58 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
     return topEdgeDist < bottomEdgeDist ? 'top' : 'bottom';
   };
 
+  const startScroll = () => {
+    if (!marqueeTrackRef.current) return;
+    gsap.set(marqueeTrackRef.current, { x: 0 });
+    scrollTweenRef.current = gsap.to(marqueeTrackRef.current, {
+      x: '-50%',
+      duration: 12,
+      ease: 'none',
+      repeat: -1,
+    });
+  };
+
+  const stopScroll = () => {
+    if (scrollTweenRef.current) {
+      scrollTweenRef.current.kill();
+      scrollTweenRef.current = null;
+    }
+    if (marqueeTrackRef.current) {
+      gsap.set(marqueeTrackRef.current, { x: 0 });
+    }
+  };
+
   const handleMouseEnter = ev => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
 
-    // Tuer l'animation précédente si elle existe
-    if (timelineRef.current) {
-      timelineRef.current.kill();
-    }
+    if (slideTimelineRef.current) slideTimelineRef.current.kill();
+    stopScroll();
 
     const rect = itemRef.current.getBoundingClientRect();
     const edge = findClosestEdge(ev.clientX - rect.left, ev.clientY - rect.top, rect.width, rect.height);
 
-    setIsHovered(true);
-    timelineRef.current = gsap
+    slideTimelineRef.current = gsap
       .timeline({ defaults: animationDefaults })
       .set(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' })
       .set(marqueeInnerRef.current, { y: edge === 'top' ? '101%' : '-101%' })
-      .to([marqueeRef.current, marqueeInnerRef.current], { y: '0%' });
+      .to([marqueeRef.current, marqueeInnerRef.current], { y: '0%', onComplete: startScroll });
   };
 
   const handleMouseLeave = ev => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
 
-    // Tuer l'animation précédente si elle existe
-    if (timelineRef.current) {
-      timelineRef.current.kill();
-    }
+    if (slideTimelineRef.current) slideTimelineRef.current.kill();
+    stopScroll();
 
     const rect = itemRef.current.getBoundingClientRect();
     const edge = findClosestEdge(ev.clientX - rect.left, ev.clientY - rect.top, rect.width, rect.height);
 
-    // Animer les deux éléments en parallèle
-    timelineRef.current = gsap
+    slideTimelineRef.current = gsap
       .timeline({ defaults: animationDefaults })
       .to([marqueeRef.current, marqueeInnerRef.current], {
         y: (index) => index === 0
           ? (edge === 'top' ? '-101%' : '101%')
           : (edge === 'top' ? '101%' : '-101%'),
-        onComplete: () => setIsHovered(false)
       });
   };
 
@@ -76,13 +91,11 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
     }
   };
 
-  const repeatedMarqueeContent = Array.from({ length: 2 }).map((_, idx) => (
+  const repeatedMarqueeContent = Array.from({ length: 6 }).map((_, idx) => (
     <React.Fragment key={idx}>
       <span
-        className="uppercase font-normal text-[1.4vh] md:text-[2vh] leading-tight p-[0.5vh_1vw_0] md:p-[1vh_1vw_0] flex items-center gap-2"
-        style={{
-          color: isDarkMode ? '#060010' : '#E8DCC4'
-        }}
+        className="uppercase font-normal text-[1.4vh] md:text-[2vh] leading-tight px-[1vw] flex items-center gap-2 flex-shrink-0"
+        style={{ color: isDarkMode ? '#060010' : '#E8DCC4' }}
       >
         {text}
         {type && (
@@ -96,14 +109,10 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
         )}
       </span>
       {image && (
-        <div
-          className="w-[80px] h-[30px] md:w-[120px] md:h-[45px] my-2 mx-3 rounded-md overflow-hidden flex-shrink-0"
-        >
+        <div className="h-[55%] aspect-[8/3] my-1 mx-3 rounded-md overflow-hidden flex-shrink-0">
           <img
             src={image}
             alt=""
-            width={120}
-            height={45}
             className="w-full h-full object-cover"
             loading="lazy"
           />
@@ -121,7 +130,7 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
       ref={itemRef}
     >
       <a
-        className={`flex items-center justify-center h-full relative cursor-pointer uppercase no-underline font-semibold text-[1.4vh] md:text-[2vh] py-4 px-3 md:py-8 md:px-6 transition-colors text-center leading-tight ${
+        className={`flex items-center justify-center h-full relative cursor-pointer uppercase no-underline font-semibold text-[1.4vh] md:text-[2vh] px-3 md:px-6 transition-colors text-center leading-tight ${
           isDarkMode
             ? 'text-beige hover:text-[#060010] focus:text-beige focus-visible:text-[#060010]'
             : 'text-black hover:text-beige focus:text-black focus-visible:text-beige'
@@ -141,6 +150,11 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
             {type === 'Universitaire' ? 'UNIV.' : 'PERSO.'}
           </span>
         )}
+        {isNew && (
+          <span className="ml-2 px-1.5 py-0.5 text-[0.8vh] md:text-[1vh] font-bold tracking-wider rounded bg-yellow-400 text-black">
+            NOUVEAU
+          </span>
+        )}
       </a>
       <div
         className={`absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none translate-y-[101%] ${
@@ -148,8 +162,12 @@ function MenuItem({ link, text, image, onClick, isDarkMode = true, type }) {
         }`}
         ref={marqueeRef}
       >
-        <div className="h-full w-[200%] flex" ref={marqueeInnerRef}>
-          <div className={`flex items-center relative h-full w-[200%] ${isHovered ? 'animate-marquee' : ''}`}>
+        <div className="h-full flex" ref={marqueeInnerRef}>
+          <div
+            className="flex items-center h-full"
+            ref={marqueeTrackRef}
+            style={{ width: 'max-content' }}
+          >
             {repeatedMarqueeContent}
           </div>
         </div>

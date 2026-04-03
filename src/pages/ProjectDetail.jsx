@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 function PartCarousel({ images, title, isDarkMode, imageMaxWidth, imageMaxHeight }) {
   const [current, setCurrent] = useState(0);
   const [expanded, setExpanded] = useState(false);
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
 
   return (
     <div className="flex items-center justify-center">
@@ -17,9 +18,9 @@ function PartCarousel({ images, title, isDarkMode, imageMaxWidth, imageMaxHeight
             src={images[current]}
             alt={title}
             className="w-full object-contain rounded-lg transition-all duration-300"
-            style={{ cursor: expanded ? 'zoom-out' : 'zoom-in', ...(expanded ? {} : (imageMaxHeight ? { maxHeight: imageMaxHeight } : {})) }}
+            style={{ cursor: isMobile ? 'default' : (expanded ? 'zoom-out' : 'zoom-in'), ...(expanded ? {} : (imageMaxHeight ? { maxHeight: imageMaxHeight } : {})) }}
             loading="lazy"
-            onClick={() => setExpanded(!expanded)}
+            onClick={isMobile ? undefined : () => setExpanded(!expanded)}
           />
           {images.length > 1 && (
             <>
@@ -65,6 +66,7 @@ export default function ProjectDetail() {
   });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageExpanded, setImageExpanded] = useState(false);
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
@@ -168,7 +170,7 @@ export default function ProjectDetail() {
               <span className="text-sm tracking-wider">{t('projects:details.back')}</span>
             </button>
 
-            <span className="text-sm tracking-widest font-light">
+            <span className="text-base tracking-widest font-heading">
               Rafael Piral
             </span>
 
@@ -258,9 +260,9 @@ export default function ProjectDetail() {
                       src={project.thumbnail}
                       alt={project.title}
                       className="w-full object-contain rounded-lg transition-all duration-300"
-                      style={{ cursor: imageExpanded ? 'zoom-out' : 'zoom-in', maxHeight: imageExpanded ? 'none' : (project.thumbnailMaxHeight || undefined) }}
+                      style={{ cursor: isMobile ? 'default' : (imageExpanded ? 'zoom-out' : 'zoom-in'), maxHeight: imageExpanded ? 'none' : (project.thumbnailMaxHeight || undefined) }}
                       loading="lazy"
-                      onClick={() => setImageExpanded(!imageExpanded)}
+                      onClick={isMobile ? undefined : () => setImageExpanded(!imageExpanded)}
                     />
                   </div>
                 </div>
@@ -281,11 +283,11 @@ export default function ProjectDetail() {
                 </h2>
 
                 {/* Image avec boutons de navigation */}
-                <div className="flex items-center justify-center gap-6 mb-4">
-                  {/* Bouton précédent - masqué sur mobile */}
+                <div className="relative flex justify-center mb-4">
+                  {/* Bouton précédent - absolu, fade selon état zoom */}
                   <button
                     onClick={handlePrevImage}
-                    className={`hidden md:block p-3 rounded-full border transition-colors flex-shrink-0 ${
+                    className={`hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 p-3 rounded-full border transition-all duration-300 flex-shrink-0 z-10 ${imageExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'} ${
                       isDarkMode
                         ? 'border-beige/20 hover:border-beige hover:bg-beige/10'
                         : 'border-black/20 hover:border-black hover:bg-black/10'
@@ -299,9 +301,9 @@ export default function ProjectDetail() {
 
                   {/* Image du carousel */}
                   <div
-                    className="relative rounded-lg bg-black/5 flex-shrink-0 flex items-center justify-center transition-all duration-300"
-                    style={{ width: '500px', cursor: imageExpanded ? 'zoom-out' : 'zoom-in' }}
-                    onClick={() => setImageExpanded(!imageExpanded)}
+                    className="relative rounded-lg bg-black/5 flex items-center justify-center transition-all duration-500 ease-in-out"
+                    style={{ width: '100%', maxWidth: imageExpanded ? '1200px' : '500px', cursor: isMobile ? 'default' : (imageExpanded ? 'zoom-out' : 'zoom-in') }}
+                    onClick={isMobile ? undefined : () => setImageExpanded(!imageExpanded)}
                     onTouchStart={(e) => {
                       touchStartX.current = e.touches[0].clientX;
                     }}
@@ -325,17 +327,17 @@ export default function ProjectDetail() {
                     <img
                       src={project.gallery[currentImageIndex].src}
                       alt={`${project.title} - Image ${currentImageIndex + 1}`}
-                      className="w-full object-contain select-none pointer-events-none transition-all duration-300 rounded-lg"
-                      style={{ maxHeight: imageExpanded ? 'none' : '450px' }}
+                      className="w-full object-contain select-none pointer-events-none transition-all duration-500 ease-in-out rounded-lg"
+                      style={{ maxHeight: imageExpanded ? '2000px' : '450px' }}
                       loading="lazy"
                       draggable={false}
                     />
                   </div>
 
-                  {/* Bouton suivant - masqué sur mobile */}
+                  {/* Bouton suivant - absolu, fade selon état zoom */}
                   <button
                     onClick={handleNextImage}
-                    className={`hidden md:block p-3 rounded-full border transition-colors flex-shrink-0 ${
+                    className={`hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 p-3 rounded-full border transition-all duration-300 flex-shrink-0 z-10 ${imageExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'} ${
                       isDarkMode
                         ? 'border-beige/20 hover:border-beige hover:bg-beige/10'
                         : 'border-black/20 hover:border-black hover:bg-black/10'
@@ -546,10 +548,10 @@ export default function ProjectDetail() {
                 <div>
                   <h3 className="text-xl font-light mb-4 opacity-70">{t('projects:details.info')}</h3>
                   <ul className="space-y-3 text-sm">
-                    {project.role && (
+                    {project.role && (Array.isArray(project.role) ? project.role.length > 0 : true) && (
                       <li className="flex flex-col gap-1">
                         <span className="opacity-50 text-xs tracking-wider">{t('projects:details.role')}</span>
-                        <span>{project.role}</span>
+                        <span>{Array.isArray(project.role) ? project.role.join(', ') : project.role}</span>
                       </li>
                     )}
                     {translatedProject.context && (
@@ -589,6 +591,28 @@ export default function ProjectDetail() {
                           >
                             {project.team.name}
                           </a>
+                        </span>
+                      </li>
+                    )}
+                    {project.collaborators?.length > 0 && (
+                      <li className="flex flex-col gap-1">
+                        <span className="opacity-50 text-xs tracking-wider">{t('projects:details.teamWith')}</span>
+                        <span className="flex flex-wrap gap-x-2 gap-y-1">
+                          {project.collaborators.map((c, i) => (
+                            <span key={c.url}>
+                              <a
+                                href={c.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`underline transition-colors ${
+                                  isDarkMode ? 'hover:text-beige/70' : 'hover:text-black/70'
+                                }`}
+                              >
+                                {c.name}
+                              </a>
+                              {i < project.collaborators.length - 1 && <span className="opacity-40">,</span>}
+                            </span>
+                          ))}
                         </span>
                       </li>
                     )}

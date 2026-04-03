@@ -7,6 +7,7 @@ import { projects } from '../data/projects';
 function SubProjectGallery({ subProject, isDarkMode }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [expanded, setExpanded] = useState(false);
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const gallery = subProject.gallery || [];
@@ -39,7 +40,7 @@ function SubProjectGallery({ subProject, isDarkMode }) {
           <div
             className={`relative rounded-lg overflow-hidden flex items-center justify-center ${isDarkMode ? 'bg-white/5' : 'bg-black/5'}`}
             style={expanded ? { height: 'auto' } : { height: '340px' }}
-            onClick={() => setExpanded(!expanded)}
+            onClick={isMobile ? undefined : () => setExpanded(!expanded)}
             onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
             onTouchMove={(e) => { touchEndX.current = e.touches[0].clientX; }}
             onTouchEnd={() => {
@@ -53,7 +54,7 @@ function SubProjectGallery({ subProject, isDarkMode }) {
               src={gallery[currentIndex].src}
               alt={`${subProject.title} - Image ${currentIndex + 1}`}
               className="max-w-full max-h-full object-contain select-none pointer-events-none transition-all duration-300"
-              style={{ cursor: expanded ? 'zoom-out' : 'zoom-in', maxHeight: expanded ? 'none' : '100%' }}
+              style={{ cursor: isMobile ? 'default' : (expanded ? 'zoom-out' : 'zoom-in'), maxHeight: expanded ? 'none' : '100%' }}
               loading="lazy"
               draggable={false}
             />
@@ -83,11 +84,13 @@ function SubProjectGallery({ subProject, isDarkMode }) {
         </div>
       )}
 
-      {gallery[currentIndex].description && (
-        <p className="text-center text-sm opacity-60 max-w-md mx-auto">
-          {gallery[currentIndex].description}
-        </p>
-      )}
+      <div className="min-h-[4rem]">
+        {gallery[currentIndex].description && (
+          <p className="text-center text-sm opacity-60 max-w-md mx-auto">
+            {gallery[currentIndex].description}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
@@ -105,7 +108,7 @@ export default function ProjectDoubleDetail({ project }) {
   const previousProject = visibleProjects[currentVisibleIndex - 1];
   const nextProject = visibleProjects[currentVisibleIndex + 1];
 
-  const [subA, subB] = project.subProjects || [];
+  const subProjects = project.subProjects || [];
 
   return (
     <>
@@ -129,7 +132,7 @@ export default function ProjectDoubleDetail({ project }) {
               <span className="text-sm tracking-wider">Retour</span>
             </button>
 
-            <span className="text-sm tracking-widest font-light">Rafael Piral</span>
+            <span className="text-base tracking-widest font-heading">Rafael Piral</span>
 
             <div className="text-sm tracking-wider opacity-50">
               {currentVisibleIndex + 1} / {visibleProjects.length}
@@ -192,16 +195,16 @@ export default function ProjectDoubleDetail({ project }) {
 
               {/* Métadonnées communes */}
               <ul className={`flex flex-wrap gap-6 text-sm border-t pt-8 ${isDarkMode ? 'border-beige/10' : 'border-black/10'}`}>
-                {subA?.period && (
+                {subProjects[0]?.period && (
                   <li className="flex flex-col gap-1">
                     <span className="opacity-40 text-xs tracking-wider uppercase">Période</span>
-                    <span className="opacity-80">{subA.period}</span>
+                    <span className="opacity-80">{subProjects[0].period}</span>
                   </li>
                 )}
-                {subA?.duration && (
+                {subProjects[0]?.duration && (
                   <li className="flex flex-col gap-1">
                     <span className="opacity-40 text-xs tracking-wider uppercase">Durée par exercice</span>
-                    <span className="opacity-80">{subA.duration}</span>
+                    <span className="opacity-80">{subProjects[0].duration}</span>
                   </li>
                 )}
                 {project.type && (
@@ -213,117 +216,74 @@ export default function ProjectDoubleDetail({ project }) {
               </ul>
             </motion.div>
 
-            {/* Séparateur label */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.35 }}
-              className={`flex items-center gap-4 mb-12 ${isDarkMode ? 'text-beige/30' : 'text-black/30'}`}
-            >
-              <div className={`flex-1 h-px ${isDarkMode ? 'bg-beige/10' : 'bg-black/10'}`} />
-              <span className="text-xs tracking-[0.3em] uppercase">Exercice 01</span>
-              <div className={`flex-1 h-px ${isDarkMode ? 'bg-beige/10' : 'bg-black/10'}`} />
-            </motion.div>
+            {subProjects.map((sub, idx) => (
+              <div key={sub.key || idx}>
+                {/* Séparateur */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.35 + idx * 0.2 }}
+                  className={`flex items-center gap-4 mb-12 ${isDarkMode ? 'text-beige/30' : 'text-black/30'}`}
+                >
+                  <div className={`flex-1 h-px ${isDarkMode ? 'bg-beige/10' : 'bg-black/10'}`} />
+                  <span className="text-xs tracking-[0.3em] uppercase">
+                    Partie {String(idx + 1).padStart(2, '0')}
+                  </span>
+                  <div className={`flex-1 h-px ${isDarkMode ? 'bg-beige/10' : 'bg-black/10'}`} />
+                </motion.div>
 
-            {/* Sous-projet A  Reproduction */}
-            {subA && (
-              <motion.div
-                initial={{ y: 40, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="mb-20"
-              >
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                  {/* Infos */}
-                  <div>
-                    <h2 className="text-3xl md:text-4xl font-light mb-4 leading-tight">
-                      {subA.title}
-                    </h2>
-                    <p className="text-base opacity-70 leading-relaxed mb-8">
-                      {subA.description}
-                    </p>
-
-                    {subA.tags && (
-                      <div className="flex flex-col gap-2">
-                        <span className="opacity-40 text-xs tracking-wider uppercase">Outils</span>
-                        <div className="flex flex-wrap gap-2">
-                          {subA.tags.map((tag, i) => (
-                            <span
-                              key={i}
-                              className={`px-3 py-1 border rounded-full text-xs ${
-                                isDarkMode ? 'border-beige/20' : 'border-black/20'
-                              }`}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+                {/* Contenu alterné */}
+                <motion.div
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 + idx * 0.2 }}
+                  className="mb-20"
+                >
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    <div className={idx % 2 === 1 ? 'order-2 lg:order-1' : ''}>
+                      {idx % 2 === 0 ? (
+                        <>
+                          <h2 className="text-3xl md:text-4xl font-light mb-4 leading-tight">{sub.title}</h2>
+                          <p className="text-base opacity-70 leading-relaxed mb-8">{sub.description}</p>
+                          {sub.tags && (
+                            <div className="flex flex-col gap-2">
+                              <span className="opacity-40 text-xs tracking-wider uppercase">Outils</span>
+                              <div className="flex flex-wrap gap-2">
+                                {sub.tags.map((tag, i) => (
+                                  <span key={i} className={`px-3 py-1 border rounded-full text-xs ${isDarkMode ? 'border-beige/20' : 'border-black/20'}`}>{tag}</span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <SubProjectGallery subProject={sub} isDarkMode={isDarkMode} />
+                      )}
+                    </div>
+                    <div className={idx % 2 === 1 ? 'order-1 lg:order-2' : ''}>
+                      {idx % 2 === 0 ? (
+                        <SubProjectGallery subProject={sub} isDarkMode={isDarkMode} />
+                      ) : (
+                        <>
+                          <h2 className="text-3xl md:text-4xl font-light mb-4 leading-tight">{sub.title}</h2>
+                          <p className="text-base opacity-70 leading-relaxed mb-8">{sub.description}</p>
+                          {sub.tags && (
+                            <div className="flex flex-col gap-2">
+                              <span className="opacity-40 text-xs tracking-wider uppercase">Outils</span>
+                              <div className="flex flex-wrap gap-2">
+                                {sub.tags.map((tag, i) => (
+                                  <span key={i} className={`px-3 py-1 border rounded-full text-xs ${isDarkMode ? 'border-beige/20' : 'border-black/20'}`}>{tag}</span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </div>
-
-                  {/* Galerie */}
-                  <SubProjectGallery subProject={subA} isDarkMode={isDarkMode} />
-                </div>
-              </motion.div>
-            )}
-
-            {/* Séparateur label */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.55 }}
-              className={`flex items-center gap-4 mb-12 ${isDarkMode ? 'text-beige/30' : 'text-black/30'}`}
-            >
-              <div className={`flex-1 h-px ${isDarkMode ? 'bg-beige/10' : 'bg-black/10'}`} />
-              <span className="text-xs tracking-[0.3em] uppercase">Exercice 02</span>
-              <div className={`flex-1 h-px ${isDarkMode ? 'bg-beige/10' : 'bg-black/10'}`} />
-            </motion.div>
-
-            {/* Sous-projet B  Typographie */}
-            {subB && (
-              <motion.div
-                initial={{ y: 40, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="mb-20"
-              >
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                  {/* Galerie à gauche pour alterner */}
-                  <div className="order-2 lg:order-1">
-                    <SubProjectGallery subProject={subB} isDarkMode={isDarkMode} />
-                  </div>
-
-                  {/* Infos à droite */}
-                  <div className="order-1 lg:order-2">
-                    <h2 className="text-3xl md:text-4xl font-light mb-4 leading-tight">
-                      {subB.title}
-                    </h2>
-                    <p className="text-base opacity-70 leading-relaxed mb-8">
-                      {subB.description}
-                    </p>
-
-                    {subB.tags && (
-                      <div className="flex flex-col gap-2">
-                        <span className="opacity-40 text-xs tracking-wider uppercase">Outils</span>
-                        <div className="flex flex-wrap gap-2">
-                          {subB.tags.map((tag, i) => (
-                            <span
-                              key={i}
-                              className={`px-3 py-1 border rounded-full text-xs ${
-                                isDarkMode ? 'border-beige/20' : 'border-black/20'
-                              }`}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            )}
+                </motion.div>
+              </div>
+            ))}
 
             {/* Compétences globales */}
             {project.competences && project.competences.length > 0 && (

@@ -17,6 +17,7 @@ export default function LettreMotivationGraphiste() {
     { id: 'assistant-communication', label: 'Assistant Communication', domaine: 'la communication' },
     { id: 'community-manager', label: 'Community Manager', domaine: 'le community management' },
     { id: 'social-media-design', label: 'Social Media & Design Graphique', domaine: 'le social media et le design graphique' },
+    { id: 'communication-social-media-assistant', label: 'Communication & Social Media Assistant', domaine: 'la communication digitale et les réseaux sociaux' },
   ];
 
   const [selectedMetier, setSelectedMetier] = useState(metiers[0]);
@@ -51,6 +52,8 @@ export default function LettreMotivationGraphiste() {
         return '<strong>Canva</strong>, <strong>Photoshop</strong>, <strong>Illustrator</strong> et <strong>DaVinci Resolve</strong>';
       case 'community-manager':
         return '<strong>Canva</strong>, <strong>Photoshop</strong>, <strong>Premiere Pro</strong>, <strong>DaVinci Resolve</strong> et les <strong>réseaux sociaux</strong>';
+      case 'communication-social-media-assistant':
+        return '<strong>Canva</strong>, <strong>Photoshop</strong>, <strong>Premiere Pro</strong>, <strong>Meta Business Suite</strong> et les <strong>réseaux sociaux</strong>';
       default:
         return '<strong>Illustrator</strong>, <strong>Photoshop</strong>, <strong>InDesign</strong>, <strong>Canva</strong> et <strong>Affinity</strong>';
     }
