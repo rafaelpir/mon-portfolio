@@ -190,7 +190,7 @@ export default function ProjectDoubleDetail({ project }) {
               </h1>
 
               <p className="text-lg opacity-50 max-w-2xl mb-8">
-                Deux exercices autour de l'exposition « Bollywood Superstars » du Musée du quai Branly  reproduction fidèle de l'affiche originale, puis création d'une affiche typographique sur le même thème.
+                {project.description}
               </p>
 
               {/* Métadonnées communes */}
@@ -203,7 +203,7 @@ export default function ProjectDoubleDetail({ project }) {
                 )}
                 {subProjects[0]?.duration && (
                   <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-wider uppercase">Durée par exercice</span>
+                    <span className="opacity-40 text-xs tracking-wider uppercase">Durée</span>
                     <span className="opacity-80">{subProjects[0].duration}</span>
                   </li>
                 )}
@@ -211,6 +211,24 @@ export default function ProjectDoubleDetail({ project }) {
                   <li className="flex flex-col gap-1">
                     <span className="opacity-40 text-xs tracking-wider uppercase">Contexte</span>
                     <span className="opacity-80">{project.type}</span>
+                  </li>
+                )}
+                {project.collaborators && project.collaborators.length > 0 && (
+                  <li className="flex flex-col gap-1">
+                    <span className="opacity-40 text-xs tracking-wider uppercase">Réalisé avec</span>
+                    <span className="opacity-80 flex flex-col gap-1">
+                      {project.collaborators.map((c, i) => (
+                        <a
+                          key={i}
+                          href={c.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`underline underline-offset-2 transition-opacity hover:opacity-60`}
+                        >
+                          {c.name}
+                        </a>
+                      ))}
+                    </span>
                   </li>
                 )}
               </ul>

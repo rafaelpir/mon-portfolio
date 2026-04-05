@@ -531,8 +531,8 @@ export const projects = [
     "year": "2026",
     "context": "Projet SAE401 - IUT de Bobigny, Département MMI",
     "period": "2026",
-    "duration": "En cours",
-    "description": "En trinôme, création de la direction artistique complète pour célébrer les 20 ans de scène d'Alicia Keys. Le projet comprend un coffret collector (CD, DVD, livret 16 pages avec biographie en BD et book photo), une affiche de concert déclinée en posts réseaux sociaux, des produits dérivés (goodies) et une animation motion design pour le DVD. Tout l'univers visuel de la tournée anniversaire est pensé dans une direction artistique cohérente : titre de tournée, costume de scène, scénographie et communication globale.",
+    "duration": "2 mois",
+    "description": "En trinôme, conception de l'identité visuelle complète d'un coffret anniversaire pour les 20 ans de scène d'Alicia Keys : recherche typographique, personnage illustré, pochettes CD, stickers, poster de concert et vinyle collector. Chaque élément s'inscrit dans une direction artistique unifiée, du packaging au grand format urbain.",
     "isNew": true,
     "thumbnail": "/images/projects/officiel.webp",
     "tags": [
@@ -560,38 +560,115 @@ export const projects = [
     ],
     "collaborators": [
       { "name": "Eva Poenou", "url": "https://eva-poenou.com/" },
-      { "name": "Armeline NK", "url": "https://armelinenk.com/index.html" }
+      { "name": "Armeline Ndombasi Kibula", "url": "https://armelinenk.com/index.html" }
     ],
     "subProjects": [
       {
-        "key": "communication",
-        "title": "Affiche & Communication",
-        "context": "Projet SAE401 - Direction artistique & communication visuelle",
+        "key": "typographie",
+        "title": "Définir l'univers",
+        "context": "Projet SAE401 - Recherche graphique & identité",
         "period": "2026",
-        "duration": "En cours",
-        "description": "Création de l'affiche de concert déclinée en mockup billboard et vinyle, ainsi que des pochettes CD du coffret anniversaire en trois variantes chromatiques : effet granuleux sérigraphique (orange), rendu pictural chaud (doré) et photo retouchée naturelle (ambrée).",
-        "tags": ["Photoshop", "Illustrator", "InDesign"],
+        "duration": "2 mois",
+        "description": "Tout commence par les mots. Renaissance, Feu, Prestige, Héritage : quatre axes qui orientent l'ensemble du projet. La planche explore trois directions typographiques (massive, calligraphique, épurée) avant de retenir une sans-serif luxe contemporaine, capable de porter vingt ans de carrière sans les écraser.",
+        "tags": ["Illustrator"],
         "gallery": [
-          { "src": "/images/projects/officiel.webp", "description": "" },
-          { "src": "/images/projects/Affiche.webp", "description": "" },
-          { "src": "/images/projects/01 Free Billboard Mockup At Bus Stop.webp", "description": "" },
-          { "src": "/images/projects/1-Vinyl Record Mockup.webp", "description": "" },
-          { "src": "/images/projects/A4 - 3.webp", "description": "Trois déclinaisons de la pochette CD du coffret anniversaire, jouant sur le traitement photo d'Alicia Keys entre effet granuleux sérigraphique (version orange), rendu pictural chaud (version dorée) et photo retouchée naturelle (version ambrée)." }
+          { "src": "/images/projects/Titres.webp", "description": "" }
         ]
       },
       {
-        "key": "identite",
-        "title": "Identité visuelle & Conception",
+        "key": "personnage",
+        "title": "Donner un visage au projet",
         "context": "Projet SAE401 - Recherche graphique & identité",
         "period": "2026",
-        "duration": "En cours",
-        "description": "Développement de l'identité visuelle complète : interprétation 2D d'Alicia Keys, stickers collector, recherche typographique autour du titre « The 20th Anniversary » et conception de la scénographie de la tournée anniversaire.",
+        "duration": "2 mois",
+        "description": "Une fois la direction posée, il fallait incarner l'artiste sans tomber dans le portrait. La planche retrace la construction du personnage : références flat design, géométrisation du visage, affinage des proportions, jusqu'à une palette restreinte (ocre, noir, marron, terracotta) qui deviendra la signature chromatique de tout le coffret.",
         "tags": ["Illustrator", "Photoshop"],
         "gallery": [
-          { "src": "/images/projects/Personnage.webp", "description": "Exploration graphique pour créer une interprétation 2D d'Alicia Keys, adaptée à un univers luxe et scénique. La planche retrace le processus complet : références visuelles (styles flat design et avatar), recherche de proportions par géométrisation du visage, sélection d'une palette de tons chauds (ocre, noir, marron, terracotta), jusqu'au personnage final décliné sur fond doré et marron." },
-          { "src": "/images/projects/album.webp", "description": "Création de deux stickers collector en format circulaire, déclinés en version dorée et marron, intégrant le personnage illustré d'Alicia Keys. Le lettrage arqué « 20TH ANNIVERSARY TOUR » s'inscrit dans les codes du merchandising premium." },
-          { "src": "/images/projects/Titres.webp", "description": "Recherche du titre et de l'univers visuel du coffret autour des mots-clés Renaissance, Feu, Prestige et Héritage. La planche explore trois directions typographiques (massive, calligraphique, épurée) avant de retenir une sans-serif luxe contemporaine." },
-          { "src": "/images/projects/Scénographie.webp", "description": "Proposition de scénographie de concert pensée comme un écrin central mettant en valeur l'artiste, avec sol doré brillant, éclairage LED couleur or et Alicia Keys au piano au centre de la scène." }
+          { "src": "/images/projects/Personnage.webp", "description": "" }
+        ]
+      },
+      {
+        "key": "scenographie",
+        "title": "Penser l'espace scénique",
+        "context": "Projet SAE401 - Recherche graphique & identité",
+        "period": "2026",
+        "duration": "2 mois",
+        "description": "Le coffret ne se limite pas à un objet : il accompagne une tournée. La scénographie proposée place Alicia Keys au piano au centre d'une scène sobre, sol doré brillant, éclairage LED couleur or. L'espace devient extension naturelle de l'identité visuelle : luxe, chaleur, présence.",
+        "tags": ["Illustrator", "Photoshop"],
+        "gallery": [
+          { "src": "/images/projects/Scénographie.webp", "description": "" }
+        ]
+      },
+      {
+        "key": "cover-essais",
+        "title": "Recherche de cover",
+        "context": "Projet SAE401 - Recherche graphique & identité",
+        "period": "2026",
+        "duration": "2 mois",
+        "description": "Différents essais pour la cover dorée du coffret : variations de cadrage, de traitement photo et d'intégration du personnage illustré. Ces explorations permettent de tester la cohérence de la palette or avant de retenir la direction définitive.",
+        "tags": ["Illustrator", "Photoshop"],
+        "gallery": [
+          { "src": "/images/projects/album.webp", "description": "" }
+        ]
+      },
+      {
+        "key": "stickers",
+        "title": "Les stickers collector",
+        "context": "Projet SAE401 - Direction artistique & communication visuelle",
+        "period": "2026",
+        "duration": "2 mois",
+        "description": "Le personnage illustré trouve sa première application concrète sur des stickers circulaires collector. Le lettrage arqué « 20TH ANNIVERSARY TOUR » ancre chaque pièce dans les codes du merchandising premium, des objets pensés pour être gardés.",
+        "tags": ["Photoshop", "Illustrator", "InDesign"],
+        "gallery": [
+          { "src": "/images/projects/A4 - 3.webp", "description": "" }
+        ]
+      },
+      {
+        "key": "visuel-officiel",
+        "title": "Le visuel officiel",
+        "context": "Projet SAE401 - Direction artistique & communication visuelle",
+        "period": "2026",
+        "duration": "2 mois",
+        "description": "Toutes les recherches convergent vers ce visuel : l'identité typographique, la palette, le personnage, l'ambiance dorée. La composition verticale est pensée pour fonctionner aussi bien sur le coffret physique que sur les supports de communication. C'est la pièce centrale du projet.",
+        "tags": ["Photoshop", "Illustrator", "InDesign"],
+        "gallery": [
+          { "src": "/images/projects/officiel.webp", "description": "" }
+        ]
+      },
+      {
+        "key": "affiche-concert",
+        "title": "Poster de concert",
+        "context": "Projet SAE401 - Direction artistique & communication visuelle",
+        "period": "2026",
+        "duration": "2 mois",
+        "description": "Un poster simple et direct pour annoncer la tournée anniversaire, appliquant l'identité visuelle du coffret à un format d'affichage classique.",
+        "tags": ["Photoshop", "Illustrator", "InDesign"],
+        "gallery": [
+          { "src": "/images/projects/Affiche.webp", "description": "" }
+        ]
+      },
+      {
+        "key": "billboard",
+        "title": "En grand format urbain",
+        "context": "Projet SAE401 - Direction artistique & communication visuelle",
+        "period": "2026",
+        "duration": "2 mois",
+        "description": "Dernier test de robustesse : l'affiche projetée sur un abribus en contexte réel. À cette échelle, chaque choix de composition et de contraste se révèle. Le visuel tient : la typographie reste lisible, l'image conserve sa densité, l'identité dorée s'impose dans l'espace urbain.",
+        "tags": ["Photoshop", "Illustrator", "InDesign"],
+        "gallery": [
+          { "src": "/images/projects/01 Free Billboard Mockup At Bus Stop.webp", "description": "" }
+        ]
+      },
+      {
+        "key": "vinyle",
+        "title": "La pièce maîtresse",
+        "context": "Projet SAE401 - Direction artistique & communication visuelle",
+        "period": "2026",
+        "duration": "2 mois",
+        "description": "Le vinyle collector clôt le coffret, et le projet. Objet de prestige par essence, il porte l'identité visuelle dans sa forme la plus aboutie. Le rond du disque répond aux stickers, la palette dorée rappelle chaque pièce produite. Une cohérence qui boucle vingt ans de musique en un seul objet.",
+        "tags": ["Photoshop", "Illustrator", "InDesign"],
+        "gallery": [
+          { "src": "/images/projects/1-Vinyl Record Mockup.webp", "description": "" }
         ]
       }
     ]
