@@ -4,8 +4,6 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import ScrollToTop from './components/ScrollToTop';
 import GoogleAnalytics from './components/GoogleAnalytics';
 import Preloader from './components/Preloader';
-import AdminGuard from './components/AdminGuard';
-
 // Code splitting - Chargement différé des pages
 const Home = lazy(() => import('./pages/Home'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
@@ -16,13 +14,11 @@ const LettreCarjackFilms = lazy(() => import('./pages/LettreCarjackFilms'));
 const LettreRegiePlateau = lazy(() => import('./pages/LettreRegiePlateau'));
 const LettrePreparateurCommande = lazy(() => import('./pages/LettrePreparateurCommande'));
 const LettreAssistantTechniqueAV = lazy(() => import('./pages/LettreAssistantTechniqueAV'));
-const LettreChargeComDigitale = lazy(() => import('./pages/LettreChargeComDigitale'));
 const CoverLetterEN = lazy(() => import('./pages/CoverLetterEN'));
 const CVEN = lazy(() => import('./pages/CVEN'));
 const About = lazy(() => import('./pages/About'));
 const Legal = lazy(() => import('./pages/Legal'));
 const NotFound = lazy(() => import('./pages/NotFound'));
-const AdminProjects = lazy(() => import('./pages/AdminProjects'));
 
 // Routes accessibles uniquement en local (localhost)
 const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -62,10 +58,8 @@ function AppContent() {
           <Route path="/lettre-regie-plateau" element={<LocalOnly><LettreRegiePlateau /></LocalOnly>} />
           <Route path="/lettre-preparateur-commande" element={<LocalOnly><LettrePreparateurCommande /></LocalOnly>} />
           <Route path="/lettre-assistant-technique-av" element={<LocalOnly><LettreAssistantTechniqueAV /></LocalOnly>} />
-          <Route path="/lettre-charge-com-digitale" element={<LocalOnly><LettreChargeComDigitale /></LocalOnly>} />
           <Route path="/cover-letter" element={<LocalOnly><CoverLetterEN /></LocalOnly>} />
           <Route path="/cv-en" element={<LocalOnly><CVEN /></LocalOnly>} />
-          <Route path="/admin" element={<AdminGuard><AdminProjects /></AdminGuard>} />
           <Route path="/about" element={<About />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="*" element={<NotFound />} />
