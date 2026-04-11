@@ -19,11 +19,35 @@ function SubProjectGallery({ subProject, isDarkMode }) {
 
   return (
     <div className="mt-8">
-      <div className="flex items-center justify-center gap-4 mb-3">
-        {gallery.length > 1 && (
+      {/* Image — hauteur fixe */}
+      <div
+        className="relative mx-auto overflow-hidden"
+        style={{ maxWidth: expanded ? '100%' : '460px', height: expanded ? 'auto' : '420px' }}
+      >
+        <img
+          src={gallery[currentIndex].src}
+          alt={`${subProject.title} - Image ${currentIndex + 1}`}
+          className={`rounded-lg transition-all duration-300 ${expanded ? 'w-full object-contain' : 'absolute inset-0 w-full h-full object-contain'}`}
+          style={{ cursor: isMobile ? 'default' : (expanded ? 'zoom-out' : 'zoom-in') }}
+          draggable={false}
+          onClick={isMobile ? undefined : () => setExpanded(!expanded)}
+          onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+          onTouchMove={(e) => { touchEndX.current = e.touches[0].clientX; }}
+          onTouchEnd={() => {
+            const diff = touchStartX.current - touchEndX.current;
+            if (Math.abs(diff) > 50) diff > 0 ? handleNext() : handlePrev();
+            touchStartX.current = 0;
+            touchEndX.current = 0;
+          }}
+        />
+      </div>
+
+      {/* Boutons + compteur — hauteur fixe, jamais déplacés */}
+      {gallery.length > 1 && (
+        <div className="flex items-center justify-between mt-3" style={{ height: '36px', maxWidth: '460px', margin: '12px auto 0' }}>
           <button
             onClick={handlePrev}
-            className={`hidden md:block p-2 rounded-full border transition-colors ${
+            className={`hidden md:flex items-center justify-center p-2 rounded-full border transition-colors ${
               isDarkMode
                 ? 'border-beige/20 hover:border-beige hover:bg-beige/10'
                 : 'border-black/20 hover:border-black hover:bg-black/10'
@@ -34,37 +58,10 @@ function SubProjectGallery({ subProject, isDarkMode }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-        )}
-
-        <div className="w-full" style={{ maxWidth: '460px' }}>
-          <div
-            className={`relative rounded-lg overflow-hidden flex items-center justify-center ${isDarkMode ? 'bg-white/5' : 'bg-black/5'}`}
-            style={expanded ? { height: 'auto' } : { height: '340px' }}
-            onClick={isMobile ? undefined : () => setExpanded(!expanded)}
-            onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
-            onTouchMove={(e) => { touchEndX.current = e.touches[0].clientX; }}
-            onTouchEnd={() => {
-              const diff = touchStartX.current - touchEndX.current;
-              if (Math.abs(diff) > 50) diff > 0 ? handleNext() : handlePrev();
-              touchStartX.current = 0;
-              touchEndX.current = 0;
-            }}
-          >
-            <img
-              src={gallery[currentIndex].src}
-              alt={`${subProject.title} - Image ${currentIndex + 1}`}
-              className="max-w-full max-h-full object-contain select-none pointer-events-none transition-all duration-300"
-              style={{ cursor: isMobile ? 'default' : (expanded ? 'zoom-out' : 'zoom-in'), maxHeight: expanded ? 'none' : '100%' }}
-              loading="lazy"
-              draggable={false}
-            />
-          </div>
-        </div>
-
-        {gallery.length > 1 && (
+          <span className="text-xs opacity-40">{currentIndex + 1} / {gallery.length}</span>
           <button
             onClick={handleNext}
-            className={`hidden md:block p-2 rounded-full border transition-colors ${
+            className={`hidden md:flex items-center justify-center p-2 rounded-full border transition-colors ${
               isDarkMode
                 ? 'border-beige/20 hover:border-beige hover:bg-beige/10'
                 : 'border-black/20 hover:border-black hover:bg-black/10'
@@ -75,18 +72,13 @@ function SubProjectGallery({ subProject, isDarkMode }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
-        )}
-      </div>
-
-      {gallery.length > 1 && (
-        <div className="text-center mb-2">
-          <span className="text-xs opacity-40">{currentIndex + 1} / {gallery.length}</span>
         </div>
       )}
 
-      <div className="min-h-[4rem]">
+      {/* Description — hauteur fixe pour éviter tout déplacement */}
+      <div style={{ height: '4rem', overflow: 'hidden', marginTop: '8px', maxWidth: '460px', margin: '8px auto 0' }}>
         {gallery[currentIndex].description && (
-          <p className="text-center text-sm opacity-60 max-w-md mx-auto">
+          <p className="text-center text-sm opacity-60">
             {gallery[currentIndex].description}
           </p>
         )}

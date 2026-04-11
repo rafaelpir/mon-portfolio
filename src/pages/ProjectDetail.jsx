@@ -283,42 +283,22 @@ export default function ProjectDetail() {
                 </h2>
 
                 {/* Image avec boutons de navigation */}
-                <div className="relative flex justify-center mb-4">
-                  {/* Bouton précédent - absolu, fade selon état zoom */}
-                  <button
-                    onClick={handlePrevImage}
-                    className={`hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 p-3 rounded-full border transition-all duration-300 flex-shrink-0 z-10 ${imageExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'} ${
-                      isDarkMode
-                        ? 'border-beige/20 hover:border-beige hover:bg-beige/10'
-                        : 'border-black/20 hover:border-black hover:bg-black/10'
-                    }`}
-                    aria-label="Image précédente"
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                  </button>
-
-                  {/* Image du carousel */}
+                <div className="flex justify-center mb-4">
                   <div
-                    className="relative rounded-lg bg-black/5 flex items-center justify-center transition-all duration-500 ease-in-out"
-                    style={{ width: '100%', maxWidth: imageExpanded ? '1200px' : '500px', cursor: isMobile ? 'default' : (imageExpanded ? 'zoom-out' : 'zoom-in') }}
+                    className="relative rounded-lg bg-black/5 transition-all duration-500 ease-in-out"
+                    style={{
+                      width: '100%',
+                      maxWidth: imageExpanded ? '1200px' : '500px',
+                      height: imageExpanded ? 'auto' : '450px',
+                      cursor: isMobile ? 'default' : (imageExpanded ? 'zoom-out' : 'zoom-in')
+                    }}
                     onClick={isMobile ? undefined : () => setImageExpanded(!imageExpanded)}
-                    onTouchStart={(e) => {
-                      touchStartX.current = e.touches[0].clientX;
-                    }}
-                    onTouchMove={(e) => {
-                      touchEndX.current = e.touches[0].clientX;
-                    }}
+                    onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+                    onTouchMove={(e) => { touchEndX.current = e.touches[0].clientX; }}
                     onTouchEnd={() => {
                       const diff = touchStartX.current - touchEndX.current;
-                      const minSwipeDistance = 50;
-                      if (Math.abs(diff) > minSwipeDistance) {
-                        if (diff > 0) {
-                          handleNextImage();
-                        } else {
-                          handlePrevImage();
-                        }
+                      if (Math.abs(diff) > 50) {
+                        if (diff > 0) handleNextImage(); else handlePrevImage();
                       }
                       touchStartX.current = 0;
                       touchEndX.current = 0;
@@ -327,27 +307,41 @@ export default function ProjectDetail() {
                     <img
                       src={project.gallery[currentImageIndex].src}
                       alt={`${project.title} - Image ${currentImageIndex + 1}`}
-                      className="w-full object-contain select-none pointer-events-none transition-all duration-500 ease-in-out rounded-lg"
-                      style={{ maxHeight: imageExpanded ? '2000px' : '450px' }}
-                      loading="lazy"
+                      className={`select-none pointer-events-none rounded-lg transition-all duration-500 ease-in-out ${imageExpanded ? 'w-full object-contain' : 'absolute inset-0 w-full h-full object-contain'}`}
                       draggable={false}
                     />
-                  </div>
 
-                  {/* Bouton suivant - absolu, fade selon état zoom */}
-                  <button
-                    onClick={handleNextImage}
-                    className={`hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 p-3 rounded-full border transition-all duration-300 flex-shrink-0 z-10 ${imageExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'} ${
-                      isDarkMode
-                        ? 'border-beige/20 hover:border-beige hover:bg-beige/10'
-                        : 'border-black/20 hover:border-black hover:bg-black/10'
-                    }`}
-                    aria-label="Image suivante"
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
+                    {!imageExpanded && (
+                      <>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}
+                          className={`hidden md:flex absolute -left-14 top-1/2 -translate-y-1/2 p-3 rounded-full border z-10 transition-colors ${
+                            isDarkMode
+                              ? 'border-beige/20 bg-black/50 hover:border-beige hover:bg-beige/10'
+                              : 'border-black/20 bg-white/50 hover:border-black hover:bg-black/10'
+                          }`}
+                          aria-label="Image précédente"
+                        >
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); handleNextImage(); }}
+                          className={`hidden md:flex absolute -right-14 top-1/2 -translate-y-1/2 p-3 rounded-full border z-10 transition-colors ${
+                            isDarkMode
+                              ? 'border-beige/20 bg-black/50 hover:border-beige hover:bg-beige/10'
+                              : 'border-black/20 bg-white/50 hover:border-black hover:bg-black/10'
+                          }`}
+                          aria-label="Image suivante"
+                        >
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
 
                 {/* Compteur et indication swipe mobile */}

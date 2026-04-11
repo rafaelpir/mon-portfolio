@@ -682,7 +682,7 @@ export const projects = [
     "context": "Projet personnel  Affiche Save the Date",
     "period": "Mars 2026",
     "duration": "2 jours",
-    "description": "Affiche Save the Date pour la 83e édition du Grand Prix de Monaco, du 4 au 7 juin 2026. Le rouge domine  couleur de la vitesse et de la Principauté  avec un fond texturé de losanges qui reprend le fuselé d'argent et de gueules des armoiries Grimaldi. Une monoplace surgit en diagonale, le blason de Monaco ancre l'identité institutionnelle.",
+    "description": "Affiche Save the Date pour la 83e édition du Grand Prix de Monaco, du 4 au 7 juin 2026. Le rouge domine  couleur de la vitesse et de la Principauté  avec un fond texturé de losanges qui reprend le fuselé d'argent et de gueules des armoiries Grimaldi. Le blason de Monaco ancre l'identité institutionnelle.",
     "isNew": true,
     "thumbnail": "/images/projects/thumbs/monaco-savethedate.webp",
     "tags": [
@@ -705,16 +705,16 @@ export const projects = [
         "description": "Affiche Save the Date Grand Prix de Monaco."
       },
       {
-        "src": "/images/projects/billboardf1.webp",
-        "description": "Mockup billboard  Affiche Save the Date Grand Prix de Monaco."
+        "src": "/images/projects/billboardformule.webp",
+        "description": "Mockup billboard  Variante Grand Prix de Monaco."
       },
       {
         "src": "/images/projects/formule1OR.webp",
         "description": "Variante dorée  Affiche Save the Date Grand Prix de Monaco."
       },
       {
-        "src": "/images/projects/billboardformule.webp",
-        "description": "Mockup billboard  Variante Grand Prix de Monaco."
+        "src": "/images/projects/billboardf1.webp",
+        "description": "Mockup billboard  Affiche Save the Date Grand Prix de Monaco."
       }
     ]
   },
