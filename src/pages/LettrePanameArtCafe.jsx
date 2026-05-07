@@ -1,4 +1,6 @@
 import CVNavigation from '../components/CVNavigation';
+import LetterBackground from '../components/LetterBackground';
+import A4Shader from '../components/A4Shader';
 
 export default function LettrePanameArtCafe() {
   // Date automatique
@@ -7,7 +9,7 @@ export default function LettrePanameArtCafe() {
   const formattedDate = today.toLocaleDateString('fr-FR', options);
 
   return (
-    <div className="min-h-screen font-sans bg-gray-100 text-gray-900 py-10 print:p-0 print:m-0 print:bg-white">
+    <LetterBackground>
 
       {/* STYLE IMPRESSION */}
       <style>{`
@@ -34,7 +36,7 @@ export default function LettrePanameArtCafe() {
 
       {/* --- CONTENEUR A4 --- */}
       <div
-        className="mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative print:shadow-none print:m-0 print:w-full"
+        className="mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative isolate print:shadow-none print:m-0 print:w-full"
         style={{
           width: '21cm',
           height: '29.7cm',
@@ -42,6 +44,7 @@ export default function LettrePanameArtCafe() {
           boxSizing: 'border-box'
         }}
       >
+      <A4Shader />
 
         {/* --- HEADER DEUX COLONNES --- */}
         <header className="flex justify-between items-start mb-10">
@@ -84,7 +87,7 @@ export default function LettrePanameArtCafe() {
 
           <p>
             Actuellement étudiant en 2<sup>e</sup> année de BUT Métiers du Multimédia et de l'Internet,
-            je suis à la recherche d'un stage en tant que régisseur technique au sein de votre établissement.
+            je suis à la recherche d'une alternance à partir de septembre 2026 en tant que régisseur technique au sein de votre établissement.
           </p>
 
           <p>
@@ -100,7 +103,7 @@ export default function LettrePanameArtCafe() {
             Cette curiosité me permet aujourd'hui d'apporter rigueur et dynamisme à mes réalisations.
             Je suis convaincu que le Paname Art Café, véritable institution du stand-up parisien
             depuis plus de 15 ans, est l'endroit idéal pour continuer à apprendre et progresser
-            dans ce domaine. Ce stage me permettrait d'acquérir une expérience professionnelle solide
+            dans ce domaine. Cette alternance me permettrait d'acquérir une expérience professionnelle solide
             en régie son et lumière, en complément de ma formation.
           </p>
 
@@ -129,7 +132,7 @@ export default function LettrePanameArtCafe() {
         {/* --- FOOTER --- */}
         <div className="mt-auto pt-6 border-t border-gray-200">
           <div className="flex justify-between items-center text-[10px] text-gray-400">
-            <span>Rafael Piral  Candidature Stage Régisseur Technique</span>
+            <span>Rafael Piral  Candidature Alternance Régisseur Technique</span>
             <a href="https://rafaelpiral.fr" target="_blank" rel="noreferrer" className="hover:underline cursor-pointer hover:text-gray-600">
               rafaelpiral.fr
             </a>
@@ -152,6 +155,6 @@ export default function LettrePanameArtCafe() {
         </button>
       </div>
 
-    </div>
+    </LetterBackground>
   );
 }

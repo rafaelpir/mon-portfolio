@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { projects } from '../data/projects';
 import CVNavigation from '../components/CVNavigation';
+import LetterBackground from '../components/LetterBackground';
+import A4Shader from '../components/A4Shader';
 
 // Descriptions courtes pour le CV (sinon la description complète est trop longue)
 const cvDescriptions = {
@@ -22,6 +24,7 @@ const defaultSelectedIds = [8, 1, 2, 3, 4, 5, 6, 7, 10];
 export default function CV() {
   const [selectedIds, setSelectedIds] = useState(defaultSelectedIds);
   const [showSelector, setShowSelector] = useState(false);
+  const [mode, setMode] = useState('stage');
 
   const toggleProject = (id) => {
     setSelectedIds(prev =>
@@ -34,7 +37,7 @@ export default function CV() {
     .sort((a, b) => selectedIds.indexOf(a.id) - selectedIds.indexOf(b.id));
 
   return (
-    <div className="min-h-screen font-sans bg-gray-100 text-gray-900 py-10 print:p-0 print:m-0 print:bg-white">
+    <LetterBackground>
 
       {/* STYLE IMPRESSION + OVERRIDE CLS GLOBAL */}
       <style>{`
@@ -70,6 +73,26 @@ export default function CV() {
 
       {/* --- SÉLECTEUR MODE + PROJETS --- */}
       <div className="no-print mx-auto mb-6" style={{ maxWidth: '21cm' }}>
+
+        {/* Toggle stage / alternance */}
+        <div className="flex rounded-full overflow-hidden border border-gray-300 w-fit mb-4">
+          <button
+            onClick={() => setMode('stage')}
+            className={`px-4 py-1.5 text-sm font-medium transition-all ${
+              mode === 'stage' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            Stage
+          </button>
+          <button
+            onClick={() => setMode('alternance')}
+            className={`px-4 py-1.5 text-sm font-medium transition-all ${
+              mode === 'alternance' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            Alternance
+          </button>
+        </div>
 
         <button
           onClick={() => setShowSelector(!showSelector)}
@@ -117,7 +140,7 @@ export default function CV() {
 
       {/* --- CONTENEUR A4 --- */}
       <div
-        className="cv-page mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative print:shadow-none print:m-0 print:w-full"
+        className="cv-page mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative isolate print:shadow-none print:m-0 print:w-full"
         style={{
           width: '21cm',
           height: '29.7cm',
@@ -126,6 +149,7 @@ export default function CV() {
           boxSizing: 'border-box'
         }}
       >
+      <A4Shader />
 
         {/* --- HEADER --- */}
         <header className="border-b-2 border-gray-900 pb-3 mb-4 shrink-0">
@@ -136,7 +160,10 @@ export default function CV() {
                 Graphiste, Designer UX/UI, Audiovisuel & Communication
               </p>
               <p className="text-[10px] tracking-wider text-gray-500 uppercase font-medium mt-0.5">
-                Recherche de stage (avril 2026, 10 sem. min.) & alternance (sept. 2026)
+                {mode === 'stage'
+                  ? 'Recherche de stage — Avril 2026, 10 semaines minimum'
+                  : 'Recherche d\'alternance, à partir de septembre 2026'
+                }
               </p>
             </div>
             <div className="text-right text-[11px] leading-snug text-gray-600 flex flex-col items-end">
@@ -158,7 +185,10 @@ export default function CV() {
           <section>
             <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Profil</h2>
             <p className="text-[11px] text-justify leading-relaxed text-gray-700">
-              Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026 et d'une alternance à partir de septembre 2026, dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle.
+              {mode === 'stage'
+                ? "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026, dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle."
+                : "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'une alternance à partir de septembre 2026, dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite m'investir dans une structure sur la durée et contribuer à des projets créatifs tout en développant mon expertise professionnelle."
+              }
             </p>
           </section>
 
@@ -259,6 +289,18 @@ export default function CV() {
             <div className="space-y-2">
               <div className="flex flex-col text-[11px]">
                 <div className="flex justify-between items-baseline">
+                  <span className="font-bold text-gray-900">
+                    Phantasmagloria — Stage Communication &amp; Production audiovisuelle
+                    <span className="ml-2 px-1.5 py-0.5 text-[8px] font-bold tracking-wider rounded bg-green-100 text-green-800 border border-green-200">À VENIR</span>
+                  </span>
+                  <span className="text-[10px] text-gray-500">Avril — Juin 2026</span>
+                </div>
+                <p className="text-gray-600 text-[10px]">
+                  Création visuelle (affiches, showreel), gestion des réseaux sociaux, communication orale et écrite, constitution de dossiers de production, démarchage institutions et clients.
+                </p>
+              </div>
+              <div className="flex flex-col text-[11px]">
+                <div className="flex justify-between items-baseline">
                   <span className="font-bold text-gray-900">JO Paris 2024  Manutentionnaire (Proman)</span>
                   <span className="text-[10px] text-gray-500">Été 2024</span>
                 </div>
@@ -339,6 +381,6 @@ export default function CV() {
         </button>
       </div>
 
-    </div>
+    </LetterBackground>
   );
 }

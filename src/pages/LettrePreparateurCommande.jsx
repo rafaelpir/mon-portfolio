@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import CVNavigation from '../components/CVNavigation';
+import LetterBackground from '../components/LetterBackground';
+import A4Shader from '../components/A4Shader';
 
 export default function LettrePreparateurCommande() {
   const [entreprise, setEntreprise] = useState('');
@@ -10,7 +12,7 @@ export default function LettrePreparateurCommande() {
   const formattedDate = today.toLocaleDateString('fr-FR', options);
 
   return (
-    <div className="min-h-screen font-sans bg-gray-100 text-gray-900 py-10 print:p-0 print:m-0 print:bg-white">
+    <LetterBackground>
 
       {/* STYLE IMPRESSION */}
       <style>{`
@@ -62,7 +64,7 @@ export default function LettrePreparateurCommande() {
 
       {/* --- CONTENEUR A4 --- */}
       <div
-        className="mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative print:shadow-none print:m-0 print:w-full"
+        className="mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative isolate print:shadow-none print:m-0 print:w-full"
         style={{
           width: '21cm',
           height: '29.7cm',
@@ -70,6 +72,7 @@ export default function LettrePreparateurCommande() {
           boxSizing: 'border-box'
         }}
       >
+      <A4Shader />
 
         {/* --- HEADER DEUX COLONNES --- */}
         <header className="flex justify-between items-start mb-10">
@@ -181,6 +184,6 @@ export default function LettrePreparateurCommande() {
         </button>
       </div>
 
-    </div>
+    </LetterBackground>
   );
 }

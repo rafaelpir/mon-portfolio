@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { projects } from '../data/projects';
 import CVNavigation from '../components/CVNavigation';
+import LetterBackground from '../components/LetterBackground';
+import A4Shader from '../components/A4Shader';
 
 // Short English descriptions for the CV
 const cvDescriptions = {
@@ -60,7 +62,7 @@ export default function CVEN() {
     .sort((a, b) => selectedIds.indexOf(a.id) - selectedIds.indexOf(b.id));
 
   return (
-    <div className="min-h-screen font-sans bg-gray-100 text-gray-900 py-10 print:p-0 print:m-0 print:bg-white">
+    <LetterBackground>
 
       {/* STYLE IMPRESSION + OVERRIDE CLS GLOBAL */}
       <style>{`
@@ -138,7 +140,7 @@ export default function CVEN() {
 
       {/* --- CONTENEUR A4 --- */}
       <div
-        className="mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative print:shadow-none print:m-0 print:w-full"
+        className="mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative isolate print:shadow-none print:m-0 print:w-full"
         style={{
           width: '21cm',
           height: '29.7cm',
@@ -146,6 +148,7 @@ export default function CVEN() {
           boxSizing: 'border-box'
         }}
       >
+      <A4Shader />
 
         {/* --- HEADER --- */}
         <header className="border-b-2 border-gray-900 pb-3 mb-4 shrink-0">
@@ -356,6 +359,6 @@ export default function CVEN() {
         </button>
       </div>
 
-    </div>
+    </LetterBackground>
   );
 }

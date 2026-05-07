@@ -95,6 +95,8 @@ export default function Timeline({ isDarkMode }) {
                     ? isDarkMode ? 'bg-blue-500/20 text-blue-300' : 'bg-blue-500/20 text-blue-700'
                     : event.category === 'Création'
                     ? isDarkMode ? 'bg-orange-500/20 text-orange-300' : 'bg-orange-500/20 text-orange-700'
+                    : event.category === 'Stage'
+                    ? isDarkMode ? 'bg-purple-500/20 text-purple-300' : 'bg-purple-500/20 text-purple-700'
                     : isDarkMode ? 'bg-green-500/20 text-green-300' : 'bg-green-500/20 text-green-700'
                 }`}>
                   {event.category}

@@ -8,6 +8,12 @@ const pages = [
   { path: '/lettre-paname-art-cafe', label: 'Paname Art Café' },
   { path: '/lettre-regie-plateau', label: 'Régie Plateau' },
   { path: '/lettre-preparateur-commande', label: 'Préparateur Commande' },
+  { path: '/lettre-club-foot', label: 'Club Foot' },
+  { path: '/lettre-assistant-technique-av', label: 'Assistant Technique AV' },
+  { path: '/lettre-assistant-son-plateau', label: 'Assistant Son Plateau' },
+  { path: '/lettre-27e-region', label: '27e Région' },
+  { path: '/lettre-puc', label: 'PUC' },
+  { path: '/email-candidature', label: 'Email' },
   { path: '/cv-en', label: 'CV (EN)' },
   { path: '/cover-letter', label: 'Cover Letter (EN)' },
 ];

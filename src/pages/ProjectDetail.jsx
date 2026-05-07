@@ -1,37 +1,61 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../data/projects';
 import { ReactLenis } from 'lenis/dist/lenis-react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+
+const slideVariants = {
+  enter: (dir) => ({ x: dir * 60, opacity: 0 }),
+  center: { x: 0, opacity: 1 },
+  exit: (dir) => ({ x: -dir * 60, opacity: 0 }),
+};
 
 function PartCarousel({ images, title, isDarkMode, imageMaxWidth, imageMaxHeight }) {
   const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [expanded, setExpanded] = useState(false);
   const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+
+  const changeImage = useCallback((newIndex, currentIndex) => {
+    setDirection(newIndex > currentIndex ? 1 : -1);
+    setCurrent(newIndex);
+  }, []);
 
   return (
     <div className="flex items-center justify-center">
       <div className="w-full transition-all duration-300" style={{ maxWidth: expanded ? '100%' : (imageMaxWidth || '384px') }}>
-        <div className="relative group">
-          <img
-            src={images[current]}
-            alt={title}
-            className="w-full object-contain rounded-lg transition-all duration-300"
-            style={{ cursor: isMobile ? 'default' : (expanded ? 'zoom-out' : 'zoom-in'), ...(expanded ? {} : (imageMaxHeight ? { maxHeight: imageMaxHeight } : {})) }}
-            loading="lazy"
-            onClick={isMobile ? undefined : () => setExpanded(!expanded)}
-          />
+        <div className="relative group overflow-hidden rounded-lg">
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            <motion.img
+              key={current}
+              src={images[current]}
+              alt={title}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              className="w-full object-contain rounded-lg"
+              style={{
+                cursor: isMobile ? 'default' : (expanded ? 'zoom-out' : 'zoom-in'),
+                ...(expanded ? {} : (imageMaxHeight ? { maxHeight: imageMaxHeight } : {}))
+              }}
+              loading="lazy"
+              onClick={isMobile ? undefined : () => setExpanded(!expanded)}
+            />
+          </AnimatePresence>
           {images.length > 1 && (
             <>
               <button
-                onClick={(e) => { e.stopPropagation(); setCurrent((current - 1 + images.length) % images.length); }}
+                onClick={(e) => { e.stopPropagation(); changeImage((current - 1 + images.length) % images.length, current); }}
                 className={`absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ${isDarkMode ? 'bg-black/70 text-beige' : 'bg-white/80 text-black'}`}
               >
                 ‹
               </button>
               <button
-                onClick={(e) => { e.stopPropagation(); setCurrent((current + 1) % images.length); }}
+                onClick={(e) => { e.stopPropagation(); changeImage((current + 1) % images.length, current); }}
                 className={`absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ${isDarkMode ? 'bg-black/70 text-beige' : 'bg-white/80 text-black'}`}
               >
                 ›
@@ -44,7 +68,7 @@ function PartCarousel({ images, title, isDarkMode, imageMaxWidth, imageMaxHeight
             {images.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setCurrent(i)}
+                onClick={() => changeImage(i, current)}
                 className={`w-2 h-2 rounded-full transition-all ${i === current ? (isDarkMode ? 'bg-beige' : 'bg-black') : 'bg-gray-400'}`}
               />
             ))}
@@ -66,6 +90,7 @@ export default function ProjectDetail() {
   });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageExpanded, setImageExpanded] = useState(false);
+  const [galleryDirection, setGalleryDirection] = useState(1);
   const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
@@ -74,20 +99,22 @@ export default function ProjectDetail() {
   const currentIndex = projects.findIndex(p => p.id.toString() === id);
   const project = projects[currentIndex];
 
-  // Fonctions pour le carousel
+  const changeGalleryImage = useCallback((newIndex, dir) => {
+    setGalleryDirection(dir);
+    setCurrentImageIndex(newIndex);
+  }, []);
+
   const handleNextImage = () => {
     if (project.gallery) {
-      setCurrentImageIndex((prev) => (prev + 1) % project.gallery.length);
       setImageExpanded(false);
+      changeGalleryImage((currentImageIndex + 1) % project.gallery.length, 1);
     }
   };
 
   const handlePrevImage = () => {
     if (project.gallery) {
-      setCurrentImageIndex((prev) =>
-        prev === 0 ? project.gallery.length - 1 : prev - 1
-      );
       setImageExpanded(false);
+      changeGalleryImage(currentImageIndex === 0 ? project.gallery.length - 1 : currentImageIndex - 1, -1);
     }
   };
 
@@ -304,12 +331,23 @@ export default function ProjectDetail() {
                       touchEndX.current = 0;
                     }}
                   >
-                    <img
-                      src={project.gallery[currentImageIndex].src}
-                      alt={`${project.title} - Image ${currentImageIndex + 1}`}
-                      className={`select-none pointer-events-none rounded-lg transition-all duration-500 ease-in-out ${imageExpanded ? 'w-full object-contain' : 'absolute inset-0 w-full h-full object-contain'}`}
-                      draggable={false}
-                    />
+                    <div className={`${imageExpanded ? '' : 'absolute inset-0'} overflow-hidden rounded-lg`}>
+                      <AnimatePresence initial={false} custom={galleryDirection} mode="wait">
+                        <motion.img
+                          key={currentImageIndex}
+                          src={project.gallery[currentImageIndex].src}
+                          alt={`${project.title} - Image ${currentImageIndex + 1}`}
+                          custom={galleryDirection}
+                          variants={slideVariants}
+                          initial="enter"
+                          animate="center"
+                          exit="exit"
+                          transition={{ duration: 0.25, ease: 'easeInOut' }}
+                          className={`select-none pointer-events-none rounded-lg ${imageExpanded ? 'w-full object-contain' : 'w-full h-full object-contain'}`}
+                          draggable={false}
+                        />
+                      </AnimatePresence>
+                    </div>
 
                     {!imageExpanded && (
                       <>

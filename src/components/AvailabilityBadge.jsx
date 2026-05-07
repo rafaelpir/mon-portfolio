@@ -105,34 +105,6 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
               </p>
             </div>
 
-            {/* Stage Section */}
-            <div className={`mb-5 pb-5 border-b ${
-              isDarkMode ? 'border-beige/10' : 'border-black/10'
-            }`}>
-              <div className="flex items-start gap-2">
-                <div className={`flex-shrink-0 w-2 h-2 rounded-full mt-1.5 ${
-                  isDarkMode ? 'bg-orange-400' : 'bg-orange-500'
-                }`}></div>
-                <div className="flex-1">
-                  <h3 className={`text-lg font-light mb-0.5 ${
-                    isDarkMode ? 'text-beige' : 'text-black'
-                  }`}>
-                    {t('availability.internship.title')}
-                  </h3>
-                  <p className={`text-xs tracking-widest mb-2 ${
-                    isDarkMode ? 'text-orange-300' : 'text-orange-600'
-                  }`}>
-                    {t('availability.internship.date')}
-                  </p>
-                  <p className={`text-sm leading-relaxed font-light ${
-                    isDarkMode ? 'text-gray-400' : 'text-gray-700'
-                  }`}>
-                    {t('availability.internship.description')}
-                  </p>
-                </div>
-              </div>
-            </div>
-
             {/* Alternance Section */}
             <div className="mb-5">
               <div className="flex items-start gap-2">

@@ -1,15 +1,14 @@
-import { useState } from 'react';
 import CVNavigation from '../components/CVNavigation';
+import LetterBackground from '../components/LetterBackground';
+import A4Shader from '../components/A4Shader';
 
 export default function LettreCarjackFilms() {
-  const [mode, setMode] = useState('stage'); // 'stage' ou 'alternance'
-
   const today = new Date();
   const options = { day: 'numeric', month: 'long', year: 'numeric' };
   const formattedDate = today.toLocaleDateString('fr-FR', options);
 
   return (
-    <div className="min-h-screen font-sans bg-gray-100 text-gray-900 py-10 print:p-0 print:m-0 print:bg-white">
+    <LetterBackground>
 
       {/* STYLE IMPRESSION */}
       <style>{`
@@ -34,34 +33,9 @@ export default function LettreCarjackFilms() {
 
       <CVNavigation />
 
-      {/* --- SÉLECTEUR MODE --- */}
-      <div className="max-w-4xl mx-auto mb-6 no-print">
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Type de candidature</h2>
-          <div className="flex rounded-full overflow-hidden border border-gray-300 w-fit">
-            <button
-              onClick={() => setMode('stage')}
-              className={`px-4 py-1.5 text-sm font-medium transition-all ${
-                mode === 'stage' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              Stage
-            </button>
-            <button
-              onClick={() => setMode('alternance')}
-              className={`px-4 py-1.5 text-sm font-medium transition-all ${
-                mode === 'alternance' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              Alternance
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* --- CONTENEUR A4 --- */}
       <div
-        className="mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative print:shadow-none print:m-0 print:w-full"
+        className="mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative isolate print:shadow-none print:m-0 print:w-full"
         style={{
           width: '21cm',
           height: '29.7cm',
@@ -69,6 +43,7 @@ export default function LettreCarjackFilms() {
           boxSizing: 'border-box'
         }}
       >
+      <A4Shader />
 
         {/* --- HEADER DEUX COLONNES --- */}
         <header className="flex justify-between items-start mb-10">
@@ -98,10 +73,7 @@ export default function LettreCarjackFilms() {
           <p className="text-[12px]">
             <span className="font-bold text-gray-800">Objet :</span>
             <span className="text-gray-700 ml-2">
-              {mode === 'stage'
-                ? "Candidature au poste d'Assistant·e Production & Développement Commercial (stage)"
-                : "Candidature au poste d'Assistant·e Production & Développement Commercial (alternance)"
-              }
+              Candidature au poste d'Assistant·e Production &amp; Développement Commercial (alternance)
             </span>
           </p>
         </div>
@@ -113,10 +85,7 @@ export default function LettreCarjackFilms() {
 
           <p>
             Actuellement étudiant en 2<sup>e</sup> année de BUT Métiers du Multimédia et de l'Internet,
-            {mode === 'stage'
-              ? <> je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026 en tant qu'assistant·e production &amp; développement commercial.</>
-              : <> je suis à la recherche d'une alternance à partir de septembre 2026 en tant qu'assistant·e production &amp; développement commercial.</>
-            }
+            {' '}je suis à la recherche d'une alternance à partir de septembre 2026 en tant qu'assistant·e production &amp; développement commercial.
           </p>
 
           <p>
@@ -134,14 +103,14 @@ export default function LettreCarjackFilms() {
             Ce qui m'attire chez CARJACK FILMS, c'est la possibilité de découvrir la production
             audiovisuelle de l'intérieur, du suivi de projet au développement commercial. J'aimerais
             apprendre comment une société de production structure ses projets, coordonne ses équipes
-            et développe ses partenariats. {mode === 'stage' ? 'Ce stage' : 'Cette alternance'} serait l'occasion idéale de comprendre les
+            et développe ses partenariats. Cette alternance serait l'occasion idéale de comprendre les
             coulisses de la production et d'y contribuer&nbsp;concrètement.
           </p>
 
           <p>
             Cette curiosité me permet aujourd'hui d'apporter des idées fraîches et actuelles à mes
             réalisations. Je suis convaincu que votre entreprise est l'endroit idéal pour continuer
-            à apprendre et progresser dans ce domaine. {mode === 'stage' ? 'Ce stage' : 'Cette alternance'} me permettrait d'acquérir une expérience
+            à apprendre et progresser dans ce domaine. Cette alternance me permettrait d'acquérir une expérience
             professionnelle solide, en complément de ma formation.
           </p>
 
@@ -193,6 +162,6 @@ export default function LettreCarjackFilms() {
         </button>
       </div>
 
-    </div>
+    </LetterBackground>
   );
 }

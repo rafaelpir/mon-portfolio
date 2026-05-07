@@ -102,10 +102,13 @@ export default function Home() {
   const allProjects = [...experiencesPro, ...projects];
 
   // Catégories à afficher dans les filtres
-  const categories = ['Tous', 'Affiches', 'UI/UX Design'];
+  const categories = ['Tous', 'Affiches', 'Branding', 'UI/UX Design', 'Photographie', 'Audiovisuel', 'Développement web'];
 
-  // Extraire tous les tags uniques
-  const allTags = [...new Set(allProjects.flatMap(p => p.tags || []))].sort();
+  // Outils reconnus uniquement (exclut disciplines et techniques)
+  const toolWhitelist = ['Photoshop', 'Illustrator', 'Figma', 'InDesign', 'Premiere Pro', 'After Effects', 'Motion Design'];
+  const allTags = toolWhitelist.filter(tool =>
+    allProjects.some(p => (p.tags || []).includes(tool))
+  );
 
   const isLocalhost = window.location.hostname === 'localhost';
 
@@ -570,29 +573,30 @@ export default function Home() {
           </div>
         </div>
 
-        {/* LightBoard en bas pleine largeur  espace réservé pour éviter CLS */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden" style={{ minHeight: '56px' }}>
-          {tier !== 'none' && (
-            <LightBoard
-              text={t('home:lightboard.text')}
-              rows={7}
-              gap={1}
-              lightSize={4}
-              updateInterval={tier === 'full' ? 60 : 200}
-              colors={isDarkMode ? {
-                background: "transparent",
-                textDim: "rgba(232,220,196,0.1)",
-                textBright: "#E8DCC4",
-              } : {
-                background: "transparent",
-                textDim: "rgba(0,0,0,0.1)",
-                textBright: "#000000",
-              }}
-              className="w-full"
-            />
-          )}
-        </div>
       </section>
+
+      {/* LightBoard pleine largeur entre hero et about */}
+      <div className="w-full overflow-hidden" style={{ minHeight: '56px' }}>
+        {tier !== 'none' && (
+          <LightBoard
+            text={t('home:lightboard.text')}
+            rows={7}
+            gap={1}
+            lightSize={4}
+            updateInterval={tier === 'full' ? 60 : 200}
+            colors={isDarkMode ? {
+              background: "transparent",
+              textDim: "rgba(232,220,196,0.1)",
+              textBright: "#E8DCC4",
+            } : {
+              background: "transparent",
+              textDim: "rgba(0,0,0,0.1)",
+              textBright: "#000000",
+            }}
+            className="w-full"
+          />
+        )}
+      </div>
 
       {/* Introduction / About */}
       <motion.section
