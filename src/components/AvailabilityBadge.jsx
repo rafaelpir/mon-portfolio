@@ -40,26 +40,25 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
         }`}>•</span>
 
         <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2 md:gap-3 min-w-0">
-          <span className={`text-sm sm:text-base md:text-2xl font-black ${
-            isDarkMode ? 'text-beige' : 'text-black'
-          }`}>
-            {availableDate}
-          </span>
-
           {alternance && (
             <>
-              <span className={`hidden sm:inline text-xs md:text-sm ${
-                isDarkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                &
-              </span>
               <span className={`text-xs sm:text-sm md:text-2xl font-black ${
                 isDarkMode ? 'text-beige' : 'text-black'
               }`}>
                 {alternance}
               </span>
+              <span className={`hidden sm:inline text-xs md:text-sm ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
+                &
+              </span>
             </>
           )}
+          <span className={`text-sm sm:text-base md:text-2xl font-black ${
+            isDarkMode ? 'text-beige' : 'text-black'
+          }`}>
+            {availableDate}
+          </span>
         </div>
       </div>
     </button>
