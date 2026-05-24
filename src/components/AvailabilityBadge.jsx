@@ -1,63 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export default function AvailabilityBadge({ availableDate, alternance, status, isDarkMode, performanceTier = 'full' }) {
   const { t } = useTranslation('common');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [dragging, setDragging] = useState(false);
-  const [positioned, setPositioned] = useState(false);
-  const dialogRef = useRef(null);
-  const dragOffset = useRef({ x: 0, y: 0 });
-  const positionRef = useRef({ x: 0, y: 0 });
 
-  useEffect(() => {
-    if (!isModalOpen) setPositioned(false);
-  }, [isModalOpen]);
-
-  useEffect(() => {
-    if (!dragging) return;
-    const onMove = (e) => {
-      if (!dialogRef.current) return;
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      dialogRef.current.style.left = (clientX - dragOffset.current.x) + 'px';
-      dialogRef.current.style.top  = (clientY - dragOffset.current.y) + 'px';
-    };
-    const onUp = () => {
-      if (dialogRef.current) {
-        const r = dialogRef.current.getBoundingClientRect();
-        positionRef.current = { x: r.left, y: r.top };
-      }
-      setDragging(false);
-    };
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onUp);
-    document.addEventListener('touchmove', onMove, { passive: false });
-    document.addEventListener('touchend', onUp);
-    return () => {
-      document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mouseup', onUp);
-      document.removeEventListener('touchmove', onMove);
-      document.removeEventListener('touchend', onUp);
-    };
-  }, [dragging]);
-
-  const handleTitleBarDown = (e) => {
-    if (e.button !== undefined && e.button !== 0) return;
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    const rect = dialogRef.current.getBoundingClientRect();
-    positionRef.current = { x: rect.left, y: rect.top };
-    dragOffset.current = { x: clientX - rect.left, y: clientY - rect.top };
-    // setPositioned + setDragging sont batché en un seul re-render (React 18)
-    setPositioned(true);
-    setDragging(true);
-    e.preventDefault();
-  };
-
-  const dialogStyle = positioned
-    ? { position: 'fixed', left: positionRef.current.x, top: positionRef.current.y, transform: 'none' }
-    : { position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' };
+  const dialogStyle = { position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' };
 
   return (
     <>
@@ -137,22 +85,17 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
             boxShadow: isDarkMode
               ? '0 30px 80px rgba(0,0,0,0.9), 0 0 0 0.5px rgba(255,255,255,0.08)'
               : '0 30px 80px rgba(0,0,0,0.35), 0 0 0 0.5px rgba(0,0,0,0.08)',
-            cursor: dragging ? 'grabbing' : 'default',
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Title bar — drag handle */}
+          {/* Title bar */}
           <div
-            onMouseDown={handleTitleBarDown}
-            onTouchStart={handleTitleBarDown}
             className={`relative flex items-center px-4 h-11 border-b ${
               isDarkMode ? 'bg-[#2C2C2E] border-[#3A3A3C]' : 'bg-[#E8E8E8] border-[#C8C8C8]'
             }`}
-            style={{ cursor: dragging ? 'grabbing' : 'grab' }}
           >
             <div className="flex items-center gap-2 z-10">
               <button
-                onMouseDown={(e) => e.stopPropagation()}
                 onClick={() => setIsModalOpen(false)}
                 className="group/close relative w-3 h-3 rounded-full bg-[#FF5F57] hover:bg-[#E0443E] transition-colors cursor-pointer"
                 aria-label={t('buttons.close')}
