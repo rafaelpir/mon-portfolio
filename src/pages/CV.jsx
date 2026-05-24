@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 import { projects } from '../data/projects';
 import CVNavigation from '../components/CVNavigation';
 import LetterBackground from '../components/LetterBackground';
-import A4Shader from '../components/A4Shader';
 
 // Descriptions courtes pour le CV (sinon la description complète est trop longue)
 const cvDescriptions = {
@@ -18,13 +18,29 @@ const cvDescriptions = {
   10:"Court-métrage réalisé pour le Nikon Film Festival 2025 sur le thème « Super-pouvoir ». J'ai participé à l'écriture, au tournage, au montage et au sous-titrage."
 };
 
+const toolColors = {
+  'Photoshop':       { color: '#31A8FF' },
+  'Illustrator':     { color: '#FF9A00' },
+  'InDesign':        { color: '#FF3366' },
+  'Figma':           { color: '#A259FF' },
+  'Premiere Pro':    { color: '#9999FF' },
+  'DaVinci Resolve': { color: '#E2264A' },
+  'After Effects':   { color: '#6B73FF' },
+  'Jimdo':           { color: '#00C58E' },
+};
+const toolBadgeStyle = (tool) => {
+  const entry = toolColors[tool];
+  if (!entry) return {};
+  return { color: entry.color, borderColor: entry.color, backgroundColor: `${entry.color}18` };
+};
+
 // IDs des projets sélectionnés par défaut dans le CV
 const defaultSelectedIds = [8, 1, 2, 3, 4, 5, 6, 7, 10];
 
 export default function CV() {
   const [selectedIds, setSelectedIds] = useState(defaultSelectedIds);
   const [showSelector, setShowSelector] = useState(false);
-  const [mode, setMode] = useState('stage');
+  const mode = 'alternance';
 
   const toggleProject = (id) => {
     setSelectedIds(prev =>
@@ -74,25 +90,6 @@ export default function CV() {
       {/* --- SÉLECTEUR MODE + PROJETS --- */}
       <div className="no-print mx-auto mb-6" style={{ maxWidth: '21cm' }}>
 
-        {/* Toggle stage / alternance */}
-        <div className="flex rounded-full overflow-hidden border border-gray-300 w-fit mb-4">
-          <button
-            onClick={() => setMode('stage')}
-            className={`px-4 py-1.5 text-sm font-medium transition-all ${
-              mode === 'stage' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            Stage
-          </button>
-          <button
-            onClick={() => setMode('alternance')}
-            className={`px-4 py-1.5 text-sm font-medium transition-all ${
-              mode === 'alternance' ? 'bg-black text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            Alternance
-          </button>
-        </div>
 
         <button
           onClick={() => setShowSelector(!showSelector)}
@@ -149,7 +146,6 @@ export default function CV() {
           boxSizing: 'border-box'
         }}
       >
-      <A4Shader />
 
         {/* --- HEADER --- */}
         <header className="border-b-2 border-gray-900 pb-3 mb-4 shrink-0">
@@ -157,23 +153,53 @@ export default function CV() {
             <div>
               <h1 className="text-3xl font-bold tracking-widest leading-none mb-1.5">RAFAEL PIRAL</h1>
               <p className="text-xs tracking-widest text-gray-600 uppercase font-medium">
-                Graphiste, Designer UX/UI, Audiovisuel & Communication
+                Graphiste, Designer UX/UI, Audiovisuel & Communication{' '}
+                <span className="text-gray-900 font-bold">
+                  {mode === 'stage' ? 'Recherche de stage' : 'Recherche d\'alternance'}
+                </span>
               </p>
               <p className="text-[10px] tracking-wider text-gray-500 uppercase font-medium mt-0.5">
                 {mode === 'stage'
-                  ? 'Recherche de stage — Avril 2026, 10 semaines minimum'
-                  : 'Recherche d\'alternance, à partir de septembre 2026'
+                  ? 'Recherche de stage, Avril 2026, 10 semaines minimum'
+                  : 'Recherche d\'alternance BUT 3 MMI Création numérique, IUT Bobigny, rentrée septembre 2026'
                 }
               </p>
             </div>
-            <div className="text-right text-[11px] leading-snug text-gray-600 flex flex-col items-end">
-              <a href="mailto:rafa2002@hotmail.fr" className="font-bold hover:underline decoration-black text-gray-900 cursor-pointer">
+            <div className="flex items-end gap-4">
+              {/* QR codes */}
+              <div className="flex gap-3">
+                <div className="flex flex-col items-center gap-0.5">
+                  <QRCodeSVG value="https://rafaelpiral.fr" size={44} level="M" />
+                  <span className="text-[7px] font-bold uppercase tracking-wider text-gray-400">Portfolio</span>
+                </div>
+                <div className="flex flex-col items-center gap-0.5">
+                  <QRCodeSVG value="https://linkedin.com/in/rafaelpiral" size={44} level="M" />
+                  <span className="text-[7px] font-bold uppercase tracking-wider text-gray-400">LinkedIn</span>
+                </div>
+              </div>
+              {/* Infos contact */}
+              <div className="text-right text-[11px] leading-snug text-gray-600 flex flex-col items-end gap-0.5">
+              <a href="tel:+33769670407" className="font-bold text-gray-900 hover:underline cursor-pointer">
+                07 69 67 04 07
+              </a>
+              <a href="mailto:rafa2002@hotmail.fr" className="hover:underline decoration-black text-gray-700 cursor-pointer">
                 rafa2002@hotmail.fr
               </a>
-              <a href="https://rafaelpiral.fr" target="_blank" rel="noreferrer" className="hover:underline decoration-black text-gray-900 cursor-pointer">
-                rafaelpiral.fr
-              </a>
+              <span className="flex items-baseline gap-1">
+                <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Portfolio</span>
+                <a href="https://rafaelpiral.fr" target="_blank" rel="noreferrer" className="font-bold hover:underline decoration-black text-gray-900 cursor-pointer">
+                  rafaelpiral.fr
+                </a>
+              </span>
+              <span className="flex items-baseline gap-1">
+                <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">LinkedIn</span>
+                <a href="https://linkedin.com/in/rafaelpiral" target="_blank" rel="noreferrer" className="hover:underline decoration-black text-gray-700 cursor-pointer">
+                  linkedin.com/in/rafaelpiral
+                </a>
+              </span>
+
               <p>Le Pré Saint-Gervais, Île-de-France</p>
+              </div>
             </div>
           </div>
         </header>
@@ -187,7 +213,7 @@ export default function CV() {
             <p className="text-[11px] text-justify leading-relaxed text-gray-700">
               {mode === 'stage'
                 ? "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026, dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle."
-                : "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'une alternance à partir de septembre 2026, dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite m'investir dans une structure sur la durée et contribuer à des projets créatifs tout en développant mon expertise professionnelle."
+                : "Étudiant en 2e année de BUT MMI, je prépare une entrée en BUT 3 Création numérique en alternance à l'IUT de Bobigny (rentrée septembre 2026, rythme 1 semaine école / 1 semaine entreprise). Je recherche une entreprise dans le domaine de la création numérique, de l'audiovisuel ou de la communication pour m'investir sur la durée et contribuer à des projets créatifs ambitieux."
               }
             </p>
           </section>
@@ -238,49 +264,53 @@ export default function CV() {
             <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">
               Mes Projets
             </h2>
-            <div className="space-y-2.5">
-              {selectedProjects.map((project) => {
+            {(() => {
+              const descriptionSansOrphelin = (text) => {
+                if (!text) return "";
+                const lastSpaceIndex = text.lastIndexOf(" ");
+                if (lastSpaceIndex === -1) return text;
+                return text.substring(0, lastSpaceIndex) + "\u00A0" + text.substring(lastSpaceIndex + 1);
+              };
 
-                // --- FONCTION ANTI-ORPHELINS ---
-                const descriptionSansOrphelin = (text) => {
-                   if (!text) return "";
-                   const lastSpaceIndex = text.lastIndexOf(" ");
-                   if (lastSpaceIndex === -1) return text;
-                   return text.substring(0, lastSpaceIndex) + "\u00A0" + text.substring(lastSpaceIndex + 1);
-                };
+              const half = Math.ceil(selectedProjects.length / 2);
+              const col1 = selectedProjects.slice(0, half);
+              const col2 = selectedProjects.slice(half);
 
-                const desc = cvDescriptions[project.id] || project.description;
-
-                return (
-                  <div key={project.id} className="border-l-2 border-gray-900 pl-3 relative">
-
-                    <div className="flex items-baseline justify-between mb-0.5">
-                      <div className="flex items-baseline gap-2">
-                        <h3 className="font-bold text-[11px] uppercase text-black">{project.title}</h3>
-
-                        {/* --- BADGES --- */}
-                        {project.type === 'Universitaire' ? (
-                          <span className="px-1.5 py-0.5 text-[8px] font-bold tracking-wider rounded bg-blue-100 text-blue-800 border border-blue-200">
-                            UNIV.
+              const renderProject = (project) => (
+                <div key={project.id} className="border-l-2 border-gray-900 pl-3">
+                  <div className="flex items-baseline justify-between mb-0.5">
+                    <div className="flex items-baseline flex-wrap gap-1">
+                      <h3 className="font-bold text-[11px] uppercase text-black">{project.title}</h3>
+                      {project.type === 'Universitaire' ? (
+                        <span className="px-1.5 py-0.5 text-[8px] font-bold tracking-wider rounded bg-blue-100 text-blue-800 border border-blue-200">UNIV.</span>
+                      ) : (
+                        <span className="px-1.5 py-0.5 text-[8px] font-bold tracking-wider rounded bg-orange-100 text-orange-800 border border-orange-200">PERSO.</span>
+                      )}
+                      {project.outils && project.outils.map(tool => {
+                        const label = tool.replace('Adobe ', '');
+                        return (
+                          <span key={tool} className="px-1.5 py-0.5 text-[8px] font-medium rounded border" style={toolBadgeStyle(label)}>
+                            {label}
                           </span>
-                        ) : (
-                          <span className="px-1.5 py-0.5 text-[8px] font-bold tracking-wider rounded bg-orange-100 text-orange-800 border border-orange-200">
-                            PERSO.
-                          </span>
-                        )}
-
-                      </div>
-                      <span className="text-[10px] text-gray-500 font-mono">{project.year}</span>
+                        );
+                      })}
                     </div>
-
-                    <p className="text-[10px] leading-tight text-gray-600 text-left">
-                      <span className="text-gray-400 mr-1 font-mono">[{project.category}]</span>
-                      {descriptionSansOrphelin(desc)}
-                    </p>
+                    <span className="text-[10px] text-gray-500 font-mono shrink-0 ml-1">{project.year}</span>
                   </div>
-                );
-              })}
-            </div>
+                  <p className="text-[10px] leading-tight text-gray-600 text-left">
+                    <span className="text-gray-400 mr-1 font-mono">[{project.category}]</span>
+                    {descriptionSansOrphelin(cvDescriptions[project.id] || project.description)}
+                  </p>
+                </div>
+              );
+
+              return (
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 items-start">
+                  <div className="space-y-2.5">{col1.map(renderProject)}</div>
+                  <div className="space-y-2.5">{col2.map(renderProject)}</div>
+                </div>
+              );
+            })()}
           </section>
 
           {/* 4. EXPÉRIENCES */}
@@ -290,13 +320,13 @@ export default function CV() {
               <div className="flex flex-col text-[11px]">
                 <div className="flex justify-between items-baseline">
                   <span className="font-bold text-gray-900">
-                    Phantasmagloria — Stage Communication &amp; Production audiovisuelle
-                    <span className="ml-2 px-1.5 py-0.5 text-[8px] font-bold tracking-wider rounded bg-green-100 text-green-800 border border-green-200">À VENIR</span>
+                    Phantasmagloria, Stage Communication &amp; Production audiovisuelle
+                    {new Date() <= new Date("2026-06-27") && <span className="ml-2 px-1.5 py-0.5 text-[8px] font-bold tracking-wider rounded bg-green-100 text-green-800 border border-green-200">EN COURS</span>}
                   </span>
-                  <span className="text-[10px] text-gray-500">Avril — Juin 2026</span>
+                  <span className="text-[10px] text-gray-500">Avril / Juin 2026</span>
                 </div>
                 <p className="text-gray-600 text-[10px]">
-                  Création visuelle (affiches, showreel), gestion des réseaux sociaux, communication orale et écrite, constitution de dossiers de production, démarchage institutions et clients.
+                  Création d'affiches et de showreels (Photoshop, Illustrator), montage vidéo (Premiere Pro). Gestion des réseaux sociaux, communication orale et écrite, constitution de dossiers de production, démarchage institutions et clients.
                 </p>
               </div>
               <div className="flex flex-col text-[11px]">
@@ -321,6 +351,15 @@ export default function CV() {
           <section>
             <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Formation scolaire</h2>
             <div className="space-y-2 text-[11px] text-gray-800">
+
+              {mode === 'alternance' && (
+                <div className="flex justify-between items-baseline">
+                  <span className="font-bold">BUT 3 MMI Création numérique (alternance), IUT Bobigny
+                    <span className="ml-2 px-1.5 py-0.5 text-[8px] font-bold tracking-wider rounded bg-purple-100 text-purple-800 border border-purple-200">À VENIR</span>
+                  </span>
+                  <span className="text-gray-500 text-[10px]">Septembre 2026</span>
+                </div>
+              )}
 
               <div className="flex justify-between items-baseline">
                 <span className="font-bold">BUT MMI (Création Numérique)  IUT Bobigny</span>

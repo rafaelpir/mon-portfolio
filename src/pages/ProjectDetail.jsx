@@ -1,5 +1,6 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 import { projects } from '../data/projects';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { useState, useRef, useCallback } from 'react';
@@ -81,7 +82,7 @@ function PartCarousel({ images, title, isDarkMode, imageMaxWidth, imageMaxHeight
 import ProjectDoubleDetail from './ProjectDoubleDetail';
 
 export default function ProjectDetail() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation(['projects', 'common']);
   const [isDarkMode] = useState(() => {
@@ -95,8 +96,8 @@ export default function ProjectDetail() {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  // Trouver le projet actuel
-  const currentIndex = projects.findIndex(p => p.id.toString() === id);
+  // Trouver le projet actuel par slug
+  const currentIndex = projects.findIndex(p => p.slug === slug);
   const project = projects[currentIndex];
 
   const changeGalleryImage = useCallback((newIndex, dir) => {
@@ -121,7 +122,7 @@ export default function ProjectDetail() {
   // Projets précédent et suivant (en excluant les projets cachés)
   const isLocalhost = window.location.hostname === 'localhost';
   const visibleProjects = projects.filter(p => !p.hidden || isLocalhost);
-  const currentVisibleIndex = visibleProjects.findIndex(p => p.id.toString() === id);
+  const currentVisibleIndex = visibleProjects.findIndex(p => p.slug === slug);
   const previousProject = visibleProjects[currentVisibleIndex - 1];
   const nextProject = visibleProjects[currentVisibleIndex + 1];
 
@@ -167,8 +168,51 @@ export default function ProjectDetail() {
     );
   }
 
+  const siteUrl = 'https://rafaelpiral.fr';
+  const pageUrl = `${siteUrl}/work/${project.slug}`;
+  const ogImage = project.thumbnail?.endsWith('.svg')
+    ? `${siteUrl}/og-image.png`
+    : `${siteUrl}${project.thumbnail}`;
+  const metaDesc = translatedProject.description?.slice(0, 155) || '';
+
   return (
     <>
+    <Helmet>
+      <title>{`${translatedProject.title} — Rafael Piral`}</title>
+      <meta name="description" content={metaDesc} />
+      <link rel="canonical" href={pageUrl} />
+      <meta property="og:type" content="article" />
+      <meta property="og:url" content={pageUrl} />
+      <meta property="og:title" content={`${translatedProject.title} — Rafael Piral`} />
+      <meta property="og:description" content={metaDesc} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:locale" content="fr_FR" />
+      <meta property="twitter:card" content="summary_large_image" />
+      <meta property="twitter:url" content={pageUrl} />
+      <meta property="twitter:title" content={`${translatedProject.title} — Rafael Piral`} />
+      <meta property="twitter:description" content={metaDesc} />
+      <meta property="twitter:image" content={ogImage} />
+      <script type="application/ld+json">{JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": translatedProject.title,
+        "description": metaDesc,
+        "image": ogImage,
+        "url": pageUrl,
+        "dateCreated": project.year,
+        "author": { "@type": "Person", "name": "Rafael Piral", "url": siteUrl },
+        "genre": translatedProject.category
+      })}</script>
+      <script type="application/ld+json">{JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": `${siteUrl}/` },
+          { "@type": "ListItem", "position": 2, "name": "Projets", "item": `${siteUrl}/#projects` },
+          { "@type": "ListItem", "position": 3, "name": translatedProject.title, "item": pageUrl }
+        ]
+      })}</script>
+    </Helmet>
     <ReactLenis
       root
       options={{
@@ -725,7 +769,7 @@ export default function ProjectDetail() {
                 {/* Projet précédent */}
                 {previousProject && (
                   <Link
-                    to={`/project/${previousProject.id}`}
+                    to={`/work/${previousProject.slug}`}
                     className={`group relative overflow-hidden rounded-lg aspect-video ${
                       isDarkMode ? 'bg-beige/5' : 'bg-black/5'
                     }`}
@@ -747,7 +791,7 @@ export default function ProjectDetail() {
                 {/* Projet suivant */}
                 {nextProject && (
                   <Link
-                    to={`/project/${nextProject.id}`}
+                    to={`/work/${nextProject.slug}`}
                     className={`group relative overflow-hidden rounded-lg aspect-video ${
                       isDarkMode ? 'bg-beige/5' : 'bg-black/5'
                     }`}

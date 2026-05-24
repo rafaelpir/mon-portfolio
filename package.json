@@ -23,6 +23,7 @@
     "react-helmet-async": "^2.0.5",
     "react-i18next": "^16.5.4",
     "react-router-dom": "^7.10.1",
+    "qrcode.react": "^4.2.0",
     "yet-another-react-lightbox": "^3.28.0"
   },
   "scripts": {

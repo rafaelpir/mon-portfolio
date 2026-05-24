@@ -1,5 +1,6 @@
 import { useState, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useParams } from 'react-router-dom';
+import { projects } from './data/projects';
 import { ShaderProvider } from './context/ShaderContext';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import ScrollToTop from './components/ScrollToTop';
@@ -24,6 +25,7 @@ const EmailCandidature = lazy(() => import('./pages/EmailCandidature'));
 const PortfolioPDF = lazy(() => import('./pages/PortfolioPDF'));
 const CoverLetterEN = lazy(() => import('./pages/CoverLetterEN'));
 const CVEN = lazy(() => import('./pages/CVEN'));
+const CVInterim = lazy(() => import('./pages/CVInterim'));
 const About = lazy(() => import('./pages/About'));
 const Generatif = lazy(() => import('./pages/Generatif'));
 const Legal = lazy(() => import('./pages/Legal'));
@@ -33,6 +35,14 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 function LocalOnly({ children }) {
   return isLocalhost ? children : <Navigate to="/" replace />;
+}
+
+// Redirige les anciennes URLs /project/:id vers /work/:slug
+function RedirectProjectToSlug() {
+  const { id } = useParams();
+  const project = projects.find(p => p.id.toString() === id);
+  if (!project?.slug) return <Navigate to="/" replace />;
+  return <Navigate to={`/work/${project.slug}`} replace />;
 }
 
 function AppContent() {
@@ -59,7 +69,8 @@ function AppContent() {
       <Suspense fallback={null}>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />
-          <Route path="/project/:id" element={<ProjectDetail />} />
+          <Route path="/work/:slug" element={<ProjectDetail />} />
+          <Route path="/project/:id" element={<RedirectProjectToSlug />} />
           <Route path="/cv" element={<LocalOnly><CV /></LocalOnly>} />
           <Route path="/portfolio-pdf" element={<LocalOnly><PortfolioPDF /></LocalOnly>} />
           <Route path="/lettre-motivation-graphiste" element={<LocalOnly><LettreMotivationGraphiste /></LocalOnly>} />
@@ -76,6 +87,7 @@ function AppContent() {
           <Route path="/email-candidature" element={<LocalOnly><EmailCandidature /></LocalOnly>} />
           <Route path="/cover-letter" element={<LocalOnly><CoverLetterEN /></LocalOnly>} />
           <Route path="/cv-en" element={<LocalOnly><CVEN /></LocalOnly>} />
+          <Route path="/cv-interim" element={<LocalOnly><CVInterim /></LocalOnly>} />
           <Route path="/about" element={<About />} />
           <Route path="/generatif" element={<Generatif />} />
           <Route path="/legal" element={<Legal />} />

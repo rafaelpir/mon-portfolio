@@ -10,6 +10,7 @@
 export const projects = [
   {
     "id": 1,
+    "slug": "un-homme-qui-dort",
     "title": "Un Homme qui dort - Affiche revisitée",
     "category": "Affiches",
     "type": "Personnel",
@@ -45,6 +46,7 @@ export const projects = [
   },
   {
     "id": 2,
+    "slug": "affiche-fetes-saint-paul-les-dax",
     "title": "Concours d'affiche : Fêtes Populaires de Saint-Paul-lès-Dax 2025",
     "category": "Affiches",
     "type": "Universitaire",
@@ -81,6 +83,7 @@ export const projects = [
   },
   {
     "id": 3,
+    "slug": "poster-sade-diamond-life",
     "title": "Poster Tribute : Sade  Diamond Life",
     "category": "Affiches",
     "type": "Personnel",
@@ -115,6 +118,7 @@ export const projects = [
   },
   {
     "id": 4,
+    "slug": "ux-design-app-veco",
     "title": "UX Design : Application Veco",
     "category": "UI/UX Design",
     "type": "Universitaire",
@@ -185,6 +189,7 @@ export const projects = [
   },
   {
     "id": 5,
+    "slug": "branding-agence-immobiliere",
     "title": "UI Design & Branding : Agence Immobilière",
     "category": "UI/UX Design",
     "type": "Universitaire",
@@ -236,6 +241,7 @@ export const projects = [
   },
   {
     "id": 6,
+    "slug": "statue-liberte-ascii",
     "title": "Statue de la Liberté  De la photo à l'ASCII",
     "category": "Photographie",
     "type": "Personnel",
@@ -271,6 +277,7 @@ export const projects = [
   },
   {
     "id": 7,
+    "slug": "identite-visuelle-a-coeur-ouvert",
     "title": "À Cœur Ouvert, Identité visuelle d'une ONG",
     "category": "Branding",
     "type": "Universitaire",
@@ -302,6 +309,7 @@ export const projects = [
   },
   {
     "id": 8,
+    "slug": "affiche-gummo",
     "title": "Gummo  Affiche de film",
     "category": "Affiches",
     "type": "Personnel",
@@ -339,6 +347,7 @@ export const projects = [
   },
   {
     "id": 10,
+    "slug": "flemme-court-metrage",
     "title": "FLEMME  Court-métrage",
     "category": "Audiovisuel",
     "type": "Universitaire",
@@ -377,6 +386,7 @@ export const projects = [
   },
   {
     "id": 11,
+    "slug": "batman-dark-knight-jimdo",
     "title": "Batman : The Dark Knight  Site web Jimdo",
     "category": "Développement web",
     "type": "Universitaire",
@@ -412,6 +422,7 @@ export const projects = [
   },
   {
     "id": 12,
+    "slug": "atelier-affiches-bollywood",
     "title": "Atelier Affiches  Reproduction & Typographie",
     "category": "Affiches",
     "type": "Universitaire",
@@ -480,6 +491,7 @@ export const projects = [
   },
   {
     "id": 9,
+    "slug": "reseau-alumni-iut-bobigny",
     "title": "Réseau Alumni  IUT de Bobigny",
     "category": "UI/UX Design",
     "type": "Universitaire",
@@ -524,6 +536,7 @@ export const projects = [
   },
   {
     "id": 14,
+    "slug": "coffret-alicia-keys",
     "title": "Coffret 20 Ans Alicia Keys",
     "category": "Branding",
     "type": "Universitaire",
@@ -675,6 +688,7 @@ export const projects = [
   },
   {
     "id": 15,
+    "slug": "grand-prix-monaco",
     "title": "Grand Prix de Monaco",
     "category": "Affiches",
     "type": "Personnel",
@@ -720,6 +734,7 @@ export const projects = [
   },
   {
     "id": 13,
+    "slug": "affiche-kaka",
     "title": "Affiche Ricardo Kaká",
     "category": "Affiches",
     "type": "Personnel",

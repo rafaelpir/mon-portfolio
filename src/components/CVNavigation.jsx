@@ -15,6 +15,7 @@ const pages = [
   { path: '/lettre-puc', label: 'PUC' },
   { path: '/email-candidature', label: 'Email' },
   { path: '/cv-en', label: 'CV (EN)' },
+  { path: '/cv-interim', label: 'CV Intérim' },
   { path: '/cover-letter', label: 'Cover Letter (EN)' },
 ];
 

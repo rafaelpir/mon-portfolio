@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { projects } from '../data/projects';
@@ -102,8 +103,51 @@ export default function ProjectDoubleDetail({ project }) {
 
   const subProjects = project.subProjects || [];
 
+  const siteUrl = 'https://rafaelpiral.fr';
+  const pageUrl = `${siteUrl}/work/${project.slug}`;
+  const ogImage = project.thumbnail?.endsWith('.svg')
+    ? `${siteUrl}/og-image.png`
+    : `${siteUrl}${project.thumbnail}`;
+  const metaDesc = (project.description || '').slice(0, 155);
+
   return (
     <>
+    <Helmet>
+      <title>{`${project.title} — Rafael Piral`}</title>
+      <meta name="description" content={metaDesc} />
+      <link rel="canonical" href={pageUrl} />
+      <meta property="og:type" content="article" />
+      <meta property="og:url" content={pageUrl} />
+      <meta property="og:title" content={`${project.title} — Rafael Piral`} />
+      <meta property="og:description" content={metaDesc} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:locale" content="fr_FR" />
+      <meta property="twitter:card" content="summary_large_image" />
+      <meta property="twitter:url" content={pageUrl} />
+      <meta property="twitter:title" content={`${project.title} — Rafael Piral`} />
+      <meta property="twitter:description" content={metaDesc} />
+      <meta property="twitter:image" content={ogImage} />
+      <script type="application/ld+json">{JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": project.title,
+        "description": metaDesc,
+        "image": ogImage,
+        "url": pageUrl,
+        "dateCreated": project.year,
+        "author": { "@type": "Person", "name": "Rafael Piral", "url": siteUrl },
+        "genre": project.category
+      })}</script>
+      <script type="application/ld+json">{JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": `${siteUrl}/` },
+          { "@type": "ListItem", "position": 2, "name": "Projets", "item": `${siteUrl}/#projects` },
+          { "@type": "ListItem", "position": 3, "name": project.title, "item": pageUrl }
+        ]
+      })}</script>
+    </Helmet>
     <ReactLenis root options={{ lerp: 0.05, duration: 1.2, smoothWheel: true }}>
       <div className={`min-h-screen font-stamp ${isDarkMode ? 'bg-black text-beige' : 'bg-beige text-black'}`}>
 
@@ -328,7 +372,7 @@ export default function ProjectDoubleDetail({ project }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {previousProject && (
                   <Link
-                    to={`/project/${previousProject.id}`}
+                    to={`/work/${previousProject.slug}`}
                     className={`group relative overflow-hidden rounded-lg aspect-video ${
                       isDarkMode ? 'bg-beige/5' : 'bg-black/5'
                     }`}
@@ -348,7 +392,7 @@ export default function ProjectDoubleDetail({ project }) {
                 )}
                 {nextProject && (
                   <Link
-                    to={`/project/${nextProject.id}`}
+                    to={`/work/${nextProject.slug}`}
                     className={`group relative overflow-hidden rounded-lg aspect-video ${
                       isDarkMode ? 'bg-beige/5' : 'bg-black/5'
                     }`}

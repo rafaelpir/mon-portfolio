@@ -3,31 +3,27 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "redirects": [
-    {
-      "source": "/#about",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/#projects",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/#skills",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/#contact",
-      "destination": "/",
-      "permanent": true
-    }
+    { "source": "/#about", "destination": "/", "permanent": true },
+    { "source": "/#projects", "destination": "/", "permanent": true },
+    { "source": "/#skills", "destination": "/", "permanent": true },
+    { "source": "/#contact", "destination": "/", "permanent": true },
+    { "source": "/project/1", "destination": "/work/un-homme-qui-dort", "permanent": true },
+    { "source": "/project/2", "destination": "/work/affiche-fetes-saint-paul-les-dax", "permanent": true },
+    { "source": "/project/3", "destination": "/work/poster-sade-diamond-life", "permanent": true },
+    { "source": "/project/4", "destination": "/work/ux-design-app-veco", "permanent": true },
+    { "source": "/project/5", "destination": "/work/branding-agence-immobiliere", "permanent": true },
+    { "source": "/project/6", "destination": "/work/statue-liberte-ascii", "permanent": true },
+    { "source": "/project/7", "destination": "/work/identite-visuelle-a-coeur-ouvert", "permanent": true },
+    { "source": "/project/8", "destination": "/work/affiche-gummo", "permanent": true },
+    { "source": "/project/9", "destination": "/work/reseau-alumni-iut-bobigny", "permanent": true },
+    { "source": "/project/10", "destination": "/work/flemme-court-metrage", "permanent": true },
+    { "source": "/project/11", "destination": "/work/batman-dark-knight-jimdo", "permanent": true },
+    { "source": "/project/12", "destination": "/work/atelier-affiches-bollywood", "permanent": true },
+    { "source": "/project/13", "destination": "/work/affiche-kaka", "permanent": true },
+    { "source": "/project/14", "destination": "/work/coffret-alicia-keys", "permanent": true },
+    { "source": "/project/15", "destination": "/work/grand-prix-monaco", "permanent": true }
   ],
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

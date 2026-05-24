@@ -27,6 +27,18 @@ export default function About() {
         <html lang={currentLang} />
         <title>{t('about:meta.title')}</title>
         <meta name="description" content={t('about:meta.description')} />
+        <link rel="canonical" href="https://rafaelpiral.fr/about" />
+        <meta property="og:type" content="profile" />
+        <meta property="og:url" content="https://rafaelpiral.fr/about" />
+        <meta property="og:title" content={t('about:meta.title')} />
+        <meta property="og:description" content={t('about:meta.description')} />
+        <meta property="og:image" content="https://rafaelpiral.fr/og-image.png" />
+        <meta property="og:locale" content={currentLang === 'fr' ? 'fr_FR' : 'en_US'} />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://rafaelpiral.fr/about" />
+        <meta property="twitter:title" content={t('about:meta.title')} />
+        <meta property="twitter:description" content={t('about:meta.description')} />
+        <meta property="twitter:image" content="https://rafaelpiral.fr/og-image.png" />
       </Helmet>
 
       {/* Header */}

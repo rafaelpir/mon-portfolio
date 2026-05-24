@@ -5,7 +5,7 @@
   <!-- Page d'accueil -->
   <url>
     <loc>https://rafaelpiral.fr/</loc>
-    <lastmod>2026-01-12</lastmod>
+    <lastmod>2026-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -13,17 +13,9 @@
   <!-- Page À propos -->
   <url>
     <loc>https://rafaelpiral.fr/about</loc>
-    <lastmod>2026-01-05</lastmod>
+    <lastmod>2026-05-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-  </url>
-
-  <!-- Page CV -->
-  <url>
-    <loc>https://rafaelpiral.fr/cv</loc>
-    <lastmod>2026-01-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
 
   <!-- Mentions légales -->
@@ -34,92 +26,158 @@
     <priority>0.3</priority>
   </url>
 
-  <!-- Projets individuels -->
+  <!-- Projets -->
   <url>
-    <loc>https://rafaelpiral.fr/project/1</loc>
-    <lastmod>2026-01-05</lastmod>
+    <loc>https://rafaelpiral.fr/work/coffret-alicia-keys</loc>
+    <lastmod>2026-05-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <image:image>
-      <image:loc>https://rafaelpiral.fr/images/projects/lhommequidort.webp</image:loc>
-      <image:title>Un Homme qui dort - Affiche revisitée</image:title>
+      <image:loc>https://rafaelpiral.fr/images/projects/officiel.webp</image:loc>
+      <image:title>Coffret 20 Ans Alicia Keys — Rafael Piral</image:title>
     </image:image>
   </url>
 
   <url>
-    <loc>https://rafaelpiral.fr/project/2</loc>
-    <lastmod>2026-01-05</lastmod>
+    <loc>https://rafaelpiral.fr/work/grand-prix-monaco</loc>
+    <lastmod>2026-05-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <image:image>
-      <image:loc>https://rafaelpiral.fr/images/projects/Dax.webp</image:loc>
-      <image:title>Concours d'affiche : Fêtes de Saint-Paul-lès-Dax 2025</image:title>
+      <image:loc>https://rafaelpiral.fr/images/projects/formule1.webp</image:loc>
+      <image:title>Grand Prix de Monaco — Affiche Save the Date — Rafael Piral</image:title>
     </image:image>
   </url>
 
   <url>
-    <loc>https://rafaelpiral.fr/project/3</loc>
-    <lastmod>2026-01-05</lastmod>
+    <loc>https://rafaelpiral.fr/work/affiche-kaka</loc>
+    <lastmod>2026-05-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <image:image>
-      <image:loc>https://rafaelpiral.fr/images/projects/sade.webp</image:loc>
-      <image:title>Poster : Sade – Diamond Life</image:title>
+      <image:loc>https://rafaelpiral.fr/images/projects/rickakagra.webp</image:loc>
+      <image:title>Affiche Ricardo Kaká — Rafael Piral</image:title>
     </image:image>
   </url>
 
   <url>
-    <loc>https://rafaelpiral.fr/project/4</loc>
+    <loc>https://rafaelpiral.fr/work/branding-agence-immobiliere</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/armorimmo.webp</image:loc>
+      <image:title>UI Design &amp; Branding Agence Immobilière — Rafael Piral</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://rafaelpiral.fr/work/reseau-alumni-iut-bobigny</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/Alumni.webp</image:loc>
+      <image:title>Réseau Alumni IUT de Bobigny — Rafael Piral</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://rafaelpiral.fr/work/ux-design-app-veco</loc>
     <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://rafaelpiral.fr/images/projects/veco/thumbnail.webp</image:loc>
-      <image:title>UI Design & Branding : Application Veco</image:title>
+      <image:title>UX Design Application Veco — Rafael Piral</image:title>
     </image:image>
   </url>
 
   <url>
-    <loc>https://rafaelpiral.fr/project/5</loc>
+    <loc>https://rafaelpiral.fr/work/identite-visuelle-a-coeur-ouvert</loc>
     <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://rafaelpiral.fr/images/projects/armorimmo.webp</image:loc>
-      <image:title>UI Design & Branding : Agence Immobilière</image:title>
+      <image:loc>https://rafaelpiral.fr/images/projects/ACoeurOuvert.svg</image:loc>
+      <image:title>À Cœur Ouvert — Identité visuelle ONG — Rafael Piral</image:title>
     </image:image>
   </url>
 
   <url>
-    <loc>https://rafaelpiral.fr/project/6</loc>
+    <loc>https://rafaelpiral.fr/work/atelier-affiches-bollywood</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/poster11.webp</image:loc>
+      <image:title>Atelier Affiches Reproduction &amp; Typographie — Rafael Piral</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://rafaelpiral.fr/work/un-homme-qui-dort</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/lhommequidort.webp</image:loc>
+      <image:title>Un Homme qui dort — Affiche revisitée — Rafael Piral</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://rafaelpiral.fr/work/affiche-fetes-saint-paul-les-dax</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/Dax.webp</image:loc>
+      <image:title>Concours d'affiche Fêtes de Saint-Paul-lès-Dax 2025 — Rafael Piral</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://rafaelpiral.fr/work/poster-sade-diamond-life</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://rafaelpiral.fr/images/projects/sade.webp</image:loc>
+      <image:title>Poster Tribute Sade Diamond Life — Rafael Piral</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://rafaelpiral.fr/work/statue-liberte-ascii</loc>
     <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://rafaelpiral.fr/images/projects/Liberté.webp</image:loc>
-      <image:title>Statue de la Liberté — De la photo à l'ASCII</image:title>
+      <image:title>Statue de la Liberté — De la photo à l'ASCII — Rafael Piral</image:title>
     </image:image>
   </url>
 
   <url>
-    <loc>https://rafaelpiral.fr/project/8</loc>
+    <loc>https://rafaelpiral.fr/work/affiche-gummo</loc>
     <lastmod>2026-01-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://rafaelpiral.fr/images/projects/Gummo.webp</image:loc>
-      <image:title>Gummo — Affiche de film</image:title>
+      <image:title>Gummo — Affiche de film — Rafael Piral</image:title>
     </image:image>
   </url>
 
   <url>
-    <loc>https://rafaelpiral.fr/project/11</loc>
+    <loc>https://rafaelpiral.fr/work/batman-dark-knight-jimdo</loc>
     <lastmod>2026-02-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://rafaelpiral.fr/images/projects/placeholder.webp</image:loc>
-      <image:title>Batman : The Dark Knight — Site web Jimdo</image:title>
+      <image:loc>https://rafaelpiral.fr/images/projects/batman-dark-knight.webp</image:loc>
+      <image:title>Batman The Dark Knight — Site web Jimdo — Rafael Piral</image:title>
     </image:image>
   </url>
 
