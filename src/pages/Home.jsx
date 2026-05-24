@@ -513,14 +513,14 @@ export default function Home() {
           <LazyShader className={`absolute inset-0 z-0 ${isDarkMode ? 'opacity-30' : 'opacity-60'}`}>
             <GrainGradient
               style={{ width: '100%', height: '100%' }}
-              minPixelRatio={tier === 'full' ? 1 : 0.5}
+              minPixelRatio={0.6}
               colors={isDarkMode ? ["#000000", "#000000", "#bababa"] : ["#f5f5f5", "#e0e0e0", "#cccccc"]}
               colorBack={isDarkMode ? "#000000" : "#ffffff"}
               softness={1}
               intensity={0.4}
               noise={0.5}
               shape="truchet"
-              speed={tier === 'full' ? 1.02 : 0.3}
+              speed={tier === 'full' ? 0.45 : 0.2}
               scale={0.16}
               rotation={168}
               offsetX={0.16}

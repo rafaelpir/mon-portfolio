@@ -99,10 +99,12 @@ export default function LightBoard({
     const cellSize = lightSize + gap;
     let pixelOffset = 0; // float en "colonnes"
     let lastTime = null;
+    let lastRenderTime = 0;
     let animId;
     let currentWidth = 0;
     let canvasHeight = CHAR_HEIGHT * cellSize;
     const speed = 20; // colonnes par seconde
+    const frameBudget = 1000 / 30; // capped à 30fps
 
     function resize(width) {
       currentWidth = width;
@@ -153,7 +155,10 @@ export default function LightBoard({
         const delta = Math.min((timestamp - lastTime) / 1000, 0.1);
         lastTime = timestamp;
         pixelOffset = (pixelOffset + speed * delta) % cols;
-        if (currentWidth > 0) draw();
+        if (currentWidth > 0 && timestamp - lastRenderTime >= frameBudget) {
+          lastRenderTime = timestamp;
+          draw();
+        }
         animId = requestAnimationFrame(loop);
       };
       animId = requestAnimationFrame(loop);
