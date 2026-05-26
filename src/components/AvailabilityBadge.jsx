@@ -5,206 +5,159 @@ export default function AvailabilityBadge({ availableDate, alternance, status, i
   const { t } = useTranslation('common');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const dialogStyle = { position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' };
-
   return (
     <>
     <button
       onClick={() => setIsModalOpen(true)}
-      aria-label={t('availability.ariaLabel')}
-      className="cursor-pointer group"
-    >
-      <div
-        className={`flex items-center gap-3 px-3 py-2.5 rounded-2xl backdrop-blur-xl transition-all duration-300 group-hover:scale-[1.01] ${
-          isDarkMode
-            ? 'bg-[#2C2C2E]/85 border border-white/8'
-            : 'bg-white/85 border border-black/8'
-        }`}
-        style={{
-          boxShadow: isDarkMode
-            ? '0 8px 32px rgba(0,0,0,0.6), 0 0 0 0.5px rgba(255,255,255,0.06)'
-            : '0 8px 32px rgba(0,0,0,0.12), 0 0 0 0.5px rgba(0,0,0,0.06)',
-        }}
-      >
-        {/* Pulsing dot */}
-        <div className="relative flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-lg bg-orange-500/15">
-          {performanceTier !== 'none' && (
-            <span
-              className={`absolute w-3 h-3 rounded-full bg-orange-500 ${
-                performanceTier === 'full' ? 'animate-ping' : 'animate-pulse'
-              }`}
-              style={{ opacity: 0.4 }}
-            />
+      className={`inline-flex flex-row items-center justify-center gap-3 md:gap-8 w-full px-4 md:px-12 py-3 md:py-6 rounded-lg md:rounded-xl transition-all duration-500 hover:shadow-2xl backdrop-blur-lg shadow-xl md:shadow-2xl border-2 md:border-4 cursor-pointer ${
+      isDarkMode
+        ? 'bg-gradient-to-r from-orange-500/30 via-red-500/20 to-orange-500/30 border-orange-400/50 shadow-orange-500/20'
+        : 'bg-gradient-to-r from-orange-500/40 via-red-500/30 to-orange-500/40 border-orange-600/60 shadow-orange-600/30'
+    }`}
+      aria-label={t('availability.ariaLabel')}>
+      {/* Pulsing dot */}
+      <div className="relative flex items-center justify-center shrink-0">
+        {performanceTier !== 'none' && (
+          <span className={`absolute w-5 h-5 md:w-8 md:h-8 rounded-full ${
+            performanceTier === 'full' ? 'animate-ping' : 'animate-pulse'
+          } ${isDarkMode ? 'bg-orange-300' : 'bg-orange-500'}`} style={{ opacity: 0.4 }}></span>
+        )}
+        <span className={`relative w-3 h-3 md:w-4 md:h-4 rounded-full ${
+          isDarkMode ? 'bg-orange-300' : 'bg-orange-500'
+        }`}></span>
+      </div>
+
+      {/* Badge text - responsive */}
+      <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 min-w-0">
+        <span className={`text-xs sm:text-sm md:text-xl font-bold tracking-wide uppercase ${
+          isDarkMode ? 'text-orange-200' : 'text-orange-700'
+        }`}>
+          {status}
+        </span>
+
+        <span className={`hidden md:block text-2xl ${
+          isDarkMode ? 'text-orange-300/40' : 'text-orange-600/40'
+        }`}>•</span>
+
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2 md:gap-3 min-w-0">
+          {alternance && (
+            <>
+              <span className={`text-xs sm:text-sm md:text-2xl font-black ${
+                isDarkMode ? 'text-beige' : 'text-black'
+              }`}>
+                {alternance}
+              </span>
+              <span className={`hidden sm:inline text-xs md:text-sm ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
+                &
+              </span>
+            </>
           )}
-          <span className="relative w-2.5 h-2.5 rounded-full bg-orange-500" />
-        </div>
-
-        {/* Text */}
-        <div className="flex-1 min-w-0 text-left">
-          <p className={`text-xs tracking-widest uppercase leading-none mb-1 ${
-            isDarkMode ? 'text-[#8E8E93]' : 'text-[#6C6C70]'
+          <span className={`text-sm sm:text-base md:text-2xl font-black ${
+            isDarkMode ? 'text-beige' : 'text-black'
           }`}>
-            {status}
-          </p>
-          <p className={`font-heading text-base md:text-lg leading-none truncate ${
-            isDarkMode ? 'text-white' : 'text-black'
-          }`}>
-            {alternance}{availableDate ? (alternance ? ` · ${availableDate}` : availableDate) : ''}
-          </p>
+            {availableDate}
+          </span>
         </div>
-
-        {/* Chevron */}
-        <svg
-          className={`flex-shrink-0 w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 ${
-            isDarkMode ? 'text-[#636366]' : 'text-[#C7C7CC]'
-          }`}
-          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
       </div>
     </button>
 
-    {/* macOS-style Modal */}
+    {/* Modal Popup */}
     {isModalOpen && (
-      <>
-        {/* Overlay */}
+      <div
+        className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xl"
+        onClick={() => setIsModalOpen(false)}
+      >
         <div
-          className="fixed inset-0 z-[9999] bg-black/50"
-          onClick={() => setIsModalOpen(false)}
-        />
-
-        {/* Dialog */}
-        <div
-          ref={dialogRef}
-          className={`z-[10000] w-[calc(100vw-2rem)] max-w-sm rounded-2xl overflow-hidden select-none ${
-            isDarkMode ? 'bg-[#1C1C1E]' : 'bg-[#F2F2F2]'
+          className={`relative max-w-md w-full border transition-all duration-500 ${
+            isDarkMode
+              ? 'bg-black border-beige/20'
+              : 'bg-white border-black/20'
           }`}
-          style={{
-            ...dialogStyle,
-            boxShadow: isDarkMode
-              ? '0 30px 80px rgba(0,0,0,0.9), 0 0 0 0.5px rgba(255,255,255,0.08)'
-              : '0 30px 80px rgba(0,0,0,0.35), 0 0 0 0.5px rgba(0,0,0,0.08)',
-          }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Title bar */}
-          <div
-            className={`relative flex items-center px-4 h-11 border-b ${
-              isDarkMode ? 'bg-[#2C2C2E] border-[#3A3A3C]' : 'bg-[#E8E8E8] border-[#C8C8C8]'
+          {/* Close Button */}
+          <button
+            onClick={() => setIsModalOpen(false)}
+            className={`absolute top-3 right-3 z-10 text-xs tracking-widest transition-opacity hover:opacity-50 pointer-events-auto cursor-pointer ${
+              isDarkMode ? 'text-beige' : 'text-black'
             }`}
+            aria-label={t('buttons.close')}
           >
-            <div className="flex items-center gap-2 z-10">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="group/close relative w-3 h-3 rounded-full bg-[#FF5F57] hover:bg-[#E0443E] transition-colors cursor-pointer"
-                aria-label={t('buttons.close')}
-              >
-                <span className="absolute inset-0 flex items-center justify-center text-[7px] text-[#5C0000] opacity-0 group-hover/close:opacity-100 leading-none">✕</span>
-              </button>
-              <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
-              <div className="w-3 h-3 rounded-full bg-[#28C840]" />
-            </div>
-            <span className={`absolute inset-0 flex items-center justify-center text-xs font-medium pointer-events-none ${
-              isDarkMode ? 'text-[#8E8E93]' : 'text-[#6C6C70]'
-            }`}>
-              rafaelpiral.fr
-            </span>
-          </div>
+            {t('buttons.close')} ✕
+          </button>
 
           {/* Content */}
-          <div className="p-6 space-y-5">
-            {/* Title */}
-            <div>
-              <h2 className={`font-heading text-2xl leading-none tracking-wide ${
-                isDarkMode ? 'text-white' : 'text-black'
+          <div className="p-5 md:p-6">
+            {/* Header */}
+            <div className="mb-5">
+              <h2 className={`text-2xl font-light mb-1 ${
+                isDarkMode ? 'text-beige' : 'text-black'
               }`}>
                 {t('availability.title')}
               </h2>
-              <p className={`text-xs tracking-widest uppercase mt-1.5 ${
-                isDarkMode ? 'text-[#8E8E93]' : 'text-[#6C6C70]'
+              <p className={`text-xs tracking-widest ${
+                isDarkMode ? 'text-gray-500' : 'text-gray-500'
               }`}>
                 {t('availability.subtitle')}
               </p>
             </div>
 
-            {/* Info card */}
-            <div className={`rounded-xl p-4 flex items-center gap-3 ${
-              isDarkMode ? 'bg-[#2C2C2E]' : 'bg-white'
-            }`}>
-              <div className="relative flex-shrink-0 flex items-center justify-center">
-                {performanceTier !== 'none' && (
-                  <span
-                    className={`absolute w-4 h-4 rounded-full ${
-                      performanceTier === 'full' ? 'animate-ping' : 'animate-pulse'
-                    } bg-orange-500`}
-                    style={{ opacity: 0.35 }}
-                  />
-                )}
-                <span className="relative w-2.5 h-2.5 rounded-full bg-orange-500" />
-              </div>
-              <div>
-                <p className={`font-heading text-xl leading-none ${
-                  isDarkMode ? 'text-white' : 'text-black'
-                }`}>
-                  {t('availability.apprenticeship.title')}
-                </p>
-                <p className={`text-xs tracking-widest mt-0.5 ${
-                  isDarkMode ? 'text-orange-400' : 'text-orange-600'
-                }`}>
-                  {t('availability.apprenticeship.date')}
-                </p>
+            {/* Alternance Section */}
+            <div className="mb-5">
+              <div className="flex items-start gap-2">
+                <div className={`flex-shrink-0 w-2 h-2 rounded-full mt-1.5 ${
+                  isDarkMode ? 'bg-orange-400' : 'bg-orange-500'
+                }`}></div>
+                <div className="flex-1">
+                  <h3 className={`text-lg font-light mb-0.5 ${
+                    isDarkMode ? 'text-beige' : 'text-black'
+                  }`}>
+                    {t('availability.apprenticeship.title')}
+                  </h3>
+                  <p className={`text-xs tracking-widest mb-2 ${
+                    isDarkMode ? 'text-orange-300' : 'text-orange-600'
+                  }`}>
+                    {t('availability.apprenticeship.date')}
+                  </p>
+                  <p className={`text-sm leading-relaxed font-light ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-700'
+                  }`}>
+                    {t('availability.apprenticeship.description')}
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Description */}
-            <p className={`text-sm leading-relaxed ${
-              isDarkMode ? 'text-[#EBEBEB]' : 'text-[#3A3A3C]'
+            {/* Footer CTA */}
+            <div className={`pt-4 border-t ${
+              isDarkMode ? 'border-beige/10' : 'border-black/10'
             }`}>
-              {t('availability.apprenticeship.description')}
-            </p>
-
-            {/* Divider */}
-            <div className={`border-t ${isDarkMode ? 'border-[#3A3A3C]' : 'border-[#D1D1D1]'}`} />
-
-            {/* Buttons */}
-            <div className="flex items-center justify-between gap-3">
-              <p className={`text-xs tracking-widest uppercase ${
-                isDarkMode ? 'text-[#8E8E93]' : 'text-[#6C6C70]'
+              <p className={`text-xs tracking-widest mb-2 ${
+                isDarkMode ? 'text-gray-500' : 'text-gray-500'
               }`}>
                 {t('contact.interested')}
               </p>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className={`px-4 py-2 rounded-lg text-xs tracking-widest uppercase font-medium transition-colors cursor-pointer ${
-                    isDarkMode
-                      ? 'bg-[#3A3A3C] text-[#EBEBEB] hover:bg-[#48484A]'
-                      : 'bg-[#E5E5EA] text-[#3A3A3C] hover:bg-[#D1D1D6]'
-                  }`}
-                >
-                  {t('buttons.close')}
-                </button>
-                <button
-                  onClick={() => {
-                    setIsModalOpen(false);
-                    setTimeout(() => {
-                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
-                  }}
-                  className={`px-4 py-2 rounded-lg text-xs tracking-widest uppercase font-medium transition-colors cursor-pointer ${
-                    isDarkMode
-                      ? 'bg-white text-black hover:bg-[#E5E5E5]'
-                      : 'bg-black text-white hover:bg-[#3A3A3C]'
-                  }`}
-                >
-                  {t('buttons.contactMe')}
-                </button>
-              </div>
+              <button
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setTimeout(() => {
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }}
+                className={`inline-block px-6 py-3 text-xs tracking-widest border transition-all duration-300 cursor-pointer ${
+                  isDarkMode
+                    ? 'border-beige hover:bg-beige hover:text-black text-beige'
+                    : 'border-black hover:bg-black hover:text-white text-black'
+                }`}
+              >
+                {t('buttons.contactMe')}
+              </button>
             </div>
           </div>
         </div>
-      </>
+      </div>
     )}
   </>
   );

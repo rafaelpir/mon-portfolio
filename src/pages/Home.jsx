@@ -564,7 +564,7 @@ export default function Home() {
           <div className={`mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} flex justify-center pointer-events-auto`} style={!isMobile ? { animationDelay: '0.5s' } : {}}>
             <AvailabilityBadge
               status={t('home:availability.status')}
-
+              availableDate={t('home:availability.stageDate')}
               alternance={t('home:availability.alternance')}
               isDarkMode={isDarkMode}
               textEffectsEnabled={effectsEnabled}
