@@ -1,9 +1,28 @@
-# robots.txt pour rafaelpiral.fr
+# robots.txt pour www.rafaelpiral.fr
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://rafaelpiral.fr/sitemap.xml
+# Bots explicitement bienvenus
+User-agent: Googlebot
+Allow: /
 
-# Crawl-delay pour éviter la surcharge du serveur
-Crawl-delay: 1
+User-agent: bingbot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: BraveBot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Sitemap
+Sitemap: https://www.rafaelpiral.fr/sitemap.xml

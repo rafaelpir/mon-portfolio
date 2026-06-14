@@ -32,7 +32,7 @@ export default function LetterBackground({ children }) {
 
         {open && (
           <div className="absolute bottom-12 left-0 bg-white rounded-2xl shadow-2xl border border-gray-100 p-5 w-64 space-y-5">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500">Fond — Réglages</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500">Fond · Réglages</h3>
 
             <div className="space-y-2">
               <div className="flex justify-between items-center">

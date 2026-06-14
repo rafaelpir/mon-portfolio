@@ -3,9 +3,9 @@ import CVNavigation from '../components/CVNavigation';
 import LetterBackground from '../components/LetterBackground';
 import A4Shader from '../components/A4Shader';
 
-export default function Lettre27eRegion() {
-  const [entreprise, setEntreprise] = useState('La 27e Région');
-  const [adresse, setAdresse] = useState('Oasis 21, Paris');
+export default function LettreAlternanceCM() {
+  const [entreprise, setEntreprise] = useState('');
+  const [adresse, setAdresse] = useState('');
 
   const today = new Date();
   const options = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -14,7 +14,6 @@ export default function Lettre27eRegion() {
   return (
     <LetterBackground>
 
-      {/* STYLE IMPRESSION */}
       <style>{`
         @media print {
           body {
@@ -37,10 +36,9 @@ export default function Lettre27eRegion() {
 
       <CVNavigation />
 
-      {/* --- SÉLECTEUR MODE --- */}
+      {/* SÉLECTEUR DESTINATAIRE */}
       <div className="max-w-4xl mx-auto mb-6 no-print">
         <div className="bg-white rounded-xl shadow-lg p-6">
-          {/* Destinataire */}
           <div className="mt-4">
             <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Destinataire</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -63,7 +61,7 @@ export default function Lettre27eRegion() {
         </div>
       </div>
 
-      {/* --- CONTENEUR A4 --- */}
+      {/* CONTENEUR A4 */}
       <div
         className="mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden flex flex-col relative isolate print:shadow-none print:m-0 print:w-full"
         style={{
@@ -73,16 +71,15 @@ export default function Lettre27eRegion() {
           boxSizing: 'border-box'
         }}
       >
-      <A4Shader />
+        <A4Shader />
 
-        {/* --- HEADER DEUX COLONNES --- */}
+        {/* HEADER DEUX COLONNES */}
         <header className="flex justify-between items-start mb-10">
-          {/* Expéditeur - Gauche */}
           <div>
             <h1 className="text-3xl font-bold tracking-wider leading-tight mb-3">
               RAFAEL<br />PIRAL
             </h1>
-            <div className="text-[12px] leading-relaxed text-gray-600 space-y-1">
+            <div className="text-[13px] leading-relaxed text-gray-600 space-y-1">
               <p className="font-medium text-gray-800">07.69.67.04.07</p>
               <p>rafa2002@hotmail.fr</p>
               <p>Le Pré Saint-Gervais</p>
@@ -90,11 +87,10 @@ export default function Lettre27eRegion() {
             </div>
           </div>
 
-          {/* Destinataire - Droite */}
           <div className="text-right mt-6">
-            <p className="text-[12px] text-gray-500 mb-6">Le Pré Saint-Gervais, le {formattedDate}</p>
+            <p className="text-[13px] text-gray-500 mb-6">Le Pré Saint-Gervais, le {formattedDate}</p>
             {(entreprise || adresse) && (
-              <div className="text-[12px] text-gray-700 mb-2">
+              <div className="text-[13px] text-gray-700 mb-2">
                 {entreprise && <p className="font-medium">{entreprise}</p>}
                 {adresse && <p>{adresse}</p>}
               </div>
@@ -102,45 +98,48 @@ export default function Lettre27eRegion() {
           </div>
         </header>
 
-        {/* --- OBJET --- */}
+        {/* OBJET */}
         <div className="mb-8 pb-4 border-b border-gray-200">
-          <p className="text-[12px]">
+          <p className="text-[13px]">
             <span className="font-bold text-gray-800">Objet :</span>
             <span className="text-gray-700 ml-2">
-              Candidature pour une alternance en graphisme à partir de septembre 2026
+              Candidature pour une alternance de Community Manager à partir de septembre 2026
             </span>
           </p>
         </div>
 
-        {/* --- CORPS DE LA LETTRE --- */}
-        <div className="text-[12px] leading-[1.8] text-gray-800 text-justify space-y-5">
+        {/* CORPS DE LA LETTRE */}
+        <div className="text-[13px] leading-[1.8] text-gray-800 text-justify space-y-5">
 
           <p>Madame, Monsieur,</p>
 
           <p>
             Actuellement étudiant en 2<sup>e</sup> année de BUT Métiers du Multimédia et de l'Internet,
-            {' '}je suis à la recherche d'une alternance à partir de septembre 2026 en graphisme.
-            {' '}L'offre proposée par La 27e Région m'a immédiatement interpellé : votre démarche de
-            recherche-action au service de l'innovation publique offre un cadre stimulant dans lequel
-            je souhaite apporter une contribution graphique concrète.
+            {' '}je suis à la recherche d'une alternance pour ma 3<sup>e</sup> année à partir de septembre 2026
+            {' '}en tant que community manager.
           </p>
 
           <p>
-            Au cours de ma formation en BUT MMI, j'ai développé de solides compétences en production
-            graphique et en communication visuelle. Je maîtrise la suite Adobe :
-            <strong> Photoshop</strong>, <strong>Illustrator</strong> et <strong>InDesign</strong>,
-            que j'utilise au quotidien pour concevoir des visuels, mettre en page des documents et
-            produire des supports adaptés à des contextes variés. Ces expériences m'ont également
-            permis de développer mon autonomie dans la gestion de projets, ma capacité à travailler
-            en équipe et un souci constant d'allier lisibilité, cohérence graphique et pertinence
-            éditoriale.
+            Après une première année de BUT MMI où j'ai eu l'opportunité de travailler en équipe sur plusieurs
+            {' '}projets créatifs, j'ai développé une solide maîtrise des outils de création. J'utilise régulièrement
+            {' '}<strong>Canva</strong>, <strong>Photoshop</strong>, <strong>Premiere Pro</strong>, <strong>DaVinci Resolve</strong>
+            {' '}et les réseaux sociaux pour concevoir des visuels variés et des contenus de qualité. Ces expériences
+            {' '}m'ont également permis de développer mon autonomie dans la gestion de projets, ma capacité à travailler
+            {' '}en équipe, et m'ont poussé à faire une veille créative constante pour rester à l'affût des nouvelles
+            {' '}tendances dans le community management.
           </p>
 
           <p>
-            Je suis convaincu que La 27e Région est l'endroit idéal pour continuer à apprendre et
-            progresser. Cette alternance me permettrait d'acquérir
-            une expérience solide, en complément de ma formation, tout en m'inscrivant dans une
-            démarche d'innovation au service de l'intérêt général.
+            Cette curiosité me permet aujourd'hui d'apporter des idées nouvelles et actuelles à mes réalisations.
+            {' '}Je suis convaincu que votre entreprise est l'endroit idéal pour continuer à apprendre et progresser
+            {' '}dans ce domaine. Cette alternance me permettrait d'acquérir une expérience professionnelle solide,
+            {' '}en complément de ma formation.
+          </p>
+
+          <p>
+            Je suis enthousiaste à l'idée de contribuer à vos projets et de mettre en pratique mes compétences
+            {' '}créatives. Je suis également prêt à découvrir de nouveaux outils et à m'adapter rapidement à vos
+            {' '}méthodes de travail.
           </p>
 
           <p>
@@ -148,21 +147,21 @@ export default function Lettre27eRegion() {
           </p>
 
           <p>
-            Je vous remercie par avance de l'attention que vous porterez à mon dossier et vous
-            prie d'agréer, Madame, Monsieur, mes salutations&nbsp;distinguées.
+            Je vous remercie par avance de l'attention que vous porterez à mon dossier et vous prie d'agréer,
+            {' '}Madame, Monsieur, mes salutations&nbsp;distinguées.
           </p>
 
         </div>
 
-        {/* --- SIGNATURE --- */}
+        {/* SIGNATURE */}
         <div className="mt-4">
           <p className="text-[14px] font-bold tracking-wide">Rafael Piral</p>
         </div>
 
-        {/* --- FOOTER --- */}
+        {/* FOOTER */}
         <div className="mt-auto pt-6 border-t border-gray-200">
           <div className="flex justify-between items-center text-[10px] text-gray-400">
-            <span>Rafael Piral · Candidature Alternance La 27e Région</span>
+            <span>Rafael Piral  ·  Candidature Alternance Community Manager</span>
             <a href="https://rafaelpiral.fr" target="_blank" rel="noreferrer" className="hover:underline cursor-pointer hover:text-gray-600">
               rafaelpiral.fr
             </a>
@@ -171,7 +170,7 @@ export default function Lettre27eRegion() {
 
       </div>
 
-      {/* --- BOUTON DOWNLOAD --- */}
+      {/* BOUTON PDF */}
       <div className="fixed bottom-6 right-6 z-50 no-print">
         <button
           onClick={() => window.print()}

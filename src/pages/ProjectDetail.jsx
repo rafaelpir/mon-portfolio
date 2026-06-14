@@ -168,7 +168,7 @@ export default function ProjectDetail() {
     );
   }
 
-  const siteUrl = 'https://rafaelpiral.fr';
+  const siteUrl = 'https://www.rafaelpiral.fr';
   const pageUrl = `${siteUrl}/work/${project.slug}`;
   const ogImage = project.thumbnail?.endsWith('.svg')
     ? `${siteUrl}/og-image.png`
@@ -178,18 +178,18 @@ export default function ProjectDetail() {
   return (
     <>
     <Helmet>
-      <title>{`${translatedProject.title} — Rafael Piral`}</title>
+      <title>{`${translatedProject.title} · Rafael Piral`}</title>
       <meta name="description" content={metaDesc} />
       <link rel="canonical" href={pageUrl} />
       <meta property="og:type" content="article" />
       <meta property="og:url" content={pageUrl} />
-      <meta property="og:title" content={`${translatedProject.title} — Rafael Piral`} />
+      <meta property="og:title" content={`${translatedProject.title} · Rafael Piral`} />
       <meta property="og:description" content={metaDesc} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:locale" content="fr_FR" />
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={pageUrl} />
-      <meta property="twitter:title" content={`${translatedProject.title} — Rafael Piral`} />
+      <meta property="twitter:title" content={`${translatedProject.title} · Rafael Piral`} />
       <meta property="twitter:description" content={metaDesc} />
       <meta property="twitter:image" content={ogImage} />
       <script type="application/ld+json">{JSON.stringify({

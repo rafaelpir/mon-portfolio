@@ -533,17 +533,15 @@ export default function Home() {
           className={`text-center md:text-left relative z-10 pointer-events-none max-w-7xl w-full px-4 md:px-16 ${!isMobile ? 'animate-fade-in-up' : ''}`}
         >
           <div className={!isMobile ? 'animate-slide-down' : ''} style={!isMobile ? { animationDelay: '0.2s' } : {}}>
-            <h1 className={`text-[14vw] md:text-[10vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              Rafael
-            </h1>
-            <h1 className={`text-[14vw] md:text-[10vw] font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              Piral
+            <h1 className={`font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
+              <span className={`block text-[14vw] md:text-[10vw]`}>Rafael</span>
+              <span className={`block text-[14vw] md:text-[10vw]`}>Piral</span>
             </h1>
           </div>
 
           <div className={`text-xs sm:text-sm md:text-base font-light tracking-wide mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} space-y-1 md:space-y-2 text-center md:text-left ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
             style={!isMobile ? { animationDelay: '0.4s' } : {}}>
-            <p className="text-xs sm:text-sm md:text-lg tracking-widest">
+            <p className="text-xs sm:text-sm md:text-lg tracking-widest" aria-label={t('home:hero.tagline')}>
               <TextType
                 texts={[t('home:hero.tagline')]}
                 typingSpeed={60}
@@ -608,6 +606,7 @@ export default function Home() {
         transition={tier === 'full' ? { duration: 0.6, ease: "easeOut" } : {}}
       >
         <div className="max-w-7xl mx-auto w-full">
+          <h2 className="sr-only">À propos de Rafael Piral</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Colonne gauche - Texte */}
             <div>
@@ -647,20 +646,22 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={tier === 'full' ? { duration: 0.8, delay: 0.4 } : {}}
               >
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="none"
-                  width="1920"
-                  height="1080"
-                  className={`w-full h-auto rounded-xl aspect-video ${
-                    isDarkMode ? 'opacity-90' : 'opacity-80 invert'
-                  }`}
-                >
-                  <source src="/videos/fond_leger.mp4" type="video/mp4" />
-                </video>
+                {!isMobile && (
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="none"
+                    width="1920"
+                    height="1080"
+                    className={`w-full h-auto rounded-xl aspect-video ${
+                      isDarkMode ? 'opacity-90' : 'opacity-80 invert'
+                    }`}
+                  >
+                    <source src="/videos/fond_leger.mp4" type="video/mp4" />
+                  </video>
+                )}
               </motion.div>
             </div>
           </div>

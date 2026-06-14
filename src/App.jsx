@@ -20,6 +20,7 @@ const LettreClubFoot = lazy(() => import('./pages/LettreClubFoot'));
 const LettreAssistantSonPlateau = lazy(() => import('./pages/LettreAssistantSonPlateau'));
 const Lettre27eRegion = lazy(() => import('./pages/Lettre27eRegion'));
 const LettreChargeComDigitale = lazy(() => import('./pages/LettreChargeComDigitale'));
+const LettreAlternanceCM = lazy(() => import('./pages/LettreAlternanceCM'));
 const LettrePUC = lazy(() => import('./pages/LettrePUC'));
 const EmailCandidature = lazy(() => import('./pages/EmailCandidature'));
 const PortfolioPDF = lazy(() => import('./pages/PortfolioPDF'));
@@ -49,7 +50,9 @@ function AppContent() {
   const location = useLocation();
   const [showPreloader, setShowPreloader] = useState(() => {
     // Ne montrer le preloader que s'il n'a pas déjà été affiché dans cette session
-    return !sessionStorage.getItem('preloaderShown');
+    // Et uniquement sur desktop (évite le blocage du LCP sur mobile)
+    const isMobileDevice = window.innerWidth <= 768;
+    return !sessionStorage.getItem('preloaderShown') && !isMobileDevice;
   });
   const isHomePage = location.pathname === '/';
 
@@ -83,6 +86,7 @@ function AppContent() {
           <Route path="/lettre-assistant-son-plateau" element={<LocalOnly><LettreAssistantSonPlateau /></LocalOnly>} />
           <Route path="/lettre-27e-region" element={<LocalOnly><Lettre27eRegion /></LocalOnly>} />
           <Route path="/lettre-charge-com-digitale" element={<LocalOnly><LettreChargeComDigitale /></LocalOnly>} />
+          <Route path="/lettre-alternance-cm" element={<LocalOnly><LettreAlternanceCM /></LocalOnly>} />
           <Route path="/lettre-puc" element={<LocalOnly><LettrePUC /></LocalOnly>} />
           <Route path="/email-candidature" element={<LocalOnly><EmailCandidature /></LocalOnly>} />
           <Route path="/cover-letter" element={<LocalOnly><CoverLetterEN /></LocalOnly>} />

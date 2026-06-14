@@ -12,31 +12,59 @@
     <meta name="keywords" content="Piral, Rafael Piral, étudiant MMI, BUT MMI, étudiant BUT MMI, Métiers du Multimédia et de l'Internet, IUT Bobigny, portfolio étudiant, design graphique, UI/UX, audiovisuel, créations numériques, stage MMI 2026" />
     <meta name="author" content="Rafael Piral" />
 
+    <!-- Canonical URL statique (avant chargement JS) -->
+    <link rel="canonical" href="https://www.rafaelpiral.fr/" />
+    <!-- Hreflang pour versions multilingues -->
+    <link rel="alternate" hreflang="fr" href="https://www.rafaelpiral.fr/" />
+    <link rel="alternate" hreflang="en" href="https://www.rafaelpiral.fr/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.rafaelpiral.fr/" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://rafaelpiral.fr/" />
+    <meta property="og:url" content="https://www.rafaelpiral.fr/" />
     <meta property="og:title" content="Rafael Piral - Étudiant BUT MMI | Portfolio Design & Audiovisuel" />
     <meta property="og:description" content="Piral Rafael - Étudiant MMI en BUT Métiers du Multimédia et de l'Internet. Portfolio design graphique, UI/UX, audiovisuel. IUT Bobigny, parcours Créations Numériques." />
-    <meta property="og:image" content="https://rafaelpiral.fr/og-image.png" />
+    <meta property="og:image" content="https://www.rafaelpiral.fr/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:locale" content="fr_FR" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://rafaelpiral.fr/" />
+    <meta property="twitter:url" content="https://www.rafaelpiral.fr/" />
     <meta property="twitter:title" content="Rafael Piral - Étudiant BUT MMI | Portfolio Design & Audiovisuel" />
     <meta property="twitter:description" content="Piral Rafael - Étudiant MMI en BUT Métiers du Multimédia et de l'Internet. Portfolio design graphique, UI/UX, audiovisuel. IUT Bobigny." />
-    <meta property="twitter:image" content="https://rafaelpiral.fr/og-image.png" />
+    <meta property="twitter:image" content="https://www.rafaelpiral.fr/og-image.jpg" />
     <link rel="apple-touch-icon" href="/logo192.png" />
     <link rel="manifest" href="/manifest.json" />
 
-    <!-- Polices : Satoshi (corps), Bebas Neue (titres) -->
+    <!-- Polices : Satoshi (corps), Bebas Neue (titres) — auto-hébergées -->
     <link rel="preload" href="/font/Satoshi-Medium.otf" as="font" type="font/otf" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
+    <link rel="preload" href="/font/BebasNeue-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+    <!-- Données structurées JSON-LD (lisibles par tous les moteurs sans JS) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Rafael Piral",
+      "url": "https://www.rafaelpiral.fr/",
+      "jobTitle": "Étudiant BUT MMI — Design Graphique & Audiovisuel",
+      "description": "Étudiant en BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny, spécialisé en design graphique, UI/UX et audiovisuel.",
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "IUT de Bobigny",
+        "url": "https://www.iut.univ-paris13.fr/"
+      },
+      "knowsAbout": ["Design Graphique", "UI/UX Design", "Audiovisuel", "Créations Numériques", "BUT MMI"],
+      "sameAs": [],
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.rafaelpiral.fr/"
+      }
+    }
+    </script>
 
     <!-- Préconnexion pour les ressources externes -->
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
@@ -47,7 +75,33 @@
     <title>Rafael Piral - Étudiant BUT MMI | Portfolio Design & Audiovisuel</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      <div style="font-family: sans-serif; padding: 2rem; max-width: 800px; margin: 0 auto;">
+        <h1>Rafael Piral — Portfolio Design Graphique &amp; Audiovisuel</h1>
+        <p>Étudiant en BUT Métiers du Multimédia et de l'Internet (MMI) à l'IUT de Bobigny.
+        Spécialisé en design graphique, UI/UX design et audiovisuel. Parcours Créations Numériques.
+        Disponible pour stage 2026.</p>
+        <h2>Projets</h2>
+        <ul>
+          <li><a href="/work/coffret-alicia-keys">Coffret 20 Ans Alicia Keys</a></li>
+          <li><a href="/work/grand-prix-monaco">Grand Prix de Monaco — Affiche Save the Date</a></li>
+          <li><a href="/work/affiche-kaka">Affiche Ricardo Kaká</a></li>
+          <li><a href="/work/branding-agence-immobiliere">UI Design &amp; Branding Agence Immobilière</a></li>
+          <li><a href="/work/reseau-alumni-iut-bobigny">Réseau Alumni IUT de Bobigny</a></li>
+          <li><a href="/work/ux-design-app-veco">UX Design Application Veco</a></li>
+          <li><a href="/work/identite-visuelle-a-coeur-ouvert">Identité visuelle ONG À Cœur Ouvert</a></li>
+          <li><a href="/work/atelier-affiches-bollywood">Atelier Affiches Reproduction &amp; Typographie</a></li>
+          <li><a href="/work/un-homme-qui-dort">Un Homme qui dort — Affiche revisitée</a></li>
+          <li><a href="/work/affiche-fetes-saint-paul-les-dax">Concours d'affiche Fêtes de Saint-Paul-lès-Dax</a></li>
+          <li><a href="/work/poster-sade-diamond-life">Poster Tribute Sade Diamond Life</a></li>
+          <li><a href="/work/statue-liberte-ascii">Statue de la Liberté — De la photo à l'ASCII</a></li>
+          <li><a href="/work/affiche-gummo">Gummo — Affiche de film</a></li>
+          <li><a href="/work/batman-dark-knight-jimdo">Batman The Dark Knight — Site web Jimdo</a></li>
+        </ul>
+        <p><a href="/about">À propos</a> | <a href="/legal">Mentions légales</a></p>
+        <p>Veuillez activer JavaScript pour accéder au portfolio complet de Rafael Piral.</p>
+      </div>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/index.jsx"></script>
   </body>

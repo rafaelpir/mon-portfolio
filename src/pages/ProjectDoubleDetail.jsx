@@ -20,7 +20,7 @@ function SubProjectGallery({ subProject, isDarkMode }) {
 
   return (
     <div className="mt-8">
-      {/* Image — hauteur fixe */}
+      {/* Image · hauteur fixe */}
       <div
         className="relative mx-auto overflow-hidden"
         style={{ maxWidth: expanded ? '100%' : '460px', height: expanded ? 'auto' : '420px' }}
@@ -43,7 +43,7 @@ function SubProjectGallery({ subProject, isDarkMode }) {
         />
       </div>
 
-      {/* Boutons + compteur — hauteur fixe, jamais déplacés */}
+      {/* Boutons + compteur · hauteur fixe, jamais déplacés */}
       {gallery.length > 1 && (
         <div className="flex items-center justify-between mt-3" style={{ height: '36px', maxWidth: '460px', margin: '12px auto 0' }}>
           <button
@@ -76,7 +76,7 @@ function SubProjectGallery({ subProject, isDarkMode }) {
         </div>
       )}
 
-      {/* Description — hauteur fixe pour éviter tout déplacement */}
+      {/* Description · hauteur fixe pour éviter tout déplacement */}
       <div style={{ height: '4rem', overflow: 'hidden', marginTop: '8px', maxWidth: '460px', margin: '8px auto 0' }}>
         {gallery[currentIndex].description && (
           <p className="text-center text-sm opacity-60">
@@ -103,7 +103,7 @@ export default function ProjectDoubleDetail({ project }) {
 
   const subProjects = project.subProjects || [];
 
-  const siteUrl = 'https://rafaelpiral.fr';
+  const siteUrl = 'https://www.rafaelpiral.fr';
   const pageUrl = `${siteUrl}/work/${project.slug}`;
   const ogImage = project.thumbnail?.endsWith('.svg')
     ? `${siteUrl}/og-image.png`
@@ -113,18 +113,18 @@ export default function ProjectDoubleDetail({ project }) {
   return (
     <>
     <Helmet>
-      <title>{`${project.title} — Rafael Piral`}</title>
+      <title>{`${project.title} · Rafael Piral`}</title>
       <meta name="description" content={metaDesc} />
       <link rel="canonical" href={pageUrl} />
       <meta property="og:type" content="article" />
       <meta property="og:url" content={pageUrl} />
-      <meta property="og:title" content={`${project.title} — Rafael Piral`} />
+      <meta property="og:title" content={`${project.title} · Rafael Piral`} />
       <meta property="og:description" content={metaDesc} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:locale" content="fr_FR" />
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={pageUrl} />
-      <meta property="twitter:title" content={`${project.title} — Rafael Piral`} />
+      <meta property="twitter:title" content={`${project.title} · Rafael Piral`} />
       <meta property="twitter:description" content={metaDesc} />
       <meta property="twitter:image" content={ogImage} />
       <script type="application/ld+json">{JSON.stringify({

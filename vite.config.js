@@ -125,9 +125,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Séparer les vendors lourds
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-animation': ['gsap', 'framer-motion', 'lenis'],
+          'vendor-gsap': ['gsap'],
+          'vendor-framer': ['framer-motion'],
+          'vendor-lenis': ['lenis'],
         }
       }
     },

@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Police Bebas Neue auto-hébergée */
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('/font/BebasNeue-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Police Satoshi Medium par défaut, Bebas Neue pour les titres */
 @layer base {
   body {

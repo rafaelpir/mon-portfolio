@@ -36,7 +36,7 @@ export default function AdminGuard({ children }) {
     }}>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '280px' }}>
         <p style={{ color: '#fff', fontSize: '14px', margin: 0, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-          Admin — mot de passe
+          Admin · mot de passe
         </p>
         <input
           type="password"

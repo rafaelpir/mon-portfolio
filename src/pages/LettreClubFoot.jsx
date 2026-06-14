@@ -292,7 +292,7 @@ export default function LettreClubFoot() {
         {/* --- FOOTER --- */}
         <div className="mt-auto pt-6 border-t border-gray-200">
           <div className="flex justify-between items-center text-[10px] text-gray-400">
-            <span>Rafael Piral  Candidature {posteLabel} {club ? club : '— Club de Football'}</span>
+            <span>Rafael Piral  Candidature {posteLabel} {club ? club : '· Club de Football'}</span>
             <a href="https://rafaelpiral.fr" target="_blank" rel="noreferrer" className="hover:underline cursor-pointer hover:text-gray-600">
               rafaelpiral.fr
             </a>

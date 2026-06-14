@@ -84,7 +84,7 @@ export default function EmailCandidature() {
         {/* Email PUC */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <div className="flex justify-between items-center mb-5">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">Email — Paris Université Club</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">Email · Paris Université Club</h2>
             <button
               onClick={() => {
                 navigator.clipboard.writeText(`Madame Pouymayou,\n\nActuellement étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'une alternance pour ma 3e année et me permets de vous adresser ma candidature pour le poste de Community Manager au sein du Paris Université Club.\n\nVous trouverez ci-joint mon CV ainsi que ma lettre de motivation. Je vous invite également à consulter mon portfolio : rafaelpiral.fr\n\nJe reste à votre disposition pour un entretien.\nCordialement,\n\nRafael Piral\n07.69.67.04.07\nrafa2002@hotmail.fr\nhttps://www.rafaelpiral.fr/`);

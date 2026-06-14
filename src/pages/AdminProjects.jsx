@@ -147,7 +147,7 @@ function ImagePickerModal({ onSelect, onSelectMultiple, onClose, multiSelect = f
         <div className="px-5 py-3 border-t border-zinc-800 flex items-center justify-between">
           <span className="text-xs text-zinc-600">
             {filtered.length} image{filtered.length !== 1 ? 's' : ''}
-            {multiSelect ? ' — clic pour sélectionner · Échap pour fermer' : ' — clic pour sélectionner · Échap pour fermer'}
+            {multiSelect ? ' · clic pour sélectionner · Échap pour fermer' : ' · clic pour sélectionner · Échap pour fermer'}
           </span>
           {multiSelect && (
             <button
@@ -666,7 +666,7 @@ export default function AdminProjects() {
               {/* Status */}
               {status === 'saved' && (
                 <div className="bg-green-950 border border-green-800 text-green-400 px-4 py-2.5 rounded text-sm">
-                  Sauvegardé — rechargez la page pour voir les changements dans le portfolio
+                  Sauvegardé · rechargez la page pour voir les changements dans le portfolio
                 </div>
               )}
               {status === 'error' && (
@@ -733,12 +733,12 @@ export default function AdminProjects() {
                 <span className={sectionTitle}>Contenu</span>
                 <div>
                   <label className={labelCls}>Contexte</label>
-                  <input type="text" value={form.context} onChange={e => set('context', e.target.value)} className={input} placeholder="ex: Projet SAE BUT2 — IUT de Bobigny" />
+                  <input type="text" value={form.context} onChange={e => set('context', e.target.value)} className={input} placeholder="ex: Projet SAE BUT2 · IUT de Bobigny" />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className={labelCls}>Période</label>
-                    <input type="text" value={form.period} onChange={e => set('period', e.target.value)} className={input} placeholder="Janvier — Mars 2025" />
+                    <input type="text" value={form.period} onChange={e => set('period', e.target.value)} className={input} placeholder="Janvier · Mars 2025" />
                   </div>
                   <div>
                     <label className={labelCls}>Durée</label>

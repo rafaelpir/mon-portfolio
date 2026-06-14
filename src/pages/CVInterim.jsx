@@ -57,9 +57,8 @@ export default function CVInterim() {
           <div className="flex justify-between items-start">
             <div>
               <h1 className="text-3xl font-bold tracking-widest leading-none mb-1.5">RAFAEL PIRAL</h1>
-              <p className="text-xs tracking-widest text-gray-600 uppercase font-medium">
-                Manutentionnaire &amp; Agent logistique polyvalent{' '}
-                <span className="text-gray-900 font-bold">· Disponible pour missions d'intérim</span>
+              <p className="text-xs tracking-widest text-gray-900 uppercase font-bold">
+                Disponible pour missions d'intérim
               </p>
               <p className="text-[10px] tracking-wider text-gray-500 uppercase font-medium mt-0.5">
                 Disponible immédiatement · Juillet &amp; Août 2026 · Île-de-France · Permis B
@@ -77,23 +76,23 @@ export default function CVInterim() {
           </div>
         </header>
 
-        {/* PROFIL — pleine largeur */}
+        {/* PROFIL · pleine largeur */}
         <section className="mb-4 shrink-0">
           <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Profil</h2>
           <p className="text-[11px] text-justify leading-relaxed text-gray-700">
-            Disponible juillet et août 2026 en Île-de-France, permis B. J'ai déjà fait de l'intérim en manutention aux JO de Paris 2024 via Proman. Fiable, ponctuel, je m'adapte vite et je travaille bien en équipe. Je dispose de mes propres équipements de sécurité (chaussures de sécurité, gants).
+            Disponible juillet et août 2026 en Île-de-France, permis B. Expérience en intérim de manutention aux JO de Paris 2024 via Proman. Fiable, ponctuel, grande capacité d'adaptation et fort esprit d'équipe. Équipements de sécurité personnels (casque, chaussures de sécurité, gants).
           </p>
         </section>
 
         {/* CORPS EN 2 COLONNES */}
         <div className="flex gap-6 flex-grow min-h-0">
 
-          {/* COLONNE GAUCHE — Expériences */}
+          {/* COLONNE GAUCHE · Expériences */}
           <div className="flex flex-col justify-between" style={{ flex: '0 0 55%' }}>
 
             <section className="flex flex-col flex-grow">
               <h2 className="text-xs font-bold border-b border-gray-900 mb-3 uppercase tracking-wider text-black">Expériences Professionnelles</h2>
-              <div className="flex flex-col justify-between flex-grow">
+              <div className="flex flex-col gap-4 flex-grow">
 
                 <div className="flex flex-col text-[11px]">
                   <div className="flex justify-between items-baseline">
@@ -107,9 +106,9 @@ export default function CVInterim() {
 
                 <div className="flex flex-col text-[11px]">
                   <div className="flex justify-between items-baseline">
-                    <span className="font-bold text-gray-900">
-                      JO Paris 2024, Manutentionnaire
-                      <span className="ml-2 text-[9px] font-normal text-gray-500">(via Proman Intérim)</span>
+                    <span className="flex flex-col">
+                      <span className="font-bold text-gray-900">JO Paris 2024, Manutentionnaire</span>
+                      <span className="text-[9px] font-normal text-gray-500">(via Proman Intérim)</span>
                     </span>
                     <span className="text-[10px] text-gray-500 shrink-0 ml-2">Été 2024</span>
                   </div>
@@ -158,7 +157,7 @@ export default function CVInterim() {
           {/* SÉPARATEUR VERTICAL */}
           <div className="w-px bg-gray-200 shrink-0" />
 
-          {/* COLONNE DROITE — Compétences */}
+          {/* COLONNE DROITE · Compétences */}
           <div className="flex flex-col justify-between flex-grow">
 
             <section className="flex flex-col flex-grow">
@@ -190,10 +189,10 @@ export default function CVInterim() {
                 <div>
                   <h3 className="font-bold text-[10px] uppercase mb-2 text-gray-500 tracking-wider">Disponibilité &amp; Mobilité</h3>
                   <ul className="text-[11px] text-gray-800 space-y-1">
-                    <li>Permis B — véhicule léger</li>
+                    <li>Permis B</li>
                     <li>Disponible du lundi au samedi</li>
                     <li>Horaires décalés &amp; week-end acceptés</li>
-                    <li>Équipements de sécurité personnels</li>
+                    <li>Équipements de sécurité personnels (casque, chaussures, gants)</li>
                   </ul>
                 </div>
 
@@ -202,7 +201,7 @@ export default function CVInterim() {
                   <ul className="text-[11px] text-gray-800 space-y-1">
                     <li>Suite Microsoft Office</li>
                     <li>Communication orale &amp; écrite</li>
-                    <li>Français natif, Anglais intermédiaire</li>
+                    <li>Français natif, Anglais intermédiaire, Espagnol intermédiaire</li>
                   </ul>
                 </div>
 
@@ -215,15 +214,9 @@ export default function CVInterim() {
 
         {/* FOOTER */}
         <div className="pt-3 border-t border-gray-300 shrink-0 mt-4">
-          <div className="flex justify-between text-[10px] text-gray-600">
-            <div className="flex gap-4">
-              <span className="font-bold uppercase text-gray-800">Centres d'intérêts:</span>
-              <span>Football, Jeux Vidéo, Cinéma</span>
-            </div>
-            <div className="flex gap-4">
-              <span className="font-bold uppercase text-gray-800">Espagnol:</span>
-              <span>Niveau intermédiaire</span>
-            </div>
+          <div className="flex text-[10px] text-gray-600 gap-4">
+            <span className="font-bold uppercase text-gray-800">Centres d'intérêts:</span>
+            <span>Football, Jeux Vidéo, Cinéma</span>
           </div>
         </div>
 

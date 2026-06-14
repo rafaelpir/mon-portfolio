@@ -27,18 +27,48 @@ export default function About() {
         <html lang={currentLang} />
         <title>{t('about:meta.title')}</title>
         <meta name="description" content={t('about:meta.description')} />
-        <link rel="canonical" href="https://rafaelpiral.fr/about" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://www.rafaelpiral.fr/about" />
         <meta property="og:type" content="profile" />
-        <meta property="og:url" content="https://rafaelpiral.fr/about" />
+        <meta property="og:url" content="https://www.rafaelpiral.fr/about" />
         <meta property="og:title" content={t('about:meta.title')} />
         <meta property="og:description" content={t('about:meta.description')} />
-        <meta property="og:image" content="https://rafaelpiral.fr/og-image.png" />
+        <meta property="og:image" content="https://www.rafaelpiral.fr/og-image.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:locale" content={currentLang === 'fr' ? 'fr_FR' : 'en_US'} />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://rafaelpiral.fr/about" />
+        <meta property="twitter:url" content="https://www.rafaelpiral.fr/about" />
         <meta property="twitter:title" content={t('about:meta.title')} />
         <meta property="twitter:description" content={t('about:meta.description')} />
-        <meta property="twitter:image" content="https://rafaelpiral.fr/og-image.png" />
+        <meta property="twitter:image" content="https://www.rafaelpiral.fr/og-image.jpg" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ProfilePage",
+          "url": "https://www.rafaelpiral.fr/about",
+          "name": "À Propos - Rafael Piral",
+          "mainEntity": {
+            "@type": "Person",
+            "name": "Rafael Piral",
+            "alternateName": "Piral",
+            "url": "https://www.rafaelpiral.fr",
+            "image": "https://www.rafaelpiral.fr/og-image.jpg",
+            "jobTitle": "Étudiant BUT MMI - Designer Graphique & Audiovisuel",
+            "description": "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny. Spécialisé en design graphique, UI/UX design et audiovisuel.",
+            "knowsAbout": ["Design Graphique", "UI/UX Design", "Audiovisuel", "Figma", "Photoshop", "Illustrator", "Premiere Pro", "Motion Design", "Branding"],
+            "sameAs": [
+              "https://www.linkedin.com/in/rafaelpiral",
+              "https://github.com/rafaelpir",
+              "https://dribbble.com/RafaelPiral",
+              "https://www.behance.net/rafaelpiral1"
+            ],
+            "alumniOf": {
+              "@type": "EducationalOrganization",
+              "name": "IUT de Bobigny",
+              "department": "BUT Métiers du Multimédia et de l'Internet (MMI)"
+            }
+          }
+        })}</script>
       </Helmet>
 
       {/* Header */}
