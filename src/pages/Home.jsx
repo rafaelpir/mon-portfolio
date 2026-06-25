@@ -7,7 +7,6 @@ import FlowingMenu from '../FlowingMenu';
 import { useForm, ValidationError } from '@formspree/react';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { projects, experiencesPro, skillCategories } from '../data/projects';
-import AvailabilityBadge from '../components/AvailabilityBadge';
 import CVDownloadButton from '../components/CVDownloadButton';
 import ProjectFilters from '../components/ProjectFilters';
 import Timeline from '../components/Timeline';
@@ -17,7 +16,6 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 import usePerformanceTier from '../hooks/usePerformanceTier';
 import TextType from '../components/TextType';
 import { GrainGradient } from '@paper-design/shaders-react';
-import LightBoard from '../components/LightBoard';
 import LazyShader from '../components/LazyShader';
 
 export default function Home() {
@@ -50,9 +48,6 @@ export default function Home() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  // Désactiver tous les effets sur mobile
-  const effectsEnabled = textEffectsEnabled && !isMobile;
 
   // Formspree hook pour le formulaire de contact
   // Remplacez "xjknoepn" par votre vrai ID de formulaire Formspree
@@ -533,9 +528,9 @@ export default function Home() {
           className={`text-center md:text-left relative z-10 pointer-events-none max-w-7xl w-full px-4 md:px-16 ${!isMobile ? 'animate-fade-in-up' : ''}`}
         >
           <div className={!isMobile ? 'animate-slide-down' : ''} style={!isMobile ? { animationDelay: '0.2s' } : {}}>
-            <h1 className={`font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <span className={`block text-[14vw] md:text-[10vw]`}>Rafael</span>
-              <span className={`block text-[14vw] md:text-[10vw]`}>Piral</span>
+            <h1 className={`font-sans font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
+              <span className="block text-[14vw] md:text-[10vw]">Rafael</span>
+              <span className="block text-[14vw] md:text-[10vw]">Piral</span>
             </h1>
           </div>
 
@@ -558,43 +553,9 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Badge de disponibilité */}
-          <div className={`mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} flex justify-center pointer-events-auto`} style={!isMobile ? { animationDelay: '0.5s' } : {}}>
-            <AvailabilityBadge
-              status={t('home:availability.status')}
-              availableDate={t('home:availability.stageDate')}
-              alternance={t('home:availability.alternance')}
-              isDarkMode={isDarkMode}
-              textEffectsEnabled={effectsEnabled}
-              performanceTier={tier}
-            />
-          </div>
         </div>
 
       </section>
-
-      {/* LightBoard pleine largeur entre hero et about */}
-      <div className="w-full overflow-hidden" style={{ minHeight: '56px' }}>
-        {tier !== 'none' && (
-          <LightBoard
-            text={t('home:lightboard.text')}
-            rows={7}
-            gap={1}
-            lightSize={4}
-            updateInterval={tier === 'full' ? 60 : 200}
-            colors={isDarkMode ? {
-              background: "transparent",
-              textDim: "rgba(232,220,196,0.1)",
-              textBright: "#E8DCC4",
-            } : {
-              background: "transparent",
-              textDim: "rgba(0,0,0,0.1)",
-              textBright: "#000000",
-            }}
-            className="w-full"
-          />
-        )}
-      </div>
 
       {/* Introduction / About */}
       <motion.section
