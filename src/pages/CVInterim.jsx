@@ -57,12 +57,6 @@ export default function CVInterim() {
           <div className="flex justify-between items-start">
             <div>
               <h1 className="text-3xl font-bold tracking-widest leading-none mb-1.5">RAFAEL PIRAL</h1>
-              <p className="text-xs tracking-widest text-gray-900 uppercase font-bold">
-                Disponible pour missions d'intérim
-              </p>
-              <p className="text-[10px] tracking-wider text-gray-500 uppercase font-medium mt-0.5">
-                Disponible immédiatement · Juillet &amp; Août 2026 · Île-de-France · Permis B
-              </p>
             </div>
             <div className="text-right text-[11px] leading-snug text-gray-600 flex flex-col items-end gap-0.5 shrink-0 ml-6">
               <a href="tel:+33769670407" className="font-bold text-gray-900 hover:underline cursor-pointer text-sm">
@@ -80,7 +74,7 @@ export default function CVInterim() {
         <section className="mb-4 shrink-0">
           <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Profil</h2>
           <p className="text-[11px] text-justify leading-relaxed text-gray-700">
-            Disponible juillet et août 2026 en Île-de-France, permis B. Expérience en intérim de manutention aux JO de Paris 2024 via Proman. Fiable, ponctuel, grande capacité d'adaptation et fort esprit d'équipe. Équipements de sécurité personnels (casque, chaussures de sécurité, gants).
+            Disponible dès maintenant en Île-de-France, permis B. Expérience en intérim de manutention aux JO de Paris 2024 via Proman. Fiable, ponctuel, grande capacité d'adaptation et fort esprit d'équipe. Équipements de sécurité personnels (casque, chaussures de sécurité, gants).
           </p>
         </section>
 
@@ -97,7 +91,6 @@ export default function CVInterim() {
                 <div className="flex flex-col text-[11px]">
                   <div className="flex justify-between items-baseline">
                     <span className="font-bold text-gray-900">Phantasmagloria, Stage Communication &amp; Audiovisuel</span>
-                    <span className="text-[10px] text-gray-500 shrink-0 ml-2">Avril / Juin 2026</span>
                   </div>
                   <p className="text-gray-600 text-[10px] mt-1 leading-relaxed">
                     Stage de fin d'année universitaire. Gestion de projet, respect des délais, communication avec des interlocuteurs variés, travail en autonomie et en équipe.
@@ -110,7 +103,6 @@ export default function CVInterim() {
                       <span className="font-bold text-gray-900">JO Paris 2024, Manutentionnaire</span>
                       <span className="text-[9px] font-normal text-gray-500">(via Proman Intérim)</span>
                     </span>
-                    <span className="text-[10px] text-gray-500 shrink-0 ml-2">Été 2024</span>
                   </div>
                   <p className="text-gray-600 text-[10px] mt-1 leading-relaxed">
                     Préparation logistique des sites olympiques de Le Bourget (Escalade) et La Courneuve (Paramarathon). Port et déplacement de charges, installation et désinstallation de matériel, rangement des zones de stockage. Respect strict des consignes de sécurité, travail en équipe sous délais serrés et environnement à forte cadence.
@@ -123,7 +115,6 @@ export default function CVInterim() {
                       HBC Nantes, Agent d'accueil &amp; agent de salle
                       <span className="ml-2 text-[9px] font-normal text-gray-500">(via Abalone Intérim)</span>
                     </span>
-                    <span className="text-[10px] text-gray-500 shrink-0 ml-2">2021 / 2022</span>
                   </div>
                   <p className="text-gray-600 text-[10px] mt-1 leading-relaxed">
                     Accueil et orientation du public lors des matchs de handball professionnel. Contrôle des billets, gestion des flux de foule, rangement et nettoyage de la salle après événement. Adaptation rapide aux imprévus et polyvalence sur différents postes.
@@ -139,15 +130,12 @@ export default function CVInterim() {
               <div className="space-y-2 text-[11px] text-gray-800">
                 <div className="flex justify-between items-baseline">
                   <span className="font-bold">BUT MMI Création Numérique, IUT Bobigny</span>
-                  <span className="text-gray-500 text-[10px]">Depuis 2024</span>
                 </div>
                 <div className="flex justify-between items-baseline">
                   <span className="font-bold">BUT Informatique (1ère année), IUT Lille</span>
-                  <span className="text-gray-500 text-[10px]">2022 / 2023</span>
                 </div>
                 <div className="flex justify-between items-baseline">
                   <span className="font-bold">Baccalauréat STI2D, Lycée Lucie Aubrac</span>
-                  <span className="text-gray-500 text-[10px]">2021</span>
                 </div>
               </div>
             </section>

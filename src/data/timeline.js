@@ -5,16 +5,16 @@
 export const timelineEvents = [
   {
     id: 6,
-    year: "2026",
-    title: "Recherche d'alternance",
-    description: "À la recherche d'une alternance pour septembre 2026. Objectif : approfondir mes compétences en création numérique et développement web dans un environnement professionnel.",
-    category: "Avenir",
+    year: "Septembre 2026 -",
+    title: "Atalian",
+    description: "Alternant en communication : participation à la création et à la rédaction d'articles/posts, publication sur nos différents canaux de diffusion (LinkedIn...), animation des sites internet et intranet, création de visuels pour accompagner les posts/articles.",
+    category: "Alternance",
     icon: ""
   },
   {
     id: 7,
-    year: "Avr. – Juin 2026",
-    title: "Stage – Phantasmagloria",
+    year: "Avr. - Juin 2026",
+    title: "Phantasmagloria",
     description: "Création visuelle : affiches, showreel. Gestion de l'approche créative de la communication sur les réseaux sociaux. Méthode de communication orale et écrite. Constitution de dossiers de productions. Démarchage d'institutions et de clients.",
     category: "Stage",
     icon: ""

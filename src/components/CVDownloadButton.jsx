@@ -38,10 +38,6 @@ export default function CVDownloadButton({ variant = 'primary', isDarkMode, clas
     };
   }, []);
 
-  const handleClick = () => {
-    window.open('/CV_Rafael_Piral.pdf', '_blank');
-  };
-
   const baseClasses = "inline-flex items-center gap-2 md:gap-3 transition-all duration-300 cursor-pointer";
 
   const variantClasses = {
@@ -63,9 +59,12 @@ export default function CVDownloadButton({ variant = 'primary', isDarkMode, clas
   };
 
   return (
-    <button
+    <a
       ref={buttonRef}
-      onClick={handleClick}
+      href="/CV_Rafael_Piral.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      download="CV_Rafael_Piral.pdf"
       className={`${baseClasses} ${variantClasses[variant]} ${className}`}
       aria-label={t('buttons.downloadCV')}
     >
@@ -86,6 +85,6 @@ export default function CVDownloadButton({ variant = 'primary', isDarkMode, clas
           d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
         />
       </svg>
-    </button>
+    </a>
   );
 }

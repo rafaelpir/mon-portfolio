@@ -33,6 +33,17 @@ function readBody(req) {
   });
 }
 
+function deepMerge(target, source) {
+  for (const key of Object.keys(source)) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+      target[key] = deepMerge(target[key] && typeof target[key] === 'object' ? target[key] : {}, source[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+
 function projectsAdminPlugin() {
   return {
     name: 'projects-admin',
@@ -95,6 +106,56 @@ function projectsAdminPlugin() {
             return;
           }
           writeFileSync(filePath, updated, 'utf-8');
+          res.writeHead(200);
+          res.end(JSON.stringify({ success: true }));
+        } catch (e) {
+          res.writeHead(500);
+          res.end(JSON.stringify({ error: e.message }));
+        }
+      });
+
+      // Sauvegarder la timeline
+      server.middlewares.use('/api/save-timeline', async (req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+        if (req.method !== 'POST') { res.writeHead(405); res.end('{}'); return; }
+        try {
+          const buf = await readBody(req);
+          const { events } = JSON.parse(buf.toString());
+          const filePath = resolve('./src/data/timeline.js');
+          const current = readFileSync(filePath, 'utf-8');
+          const serialized = JSON.stringify(events, null, 2);
+          const updated = current.replace(
+            /export const timelineEvents = \[[\s\S]*?\n\];/,
+            `export const timelineEvents = ${serialized};`
+          );
+          if (updated === current) {
+            res.writeHead(500);
+            res.end(JSON.stringify({ error: 'Pattern introuvable dans timeline.js' }));
+            return;
+          }
+          writeFileSync(filePath, updated, 'utf-8');
+          res.writeHead(200);
+          res.end(JSON.stringify({ success: true }));
+        } catch (e) {
+          res.writeHead(500);
+          res.end(JSON.stringify({ error: e.message }));
+        }
+      });
+
+      // Sauvegarder le contenu du profil (fr/en, fichiers i18n home.json)
+      server.middlewares.use('/api/save-content', async (req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+        if (req.method !== 'POST') { res.writeHead(405); res.end('{}'); return; }
+        try {
+          const buf = await readBody(req);
+          const { fr, en } = JSON.parse(buf.toString());
+          for (const [lang, patch] of [['fr', fr], ['en', en]]) {
+            if (!patch) continue;
+            const filePath = resolve(`./src/i18n/locales/${lang}/home.json`);
+            const current = JSON.parse(readFileSync(filePath, 'utf-8'));
+            const merged = deepMerge(current, patch);
+            writeFileSync(filePath, JSON.stringify(merged, null, 2) + '\n', 'utf-8');
+          }
           res.writeHead(200);
           res.end(JSON.stringify({ success: true }));
         } catch (e) {

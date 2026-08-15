@@ -1,22 +1,35 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import FlowingMenu from '../FlowingMenu';
+import ScrollListIndex from '../components/ScrollListIndex';
+import ProjectsDualWave from '../components/ProjectsDualWave';
 import { useForm, ValidationError } from '@formspree/react';
-import { ReactLenis } from 'lenis/dist/lenis-react';
+import { ReactLenis, useLenis } from 'lenis/dist/lenis-react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects, experiencesPro, skillCategories } from '../data/projects';
-import CVDownloadButton from '../components/CVDownloadButton';
 import ProjectFilters from '../components/ProjectFilters';
+import HomeHeader from '../components/HomeHeader';
 import Timeline from '../components/Timeline';
+import FullWidthText from '../components/FullWidthText';
+import ScrollRevealText from '../components/ScrollRevealText';
 import LogoCarousel from '../components/LogoCarousel';
-import WorkInProgressBanner from '../components/WorkInProgressBanner';
-import LanguageSwitcher from '../components/LanguageSwitcher';
+import CVDownloadButton from '../components/CVDownloadButton';
 import usePerformanceTier from '../hooks/usePerformanceTier';
-import TextType from '../components/TextType';
-import { GrainGradient } from '@paper-design/shaders-react';
-import LazyShader from '../components/LazyShader';
+import SideRays from '../components/SideRays';
+import GridSparkles from '../components/GridSparkles';
+import MilkyWay from '../components/MilkyWay';
+
+// Lenis fait défiler la page via son propre système virtuel : sans ce pont,
+// ScrollTrigger (GSAP) ne recalcule jamais sa position et les animations
+// scrubbées (ex. ScrollRevealText) restent figées à leur état de départ.
+function LenisScrollTriggerBridge() {
+  useLenis(() => {
+    ScrollTrigger.update();
+  });
+  return null;
+}
 
 export default function Home() {
   const navigate = useNavigate();
@@ -30,13 +43,10 @@ export default function Home() {
     const saved = localStorage.getItem('darkMode');
     return saved !== null ? JSON.parse(saved) : true;
   });
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [textEffectsEnabled] = useState(() => {
     const saved = localStorage.getItem('textEffects');
     return saved !== null ? JSON.parse(saved) : false;
   });
-
   // Détecter si on est sur mobile pour désactiver Lenis
   const [isMobile, setIsMobile] = useState(false);
 
@@ -53,35 +63,26 @@ export default function Home() {
   // Remplacez "xjknoepn" par votre vrai ID de formulaire Formspree
   const [formState, handleFormSubmit] = useForm("xjknoepn");
 
-
   // Fonction de navigation smooth sans changer l'URL
   const scrollToSection = (sectionId) => {
+    // Cas particulier "projets" (desktop) : la section "dual wave" détermine
+    // le mot en surbrillance par proximité du CENTRE du viewport (scroll
+    // continu), pas par "premier élément". En scrollant juste le HAUT de la
+    // section en vue (comportement par défaut), le centre du viewport tombe
+    // au milieu de la liste (à cause du titre/des filtres au-dessus) et un
+    // projet arbitraire se retrouve en surbrillance au lieu du premier. On
+    // scrolle donc directement le premier mot au centre de l'écran.
+    const firstWord = document.querySelector('.dual-wave-wrapper .wave-column-left .animated-text');
+    if (sectionId === 'projects' && firstWord) {
+      firstWord.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isSettingsOpen) {
-        setIsSettingsOpen(false);
-      }
-    };
-    const handleClickOutside = (e) => {
-      if (isSettingsOpen && !e.target.closest('.settings-menu')) {
-        setIsSettingsOpen(false);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('click', handleClickOutside);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('click', handleClickOutside);
-    };
-  }, [isSettingsOpen]);
 
   // Sauvegarder la préférence de thème
   useEffect(() => {
@@ -115,18 +116,7 @@ export default function Home() {
     return categoryMatch && tagMatch;
   });
 
-  // Configuration du FlowingMenu avec les projets (memoized pour performance)
-  const menuItems = useMemo(() =>
-    filteredProjects.map((project) => ({
-      link: `/project/${project.id}`,
-      text: project.title,
-      image: project.thumbnail,
-      type: project.type,
-      isNew: project.isNew ?? false,
-      onClick: () => navigate(`/project/${project.id}`)
-    })),
-    [filteredProjects, navigate]
-  );
+
 
   const currentLang = i18n.language?.startsWith('fr') ? 'fr' : 'en';
 
@@ -188,7 +178,7 @@ export default function Home() {
               "name": "IUT de Bobigny - BUT MMI",
               "description": "BUT Métiers du Multimédia et de l'Internet"
             },
-            "description": "Piral Rafael - Étudiant MMI en 2ème année de BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny. Spécialisé en design graphique, UI/UX design et audiovisuel. Parcours Créations Numériques. Disponible pour stage avril 2026.",
+            "description": "Piral Rafael - Étudiant MMI en 3e année de BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny. Spécialisé en design graphique, UI/UX design et audiovisuel. Parcours Créations Numériques. Disponible pour stage avril 2026.",
             "knowsAbout": ["Design Graphique", "UI/UX Design", "Audiovisuel", "Figma", "Photoshop", "Illustrator", "Premiere Pro", "DaVinci Resolve", "Motion Design", "Branding"],
             "address": {
               "@type": "PostalAddress",
@@ -224,6 +214,22 @@ export default function Home() {
             "copyrightHolder": {
               "@type": "Person",
               "name": "Rafael Piral"
+            }
+          })}
+        </script>
+
+        {/* JSON-LD Structured Data - ProfilePage (renforce la home comme page-profil de référence) */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ProfilePage",
+            "@id": "https://www.rafaelpiral.fr/#profilepage",
+            "url": "https://www.rafaelpiral.fr/",
+            "name": t('seo:home.title'),
+            "mainEntity": {
+              "@type": "Person",
+              "name": "Rafael Piral",
+              "alternateName": "Piral"
             }
           })}
         </script>
@@ -271,359 +277,138 @@ export default function Home() {
         ? 'bg-black text-beige'
         : 'bg-white text-black'
     }`}>
+      <LenisScrollTriggerBridge />
 
-      {/* Bannière "En construction" */}
-      <WorkInProgressBanner isDarkMode={isDarkMode} />
+      {/* Header avec navigation — extrait dans son propre composant
+          (HomeHeader) : son état (section active, contraste au scroll,
+          menus) est purement local au header, isolé ainsi des re-renders
+          du reste de la page (hero WebGL, projets, skills, timeline...). */}
+      <HomeHeader isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} scrollToSection={scrollToSection} />
 
-      {/* Header avec navigation */}
-      <header className={`fixed top-0 left-0 right-0 z-40 px-4 md:px-8 py-2 md:py-3 transition-colors duration-300 ${
-        isDarkMode
-          ? 'bg-black/5'
-          : 'bg-beige/5'
-      }`}>
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo */}
-          <div className="w-12 md:w-20" />
+      {/* Hero Section */}
+      <section className="h-screen flex flex-col relative overflow-hidden">
+        {/* Grille de points lumineux, en fond statique */}
+        <GridSparkles isDarkMode={isDarkMode} className="z-0" />
 
-          {/* Navigation */}
-          <nav className="hidden md:flex gap-8 items-center">
-            <button
-              onClick={() => scrollToSection('about')}
-              className={`text-sm tracking-widest transition-colors cursor-pointer ${
-                isDarkMode
-                  ? 'text-gray-400 hover:text-beige'
-                  : 'text-gray-700 hover:text-black'
-              }`}
-            >
-              {t('common:nav.about')}
-            </button>
-            <button
-              onClick={() => scrollToSection('projects')}
-              className={`text-sm tracking-widest transition-colors cursor-pointer ${
-                isDarkMode
-                  ? 'text-gray-400 hover:text-beige'
-                  : 'text-gray-700 hover:text-black'
-              }`}
-            >
-              {t('common:nav.projects')}
-            </button>
-            <button
-              onClick={() => scrollToSection('skills')}
-              className={`text-sm tracking-widest transition-colors cursor-pointer ${
-                isDarkMode
-                  ? 'text-gray-400 hover:text-beige'
-                  : 'text-gray-700 hover:text-black'
-              }`}
-            >
-              {t('common:nav.skills')}
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className={`text-sm tracking-widest transition-colors cursor-pointer ${
-                isDarkMode
-                  ? 'text-gray-400 hover:text-beige'
-                  : 'text-gray-700 hover:text-black'
-              }`}
-            >
-              {t('common:nav.contact')}
-            </button>
+        {/* Semis de points en fond (CSS/SVG, pas de WebGL) — colorimétrie
+            adaptée par mode (étoiles blanches sur fond sombre, grain
+            ambré/encre sur fond clair, voir MilkyWay.jsx) */}
+        <MilkyWay className="z-0" isDarkMode={isDarkMode} />
 
-            {/* Bouton CV */}
-            <CVDownloadButton
-              variant="secondary"
-              isDarkMode={isDarkMode}
-            />
-
-            {/* Liens réseaux sociaux */}
-            <div className="flex items-center gap-3 ml-2">
-              <a
-                href="https://www.linkedin.com/in/rafaelpiral"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`p-2 rounded-full transition-all duration-300 ${
-                  isDarkMode
-                    ? 'hover:bg-beige/10 text-gray-400 hover:text-beige'
-                    : 'hover:bg-black/10 text-gray-600 hover:text-black'
-                }`}
-                aria-label="LinkedIn"
-                title="LinkedIn"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-              </a>
-              <a
-                href="https://github.com/rafaelpir"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`p-2 rounded-full transition-all duration-300 ${
-                  isDarkMode
-                    ? 'hover:bg-beige/10 text-gray-400 hover:text-beige'
-                    : 'hover:bg-black/10 text-gray-600 hover:text-black'
-                }`}
-                aria-label="GitHub"
-                title="GitHub"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-              </a>
+        {/* SideRays background — coûteuse en GPU (WebGL), désactivée hors tier 'full' */}
+        {tier === 'full' && (
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0">
+              <SideRays
+                speed={2.5}
+                intensity={1.6}
+                spread={2}
+                origin="bottom-left"
+                saturation={1.4}
+                blend={0.65}
+                falloff={1.6}
+                autoColor={true}
+                colorSpeed={6}
+              />
             </div>
-
-            {/* Language Switcher */}
-            <LanguageSwitcher isDarkMode={isDarkMode} />
-
-            {/* Menu paramètres */}
-            <div className="ml-4 relative settings-menu">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsSettingsOpen(!isSettingsOpen);
-                }}
-                className={`p-2 rounded-full transition-all duration-300 ${
-                  isDarkMode
-                    ? 'bg-beige/10 hover:bg-beige/20 text-beige'
-                    : 'bg-black/10 hover:bg-black/20 text-black'
-                }`}
-                aria-label={t('common:nav.settings')}
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
-                </svg>
-              </button>
-
-              {isSettingsOpen && (
-                <div className={`absolute right-0 mt-2 w-64 rounded-lg shadow-lg py-2 z-50 ${
-                  isDarkMode ? 'bg-beige border border-black/20' : 'bg-gray-900 border border-beige/20'
-                }`}>
-                  {/* Thème */}
-                  <div className={`px-4 py-2 text-xs font-semibold ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`}>
-                    {t('common:theme.title')}
-                  </div>
-                  <button
-                    onClick={() => setIsDarkMode(!isDarkMode)}
-                    className={`w-full px-4 py-2 text-left flex items-center justify-between ${
-                      isDarkMode ? 'hover:bg-black/5 text-black' : 'hover:bg-beige/10 text-beige'
-                    }`}
-                  >
-                    <span>{isDarkMode ? t('common:theme.dark') : t('common:theme.light')}</span>
-                    {isDarkMode ? '🌙' : '☀️'}
-                  </button>
-                </div>
-              )}
+            <div className="absolute inset-0">
+              <SideRays
+                speed={2.5}
+                intensity={1.6}
+                spread={2}
+                origin="bottom-right"
+                saturation={1.4}
+                blend={0.65}
+                falloff={1.6}
+                autoColor={true}
+                colorSpeed={6}
+              />
             </div>
-          </nav>
+          </div>
+        )}
 
-          {/* Menu burger mobile et toggle thème */}
-          <div className="md:hidden flex items-center gap-4">
-            <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className={`p-2 rounded-full transition-all duration-300 ${
-                isDarkMode
-                  ? 'bg-beige/10 hover:bg-beige/20 text-beige'
-                  : 'bg-black/10 hover:bg-black/20 text-black'
-              }`}
-              aria-label="Toggle theme"
-            >
-              {isDarkMode ? (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fillRule="evenodd" clipRule="evenodd" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                </svg>
-              )}
-            </button>
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-2xl"
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? '×' : '☰'}
-            </button>
+        {/* Sous-titre — centre, aligné à droite */}
+        <div className={`flex-1 flex items-center relative z-10 px-4 md:px-16 pt-16 ${!isMobile ? 'animate-fade-in-up' : ''}`}>
+          <div className="w-full flex justify-end">
+            <div className="w-full sm:w-[45%] text-right">
+              <p
+                className={`select-none ${isDarkMode ? 'text-white' : 'text-black'}`}
+                style={{ fontSize: 'clamp(0.95rem, 1.3vw, 1.35rem)', lineHeight: 1.4 }}
+              >
+                <span style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 300 }}>
+                  Rafael Piral est un designer graphique basé à Paris, dont le travail navigue entre design graphique, UI/UX design et audiovisuel, porté par un goût pour les{' '}
+                </span>
+                <span style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontStyle: 'italic', fontWeight: 300 }}>
+                  identités visuelles épurées et affirmées
+                </span>
+                <span style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 300 }}>
+                  .
+                </span>
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Menu mobile */}
-        {isMobileMenuOpen && (
-          <div className={`md:hidden ${
-            isDarkMode ? 'bg-black' : 'bg-beige'
-          } border-t ${
-            isDarkMode ? 'border-beige/10' : 'border-black/10'
-          }`}>
-            <nav className="flex flex-col py-4">
-              <button
-                onClick={() => { scrollToSection('about'); setIsMobileMenuOpen(false); }}
-                className={`px-8 py-4 text-sm tracking-widest transition-colors text-left ${
-                  isDarkMode
-                    ? 'text-gray-400 hover:text-beige'
-                    : 'text-gray-700 hover:text-black'
-                }`}
-              >
-                {t('common:nav.about')}
-              </button>
-              <button
-                onClick={() => { scrollToSection('projects'); setIsMobileMenuOpen(false); }}
-                className={`px-8 py-4 text-sm tracking-widest transition-colors text-left ${
-                  isDarkMode
-                    ? 'text-gray-400 hover:text-beige'
-                    : 'text-gray-700 hover:text-black'
-                }`}
-              >
-                {t('common:nav.projects')}
-              </button>
-              <button
-                onClick={() => { scrollToSection('skills'); setIsMobileMenuOpen(false); }}
-                className={`px-8 py-4 text-sm tracking-widest transition-colors text-left ${
-                  isDarkMode
-                    ? 'text-gray-400 hover:text-beige'
-                    : 'text-gray-700 hover:text-black'
-                }`}
-              >
-                {t('common:nav.skills')}
-              </button>
-              <button
-                onClick={() => { scrollToSection('contact'); setIsMobileMenuOpen(false); }}
-                className={`px-8 py-4 text-sm tracking-widest transition-colors text-left ${
-                  isDarkMode
-                    ? 'text-gray-400 hover:text-beige'
-                    : 'text-gray-700 hover:text-black'
-                }`}
-              >
-                {t('common:nav.contact')}
-              </button>
-              <div className="px-8 py-4">
-                <LanguageSwitcher isDarkMode={isDarkMode} />
-              </div>
-            </nav>
-          </div>
-        )}
-      </header>
-
-      {/* Hero Section */}
-      <section className="h-screen flex items-center justify-center relative overflow-hidden px-4">
-        {/* GrainGradient Background - lazy: détruit quand hors viewport */}
-        {(tier === 'full' || tier === 'reduced') ? (
-          <LazyShader className={`absolute inset-0 z-0 ${isDarkMode ? 'opacity-30' : 'opacity-60'}`}>
-            <GrainGradient
-              style={{ width: '100%', height: '100%' }}
-              minPixelRatio={0.6}
-              colors={isDarkMode ? ["#000000", "#000000", "#bababa"] : ["#f5f5f5", "#e0e0e0", "#cccccc"]}
-              colorBack={isDarkMode ? "#000000" : "#ffffff"}
-              softness={1}
-              intensity={0.4}
-              noise={0.5}
-              shape="truchet"
-              speed={tier === 'full' ? 0.45 : 0.2}
-              scale={0.16}
-              rotation={168}
-              offsetX={0.16}
+        {/* Titre — en bas, pleine largeur */}
+        <div className={`relative z-10 pt-8 md:pt-12 px-4 md:px-10 ${!isMobile ? 'animate-slide-down' : ''}`}>
+          <h1 className={`uppercase select-none ${isDarkMode ? 'text-white' : 'text-black'}`}>
+            <FullWidthText
+              text="Rafael Piral"
+              style={{
+                fontFamily: '"PP Neue Montreal", sans-serif',
+                fontWeight: 600,
+                fontSize: 'clamp(3rem, 11vw, 14rem)',
+                lineHeight: 1,
+              }}
             />
-          </LazyShader>
-        ) : null}
+          </h1>
+        </div>
 
-        {/* Contenu principal avec animations améliorées */}
-        <div
-          className={`text-center md:text-left relative z-10 pointer-events-none max-w-7xl w-full px-4 md:px-16 ${!isMobile ? 'animate-fade-in-up' : ''}`}
-        >
-          <div className={!isMobile ? 'animate-slide-down' : ''} style={!isMobile ? { animationDelay: '0.2s' } : {}}>
-            <h1 className={`font-sans font-light leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              <span className="block text-[14vw] md:text-[10vw]">Rafael</span>
-              <span className="block text-[14vw] md:text-[10vw]">Piral</span>
-            </h1>
+        {/* Métadonnées — toujours en bas, juste en dessous du titre */}
+        <div className="relative z-10 flex items-center px-4 md:px-16 py-4 shrink-0">
+          <div
+            className="flex-1 flex justify-between uppercase tracking-widest"
+            style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 300, fontSize: '0.75rem', color: '#888888' }}
+          >
+            <span>{t('home:hero.meta.year')}</span>
+            <span>{t('home:hero.meta.location')}</span>
+            <span>{t('home:hero.meta.role')}</span>
           </div>
-
-          <div className={`text-xs sm:text-sm md:text-base font-light tracking-wide mt-4 md:mt-6 ${!isMobile ? 'animate-fade-in' : ''} space-y-1 md:space-y-2 text-center md:text-left ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
-            style={!isMobile ? { animationDelay: '0.4s' } : {}}>
-            <p className="text-xs sm:text-sm md:text-lg tracking-widest" aria-label={t('home:hero.tagline')}>
-              <TextType
-                texts={[t('home:hero.tagline')]}
-                typingSpeed={60}
-                pauseDuration={999999}
-                showCursor={false}
-                performanceTier={tier}
-              />
-            </p>
-            <p className="text-[10px] sm:text-xs md:text-sm">
-              {t('home:hero.education')}
-            </p>
-            <p className="text-[10px] sm:text-xs md:text-sm">
-              {t('home:hero.track')}
-            </p>
-          </div>
-
         </div>
 
       </section>
 
-      {/* Introduction / About */}
+      {/* Introduction / About — un fondu vertical léger et déclenché tôt
+          (amount: 0.05) plutôt qu'un grand glissement horizontal (x:-100)
+          qui ne se déclenchait qu'à 30% de section visible : après le hero
+          plein écran et statique, ce "pop" tardif créait une coupure nette
+          au lieu d'un enchaînement continu avec le reste du scroll. */}
       <motion.section
         id="about"
-        className="min-h-screen flex items-center px-4 md:px-16 py-16 md:py-32"
-        initial={tier === 'full' ? { opacity: 0, x: -100 } : {}}
-        whileInView={tier === 'full' ? { opacity: 1, x: 0 } : {}}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={tier === 'full' ? { duration: 0.6, ease: "easeOut" } : {}}
+        className="flex items-center px-4 md:px-16 pt-24 md:pt-32 pb-16 md:pb-24"
+        initial={tier === 'full' ? { opacity: 0, y: 32 } : {}}
+        whileInView={tier === 'full' ? { opacity: 1, y: 0 } : {}}
+        viewport={{ once: true, amount: 0.05 }}
+        transition={tier === 'full' ? { duration: 0.8, ease: "easeOut" } : {}}
       >
         <div className="max-w-7xl mx-auto w-full">
           <h2 className="sr-only">À propos de Rafael Piral</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Colonne gauche - Texte */}
+          <div className="w-full">
             <div>
-            <div className="space-y-6 md:space-y-8 text-lg md:text-3xl font-light leading-relaxed mb-8 md:mb-12 text-pretty">
-  <p>
+            <div className="space-y-6 md:space-y-8 text-xl md:text-3xl font-light mb-8 md:mb-12 text-pretty" style={{ lineHeight: 1.6 }}>
+  <ScrollRevealText>
     {t('home:about.intro1')}
-  </p>
+  </ScrollRevealText>
 
-  <p className="text-gray-400">
+  <ScrollRevealText className="text-gray-400">
     {t('home:about.intro2')}
-  </p>
+  </ScrollRevealText>
 
-  <p className="text-gray-400">
+  <ScrollRevealText className="text-gray-400">
     {t('home:about.intro3')}
-  </p>
+  </ScrollRevealText>
 </div>
 
-              <div className="flex gap-8 text-sm tracking-wider">
-                <div>
-                  <p className="text-gray-500 mb-2">{t('home:about.location')}</p>
-                  <p>{t('home:about.locationValue')}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 mb-2">{t('home:about.availabilityLabel')}</p>
-                  <p>{t('home:about.availabilityValue')}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Colonne droite - Vidéo */}
-            <div className="space-y-8">
-              {/* Vidéo de présentation */}
-              <motion.div
-                className="rounded-xl overflow-hidden"
-                initial={tier === 'full' ? { opacity: 0, y: 20 } : {}}
-                whileInView={tier === 'full' ? { opacity: 1, y: 0 } : {}}
-                viewport={{ once: true }}
-                transition={tier === 'full' ? { duration: 0.8, delay: 0.4 } : {}}
-              >
-                {!isMobile && (
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="none"
-                    width="1920"
-                    height="1080"
-                    className={`w-full h-auto rounded-xl aspect-video ${
-                      isDarkMode ? 'opacity-90' : 'opacity-80 invert'
-                    }`}
-                  >
-                    <source src="/videos/fond_leger.mp4" type="video/mp4" />
-                  </video>
-                )}
-              </motion.div>
             </div>
           </div>
 
@@ -646,47 +431,73 @@ export default function Home() {
       {/* Projects Section - FlowingMenu */}
       <motion.section
         id="projects"
-        className="py-16 md:py-32 px-4 md:px-16"
+        className="relative pt-8 md:pt-12 pb-24 md:pb-48 px-4 md:px-16 overflow-hidden"
         initial={tier === 'full' ? { opacity: 0, y: 20 } : {}}
         whileInView={tier === 'full' ? { opacity: 1, y: 0 } : {}}
         viewport={{ once: true, amount: 0.2 }}
         transition={tier === 'full' ? { duration: 0.4, ease: [0.4, 0, 0.2, 1] } : {}}
       >
-        <h2 className="text-[10px] md:text-sm tracking-widest mb-8 md:mb-16 text-gray-500 text-center">
-         {t('home:projects.title')}
-        </h2>
+        <div className="relative z-10">
+          <h2 className="text-[10px] md:text-sm tracking-widest mb-6 md:mb-10 text-gray-500 text-center">
+           {t('home:projects.title')}
+          </h2>
 
-        {/* Filtres avancés */}
-        <div className="mb-8 md:mb-16">
-          <ProjectFilters
-            categories={categories}
-            allTags={allTags}
-            selectedCategory={selectedCategory}
-            selectedTags={selectedTags}
-            onCategoryChange={setSelectedCategory}
-            onTagsChange={setSelectedTags}
-            isDarkMode={isDarkMode}
-            textEffectsEnabled={textEffectsEnabled}
-            filteredCount={filteredProjects.length}
-          />
-        </div>
-
-        {/* FlowingMenu avec les projets */}
-        <div className="max-w-6xl mx-auto">
-          <div className="h-[600px] md:h-[900px] rounded-lg overflow-hidden">
-            <FlowingMenu items={menuItems} isDarkMode={isDarkMode} />
+          {/* Filtres avancés */}
+          <div className="mb-4 md:mb-6">
+            <ProjectFilters
+              categories={categories}
+              allTags={allTags}
+              selectedCategory={selectedCategory}
+              selectedTags={selectedTags}
+              onCategoryChange={setSelectedCategory}
+              onTagsChange={setSelectedTags}
+              isDarkMode={isDarkMode}
+              textEffectsEnabled={textEffectsEnabled}
+              filteredCount={filteredProjects.length}
+            />
           </div>
+
+          {/* Liste texte sur mobile, colonnes "dual wave" scroll-driven sur
+              desktop — montage conditionnel (pas juste masqué en CSS) pour
+              éviter le coût de l'effet sur mobile. */}
+          {isMobile ? (
+            <div className="max-w-6xl mx-auto">
+              <ScrollListIndex
+                items={filteredProjects}
+                isDarkMode={isDarkMode}
+              />
+            </div>
+          ) : (
+            /* -mx-4 md:-mx-16 : neutralise le padding horizontal de la
+               section pour redonner à .dual-wave-wrapper une largeur proche
+               du viewport complet. Son `gap: 25vw` (valeur du demo, non
+               modifiée) est calculé par rapport au viewport, pas au
+               conteneur : dans une largeur réduite par le padding de la
+               page, ce gap fixe laissait 0px de marge de mouvement aux deux
+               colonnes (elles remplissaient déjà tout l'espace restant),
+               d'où l'absence d'ondulation. */
+            <div className="-mx-4 md:-mx-16">
+              <ProjectsDualWave projects={filteredProjects} />
+            </div>
+          )}
         </div>
       </motion.section>
 
-      {/* Skills Section */}
-      <section
+      {/* Skills Section — entrée en parallax (léger décalage vertical qui se
+          résorbe au scroll) : la section arrive avec un temps de retard
+          volontaire plutôt que de suivre le flux de scroll au pixel près,
+          pour ne pas empiéter visuellement sur la fin de la zone projets. */}
+      <motion.section
         id="skills"
-        className={`py-16 md:py-32 transition-colors duration-300 ${
+        className={`relative pt-8 md:pt-16 pb-16 md:pb-32 transition-colors duration-300 ${
           isDarkMode
             ? 'bg-beige-light text-black'
             : 'bg-black text-beige'
         }`}
+        initial={tier === 'full' ? { opacity: 0, y: 120 } : {}}
+        whileInView={tier === 'full' ? { opacity: 1, y: 0 } : {}}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={tier === 'full' ? { duration: 0.8, ease: [0.4, 0, 0.2, 1] } : {}}
       >
         <div className="mb-12 text-center">
           <h2 className="text-xs md:text-sm tracking-widest text-gray-500">
@@ -701,7 +512,7 @@ export default function Home() {
             performanceTier={tier}
           />
         </div>
-      </section>
+      </motion.section>
 
       {/* Timeline Section */}
       <Timeline
@@ -719,19 +530,11 @@ export default function Home() {
         transition={tier === 'full' ? { duration: 0.6, ease: "easeOut" } : {}}
       >
         <div className="max-w-4xl w-full">
-          <h2 className="text-3xl md:text-7xl lg:text-9xl font-light mb-8 md:mb-20 leading-none text-center">
+          <h2 className="text-3xl md:text-7xl lg:text-9xl mb-8 md:mb-20 leading-none text-center">
             {t('home:contact.title1')}
             <br />
             {t('home:contact.title2')}
           </h2>
-
-          {/* Bouton CV */}
-          <div className="mb-8 md:mb-12 flex justify-center">
-            <CVDownloadButton
-              variant="primary"
-              isDarkMode={isDarkMode}
-            />
-          </div>
 
           <div className="grid md:grid-cols-2 gap-8 md:gap-16">
             {/* Formulaire de contact */}
@@ -762,7 +565,9 @@ export default function Home() {
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-6 md:space-y-8">
                   <div className="group">
+                    <label htmlFor="contact-name" className="sr-only">{t('common:form.name')}</label>
                     <input
+                      id="contact-name"
                       type="text"
                       name="name"
                       placeholder={t('common:form.name')}
@@ -777,7 +582,9 @@ export default function Home() {
                   </div>
 
                   <div className="group">
+                    <label htmlFor="contact-email" className="sr-only">{t('common:form.email')}</label>
                     <input
+                      id="contact-email"
                       type="email"
                       name="email"
                       placeholder={t('common:form.email')}
@@ -792,7 +599,9 @@ export default function Home() {
                   </div>
 
                   <div className="group">
+                    <label htmlFor="contact-subject" className="sr-only">{t('common:form.subject')}</label>
                     <input
+                      id="contact-subject"
                       type="text"
                       name="subject"
                       placeholder={t('common:form.subject')}
@@ -806,7 +615,9 @@ export default function Home() {
                   </div>
 
                   <div className="group">
+                    <label htmlFor="contact-message" className="sr-only">{t('common:form.message')}</label>
                     <textarea
+                      id="contact-message"
                       name="message"
                       placeholder={t('common:form.message')}
                       rows="5"
@@ -854,6 +665,8 @@ export default function Home() {
 
             {/* Informations de contact */}
             <div className="flex flex-col justify-center space-y-8 md:space-y-10">
+              <CVDownloadButton variant="secondary" isDarkMode={isDarkMode} className="self-start" />
+
               <motion.div
                 initial={tier === 'full' ? { opacity: 0, x: 20 } : {}}
                 whileInView={tier === 'full' ? { opacity: 1, x: 0 } : {}}
@@ -922,24 +735,6 @@ export default function Home() {
                     </span>
                   </a>
                   <a
-                    href="https://dribbble.com/RafaelPiral"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`group/link text-lg md:text-2xl font-light transition-all duration-300 inline-block relative ${
-                      isDarkMode ? 'hover:text-beige' : 'hover:text-black'
-                    }`}
-                  >
-                    <span className="relative inline-flex items-center gap-2">
-                      Dribbble
-                      <svg className="w-5 h-5 transition-transform duration-300 group-hover/link:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                      <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover/link:w-full ${
-                        isDarkMode ? 'bg-beige' : 'bg-black'
-                      }`}></span>
-                    </span>
-                  </a>
-                  <a
                     href="https://www.behance.net/rafaelpiral1"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -973,7 +768,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 mb-16">
             {/* Column 1 - About */}
             <div>
-              <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
+              <h3 className="text-xl md:text-2xl mb-6 tracking-wide">
                 {t('common:footer.name')}
               </h3>
               <p className="text-sm md:text-base font-light leading-relaxed opacity-70">
@@ -983,28 +778,28 @@ export default function Home() {
 
             {/* Column 2 - Navigation */}
             <div>
-              <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
+              <h3 className="text-xl md:text-2xl mb-6 tracking-wide">
                 {t('common:footer.navigation')}
               </h3>
               <nav className="flex flex-col space-y-3">
                 <button onClick={() => scrollToSection('about')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  {t('common:footer.aboutLink')}
+                  <span className="text-[8px] align-super opacity-40 mr-1">01</span>{t('common:footer.aboutLink')}
                 </button>
                 <button onClick={() => scrollToSection('projects')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  {t('common:footer.projectsLink')}
+                  <span className="text-[8px] align-super opacity-40 mr-1">02</span>{t('common:footer.projectsLink')}
                 </button>
                 <button onClick={() => scrollToSection('skills')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  {t('common:footer.skillsLink')}
+                  <span className="text-[8px] align-super opacity-40 mr-1">03</span>{t('common:footer.skillsLink')}
                 </button>
                 <button onClick={() => scrollToSection('contact')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  {t('common:footer.contactLink')}
+                  <span className="text-[8px] align-super opacity-40 mr-1">04</span>{t('common:footer.contactLink')}
                 </button>
               </nav>
             </div>
 
             {/* Column 3 - Contact & Social */}
             <div>
-              <h3 className="text-xl md:text-2xl font-light mb-6 tracking-wide">
+              <h3 className="text-xl md:text-2xl mb-6 tracking-wide">
                 {t('common:footer.contact')}
               </h3>
               <div className="space-y-3">
@@ -1030,14 +825,6 @@ export default function Home() {
                     className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
                   >
                     GitHub →
-                  </a>
-                  <a
-                    href="https://dribbble.com/RafaelPiral"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
-                  >
-                    Dribbble →
                   </a>
                   <a
                     href="https://www.behance.net/rafaelpiral1"

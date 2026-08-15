@@ -3,6 +3,24 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import Logo from '../components/Logo';
+import GridSparkles from '../components/GridSparkles';
+import ScrollRevealText from '../components/ScrollRevealText';
+
+// Même logique que CATEGORY_STYLES dans Timeline.jsx : classes écrites en
+// toutes lettres (pas de `${hue}-400` reconstruit) pour que le JIT Tailwind
+// les détecte dans le texte source. Un accent par domaine de compétence,
+// plutôt qu'un même liseré neutre partout — fait écho au code couleur déjà
+// utilisé pour les catégories du Parcours.
+const SKILL_CATEGORY_STYLES = {
+  design: { border: 'border-l-orange-400/40', borderLight: 'border-l-orange-500/40' },
+  audiovisual: { border: 'border-l-sky-400/40', borderLight: 'border-l-sky-500/40' },
+  web: { border: 'border-l-emerald-400/40', borderLight: 'border-l-emerald-500/40' },
+  soft: { border: 'border-l-purple-400/35', borderLight: 'border-l-purple-500/35' },
+  office: { border: 'border-l-slate-400/40', borderLight: 'border-l-slate-500/40' },
+  communication: { border: 'border-l-rose-400/40', borderLight: 'border-l-rose-500/40' },
+};
+const DEFAULT_SKILL_STYLE = SKILL_CATEGORY_STYLES.design;
 
 export default function About() {
   const { t, i18n } = useTranslation(['about', 'common']);
@@ -18,6 +36,10 @@ export default function About() {
     setIsDarkMode(newMode);
     localStorage.setItem('darkMode', JSON.stringify(newMode));
   };
+
+  const journeyParagraphs = t('about:journey.paragraphs', { returnObjects: true });
+  const interestsParagraphs = t('about:interests.paragraphs', { returnObjects: true });
+  const skillCats = ['design', 'audiovisual', 'web', 'soft', 'office', 'communication'];
 
   return (
     <div className={`min-h-screen font-stamp transition-colors duration-300 ${
@@ -54,12 +76,11 @@ export default function About() {
             "url": "https://www.rafaelpiral.fr",
             "image": "https://www.rafaelpiral.fr/og-image.jpg",
             "jobTitle": "Étudiant BUT MMI - Designer Graphique & Audiovisuel",
-            "description": "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny. Spécialisé en design graphique, UI/UX design et audiovisuel.",
+            "description": "Étudiant en 3e année de BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny. Spécialisé en design graphique, UI/UX design et audiovisuel.",
             "knowsAbout": ["Design Graphique", "UI/UX Design", "Audiovisuel", "Figma", "Photoshop", "Illustrator", "Premiere Pro", "Motion Design", "Branding"],
             "sameAs": [
               "https://www.linkedin.com/in/rafaelpiral",
               "https://github.com/rafaelpir",
-              "https://dribbble.com/RafaelPiral",
               "https://www.behance.net/rafaelpiral1"
             ],
             "alumniOf": {
@@ -72,19 +93,13 @@ export default function About() {
       </Helmet>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-6">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="relative w-20 h-20 md:w-32 md:h-32 flex items-center justify-center overflow-hidden">
-            <img
-              src="/images/logos/RP.webp"
-              alt="RP"
-              width={128}
-              height={128}
-              className={`w-full h-full object-contain ${isDarkMode ? 'invert' : ''}`}
-            />
-          </Link>
+      <header className={`fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-2 md:py-3 transition-colors duration-300 ${
+        isDarkMode ? 'bg-black/5' : 'bg-beige/5'
+      }`}>
+        <div className="w-full flex justify-between items-center">
+          <Logo isDarkMode={isDarkMode} />
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 md:gap-6">
             <Link
               to="/"
               className={`text-sm tracking-widest transition-colors ${
@@ -120,71 +135,55 @@ export default function About() {
       </header>
 
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center px-4 pt-32 pb-16 relative overflow-hidden">
-        {/* Vidéo de fond */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          width={1920}
-          height={1080}
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            opacity: isDarkMode ? 0.15 : 0.1,
-            filter: isDarkMode ? 'none' : 'invert(1)',
-            transform: 'scale(1.1)'
-          }}
-        >
-          <source src="/videos/fond.mp4" type="video/mp4" />
-        </video>
+      <section className="min-h-screen flex flex-col justify-center px-4 md:px-16 pt-32 pb-16 relative overflow-hidden">
+        <GridSparkles isDarkMode={isDarkMode} className="z-0" />
 
-        {/* Gradient overlay animé */}
-        <div className="absolute inset-0" style={{
-          background: isDarkMode
-            ? 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 50%)'
-            : 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0.05) 0%, transparent 50%)',
-          animation: 'pulse 8s ease-in-out infinite'
-        }} />
-
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h1 className="text-[12vw] md:text-[8vw] font-light leading-none tracking-tight mb-8">
+        <div className="relative z-10">
+          <h1
+            className={`uppercase leading-none mb-8 ${isDarkMode ? 'text-white' : 'text-black'}`}
+            style={{
+              fontFamily: '"PP Neue Montreal", sans-serif',
+              fontWeight: 800,
+              fontSize: 'clamp(3rem, 12vw, 11rem)',
+            }}
+          >
             {t('about:hero.title')}
           </h1>
 
-          <p className={`text-lg md:text-2xl font-light leading-relaxed ${
-            isDarkMode ? 'text-gray-300' : 'text-gray-700'
-          }`}>
+          <p
+            className={`max-w-2xl ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+            style={{ fontSize: 'clamp(1.1rem, 2vw, 1.75rem)', lineHeight: 1.4 }}
+          >
             {t('about:hero.tagline')}
           </p>
         </div>
       </section>
 
       {/* Mon Parcours */}
-      <section className="min-h-screen flex items-center px-4 md:px-16 py-16">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-24">
+      <section className="px-4 md:px-16 py-20 md:py-32">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-24">
           <div>
-            <h2 className="text-4xl md:text-6xl font-light mb-8">
+            <h2 className="text-[10px] md:text-sm tracking-widest mb-8 text-gray-500 uppercase">
               {t('about:journey.title')}
             </h2>
-            <div className="space-y-6 text-base md:text-lg font-light leading-relaxed">
-              {t('about:journey.paragraphs', { returnObjects: true }).map((paragraph, index) => (
-                <p key={index} className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+            <div className="space-y-6 text-lg md:text-2xl font-light" style={{ lineHeight: 1.5 }}>
+              {journeyParagraphs.map((paragraph, index) => (
+                <ScrollRevealText key={index} className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                   {paragraph}
-                </p>
+                </ScrollRevealText>
               ))}
             </div>
           </div>
 
           <div>
-            <h2 className="text-4xl md:text-6xl font-light mb-8">
+            <h2 className="text-[10px] md:text-sm tracking-widest mb-8 text-gray-500 uppercase">
               {t('about:interests.title')}
             </h2>
-            <div className="space-y-6 text-base md:text-lg font-light leading-relaxed">
-              {t('about:interests.paragraphs', { returnObjects: true }).map((paragraph, index) => (
-                <p key={index} className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+            <div className="space-y-6 text-lg md:text-2xl font-light" style={{ lineHeight: 1.5 }}>
+              {interestsParagraphs.map((paragraph, index) => (
+                <ScrollRevealText key={index} className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                   {paragraph}
-                </p>
+                </ScrollRevealText>
               ))}
             </div>
           </div>
@@ -192,111 +191,74 @@ export default function About() {
       </section>
 
       {/* Compétences & Outils */}
-      <section className="min-h-screen flex items-center px-4 md:px-16 py-16">
+      <section className="px-4 md:px-16 py-20 md:py-32">
         <div className="max-w-7xl mx-auto w-full">
-          <h2 className="text-4xl md:text-6xl font-light mb-16 text-center">
+          <h2 className="text-[10px] md:text-sm tracking-widest mb-12 md:mb-16 text-gray-500 text-center uppercase">
             {t('about:skills.title')}
           </h2>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Design Graphique */}
-            <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-              <h3 className="text-xl font-light mb-6">
-                {t('about:skills.categories.design.title')}
-              </h3>
-              <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {t('about:skills.categories.design.items', { returnObjects: true }).map((item, index) => (
-                  <li key={index}>• {item}</li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Audiovisuel */}
-            <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-              <h3 className="text-xl font-light mb-6">
-                {t('about:skills.categories.audiovisual.title')}
-              </h3>
-              <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {t('about:skills.categories.audiovisual.items', { returnObjects: true }).map((item, index) => (
-                  <li key={index}>• {item}</li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Développement Web */}
-            <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-              <h3 className="text-xl font-light mb-6">
-                {t('about:skills.categories.web.title')}
-              </h3>
-              <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {t('about:skills.categories.web.items', { returnObjects: true }).map((item, index) => (
-                  <li key={index}>• {item}</li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Soft Skills */}
-            <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-              <h3 className="text-xl font-light mb-6">
-                {t('about:skills.categories.soft.title')}
-              </h3>
-              <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {t('about:skills.categories.soft.items', { returnObjects: true }).map((item, index) => (
-                  <li key={index}>• {item}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Autres compétences */}
-          <div className="mt-8 grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-              <h3 className="text-xl font-light mb-6">
-                {t('about:skills.categories.office.title')}
-              </h3>
-              <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {t('about:skills.categories.office.items', { returnObjects: true }).map((item, index) => (
-                  <li key={index}>• {item}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className={`p-6 border ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
-              <h3 className="text-xl font-light mb-6">
-                {t('about:skills.categories.communication.title')}
-              </h3>
-              <ul className={`space-y-2 text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {t('about:skills.categories.communication.items', { returnObjects: true }).map((item, index) => (
-                  <li key={index}>• {item}</li>
-                ))}
-              </ul>
-            </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {skillCats.map((cat) => {
+              const style = SKILL_CATEGORY_STYLES[cat] || DEFAULT_SKILL_STYLE;
+              const items = t(`about:skills.categories.${cat}.items`, { returnObjects: true });
+              return (
+                <div
+                  key={cat}
+                  className={`group p-6 md:p-8 border border-l-[3px] transition-all duration-300 hover:-translate-y-0.5 ${
+                    isDarkMode
+                      ? `border-beige/10 ${style.border} hover:bg-beige/[0.03]`
+                      : `border-black/10 ${style.borderLight} hover:bg-black/[0.03]`
+                  }`}
+                >
+                  <h3
+                    className={`text-lg mb-4 ${isDarkMode ? 'text-beige' : 'text-black'}`}
+                    style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}
+                  >
+                    {t(`about:skills.categories.${cat}.title`)}
+                  </h3>
+                  <p className="text-[10px] tracking-widest uppercase text-gray-500 leading-relaxed">
+                    {items.map((item, index) => (
+                      <span key={index}>
+                        {item}
+                        {index < items.length - 1 && <span className="opacity-40"> · </span>}
+                      </span>
+                    ))}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Passions & Intérêts */}
-      <section className="min-h-screen flex items-center px-4 md:px-16 py-16">
+      <section className="px-4 md:px-16 py-20 md:py-32">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-6xl font-light mb-12">
+          <h2 className="text-[10px] md:text-sm tracking-widest mb-12 text-gray-500 uppercase">
             {t('about:inspirations.title')}
           </h2>
 
-          <div className="space-y-8 text-base md:text-lg font-light leading-relaxed">
+          <div className="space-y-12">
             <div>
-              <h3 className="text-2xl mb-4">
+              <h3 className={`text-2xl md:text-3xl mb-4 ${isDarkMode ? 'text-beige' : 'text-black'}`}>
                 {t('about:inspirations.design.title')}
               </h3>
-              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+              <p
+                className={`font-light ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+                style={{ fontSize: 'clamp(1.1rem, 1.6vw, 1.5rem)', lineHeight: 1.5 }}
+              >
                 {t('about:inspirations.design.content')}
               </p>
             </div>
 
             <div>
-              <h3 className="text-2xl mb-4">
+              <h3 className={`text-2xl md:text-3xl mb-4 ${isDarkMode ? 'text-beige' : 'text-black'}`}>
                 {t('about:inspirations.learning.title')}
               </h3>
-              <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+              <p
+                className={`font-light ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
+                style={{ fontSize: 'clamp(1.1rem, 1.6vw, 1.5rem)', lineHeight: 1.5 }}
+              >
                 {t('about:inspirations.learning.content')}
               </p>
             </div>
@@ -305,9 +267,16 @@ export default function About() {
       </section>
 
       {/* Contact CTA */}
-      <section className="min-h-[50vh] flex items-center justify-center px-4 py-16">
+      <section className="min-h-[60vh] flex items-center justify-center px-4 py-16">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-5xl md:text-7xl font-light mb-8">
+          <h2
+            className={`uppercase leading-none mb-8 ${isDarkMode ? 'text-white' : 'text-black'}`}
+            style={{
+              fontFamily: '"PP Neue Montreal", sans-serif',
+              fontWeight: 800,
+              fontSize: 'clamp(2.5rem, 8vw, 6rem)',
+            }}
+          >
             {t('about:cta.title')}
           </h2>
           <p className={`text-lg md:text-xl font-light mb-12 ${
@@ -318,7 +287,7 @@ export default function About() {
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <a
-              href="mailto:contact@rafaelpiral.fr"
+              href="mailto:rafa2002@hotmail.fr"
               className={`px-8 py-4 border-2 text-sm tracking-widest transition-all ${
                 isDarkMode
                   ? 'border-beige text-beige hover:bg-beige hover:text-black'
@@ -329,7 +298,7 @@ export default function About() {
             </a>
 
             <Link
-              to="/"
+              to="/#projects"
               className={`px-8 py-4 border-2 text-sm tracking-widest transition-all ${
                 isDarkMode
                   ? 'border-gray-600 text-gray-400 hover:border-beige hover:text-beige'
@@ -343,7 +312,7 @@ export default function About() {
       </section>
 
       {/* Footer */}
-      <footer className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} px-4 md:px-8 py-8`}>
+      <footer className={`border-t px-4 md:px-8 py-8 ${isDarkMode ? 'border-beige/10' : 'border-black/10'}`}>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-600'}`}>
             © {new Date().getFullYear()} Rafael Piral. {t('about:footer.rights')}
@@ -369,16 +338,6 @@ export default function About() {
               }`}
             >
               LinkedIn
-            </a>
-            <a
-              href="https://dribbble.com/RafaelPiral"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`text-sm transition-colors ${
-                isDarkMode ? 'text-gray-500 hover:text-beige' : 'text-gray-600 hover:text-black'
-              }`}
-            >
-              Dribbble
             </a>
             <a
               href="https://www.behance.net/rafaelpiral1"

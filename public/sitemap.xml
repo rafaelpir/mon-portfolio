@@ -28,6 +28,17 @@
 
   <!-- Projets -->
   <url>
+    <loc>https://www.rafaelpiral.fr/work/affiche-balotelli</loc>
+    <lastmod>2026-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/projects/Balotelli.webp</image:loc>
+      <image:title>Affiche Mario Balotelli — Nike x Inter Milan — Rafael Piral</image:title>
+    </image:image>
+  </url>
+
+  <url>
     <loc>https://www.rafaelpiral.fr/work/coffret-alicia-keys</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>monthly</changefreq>

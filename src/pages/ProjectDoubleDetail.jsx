@@ -1,9 +1,13 @@
 import { useState, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { ReactLenis } from 'lenis/dist/lenis-react';
+import { useTranslation } from 'react-i18next';
 import { projects } from '../data/projects';
+import ProjectHeader from '../components/ProjectHeader';
+import ProjectSectionDivider from '../components/ProjectSectionDivider';
+import ProjectFooterNav from '../components/ProjectFooterNav';
+import ImageLightbox from '../components/ImageLightbox';
 
 function SubProjectGallery({ subProject, isDarkMode }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,15 +27,20 @@ function SubProjectGallery({ subProject, isDarkMode }) {
       {/* Image · hauteur fixe */}
       <div
         className="relative mx-auto overflow-hidden"
-        style={{ maxWidth: expanded ? '100%' : '460px', height: expanded ? 'auto' : '420px' }}
+        style={{ maxWidth: '460px', height: '420px' }}
       >
         <img
           src={gallery[currentIndex].src}
-          alt={`${subProject.title} - Image ${currentIndex + 1}`}
-          className={`rounded-lg transition-all duration-300 ${expanded ? 'w-full object-contain' : 'absolute inset-0 w-full h-full object-contain'}`}
-          style={{ cursor: isMobile ? 'default' : (expanded ? 'zoom-out' : 'zoom-in') }}
+          alt={gallery[currentIndex].description || `${subProject.title} — Image ${currentIndex + 1}`}
+          className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+          style={{ cursor: isMobile ? 'default' : 'zoom-in' }}
           draggable={false}
-          onClick={isMobile ? undefined : () => setExpanded(!expanded)}
+          role={isMobile ? undefined : 'button'}
+          tabIndex={isMobile ? undefined : 0}
+          onClick={isMobile ? undefined : () => setExpanded(true)}
+          onKeyDown={isMobile ? undefined : (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpanded(true); }
+          }}
           onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
           onTouchMove={(e) => { touchEndX.current = e.touches[0].clientX; }}
           onTouchEnd={() => {
@@ -42,6 +51,17 @@ function SubProjectGallery({ subProject, isDarkMode }) {
           }}
         />
       </div>
+
+      {expanded && (
+        <ImageLightbox
+          src={gallery[currentIndex].src}
+          alt={gallery[currentIndex].description || `${subProject.title} — Image ${currentIndex + 1}`}
+          onClose={() => setExpanded(false)}
+          onPrev={gallery.length > 1 ? handlePrev : undefined}
+          onNext={gallery.length > 1 ? handleNext : undefined}
+          counter={gallery.length > 1 ? `${currentIndex + 1} / ${gallery.length}` : undefined}
+        />
+      )}
 
       {/* Boutons + compteur · hauteur fixe, jamais déplacés */}
       {gallery.length > 1 && (
@@ -59,7 +79,7 @@ function SubProjectGallery({ subProject, isDarkMode }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <span className="text-xs opacity-40">{currentIndex + 1} / {gallery.length}</span>
+          <span className="text-xs opacity-40 tracking-widest uppercase">Fig. {String(currentIndex + 1).padStart(2, '0')} / {String(gallery.length).padStart(2, '0')}</span>
           <button
             onClick={handleNext}
             className={`hidden md:flex items-center justify-center p-2 rounded-full border transition-colors ${
@@ -88,8 +108,22 @@ function SubProjectGallery({ subProject, isDarkMode }) {
   );
 }
 
+// Liste de badges texte séparés par "/" — cf. ProjectDetail.jsx
+function CreditsList({ items, isDarkMode }) {
+  return (
+    <p className={`text-xs md:text-sm leading-relaxed ${isDarkMode ? 'text-beige/80' : 'text-black/80'}`}>
+      {items.map((item, i) => (
+        <span key={i}>
+          {item}
+          {i < items.length - 1 && <span className="opacity-30 mx-2">/</span>}
+        </span>
+      ))}
+    </p>
+  );
+}
+
 export default function ProjectDoubleDetail({ project }) {
-  const navigate = useNavigate();
+  const { t } = useTranslation(['projects']);
   const [isDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved !== null ? JSON.parse(saved) : true;
@@ -100,6 +134,7 @@ export default function ProjectDoubleDetail({ project }) {
   const currentVisibleIndex = visibleProjects.findIndex(p => p.id === project.id);
   const previousProject = visibleProjects[currentVisibleIndex - 1];
   const nextProject = visibleProjects[currentVisibleIndex + 1];
+  const getTitle = (proj) => t(`projects:items.${proj.id}.title`, proj.title);
 
   const subProjects = project.subProjects || [];
 
@@ -108,25 +143,45 @@ export default function ProjectDoubleDetail({ project }) {
   const ogImage = project.thumbnail?.endsWith('.svg')
     ? `${siteUrl}/og-image.png`
     : `${siteUrl}${project.thumbnail}`;
-  const metaDesc = (project.description || '').slice(0, 155);
+  // Troncature à la limite d'un mot (pas au milieu) pour un extrait propre
+  // dans les résultats de recherche — avec repli sur catégorie/année si la
+  // description manque, pour ne jamais laisser la meta vide.
+  const truncateAtWord = (text, max) => {
+    if (!text) return '';
+    if (text.length <= max) return text;
+    const cut = text.slice(0, max);
+    const lastSpace = cut.lastIndexOf(' ');
+    return `${cut.slice(0, lastSpace > 0 ? lastSpace : max)}…`;
+  };
+  const metaDesc = truncateAtWord(project.description, 155)
+    || `${project.title} — ${project.category}, ${project.year}. Un projet de Rafael Piral.`;
+  const imageAlt = `${project.title} — ${project.category}, Rafael Piral`;
+  const keywords = [...(project.tags || []), ...(project.competences || [])].join(', ');
+
+  const detailsIndex = subProjects.length + 1;
 
   return (
     <>
     <Helmet>
       <title>{`${project.title} · Rafael Piral`}</title>
       <meta name="description" content={metaDesc} />
+      {keywords && <meta name="keywords" content={keywords} />}
+      <meta name="robots" content="index, follow, max-image-preview:large" />
       <link rel="canonical" href={pageUrl} />
       <meta property="og:type" content="article" />
       <meta property="og:url" content={pageUrl} />
       <meta property="og:title" content={`${project.title} · Rafael Piral`} />
       <meta property="og:description" content={metaDesc} />
       <meta property="og:image" content={ogImage} />
+      <meta property="og:image:alt" content={imageAlt} />
       <meta property="og:locale" content="fr_FR" />
+      <meta property="article:published_time" content={project.year} />
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={pageUrl} />
       <meta property="twitter:title" content={`${project.title} · Rafael Piral`} />
       <meta property="twitter:description" content={metaDesc} />
       <meta property="twitter:image" content={ogImage} />
+      <meta property="twitter:image:alt" content={imageAlt} />
       <script type="application/ld+json">{JSON.stringify({
         "@context": "https://schema.org",
         "@type": "CreativeWork",
@@ -135,8 +190,12 @@ export default function ProjectDoubleDetail({ project }) {
         "image": ogImage,
         "url": pageUrl,
         "dateCreated": project.year,
+        "datePublished": project.year,
+        "inLanguage": "fr-FR",
         "author": { "@type": "Person", "name": "Rafael Piral", "url": siteUrl },
-        "genre": project.category
+        "creator": { "@type": "Person", "name": "Rafael Piral", "url": siteUrl },
+        "genre": project.category,
+        ...(keywords && { "keywords": keywords })
       })}</script>
       <script type="application/ld+json">{JSON.stringify({
         "@context": "https://schema.org",
@@ -151,115 +210,82 @@ export default function ProjectDoubleDetail({ project }) {
     <ReactLenis root options={{ lerp: 0.05, duration: 1.2, smoothWheel: true }}>
       <div className={`min-h-screen font-stamp ${isDarkMode ? 'bg-black text-beige' : 'bg-beige text-black'}`}>
 
-        {/* Header */}
-        <header className={`fixed top-0 left-0 right-0 z-50 px-8 py-6 border-b transition-colors ${
-          isDarkMode ? 'bg-black/80 border-beige/10 backdrop-blur-md' : 'bg-beige/80 border-black/10 backdrop-blur-md'
-        }`}>
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <button
-              onClick={() => navigate('/')}
-              className={`flex items-center gap-2 transition-colors ${
-                isDarkMode ? 'text-beige hover:text-beige/70' : 'text-black hover:text-black/70'
-              }`}
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              <span className="text-sm tracking-wider">Retour</span>
-            </button>
+        <ProjectHeader isDarkMode={isDarkMode} index={currentVisibleIndex} total={visibleProjects.length} />
 
-            <span className="text-base tracking-widest font-heading">Rafael Piral</span>
-
-            <div className="text-sm tracking-wider opacity-50">
-              {currentVisibleIndex + 1} / {visibleProjects.length}
-            </div>
-          </div>
-        </header>
-
-        {/* Fil d'Ariane */}
-        <nav className="fixed top-20 left-0 right-0 z-40 px-8 py-3" aria-label="Breadcrumb">
-          <div className="max-w-7xl mx-auto">
-            <ol className="flex items-center gap-2 text-sm">
-              <li>
-                <Link to="/" className={`transition-colors ${isDarkMode ? 'text-beige/50 hover:text-beige' : 'text-black/50 hover:text-black'}`}>
-                  Accueil
-                </Link>
-              </li>
-              <li className="opacity-30">/</li>
-              <li>
-                <Link to="/#projects" className={`transition-colors ${isDarkMode ? 'text-beige/50 hover:text-beige' : 'text-black/50 hover:text-black'}`}>
-                  Projets
-                </Link>
-              </li>
-              <li className="opacity-30">/</li>
-              <li className={`truncate max-w-[200px] ${isDarkMode ? 'text-beige' : 'text-black'}`}>
-                {project.title}
-              </li>
-            </ol>
-          </div>
-        </nav>
-
-        {/* Contenu principal */}
-        <motion.div
+        {/* Masthead du projet combiné */}
+        <motion.header
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="pt-40 pb-20 px-4 md:px-16"
+          className="pt-24 md:pt-36 px-4 md:px-16"
         >
-          <div className="max-w-6xl mx-auto">
-
-            {/* En-tête du projet combiné */}
+          <div className="max-w-7xl mx-auto">
             <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.15 }}
+              className="flex flex-wrap items-baseline justify-between gap-2 mb-6 md:mb-10 text-xs md:text-sm tracking-[0.3em] uppercase opacity-50"
+            >
+              <span>N° {String(currentVisibleIndex + 1).padStart(3, '0')} · {project.category}</span>
+              <span>{project.year}</span>
+            </motion.div>
+
+            <motion.h1
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="mb-16"
+              transition={{ delay: 0.25 }}
+              className="uppercase leading-[0.95] mb-10 md:mb-16"
+              style={{
+                fontFamily: '"PP Neue Montreal", sans-serif',
+                fontWeight: 600,
+                fontSize: 'clamp(2.25rem, 6.5vw, 6rem)',
+              }}
             >
-              <div className="flex flex-wrap items-center gap-4 mb-6 text-sm opacity-70">
-                <span className="px-3 py-1 border rounded-full">{project.category}</span>
-                <span>{project.year}</span>
-                <span className="px-3 py-1 border rounded-full opacity-60">{project.type}</span>
-              </div>
+              {project.title}
+            </motion.h1>
 
-              <h1 className="text-5xl md:text-7xl font-light mb-6 leading-tight">
-                {project.title}
-              </h1>
-
-              <p className="text-lg opacity-50 max-w-2xl mb-8">
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.35 }}
+              className={`grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pb-10 md:pb-16 border-b ${
+                isDarkMode ? 'border-beige/15' : 'border-black/15'
+              }`}
+            >
+              <p className="md:col-span-2 text-xl md:text-3xl font-light leading-snug opacity-80 text-pretty">
                 {project.description}
               </p>
 
-              {/* Métadonnées communes */}
-              <ul className={`flex flex-wrap gap-6 text-sm border-t pt-8 ${isDarkMode ? 'border-beige/10' : 'border-black/10'}`}>
+              <ul className="flex flex-col gap-4 text-sm md:text-right md:items-end">
                 {subProjects[0]?.period && (
                   <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-wider uppercase">Période</span>
-                    <span className="opacity-80">{subProjects[0].period}</span>
+                    <span className="opacity-40 text-xs tracking-widest uppercase">Période</span>
+                    <span>{subProjects[0].period}</span>
                   </li>
                 )}
                 {subProjects[0]?.duration && (
                   <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-wider uppercase">Durée</span>
-                    <span className="opacity-80">{subProjects[0].duration}</span>
+                    <span className="opacity-40 text-xs tracking-widest uppercase">Durée</span>
+                    <span>{subProjects[0].duration}</span>
                   </li>
                 )}
                 {project.type && (
                   <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-wider uppercase">Contexte</span>
-                    <span className="opacity-80">{project.type}</span>
+                    <span className="opacity-40 text-xs tracking-widest uppercase">Contexte</span>
+                    <span>{project.type}</span>
                   </li>
                 )}
                 {project.collaborators && project.collaborators.length > 0 && (
                   <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-wider uppercase">Réalisé avec</span>
-                    <span className="opacity-80 flex flex-col gap-1">
+                    <span className="opacity-40 text-xs tracking-widest uppercase">Réalisé avec</span>
+                    <span className="flex flex-col gap-1">
                       {project.collaborators.map((c, i) => (
                         <a
                           key={i}
                           href={c.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`underline underline-offset-2 transition-opacity hover:opacity-60`}
+                          className="underline underline-offset-2 transition-opacity hover:opacity-60"
                         >
                           {c.name}
                         </a>
@@ -269,44 +295,37 @@ export default function ProjectDoubleDetail({ project }) {
                 )}
               </ul>
             </motion.div>
+          </div>
+        </motion.header>
+
+        {/* Contenu principal */}
+        <div className="pb-20 md:pb-32">
+          <div className="max-w-7xl mx-auto px-4 md:px-16 pt-16 md:pt-24">
 
             {subProjects.map((sub, idx) => (
-              <div key={sub.key || idx}>
-                {/* Séparateur */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.35 + idx * 0.2 }}
-                  className={`flex items-center gap-4 mb-12 ${isDarkMode ? 'text-beige/30' : 'text-black/30'}`}
-                >
-                  <div className={`flex-1 h-px ${isDarkMode ? 'bg-beige/10' : 'bg-black/10'}`} />
-                  <span className="text-xs tracking-[0.3em] uppercase">
-                    Partie {String(idx + 1).padStart(2, '0')}
-                  </span>
-                  <div className={`flex-1 h-px ${isDarkMode ? 'bg-beige/10' : 'bg-black/10'}`} />
-                </motion.div>
+              <div key={sub.key || idx} className="mb-20 md:mb-28">
+                <ProjectSectionDivider index={idx + 1} label={sub.title} isDarkMode={isDarkMode} />
 
-                {/* Contenu alterné */}
                 <motion.div
                   initial={{ y: 40, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.4 + idx * 0.2 }}
-                  className="mb-20"
+                  transition={{ delay: 0.1 + idx * 0.2 }}
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                     <div className={idx % 2 === 1 ? 'order-2 lg:order-1' : ''}>
                       {idx % 2 === 0 ? (
                         <>
-                          <h2 className="text-3xl md:text-4xl font-light mb-4 leading-tight">{sub.title}</h2>
+                          <h2
+                            className="text-3xl md:text-4xl mb-4 leading-tight"
+                            style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}
+                          >
+                            {sub.title}
+                          </h2>
                           <p className="text-base opacity-70 leading-relaxed mb-8">{sub.description}</p>
                           {sub.tags && (
                             <div className="flex flex-col gap-2">
-                              <span className="opacity-40 text-xs tracking-wider uppercase">Outils</span>
-                              <div className="flex flex-wrap gap-2">
-                                {sub.tags.map((tag, i) => (
-                                  <span key={i} className={`px-3 py-1 border rounded-full text-xs ${isDarkMode ? 'border-beige/20' : 'border-black/20'}`}>{tag}</span>
-                                ))}
-                              </div>
+                              <span className="opacity-40 text-xs tracking-widest uppercase">Outils</span>
+                              <CreditsList items={sub.tags} isDarkMode={isDarkMode} />
                             </div>
                           )}
                         </>
@@ -319,16 +338,17 @@ export default function ProjectDoubleDetail({ project }) {
                         <SubProjectGallery subProject={sub} isDarkMode={isDarkMode} />
                       ) : (
                         <>
-                          <h2 className="text-3xl md:text-4xl font-light mb-4 leading-tight">{sub.title}</h2>
+                          <h2
+                            className="text-3xl md:text-4xl mb-4 leading-tight"
+                            style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}
+                          >
+                            {sub.title}
+                          </h2>
                           <p className="text-base opacity-70 leading-relaxed mb-8">{sub.description}</p>
                           {sub.tags && (
                             <div className="flex flex-col gap-2">
-                              <span className="opacity-40 text-xs tracking-wider uppercase">Outils</span>
-                              <div className="flex flex-wrap gap-2">
-                                {sub.tags.map((tag, i) => (
-                                  <span key={i} className={`px-3 py-1 border rounded-full text-xs ${isDarkMode ? 'border-beige/20' : 'border-black/20'}`}>{tag}</span>
-                                ))}
-                              </div>
+                              <span className="opacity-40 text-xs tracking-widest uppercase">Outils</span>
+                              <CreditsList items={sub.tags} isDarkMode={isDarkMode} />
                             </div>
                           )}
                         </>
@@ -345,76 +365,29 @@ export default function ProjectDoubleDetail({ project }) {
                 initial={{ y: 40, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.75 }}
-                className={`border-t pt-12 mb-16 ${isDarkMode ? 'border-beige/10' : 'border-black/10'}`}
+                className="mb-4"
               >
-                <h3 className="text-sm tracking-wider opacity-40 uppercase mb-6">Compétences mobilisées</h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.competences.map((comp, i) => (
-                    <span
-                      key={i}
-                      className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-beige/10' : 'bg-black/10'}`}
-                    >
-                      {comp}
-                    </span>
-                  ))}
-                </div>
+                <ProjectSectionDivider index={detailsIndex} label="Compétences mobilisées" isDarkMode={isDarkMode} />
+                <CreditsList items={project.competences} isDarkMode={isDarkMode} />
               </motion.div>
             )}
-
-            {/* Navigation vers autres projets */}
-            <motion.div
-              initial={{ y: 40, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.85 }}
-              className={`border-t pt-12 ${isDarkMode ? 'border-beige/20' : 'border-black/20'}`}
-            >
-              <h3 className="text-sm tracking-wider opacity-50 mb-8">Autres projets</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {previousProject && (
-                  <Link
-                    to={`/work/${previousProject.slug}`}
-                    className={`group relative overflow-hidden rounded-lg aspect-video ${
-                      isDarkMode ? 'bg-beige/5' : 'bg-black/5'
-                    }`}
-                  >
-                    <img
-                      src={previousProject.thumbnail}
-                      alt={previousProject.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
-                      <div>
-                        <div className="text-xs opacity-70 mb-2 text-beige">← Précédent</div>
-                        <div className="text-xl font-light text-beige">{previousProject.title}</div>
-                      </div>
-                    </div>
-                  </Link>
-                )}
-                {nextProject && (
-                  <Link
-                    to={`/work/${nextProject.slug}`}
-                    className={`group relative overflow-hidden rounded-lg aspect-video ${
-                      isDarkMode ? 'bg-beige/5' : 'bg-black/5'
-                    }`}
-                  >
-                    <img
-                      src={nextProject.thumbnail}
-                      alt={nextProject.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
-                      <div className="ml-auto text-right">
-                        <div className="text-xs opacity-70 mb-2 text-beige">Suivant →</div>
-                        <div className="text-xl font-light text-beige">{nextProject.title}</div>
-                      </div>
-                    </div>
-                  </Link>
-                )}
-              </div>
-            </motion.div>
-
           </div>
-        </motion.div>
+
+          {/* Navigation vers autres projets */}
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.85 }}
+            className="mt-16 md:mt-24"
+          >
+            <ProjectFooterNav
+              previousProject={previousProject}
+              nextProject={nextProject}
+              getTitle={getTitle}
+              isDarkMode={isDarkMode}
+            />
+          </motion.div>
+        </div>
       </div>
     </ReactLenis>
 

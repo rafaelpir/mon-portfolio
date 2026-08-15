@@ -3,13 +3,18 @@
     "firstName": "Rafael",
     "lastName": "Piral",
     "tagline": "DESIGN GRAPHIQUE & UI/UX • AUDIOVISUEL",
-    "education": "BUT2 Métiers du Multimédia et de l'Internet • IUT de Bobigny",
-    "track": "Parcours Créations Numériques"
+    "education": "3e année de BUT Métiers du Multimédia et de l'Internet • IUT de Bobigny",
+    "track": "Parcours Créations Numériques",
+    "meta": {
+      "year": "©2026",
+      "location": "BASÉ À PARIS",
+      "role": "DESIGNER"
+    }
   },
   "availability": {
-    "status": "En recherche de stage",
+    "status": "En alternance",
     "stageDate": "",
-    "alternance": "Alternance pour septembre 2026",
+    "alternance": "En alternance",
     "title": "DISPONIBILITÉS",
     "searching": "EN RECHERCHE D'OPPORTUNITÉS",
     "stage": "STAGE",
@@ -20,13 +25,13 @@
     "text": "RECHERCHE D'ALTERNANCE - SEPTEMBRE 2026  "
   },
   "about": {
-    "intro1": "Passionné par le graphisme, l'audiovisuel et la communication, actuellement en BUT2 Métiers du Multimédia et de l'Internet à l'IUT de Bobigny, parcours Création Numérique.",
-    "intro2": "En recherche d'un stage d'au moins 10 semaines à partir du 7 avril 2026 dans le domaine de la création numérique, de l'audiovisuel et de la communication.",
-    "intro3": "Curieux et motivé, je souhaite découvrir ce métier de l'intérieur et contribuer activement à vos projets.",
+    "intro1": "Passionné par le graphisme, l'audiovisuel et la communication, actuellement en 3e année de BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny, parcours Création Numérique.",
+    "intro2": "En alternance dans le domaine de la création numérique, de l'audiovisuel et de la communication.",
+    "intro3": "Curieux et motivé, je souhaite m'investir pleinement dans des projets créatifs et contribuer activement à mon équipe.",
     "location": "LOCALISATION",
     "locationValue": "Le Pré Saint Gervais, France",
     "availabilityLabel": "DISPONIBILITÉ",
-    "availabilityValue": "Recherche de stage"
+    "availabilityValue": "En alternance"
   },
   "projects": {
     "title": "MES PROJETS"
@@ -35,7 +40,7 @@
     "title": "COMPÉTENCES"
   },
   "contact": {
-    "title1": "TRAVAILLONS",
+    "title1": "CRÉONS",
     "title2": "ENSEMBLE"
   }
 }

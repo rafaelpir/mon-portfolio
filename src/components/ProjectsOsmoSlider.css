@@ -1,0 +1,299 @@
+/* Port du demo Osmo "Infinite slider" (https://osmo.supply/), scopé sous
+   .osmo-slider. Couleurs pilotées par --color-text/--color-bg (posées en
+   inline-style par le composant selon isDarkMode) plutôt que les vars fixes
+   du demo ; police PP Neue Montreal déjà self-hosted par le site (voir
+   index.css) — pas de @font-face externe. Logique/valeurs sinon fidèles à
+   l'original. */
+
+.osmo-slider,
+.osmo-slider *,
+.osmo-slider *::after,
+.osmo-slider *::before {
+  box-sizing: border-box;
+}
+
+.osmo-slider {
+  container-type: inline-size;
+  color: var(--color-text);
+}
+
+.osmo-slider .cloneable {
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: clamp(9px, 1.15cqw, 15px);
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  height: min(30em, 62vh);
+  min-height: 320px;
+  display: flex;
+  position: relative;
+}
+
+.osmo-slider .overlay {
+  z-index: 2;
+  background-image: linear-gradient(90deg, var(--color-bg) 85%, transparent);
+  justify-content: flex-start;
+  align-items: center;
+  width: 37.5em;
+  max-width: 65%;
+  height: 100%;
+  padding-left: 2em;
+  display: flex;
+  position: absolute;
+  inset: 0% auto 0% 0%;
+  pointer-events: none;
+}
+
+.osmo-slider .overlay-inner {
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 28.125em;
+  max-height: 100%;
+  display: flex;
+  pointer-events: auto;
+}
+
+.osmo-slider .overlay-count-row {
+  grid-column-gap: 0.2em;
+  grid-row-gap: 0.2em;
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 5.625em;
+  font-weight: 800;
+  display: flex;
+}
+
+.osmo-slider .count-column {
+  height: 1em;
+  overflow: hidden;
+}
+
+.osmo-slider .count-heading {
+  width: 2ch;
+  font-size: 1em;
+  line-height: 1;
+  margin: 0;
+}
+
+.osmo-slider .count-row-divider {
+  background-color: var(--color-text);
+  width: 2px;
+  height: 0.75em;
+  transform: rotate(15deg);
+}
+
+.osmo-slider .overlay-nav-row {
+  grid-column-gap: 2em;
+  grid-row-gap: 2em;
+  display: flex;
+}
+
+.osmo-slider .button {
+  background-color: transparent;
+  color: var(--color-text);
+  border: 1px solid color-mix(in srgb, var(--color-text) 20%, transparent);
+  border-radius: 0.4em;
+  justify-content: center;
+  align-items: center;
+  width: 4em;
+  height: 4em;
+  padding: 0;
+  display: flex;
+  position: relative;
+  font-size: inherit;
+  cursor: pointer;
+  transition: transform 0.475s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.475s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.osmo-slider .button-arrow {
+  flex: none;
+  width: 1em;
+  height: 0.75em;
+}
+
+.osmo-slider .button-arrow.next {
+  transform: rotate(180deg);
+}
+
+.osmo-slider .button-overlay {
+  z-index: 2;
+  position: absolute;
+  inset: -1px;
+  transition: transform 0.475s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.osmo-slider .overlay-corner {
+  border-top: 1px solid var(--color-text);
+  border-left: 1px solid var(--color-text);
+  border-top-left-radius: 0.4em;
+  width: 1em;
+  height: 1em;
+}
+
+.osmo-slider .overlay-corner.top-right {
+  position: absolute;
+  inset: 0% 0% auto auto;
+  transform: rotate(90deg);
+}
+
+.osmo-slider .overlay-corner.bottom-left {
+  position: absolute;
+  inset: auto auto 0% 0%;
+  transform: rotate(-90deg);
+}
+
+.osmo-slider .overlay-corner.bottom-right {
+  position: absolute;
+  inset: auto 0% 0% auto;
+  transform: rotate(180deg);
+}
+
+.osmo-slider .button:hover .button-overlay {
+  transform: scale(1.4);
+}
+
+.osmo-slider .overlay-nav-row:hover:has(.button:hover) .button {
+  opacity: 0.4;
+}
+
+.osmo-slider .button:hover {
+  transform: scale(0.85);
+  opacity: 1 !important;
+}
+
+.osmo-slider .main {
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0%;
+  overflow: hidden;
+  border-radius: 0.5em;
+}
+
+.osmo-slider .slider-wrap {
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.osmo-slider .slider-list {
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  display: flex;
+  position: relative;
+}
+
+.osmo-slider .slider-slide {
+  flex: none;
+  /* Largeur dérivée de `aspect-ratio` (posé en inline-style depuis le ratio
+     réel de chaque image, mesuré au préchargement) : la hauteur est fixe,
+     chaque slide garde la forme d'origine de sa photo, rien n'est rogné. */
+  width: auto;
+  height: 28em;
+  max-height: 100%;
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+  transition: opacity 0.4s;
+  position: relative;
+  cursor: pointer;
+}
+
+.osmo-slider [data-slider='slide'] {
+  opacity: 0.2;
+}
+
+.osmo-slider [data-slider='slide'].active {
+  opacity: 1;
+}
+
+.osmo-slider [data-slider='slide'].active .slide-caption {
+  transition-delay: 0.3s;
+}
+
+.osmo-slider .slide-inner {
+  border-radius: 0.5em;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+
+.osmo-slider .slide-inner img {
+  width: 100%;
+  height: 100%;
+  /* `contain`, pas `cover` : la boîte a déjà le ratio exact de l'image
+     (posé via `aspect-ratio` sur .slider-slide), donc pas de recadrage. */
+  object-fit: contain;
+  display: block;
+}
+
+.osmo-slider .slide-caption {
+  z-index: 2;
+  grid-column-gap: 0.4em;
+  grid-row-gap: 0.4em;
+  background-color: #f5f4f2;
+  color: #141414;
+  white-space: nowrap;
+  max-width: calc(100% - 2.5em);
+  overflow: hidden;
+  border-radius: 0.25em;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.4em 0.75em 0.4em 0.5em;
+  display: flex;
+  position: absolute;
+  top: 1.25em;
+  left: 1.25em;
+  transition: transform 0.525s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.525s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0s;
+  opacity: 0;
+  transform: translate(-25%, 0);
+}
+
+.osmo-slider [data-slider='slide'].active .slide-caption {
+  opacity: 1;
+  transform: translate(0%, 0);
+}
+
+.osmo-slider .caption-dot {
+  background-color: #141414;
+  border-radius: 10em;
+  flex: none;
+  width: 0.5em;
+  height: 0.5em;
+}
+
+.osmo-slider .caption {
+  font-size: 0.75em;
+  font-family: 'PP Neue Montreal', sans-serif;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 47.99em) {
+  .osmo-slider .overlay {
+    max-width: 100%;
+    width: 100%;
+    background-image: linear-gradient(0deg, var(--color-bg) 55%, transparent);
+    align-items: flex-end;
+    padding: 0 1.25em 1.25em;
+  }
+
+  .osmo-slider .overlay-inner {
+    height: auto;
+    width: 100%;
+  }
+
+  .osmo-slider .overlay-count-row {
+    font-size: 4em;
+  }
+}

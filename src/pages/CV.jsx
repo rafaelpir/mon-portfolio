@@ -212,8 +212,8 @@ export default function CV() {
             <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Profil</h2>
             <p className="text-[11px] text-justify leading-relaxed text-gray-700">
               {mode === 'stage'
-                ? "Étudiant en 2e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026, dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle."
-                : "Étudiant en 2e année de BUT MMI, je prépare une entrée en BUT 3 Création numérique en alternance à l'IUT de Bobigny (rentrée septembre 2026, rythme 1 semaine école / 1 semaine entreprise). Je recherche une entreprise dans le domaine de la création numérique, de l'audiovisuel ou de la communication pour m'investir sur la durée et contribuer à des projets créatifs ambitieux."
+                ? "Étudiant en 3e année de BUT Métiers du Multimédia et de l'Internet, je suis à la recherche d'un stage d'au moins 10 semaines à partir d'avril 2026, dans le domaine de la création numérique, de l'audiovisuel et de la communication. Je souhaite contribuer à des projets créatifs et innovants tout en développant mon expertise professionnelle."
+                : "Étudiant en 3e année de BUT MMI Création numérique en alternance à l'IUT de Bobigny (rentrée septembre 2026, rythme 1 semaine école / 1 semaine entreprise). Je recherche une entreprise dans le domaine de la création numérique, de l'audiovisuel ou de la communication pour m'investir sur la durée et contribuer à des projets créatifs ambitieux."
               }
             </p>
           </section>

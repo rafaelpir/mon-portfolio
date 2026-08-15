@@ -181,7 +181,7 @@ export default function CoverLetterEN() {
           <p>Dear Sir or Madam,</p>
 
           <p>
-            I am currently in my second year of a Bachelor's degree in Multimedia and Internet
+            I am currently in my third year of a Bachelor's degree in Multimedia and Internet
             Techniques with a major in Digital Creation (MIT), and I am seeking a {selectedJob.field} internship of at
             least 10 weeks starting in April 2026.
           </p>

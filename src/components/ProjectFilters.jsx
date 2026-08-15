@@ -35,13 +35,17 @@ export default function ProjectFilters({
           <button
             key={category}
             onClick={() => onCategoryChange(category)}
+            aria-pressed={selectedCategory === category}
             className={`relative text-sm md:text-base tracking-wider transition-all duration-300 group ${
               isDarkMode ? 'hover:text-beige' : 'hover:text-black'
             }`}
             style={{
+              // #666666 sur fond noir ne passe pas le contraste AA (3.66:1,
+              // il faut 4.5:1) — #999999 y suffit ; en clair, #666666 sur
+              // blanc passait déjà (5.74:1), gardé tel quel.
               color: selectedCategory === category
                 ? (isDarkMode ? '#FFFFFF' : '#000000')
-                : '#666666'
+                : (isDarkMode ? '#999999' : '#666666')
             }}
           >
             {category}
@@ -58,6 +62,7 @@ export default function ProjectFilters({
       <div className="flex flex-col items-center gap-4">
         <button
           onClick={() => setShowTags(!showTags)}
+          aria-expanded={showTags}
           className={`text-xs md:text-sm tracking-wider transition-all duration-300 flex items-center gap-2 ${
             isDarkMode ? 'text-gray-400 hover:text-beige' : 'text-gray-600 hover:text-black'
           }`}
@@ -82,6 +87,7 @@ export default function ProjectFilters({
               <button
                 key={tag}
                 onClick={() => handleTagToggle(tag)}
+                aria-pressed={selectedTags.includes(tag)}
                 className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm transition-all duration-300 ${
                   selectedTags.includes(tag)
                     ? isDarkMode

@@ -3,13 +3,18 @@
     "firstName": "Rafael",
     "lastName": "Piral",
     "tagline": "GRAPHIC DESIGN & UI/UX • AUDIOVISUAL",
-    "education": "2nd Year Digital Media & Internet Studies • IUT de Bobigny",
-    "track": "Digital Creations Track"
+    "education": "3rd Year Digital Media & Internet Studies • IUT de Bobigny",
+    "track": "Digital Creations Track",
+    "meta": {
+      "year": "©2026",
+      "location": "BASED IN PARIS",
+      "role": "DESIGNER"
+    }
   },
   "availability": {
-    "status": "Seeking internship",
+    "status": "Work-study program",
     "stageDate": "",
-    "alternance": "Work-study program for September 2026",
+    "alternance": "Currently in a work-study program",
     "title": "AVAILABILITY",
     "searching": "LOOKING FOR OPPORTUNITIES",
     "stage": "INTERNSHIP",
@@ -17,16 +22,16 @@
     "contactMe": "CONTACT ME"
   },
   "lightboard": {
-    "text": "SEEKING INTERNSHIP - APRIL 2026   -   WORK-STUDY PROGRAM - SEPTEMBER 2026  "
+    "text": "SEEKING WORK-STUDY PROGRAM - SEPTEMBER 2026  "
   },
   "about": {
-    "intro1": "Passionate about graphic design, audiovisual production and communication. Currently in my 2nd year of Digital Media & Internet Studies at IUT de Bobigny, Digital Creations track.",
-    "intro2": "Looking for a minimum 10-week internship starting April 7, 2026 in digital creation, audiovisual production or communication.",
-    "intro3": "Curious and motivated, I'm eager to discover this field from the inside and actively contribute to your projects.",
+    "intro1": "Passionate about graphic design, audiovisual production and communication. Currently in my 3rd year of Digital Media & Internet Studies at IUT de Bobigny, Digital Creations track.",
+    "intro2": "Currently in a work-study program in digital creation, audiovisual production and communication.",
+    "intro3": "Curious and motivated, I'm eager to fully invest myself in creative projects and actively contribute to my team.",
     "location": "LOCATION",
     "locationValue": "Le Pré Saint Gervais, France",
     "availabilityLabel": "AVAILABILITY",
-    "availabilityValue": "Seeking internship"
+    "availabilityValue": "Work-study program"
   },
   "projects": {
     "title": "MY PROJECTS"
@@ -35,7 +40,7 @@
     "title": "SKILLS"
   },
   "contact": {
-    "title1": "LET'S WORK",
-    "title2": "TOGETHER"
+    "title1": "LET'S",
+    "title2": "CREATE"
   }
 }

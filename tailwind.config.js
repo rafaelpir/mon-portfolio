@@ -6,9 +6,9 @@ module.exports = {
     theme: {
       extend: {
         fontFamily: {
-          sans: ['Satoshi', 'system-ui', 'sans-serif'],
-          stamp: ['Satoshi', 'sans-serif'],
-          heading: ['Bebas Neue', 'sans-serif'],
+          sans: ['PP Neue Montreal', 'system-ui', 'sans-serif'],
+          stamp: ['PP Neue Montreal', 'sans-serif'],
+          heading: ['PP Neue Montreal', 'sans-serif'],
         },
         colors: {
           beige: {

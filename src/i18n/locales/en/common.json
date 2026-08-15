@@ -12,6 +12,9 @@
     "dark": "Dark mode",
     "light": "Light mode"
   },
+  "language": {
+    "title": "LANGUAGE"
+  },
   "buttons": {
     "learnMore": "LEARN MORE",
     "sendMessage": "SEND MESSAGE",
@@ -43,7 +46,7 @@
   },
   "footer": {
     "name": "RAFAEL PIRAL",
-    "description": "2nd year BUT MMI student, passionate about graphic design and web development.",
+    "description": "3rd year BUT MMI student, passionate about graphic design and web development.",
     "navigation": "NAVIGATION",
     "contact": "CONTACT",
     "aboutLink": "About",
@@ -80,7 +83,7 @@
     "internship": {
       "title": "INTERNSHIP",
       "date": "APRIL 2026",
-      "description": "2nd year BUT MMI student seeking a minimum 10-week internship starting April 2026 in digital creation and audiovisual."
+      "description": "3rd year BUT MMI student seeking a minimum 10-week internship starting April 2026 in digital creation and audiovisual."
     },
     "apprenticeship": {
       "title": "APPRENTICESHIP",

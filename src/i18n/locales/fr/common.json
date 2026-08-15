@@ -12,6 +12,9 @@
     "dark": "Mode sombre",
     "light": "Mode clair"
   },
+  "language": {
+    "title": "LANGUE"
+  },
   "buttons": {
     "learnMore": "EN SAVOIR PLUS",
     "sendMessage": "ENVOYER LE MESSAGE",
@@ -43,7 +46,7 @@
   },
   "footer": {
     "name": "RAFAEL PIRAL",
-    "description": "Étudiant en 2e année de BUT MMI, passionné par le design graphique et le développement web.",
+    "description": "Étudiant en 3e année de BUT MMI, passionné par le design graphique et le développement web.",
     "navigation": "NAVIGATION",
     "contact": "CONTACT",
     "aboutLink": "À propos",
@@ -78,8 +81,8 @@
     "subtitle": "EN RECHERCHE D'OPPORTUNITÉS",
     "ariaLabel": "Voir les disponibilités et informations de contact",
     "internship": {
-      "title": "STAGE — TROUVÉ",
-      "date": "PHANTASMAGLORIA · AVR. – JUIN 2026",
+      "title": "STAGE · TROUVÉ",
+      "date": "PHANTASMAGLORIA · AVR. - JUIN 2026",
       "description": "Stage en création numérique et audiovisuel chez Phantasmagloria."
     },
     "apprenticeship": {

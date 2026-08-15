@@ -12,6 +12,7 @@ export const projects = [
     "id": 1,
     "slug": "un-homme-qui-dort",
     "title": "Un Homme qui dort - Affiche revisitée",
+    "shortTitle": "Un Homme Qui Dort",
     "category": "Affiches",
     "type": "Personnel",
     "year": "2025",
@@ -48,6 +49,7 @@ export const projects = [
     "id": 2,
     "slug": "affiche-fetes-saint-paul-les-dax",
     "title": "Concours d'affiche : Fêtes Populaires de Saint-Paul-lès-Dax 2025",
+    "shortTitle": "Fêtes de Saint-Paul",
     "category": "Affiches",
     "type": "Universitaire",
     "year": "2025",
@@ -85,6 +87,7 @@ export const projects = [
     "id": 3,
     "slug": "poster-sade-diamond-life",
     "title": "Poster Tribute : Sade  Diamond Life",
+    "shortTitle": "Sade Diamond Life",
     "category": "Affiches",
     "type": "Personnel",
     "year": "2025",
@@ -120,6 +123,7 @@ export const projects = [
     "id": 4,
     "slug": "ux-design-app-veco",
     "title": "UX Design : Application Veco",
+    "shortTitle": "App Veco",
     "category": "UI/UX Design",
     "type": "Universitaire",
     "year": "2025",
@@ -191,6 +195,7 @@ export const projects = [
     "id": 5,
     "slug": "branding-agence-immobiliere",
     "title": "UI Design & Branding : Agence Immobilière",
+    "shortTitle": "Agence Immobilière",
     "category": "UI/UX Design",
     "type": "Universitaire",
     "year": "2025",
@@ -243,6 +248,7 @@ export const projects = [
     "id": 6,
     "slug": "statue-liberte-ascii",
     "title": "Statue de la Liberté  De la photo à l'ASCII",
+    "shortTitle": "Statue ASCII",
     "category": "Photographie",
     "type": "Personnel",
     "year": "2025",
@@ -279,6 +285,7 @@ export const projects = [
     "id": 7,
     "slug": "identite-visuelle-a-coeur-ouvert",
     "title": "À Cœur Ouvert, Identité visuelle d'une ONG",
+    "shortTitle": "À Cœur Ouvert",
     "category": "Branding",
     "type": "Universitaire",
     "year": "2025",
@@ -311,6 +318,7 @@ export const projects = [
     "id": 8,
     "slug": "affiche-gummo",
     "title": "Gummo  Affiche de film",
+    "shortTitle": "Gummo",
     "category": "Affiches",
     "type": "Personnel",
     "year": "2026",
@@ -346,48 +354,10 @@ export const projects = [
     ]
   },
   {
-    "id": 10,
-    "slug": "flemme-court-metrage",
-    "title": "FLEMME  Court-métrage",
-    "category": "Audiovisuel",
-    "type": "Universitaire",
-    "year": "2025",
-    "hidden": true,
-    "context": "Concours Nikon Film Festival 2025  Thème : Super-pouvoir",
-    "period": "2025",
-    "duration": "En cours",
-    "description": "Court-métrage de fantaisie et comédie engagée réalisé pour le Nikon Film Festival 2025 sur le thème « Super-pouvoir ». Luc, un jeune flemmard d'une vingtaine d'années, mène une vie d'inertie totale entre chômage, télé et jeux vidéo. Égoïste, paresseux et asocial, il possède pourtant un don extraordinaire : il est quasi omnipotent et peut modifier la réalité de tout ce qu'il touche  mais ne s'en sert que pour se simplifier la vie. Témoin d'une urgence cardiaque chez son voisin, il intervient à contrecœur et regrette amèrement d'avoir aidé son prochain quand tout le quartier se met à le harceler pour des faveurs futiles et égoïstes. Le film interroge : un grand pouvoir implique-t-il vraiment de grandes responsabilités, surtout quand on n'a rien demandé ?",
-    "thumbnail": "/images/projects/flemme.webp",
-    "tags": [
-      "Court-métrage",
-      "Écriture",
-      "Réalisation",
-      "Acteur",
-      "Montage",
-      "Perchman",
-      "Sous-titrage"
-    ],
-    "competences": [
-      "Écriture de scénario",
-      "Réalisation",
-      "Jeu d'acteur",
-      "Montage vidéo",
-      "Prise de son (Perche)",
-      "Sous-titrage anglais",
-      "Storyboard",
-      "Direction artistique",
-      "Narration visuelle",
-      "Storytelling"
-    ],
-    "outils": [
-      "Premiere Pro",
-      "DaVinci Resolve"
-    ]
-  },
-  {
     "id": 11,
     "slug": "batman-dark-knight-jimdo",
     "title": "Batman : The Dark Knight  Site web Jimdo",
+    "shortTitle": "The Dark Knight",
     "category": "Développement web",
     "type": "Universitaire",
     "year": "2025",
@@ -424,6 +394,7 @@ export const projects = [
     "id": 12,
     "slug": "atelier-affiches-bollywood",
     "title": "Atelier Affiches  Reproduction & Typographie",
+    "shortTitle": "Atelier Affiches",
     "category": "Affiches",
     "type": "Universitaire",
     "year": "2025",
@@ -493,6 +464,7 @@ export const projects = [
     "id": 9,
     "slug": "reseau-alumni-iut-bobigny",
     "title": "Réseau Alumni  IUT de Bobigny",
+    "shortTitle": "Alumni Bobigny",
     "category": "UI/UX Design",
     "type": "Universitaire",
     "year": "2026",
@@ -538,6 +510,7 @@ export const projects = [
     "id": 14,
     "slug": "coffret-alicia-keys",
     "title": "Coffret 20 Ans Alicia Keys",
+    "shortTitle": "Alicia Keys",
     "category": "Branding",
     "type": "Universitaire",
     "layout": "double",
@@ -546,7 +519,6 @@ export const projects = [
     "period": "2026",
     "duration": "2 mois",
     "description": "En trinôme, conception de l'identité visuelle complète d'un coffret anniversaire pour les 20 ans de scène d'Alicia Keys : recherche typographique, personnage illustré, pochettes CD, stickers, poster de concert et vinyle collector. Chaque élément s'inscrit dans une direction artistique unifiée, du packaging au grand format urbain.",
-    "isNew": true,
     "thumbnail": "/images/projects/officiel.webp",
     "tags": [
       "Branding",
@@ -690,6 +662,7 @@ export const projects = [
     "id": 15,
     "slug": "grand-prix-monaco",
     "title": "Grand Prix de Monaco",
+    "shortTitle": "Grand Prix Monaco",
     "category": "Affiches",
     "type": "Personnel",
     "year": "2026",
@@ -697,7 +670,6 @@ export const projects = [
     "period": "Mars 2026",
     "duration": "2 jours",
     "description": "Affiche Save the Date pour la 83e édition du Grand Prix de Monaco, du 4 au 7 juin 2026. Le rouge domine  couleur de la vitesse et de la Principauté  avec un fond texturé de losanges qui reprend le fuselé d'argent et de gueules des armoiries Grimaldi. Le blason de Monaco ancre l'identité institutionnelle.",
-    "isNew": true,
     "thumbnail": "/images/projects/thumbs/monaco-savethedate.webp",
     "tags": [
       "Photoshop",
@@ -735,7 +707,9 @@ export const projects = [
   {
     "id": 13,
     "slug": "affiche-kaka",
+    "clubTheme": "milan",
     "title": "Affiche Ricardo Kaká",
+    "shortTitle": "Ricardo Kaká",
     "category": "Affiches",
     "type": "Personnel",
     "year": "2026",
@@ -772,6 +746,48 @@ export const projects = [
       {
         "src": "/images/projects/kakaoui.webp",
         "description": "Déclinaison inversée  Version contrastée."
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "slug": "affiche-balotelli",
+    "clubTheme": "inter",
+    "isNew": true,
+    "title": "Affiche Mario Balotelli",
+    "shortTitle": "Mario Balotelli",
+    "category": "Affiches",
+    "type": "Personnel",
+    "year": "2026",
+    "context": "Projet personnel - Affiche sportive pour Nike et l'Inter Milan",
+    "period": "2026",
+    "duration": "1 jour",
+    "description": "Création d'une affiche autour de Mario Balotelli pendant sa période à l'Inter Milan, pensée comme une campagne croisée Nike x Inter. Portrait en profil, ballon Nike en lévitation et grand numéro doré composent une image sobre et impactante, dans les couleurs historiques du club.",
+    "thumbnail": "/images/projects/thumbs/balotelli.webp",
+    "tags": [
+      "Photoshop"
+    ],
+    "competences": [
+      "Conception d'affiche",
+      "Retouche photo",
+      "Direction artistique",
+      "Composition visuelle"
+    ],
+    "outils": [
+      "Adobe Photoshop"
+    ],
+    "gallery": [
+      {
+        "src": "/images/projects/Balotelli.webp",
+        "description": "Affiche Mario Balotelli, campagne croisée Nike x Inter Milan."
+      },
+      {
+        "src": "/images/projects/mockupbalo.webp",
+        "description": "Mockup de présentation de l'affiche Mario Balotelli."
+      },
+      {
+        "src": "/images/projects/BalotelliBW.webp",
+        "description": "Déclinaison noir & blanc de l'affiche Mario Balotelli."
       }
     ]
   }

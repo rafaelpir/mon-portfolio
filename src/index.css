@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Police Movatif auto-hébergée (utilisée ponctuellement, ex: le A de "Piral") */
+@font-face {
+  font-family: 'Movatif';
+  src: url('/font/movatif-regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Police Bebas Neue auto-hébergée */
 @font-face {
   font-family: 'Bebas Neue';
@@ -11,14 +20,157 @@
   font-display: swap;
 }
 
-/* Police Satoshi Medium par défaut, Bebas Neue pour les titres */
+/* Police Lemon Milk auto-hébergée (Regular = normal, Wide = gras) */
+@font-face {
+  font-family: 'Lemon Milk';
+  src: url('/font/Lemon-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lemon Milk';
+  src: url('/font/Lemon-Wide.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Police Futura Condensed Bold auto-hébergée */
+@font-face {
+  font-family: 'Futura Condensed Bold';
+  src: url('/font/Futura-Condensed-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Police Inter (déclarée sous le nom "Inter Display" demandé) */
+@font-face {
+  font-family: 'Inter Display';
+  src: url('/font/Inter-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Police TX Jello — gratuite pour usage personnel uniquement (Puey Ounjai, 2005) */
+@font-face {
+  font-family: 'TX Jello';
+  src: url('/font/TX-Jello.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Police Coolvetica — licence desktop gratuite, usage web (@font-face) hors périmètre gratuit (Typodermic Fonts) */
+@font-face {
+  font-family: 'Coolvetica';
+  src: url('/font/Coolvetica-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Police Playfair Display Italic — libre (SIL OFL), pour l'accent serif du sous-titre héro */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/font/PlayfairDisplay-Italic.woff2') format('woff2');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Police PP Neue Montreal — police principale du site, un seul nom de famille
+   partagé pour toutes les graisses (font-weight choisit le bon fichier). */
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/font/PPNeueMontreal-Hairline.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/font/PPNeueMontreal-HairlineItalic.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/font/PPNeueMontreal-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/font/PPNeueMontreal-LightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/font/PPNeueMontreal-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/font/PPNeueMontreal-Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/font/PPNeueMontreal-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/font/PPNeueMontreal-SemiboldItalic.otf') format('opentype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/font/PPNeueMontreal-Extrabold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/font/PPNeueMontreal-ExtraboldItalic.otf') format('opentype');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* PP Neue Montreal par défaut partout ; la graisse varie selon le rôle du texte */
 @layer base {
   body {
-    font-weight: 500;
+    font-family: 'PP Neue Montreal', 'Satoshi', sans-serif;
+    font-weight: 400;
+    /* Fond de secours : le body est transparent par défaut, donc pendant les
+       brefs instants où une page est à opacité <1 (fondu d'AnimatePresence
+       lors des changements de route), on verrait sinon le blanc par défaut
+       du navigateur. Le thème sombre étant l'écrasante majorité du site,
+       le noir est le secours le plus sûr. */
+    background-color: #000;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'PP Neue Montreal', sans-serif;
+    font-weight: 600;
   }
 
   /* Optimisations de performance pour scroll fluide */
@@ -271,6 +423,23 @@ canvas {
 
 .animate-fade-in-up {
   animation: fade-in-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes blur-reveal {
+  from {
+    opacity: 0;
+    filter: blur(24px);
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0);
+  }
+}
+
+.animate-blur-reveal {
+  animation: blur-reveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .animate-slide-down {

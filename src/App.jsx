@@ -1,11 +1,14 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useParams } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects } from './data/projects';
 import { ShaderProvider } from './context/ShaderContext';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import ScrollToTop from './components/ScrollToTop';
 import GoogleAnalytics from './components/GoogleAnalytics';
 import Preloader from './components/Preloader';
+import AdminGuard from './components/AdminGuard';
 // Code splitting - Chargement différé des pages
 const Home = lazy(() => import('./pages/Home'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
@@ -31,6 +34,9 @@ const About = lazy(() => import('./pages/About'));
 const Generatif = lazy(() => import('./pages/Generatif'));
 const Legal = lazy(() => import('./pages/Legal'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const AdminProjects = lazy(() => import('./pages/AdminProjects'));
+const AdminProfile = lazy(() => import('./pages/AdminProfile'));
+const AdminTimeline = lazy(() => import('./pages/AdminTimeline'));
 
 // Routes accessibles uniquement en local (localhost)
 const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -49,10 +55,12 @@ function RedirectProjectToSlug() {
 function AppContent() {
   const location = useLocation();
   const [showPreloader, setShowPreloader] = useState(() => {
-    // Ne montrer le preloader que s'il n'a pas déjà été affiché dans cette session
-    // Et uniquement sur desktop (évite le blocage du LCP sur mobile)
+    // Actif desktop, désactivé mobile (préserve le LCP sur mobile) — et
+    // une seule fois par session d'onglet, pour ne pas le rejouer à un
+    // rechargement de la Home.
     const isMobileDevice = window.innerWidth <= 768;
-    return !sessionStorage.getItem('preloaderShown') && !isMobileDevice;
+    const alreadyShown = sessionStorage.getItem('preloaderShown') === 'true';
+    return !isMobileDevice && !alreadyShown;
   });
   const isHomePage = location.pathname === '/';
 
@@ -60,6 +68,19 @@ function AppContent() {
     sessionStorage.setItem('preloaderShown', 'true');
     setShowPreloader(false);
   };
+
+  // Le Preloader fige <body> en position:fixed/height:100% pendant son
+  // affichage (voir Preloader.jsx). Tous les ScrollTrigger créés par les
+  // sections de la Home pendant cette fenêtre (ex: ScrollRevealText sur
+  // About) calculent leurs positions de déclenchement sur cette mise en page
+  // tronquée à un viewport — une fois <body> libéré, ces positions ne
+  // correspondent plus à la vraie page et les effets se retrouvent déjà
+  // "joués" ou ne se déclenchent jamais. Un effect (pas juste un callback
+  // dans handlePreloaderComplete) garantit que le refresh tourne APRÈS que
+  // le Preloader ait réellement démonté et rendu <body> à son état normal.
+  useEffect(() => {
+    if (!showPreloader) ScrollTrigger.refresh();
+  }, [showPreloader]);
 
   return (
     <>
@@ -69,11 +90,23 @@ function AppContent() {
       <ScrollToTop />
       <GoogleAnalytics />
       <SpeedInsights />
-      <Suspense fallback={null}>
-        <Routes location={location} key={location.pathname}>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.35, ease: 'easeInOut' }}
+        >
+          <Suspense fallback={null}>
+            <Routes location={location}>
           <Route path="/" element={<Home />} />
+          <Route path="/projects" element={<Navigate to="/#projects" replace />} />
           <Route path="/work/:slug" element={<ProjectDetail />} />
           <Route path="/project/:id" element={<RedirectProjectToSlug />} />
+          <Route path="/admin/projects" element={<LocalOnly><AdminGuard><AdminProjects /></AdminGuard></LocalOnly>} />
+          <Route path="/admin/profile" element={<LocalOnly><AdminGuard><AdminProfile /></AdminGuard></LocalOnly>} />
+          <Route path="/admin/timeline" element={<LocalOnly><AdminGuard><AdminTimeline /></AdminGuard></LocalOnly>} />
           <Route path="/cv" element={<LocalOnly><CV /></LocalOnly>} />
           <Route path="/portfolio-pdf" element={<LocalOnly><PortfolioPDF /></LocalOnly>} />
           <Route path="/lettre-motivation-graphiste" element={<LocalOnly><LettreMotivationGraphiste /></LocalOnly>} />
@@ -97,7 +130,9 @@ function AppContent() {
           <Route path="/legal" element={<Legal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Suspense>
+        </Suspense>
+        </motion.div>
+      </AnimatePresence>
     </>
   );
 }

@@ -178,7 +178,7 @@ export default function CVEN() {
           <section>
             <h2 className="text-xs font-bold border-b border-gray-900 mb-2 uppercase tracking-wider text-black">Profile</h2>
             <p className="text-[11px] text-justify leading-relaxed text-gray-700">
-              {"Second-year Bachelor's degree student in Multimedia and Internet Techniques with a major in Digital Creation (MIT), seeking a minimum 10-week internship from April 2026 in digital creation, audiovisual production and communications. Eager to contribute to creative and innovative projects while developing professional expertise."}
+              {"Third-year Bachelor's degree student in Multimedia and Internet Techniques with a major in Digital Creation (MIT), seeking a minimum 10-week internship from April 2026 in digital creation, audiovisual production and communications. Eager to contribute to creative and innovative projects while developing professional expertise."}
             </p>
           </section>
 

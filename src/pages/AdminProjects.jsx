@@ -621,6 +621,8 @@ export default function AdminProjects() {
       <div className="border-b border-zinc-800 px-6 py-3 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-4">
           <Link to="/" className="text-zinc-500 hover:text-white text-sm transition-colors">← Portfolio</Link>
+          <Link to="/admin/profile" className="text-zinc-500 hover:text-white text-sm transition-colors">Profil</Link>
+          <Link to="/admin/timeline" className="text-zinc-500 hover:text-white text-sm transition-colors">Timeline</Link>
           <h1 className="text-base font-semibold tracking-tight">Admin Projets</h1>
           <span className="text-xs text-zinc-700 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">localhost</span>
         </div>
