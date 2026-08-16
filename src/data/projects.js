@@ -762,7 +762,7 @@ export const projects = [
     "context": "Projet personnel - Affiche sportive pour Nike et l'Inter Milan",
     "period": "2026",
     "duration": "1 jour",
-    "description": "Création d'une affiche autour de Mario Balotelli pendant sa période à l'Inter Milan, pensée comme une campagne croisée Nike x Inter. Portrait en profil, ballon Nike en lévitation et grand numéro doré composent une image sobre et impactante, dans les couleurs historiques du club.",
+    "description": "Création d'une affiche autour de Mario Balotelli pendant sa période à l'Inter Milan, pensée comme une campagne croisée Nike x Inter. Portrait en profil, dans les couleurs historiques du club.",
     "thumbnail": "/images/projects/thumbs/balotelli.webp",
     "tags": [
       "Photoshop"
