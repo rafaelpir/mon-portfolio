@@ -840,7 +840,7 @@ export default function Home() {
           </div>
 
           {/* Bottom Bar */}
-          <div className={`pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm opacity-50 ${
+          <div className={`pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-6 text-xs md:text-sm opacity-50 ${
             isDarkMode ? 'border-beige/10' : 'border-black/10'
           }`}>
             <p>
@@ -850,6 +850,12 @@ export default function Home() {
                 {t('common:footer.legal')}
               </Link>
             </p>
+            <img
+              src="/images/rp-badge.svg"
+              alt=""
+              aria-hidden="true"
+              className="w-full max-w-[220px] opacity-80 select-none pointer-events-none"
+            />
           </div>
         </div>
       </footer>

@@ -1,11 +1,11 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useLenis } from 'lenis/dist/lenis-react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects } from './data/projects';
 import { ShaderProvider } from './context/ShaderContext';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import ScrollToTop from './components/ScrollToTop';
 import GoogleAnalytics from './components/GoogleAnalytics';
 import Preloader from './components/Preloader';
 import AdminGuard from './components/AdminGuard';
@@ -54,18 +54,49 @@ function RedirectProjectToSlug() {
 
 function AppContent() {
   const location = useLocation();
+  const lenis = useLenis();
+  const prevPathRef = useRef(location.pathname);
+
+  // Remise à zéro du scroll entre deux pages — déclenchée par la FIN de
+  // l'animation de sortie (onExitComplete), pas par le changement de route
+  // lui-même : avec <AnimatePresence mode="wait">, l'ancienne page reste
+  // montée et visible pendant tout son fondu de sortie. La déclencher sur
+  // le changement de route la faisait retomber en haut de page ANCIENNE
+  // (le contenu qu'on venait de scroller redescendait brutalement à zéro)
+  // avant même de commencer à s'estomper — un "saut" bien visible d'un
+  // projet à l'autre. En attendant la fin du fondu, l'ancienne page a déjà
+  // disparu quand le scroll se réinitialise : plus rien à voir sauter.
+  const handleExitComplete = () => {
+    const prevPath = prevPathRef.current;
+    const pathname = location.pathname;
+    prevPathRef.current = pathname;
+
+    if (pathname === '/' && (prevPath.startsWith('/work/') || prevPath.startsWith('/project/'))) {
+      setTimeout(() => {
+        const projectsSection = document.getElementById('projects');
+        if (projectsSection) {
+          if (lenis) lenis.scrollTo(projectsSection, { immediate: true });
+          else projectsSection.scrollIntoView({ behavior: 'instant' });
+        }
+      }, 100);
+      return;
+    }
+
+    if (pathname === '/') return;
+
+    if (lenis) lenis.scrollTo(0, { immediate: true });
+    else window.scrollTo(0, 0);
+  };
+
   const [showPreloader, setShowPreloader] = useState(() => {
-    // Actif desktop, désactivé mobile (préserve le LCP sur mobile) — et
-    // une seule fois par session d'onglet, pour ne pas le rejouer à un
-    // rechargement de la Home.
+    // Actif desktop, désactivé mobile (préserve le LCP sur mobile) — rejoué
+    // à chaque visite de la Home (pas de restriction "une fois par session").
     const isMobileDevice = window.innerWidth <= 768;
-    const alreadyShown = sessionStorage.getItem('preloaderShown') === 'true';
-    return !isMobileDevice && !alreadyShown;
+    return !isMobileDevice;
   });
   const isHomePage = location.pathname === '/';
 
   const handlePreloaderComplete = () => {
-    sessionStorage.setItem('preloaderShown', 'true');
     setShowPreloader(false);
   };
 
@@ -87,10 +118,9 @@ function AppContent() {
       {showPreloader && isHomePage && (
         <Preloader onComplete={handlePreloaderComplete} minDuration={1500} />
       )}
-      <ScrollToTop />
       <GoogleAnalytics />
       <SpeedInsights />
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" onExitComplete={handleExitComplete}>
         <motion.div
           key={location.pathname}
           initial={{ opacity: 0, y: 8 }}
