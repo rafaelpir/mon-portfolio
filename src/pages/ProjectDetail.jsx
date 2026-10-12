@@ -1,7 +1,9 @@
-import { Navigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { projects } from '../data/projects';
+import { museumLinkFor } from '../data/museeExhibits';
+import { museumAvailable } from '../utils/museumAccess';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { useState, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -543,6 +545,14 @@ export default function ProjectDetail() {
                   <li className="flex flex-col gap-1">
                     <span className="opacity-40 text-xs tracking-widest uppercase">{t('projects:details.duration')}</span>
                     <span>{translatedProject.duration}</span>
+                  </li>
+                )}
+                {museumLinkFor(project.slug) && museumAvailable() && (
+                  <li className="flex flex-col gap-1">
+                    <span className="opacity-40 text-xs tracking-widest uppercase">{t('projects:details.museum')}</span>
+                    <Link to={museumLinkFor(project.slug)} className="underline underline-offset-2 transition-opacity hover:opacity-60">
+                      {t('projects:details.museumLink')} →
+                    </Link>
                   </li>
                 )}
               </ul>

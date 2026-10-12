@@ -1,5 +1,7 @@
 {
   "details": {
+    "museum": "Exhibition",
+    "museumLink": "See the poster in the museum",
     "back": "BACK",
     "breadcrumb": {
       "home": "Home",
@@ -47,25 +49,6 @@
         "Photo retouching",
         "Art direction",
         "Visual composition"
-      ]
-    },
-    "2": {
-      "title": "Poster Contest: Saint-Paul-lès-Dax Festival 2025",
-      "category": "Posters",
-      "type": "Academic",
-      "context": "Official contest - City of Saint-Paul-lès-Dax",
-      "period": "December 2024 - January 2025",
-      "duration": "1 week",
-      "description": "I participated in the official poster contest organized by the city of Saint-Paul-lès-Dax for their 2025 Folk Festival. I designed a flat design poster using Illustrator and Photoshop, aiming to create an image that represents the festive spirit of this iconic event.",
-      "gallery": [
-        "Original poster for Saint-Paul-lès-Dax Folk Festival 2025.",
-        "Mockup presentation of the Saint-Paul-lès-Dax Folk Festival poster."
-      ],
-      "competences": [
-        "Poster design",
-        "Vector illustration",
-        "Flat design",
-        "Art direction"
       ]
     },
     "3": {
@@ -282,25 +265,6 @@
         "Transmedia analysis",
         "Cultural monitoring",
         "Animated GIF creation"
-      ]
-    },
-    "12": {
-      "title": "Film Poster Reproduction",
-      "category": "Posters",
-      "type": "Personal",
-      "context": "Personal project - Faithful reproduction of existing poster",
-      "period": "2025",
-      "duration": "1 week",
-      "description": "Exercise in faithfully reproducing a cult film poster. The goal was to recreate an existing poster identically in Photoshop and Illustrator by analyzing composition, typography and color choices. A technical challenge to master the tools and understand the codes of cinematic poster design.",
-      "gallery": [
-        "Reproduction of the original poster.",
-        "Mockup presentation of the reproduction."
-      ],
-      "competences": [
-        "Graphic reproduction",
-        "Poster design",
-        "Typography",
-        "Visual composition"
       ]
     },
     "13": {

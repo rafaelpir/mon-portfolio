@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/react';
 import './i18n';
 import './index.css';
 import App from './App';
+import { startAnimatedFavicon } from './utils/animatedFavicon';
 
 // Signatures des crawlers / bots de preview / outils d'automatisation
 // (headless browsers, monitoring, scrapers) qui s'identifient honnêtement
@@ -17,16 +18,17 @@ function isLikelyBot() {
   return BOT_UA_PATTERN.test(navigator.userAgent || '');
 }
 
-// Par défaut ("auto"), le navigateur restaure la position de scroll précédente
-// après un F5 — mais le Preloader fige <body> à la hauteur d'un viewport
-// (position:fixed) pendant ~2s avant de révéler le vrai contenu (plusieurs
-// milliers de px). La restauration du navigateur intervient pendant cette
-// fenêtre, sur une hauteur de page encore fausse : dès que le Preloader
-// libère <body>, la page "saute" à l'ancienne position. En passant en
-// "manual", chaque chargement démarre proprement en haut de page.
+// "manual" plutôt que la restauration native ("auto") : le contenu de la
+// Home monte en plusieurs temps (sections lazy, animations GSAP qui posent
+// leurs positions après coup), donc la hauteur de page n'est pas stable au
+// moment où le navigateur voudrait restaurer l'ancien scroll — ça provoque
+// un "saut". En "manual", chaque chargement démarre proprement en haut, et
+// la navigation entre routes gère elle-même le scroll (voir App.jsx).
 if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
   window.history.scrollRestoration = 'manual';
 }
+
+startAnimatedFavicon();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -116,17 +116,6 @@
   </url>
 
   <url>
-    <loc>https://www.rafaelpiral.fr/work/atelier-affiches-bollywood</loc>
-    <lastmod>2026-01-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://www.rafaelpiral.fr/images/projects/poster11.webp</image:loc>
-      <image:title>Atelier Affiches Reproduction &amp; Typographie — Rafael Piral</image:title>
-    </image:image>
-  </url>
-
-  <url>
     <loc>https://www.rafaelpiral.fr/work/un-homme-qui-dort</loc>
     <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
@@ -134,17 +123,6 @@
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/lhommequidort.webp</image:loc>
       <image:title>Un Homme qui dort — Affiche revisitée — Rafael Piral</image:title>
-    </image:image>
-  </url>
-
-  <url>
-    <loc>https://www.rafaelpiral.fr/work/affiche-fetes-saint-paul-les-dax</loc>
-    <lastmod>2026-01-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://www.rafaelpiral.fr/images/projects/Dax.webp</image:loc>
-      <image:title>Concours d'affiche Fêtes de Saint-Paul-lès-Dax 2025 — Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -189,6 +167,16 @@
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/batman-dark-knight.webp</image:loc>
       <image:title>Batman The Dark Knight — Site web Jimdo — Rafael Piral</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.rafaelpiral.fr/musee</loc>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/musee/apercu.webp</image:loc>
+      <image:title>Musée d'affiches en 3D — Rafael Piral</image:title>
     </image:image>
   </url>
 

@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react';
 
+// Opera (desktop et mobile) saccade en tier 'full' : le scroll virtuel Lenis
+// combiné aux shaders WebGL plein écran (SideRays) sature son compositeur,
+// même sur des machines puissantes où Chrome/Firefox restent fluides.
+function isOpera() {
+  if (typeof navigator === 'undefined') return false;
+  return /OPR\/|Opera|OPX\//.test(navigator.userAgent);
+}
+
 function computeTier() {
   if (typeof window === 'undefined') return 'full';
 
@@ -7,19 +15,20 @@ function computeTier() {
     return 'none';
   }
 
-  let score = 2; // 2 = full, 1 = reduced, 0 = none
+  // 'none' est réservé à la préférence d'accessibilité ci-dessus : un
+  // hardware faible dégrade au pire jusqu'à 'reduced', jamais 'none' — sinon
+  // des animations légères (ex. carrousel de compétences) se figeaient sur
+  // les mobiles bas/moyen de gamme (deviceMemory ou cores faibles) alors que
+  // l'utilisateur n'a jamais demandé de mouvement réduit.
+  let score = 2; // 2 = full, 1 = reduced
 
   const cores = navigator.hardwareConcurrency;
-  if (cores !== undefined) {
-    if (cores <= 2) score = Math.min(score, 0);
-    else if (cores <= 4) score = Math.min(score, 1);
-  }
+  if (cores !== undefined && cores <= 4) score = Math.min(score, 1);
 
   const memory = navigator.deviceMemory;
-  if (memory !== undefined) {
-    if (memory <= 1) score = Math.min(score, 0);
-    else if (memory <= 2) score = Math.min(score, 1);
-  }
+  if (memory !== undefined && memory <= 2) score = Math.min(score, 1);
+
+  if (isOpera()) score = Math.min(score, 1);
 
   return ['none', 'reduced', 'full'][score];
 }

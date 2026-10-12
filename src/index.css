@@ -11,10 +11,29 @@
   font-display: swap;
 }
 
+/* Police Bodoni Moda (didone) auto-hébergée — lettres dorées du titre Alicia Keys */
+@font-face {
+  font-family: 'Bodoni Moda';
+  src: url('/font/BodoniModa-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Police Bebas Neue auto-hébergée */
 @font-face {
   font-family: 'Bebas Neue';
   src: url('/font/BebasNeue-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bebas Neue complète (alphabet latin entier, licence OFL), pour le titre
+   écrit sur le mur du musée : le fichier ci-dessus est un sous-ensemble. */
+@font-face {
+  font-family: 'Bebas Neue Mur';
+  src: url('/font/BebasNeue-Latin.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -563,4 +582,424 @@ canvas {
     opacity: 0.4;
     transform: translateY(12px) scaleY(1.3);
   }
+}
+/* Titre "gold-flip" (page projet) : chaque lettre démarre en doré scintillant
+   (dégradé or avec un reflet clair qui la traverse, décalé d'une lettre à
+   l'autre par --i = rang de la lettre) puis se retourne, l'une après l'autre,
+   pour reprendre la couleur du texte. Le doré est un fond découpé sur le
+   texte : le retournement rend simplement au texte son remplissage normal.
+   Les lettres dorées sont en didone (Bodoni Moda) ; en se retournant, chacune
+   reprend aussi la police normale du titre.
+   Relief 3D : un liseré clair en haut à gauche (biseau) puis une extrusion
+   or sombre empilée vers le bas à droite et une ombre portée, en
+   `drop-shadow` (un `text-shadow` transparaîtrait sous le texte découpé).
+   Le relief s'efface au retournement, avec le doré (fond réduit à zéro :
+   sinon l'or transparaît dans les déliés très fins de la didone). */
+.gold-flip-letter {
+  display: inline-block;
+  /* Or poli : dégradé vertical à bandes (ciel clair en haut, ligne d'horizon
+     sombre au milieu, reflet chaud en dessous), comme une surface métallique
+     qui réfléchit son environnement. Par-dessus, un éclat blanc étroit
+     balaie chaque lettre (gold-shimmer). */
+  background-image:
+    linear-gradient(
+      105deg,
+      rgba(255, 255, 255, 0) 42%,
+      rgba(255, 252, 235, 0.95) 50%,
+      rgba(255, 255, 255, 0) 58%
+    ),
+    linear-gradient(
+      180deg,
+      #FFF6C2 0%,
+      #F7DC7F 14%,
+      #D9A93A 34%,
+      #A8761A 46%,
+      #6E4A0C 51%,
+      #C6952C 55%,
+      #F3D777 66%,
+      #FFF1AE 76%,
+      #CC9A2E 90%,
+      #8F6212 100%
+    );
+  background-size: 300% 100%, 100% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  /* !important : passe outre la règle mobile `* { animation: none !important }`
+     plus haut, sans quoi le titre resterait figé sur mobile. Le mouvement
+     réduit est géré côté React (lettres non rendues si tier 'none'). */
+  animation:
+    gold-flip 0.8s ease-in-out both,
+    gold-shimmer 1.6s ease-in-out 5 both !important;
+  animation-delay:
+    calc(2.4s + var(--i, 0) * 70ms),
+    calc(var(--i, 0) * 90ms) !important;
+}
+
+@keyframes gold-flip {
+  0% {
+    -webkit-text-fill-color: transparent;
+    font-family: 'Bodoni Moda', 'Didot', 'Bodoni MT', serif;
+    font-weight: 700;
+    background-size: 300% 100%, 100% 100%;
+    transform: perspective(600px) rotateY(0deg);
+    filter:
+      drop-shadow(-0.006em -0.007em 0 #FFF9D6)
+      drop-shadow(0.011em 0.011em 0 #A9781B)
+      drop-shadow(0.011em 0.011em 0 #885D10)
+      drop-shadow(0.011em 0.011em 0 #664308)
+      drop-shadow(0.011em 0.011em 0 #452C04)
+      drop-shadow(0.03em 0.05em 0.05em rgba(0, 0, 0, 0.6));
+  }
+  49% {
+    -webkit-text-fill-color: transparent;
+    font-family: 'Bodoni Moda', 'Didot', 'Bodoni MT', serif;
+    font-weight: 700;
+    background-size: 300% 100%, 100% 100%;
+    filter:
+      drop-shadow(-0.006em -0.007em 0 #FFF9D6)
+      drop-shadow(0.011em 0.011em 0 #A9781B)
+      drop-shadow(0.011em 0.011em 0 #885D10)
+      drop-shadow(0.011em 0.011em 0 #664308)
+      drop-shadow(0.011em 0.011em 0 #452C04)
+      drop-shadow(0.03em 0.05em 0.05em rgba(0, 0, 0, 0.6));
+  }
+  50% {
+    transform: perspective(600px) rotateY(90deg);
+  }
+  51% {
+    -webkit-text-fill-color: currentcolor;
+    font-family: inherit;
+    font-weight: inherit;
+    background-size: 0 0;
+    filter:
+      drop-shadow(0 0 0 transparent)
+      drop-shadow(0 0 0 transparent)
+      drop-shadow(0 0 0 transparent)
+      drop-shadow(0 0 0 transparent)
+      drop-shadow(0 0 0 transparent)
+      drop-shadow(0 0 0 transparent);
+  }
+  100% {
+    -webkit-text-fill-color: currentcolor;
+    font-family: inherit;
+    font-weight: inherit;
+    background-size: 0 0;
+    transform: perspective(600px) rotateY(0deg);
+    filter:
+      drop-shadow(0 0 0 transparent)
+      drop-shadow(0 0 0 transparent)
+      drop-shadow(0 0 0 transparent)
+      drop-shadow(0 0 0 transparent)
+      drop-shadow(0 0 0 transparent)
+      drop-shadow(0 0 0 transparent);
+  }
+}
+
+@keyframes gold-shimmer {
+  from {
+    background-position: 100% 0, 0 0;
+  }
+  to {
+    background-position: 0% 0, 0 0;
+  }
+}
+
+/* Apparition en fondu de la vidéo de fond (page projet) : l'opacité cible
+   vient du style inline, l'animation part de 0. */
+.bg-video-reveal {
+  animation: bg-video-reveal 1s ease-out backwards !important;
+}
+
+@keyframes bg-video-reveal {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Musée : baladeur emporté avec soi (coin écoute). L'image fait 490 × 784 ;
+   l'appareil y occupe un rectangle connu, sur lequel on cale l'écran et la
+   molette. !important : passe outre la règle mobile qui coupe les animations. */
+.musee-player {
+  position: absolute;
+  right: clamp(12px, 3vw, 48px);
+  bottom: clamp(64px, 9vh, 96px);
+  z-index: 2;
+  height: min(38vh, 460px);
+  aspect-ratio: 490 / 784;
+  pointer-events: none;
+  animation: musee-player-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both !important;
+}
+
+@keyframes musee-player-in {
+  from { transform: translateY(140%); }
+  to { transform: translateY(0); }
+}
+
+.musee-player-hand {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+.musee-player-hand > img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  user-select: none;
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.35));
+}
+
+.musee-player-device {
+  position: absolute;
+  left: 5.86%;
+  top: 3.8%;
+  width: 88.28%;
+  height: 92.41%;
+  container-type: inline-size;
+  pointer-events: auto;
+  font-family: 'PP Neue Montreal', Helvetica, Arial, sans-serif;
+}
+
+/* Écran à cristaux liquides, calé à l'intérieur du verre noir du rendu :
+   fond clair, bandeau de titre gris, sélection bleue, reflet en biais. */
+.musee-player-screen {
+  position: absolute;
+  left: 9.95%;
+  top: 6.28%;
+  width: 80.1%;
+  height: 36.2%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 1cqw;
+  background: linear-gradient(#fbfcfd, #e3e7eb);
+  box-shadow: inset 0 0 2.5cqw rgba(0, 0, 0, 0.28);
+  color: #15171a;
+  font-size: 6.2cqw;
+  line-height: 1.25;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.musee-player-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(122deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.1) 30%, rgba(255, 255, 255, 0) 30.5%);
+  pointer-events: none;
+}
+
+.musee-player-head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  height: 15%;
+  padding: 0 3cqw;
+  border-bottom: 1px solid #8b949e;
+  background: linear-gradient(#f6f8fa, #c3cad2);
+  font-size: 5.2cqw;
+  font-weight: 600;
+}
+
+.musee-player-head > span:first-child {
+  width: 8cqw;
+  font-size: 4.2cqw;
+  color: #2f6fd0;
+}
+
+.musee-player-battery {
+  width: 8cqw;
+  height: 3.6cqw;
+  border: 1px solid #3a3f45;
+  border-radius: 0.7cqw;
+  background: linear-gradient(90deg, #62c24c 72%, transparent 72%);
+}
+
+.musee-player-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  padding: 2.6cqw 4cqw;
+}
+
+.musee-player-count {
+  font-size: 4.8cqw;
+  color: #5a626b;
+}
+
+.musee-player-title {
+  margin-top: 1.6cqw;
+  font-weight: 700;
+  font-size: 7.4cqw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.musee-player-artist {
+  color: #3d444c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.musee-player-bar {
+  margin-top: 3cqw;
+  height: 3.2cqw;
+  border: 1px solid #7d8791;
+  border-radius: 0.7cqw;
+  background: #fff;
+  overflow: hidden;
+}
+
+.musee-player-bar > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(#8fc0f5, #2f6fd0);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.musee-player-note {
+  margin-top: 2.2cqw;
+  font-size: 4.5cqw;
+  color: #5a626b;
+}
+
+.musee-player-note a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.musee-player-screen ol {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  scrollbar-width: thin;
+  scrollbar-color: #8b949e transparent;
+}
+
+.musee-player-screen ol button {
+  display: flex;
+  width: 100%;
+  gap: 2cqw;
+  justify-content: space-between;
+  padding: 1.5cqw 3.4cqw;
+  font-size: 6cqw;
+  font-weight: 600;
+  text-align: left;
+}
+
+.musee-player-screen ol button > span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.musee-player-screen ol button[data-selected] {
+  background: linear-gradient(#62a5f4, #2a6fd6);
+  color: #fff;
+}
+
+/* Molette : quatre touches sur l'anneau, une au centre */
+.musee-player-wheel {
+  position: absolute;
+  left: 15.2%;
+  top: 51.95%;
+  width: 69.6%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.musee-player-wheel button {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 5.2cqw;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.18);
+  border-radius: 50%;
+  transition: background-color 0.15s ease !important;
+}
+
+.musee-player-wheel button:hover,
+.musee-player-wheel button:focus-visible {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.musee-player-wheel button:active {
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.musee-player-wheel .is-menu { left: 28%; top: 0; width: 44%; height: 30%; }
+.musee-player-wheel .is-play { left: 28%; bottom: 0; width: 44%; height: 30%; font-size: 4.2cqw; }
+.musee-player-wheel .is-prev { left: 0; top: 28%; width: 30%; height: 44%; font-size: 4.2cqw; }
+.musee-player-wheel .is-next { right: 0; top: 28%; width: 30%; height: 44%; font-size: 4.2cqw; }
+.musee-player-wheel .is-center { left: 32%; top: 32%; width: 36%; height: 36%; }
+
+.musee-player-drop {
+  position: absolute;
+  left: -8px;
+  bottom: 42%;
+  padding: 6px 12px;
+  border: 1px solid rgba(244, 241, 234, 0.25);
+  background: rgba(0, 0, 0, 0.6);
+  color: #f4f1ea;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: translateX(-100%);
+  pointer-events: auto;
+}
+
+.musee-player-drop:hover {
+  border-color: #f4f1ea;
+}
+
+@media (max-width: 768px) {
+  .musee-player {
+    height: min(30vh, 260px);
+    bottom: 112px;
+  }
+}
+
+/* Musée (/musee) : la page d'accueil vivante vue par la porte de sortie. Une
+   iframe sous le rendu 3D (z-index négatif), projetée en perspective par le
+   script ; en franchissant la porte elle passe au premier plan, puis s'efface
+   une fois la vraie page montée dessous.
+   !important : passe outre la règle mobile qui coupe les transitions. */
+.musee-portal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  border: 0;
+  background: #000;
+  transform-origin: 0 0;
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.6s ease !important;
+}
+
+.musee-portal-out {
+  opacity: 0;
+}
+
+
+/* Pendant la traversée de la porte, l'interface du musée s'efface : il ne
+   reste que la salle et le portfolio qui approche. */
+.musee-leaving > *:not([role='img']) {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.25s ease !important;
 }

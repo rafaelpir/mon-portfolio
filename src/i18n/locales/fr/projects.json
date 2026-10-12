@@ -1,5 +1,7 @@
 {
   "details": {
+    "museum": "Exposition",
+    "museumLink": "Voir l'affiche au musée",
     "back": "RETOUR",
     "breadcrumb": {
       "home": "Accueil",
@@ -47,25 +49,6 @@
         "Retouche photo",
         "Direction artistique",
         "Composition visuelle"
-      ]
-    },
-    "2": {
-      "title": "Concours d'affiche : Fêtes Populaires de Saint-Paul-lès-Dax 2025",
-      "category": "Affiches",
-      "type": "Universitaire",
-      "context": "Concours officiel - Ville de Saint-Paul-lès-Dax",
-      "period": "Décembre 2024 - Janvier 2025",
-      "duration": "1 semaine",
-      "description": "J'ai participé au concours officiel d'affiche organisé par la ville de Saint-Paul-lès-Dax pour leurs Fêtes Populaires 2025. J'ai conçu une affiche en flat design sur Illustrator et Photoshop, l'objectif était de proposer une affiche qui représente l'esprit festif de cet événement incontournable.",
-      "gallery": [
-        "Affiche originale des Fêtes Populaires de Saint-Paul-lès-Dax 2025.",
-        "Mockup de présentation de l'affiche des Fêtes Populaires de Saint-Paul-lès-Dax."
-      ],
-      "competences": [
-        "Conception d'affiche",
-        "Illustration vectorielle",
-        "Flat design",
-        "Direction artistique"
       ]
     },
     "3": {
@@ -282,25 +265,6 @@
         "Analyse transmédiatique",
         "Veille culturelle",
         "Création de GIF animé"
-      ]
-    },
-    "12": {
-      "title": "Reproduction d'une affiche de film",
-      "category": "Affiches",
-      "type": "Personnel",
-      "context": "Projet personnel - Reproduction fidèle d'affiche existante",
-      "period": "2025",
-      "duration": "1 semaine",
-      "description": "Exercice de reproduction fidèle d'une affiche de film culte. L'objectif était de recréer à l'identique une affiche existante sur Photoshop et Illustrator en analysant la composition, la typographie et les choix chromatiques. Un défi technique pour maîtriser les outils et comprendre les codes du design d'affiche cinématographique.",
-      "gallery": [
-        "Reproduction de l'affiche originale.",
-        "Mockup de présentation de la reproduction."
-      ],
-      "competences": [
-        "Reproduction graphique",
-        "Conception d'affiche",
-        "Typographie",
-        "Composition visuelle"
       ]
     },
     "13": {

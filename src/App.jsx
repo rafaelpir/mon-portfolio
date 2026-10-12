@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import { useEffect, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLenis } from 'lenis/dist/lenis-react';
@@ -7,7 +7,6 @@ import { projects } from './data/projects';
 import { ShaderProvider } from './context/ShaderContext';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import GoogleAnalytics from './components/GoogleAnalytics';
-import Preloader from './components/Preloader';
 import AdminGuard from './components/AdminGuard';
 // Code splitting - Chargement différé des pages
 const Home = lazy(() => import('./pages/Home'));
@@ -32,6 +31,7 @@ const CVEN = lazy(() => import('./pages/CVEN'));
 const CVInterim = lazy(() => import('./pages/CVInterim'));
 const About = lazy(() => import('./pages/About'));
 const Generatif = lazy(() => import('./pages/Generatif'));
+const Musee = lazy(() => import('./pages/Musee'));
 const Legal = lazy(() => import('./pages/Legal'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const AdminProjects = lazy(() => import('./pages/AdminProjects'));
@@ -88,36 +88,14 @@ function AppContent() {
     else window.scrollTo(0, 0);
   };
 
-  const [showPreloader, setShowPreloader] = useState(() => {
-    // Actif desktop, désactivé mobile (préserve le LCP sur mobile) — rejoué
-    // à chaque visite de la Home (pas de restriction "une fois par session").
-    const isMobileDevice = window.innerWidth <= 768;
-    return !isMobileDevice;
-  });
-  const isHomePage = location.pathname === '/';
-
-  const handlePreloaderComplete = () => {
-    setShowPreloader(false);
-  };
-
-  // Le Preloader fige <body> en position:fixed/height:100% pendant son
-  // affichage (voir Preloader.jsx). Tous les ScrollTrigger créés par les
-  // sections de la Home pendant cette fenêtre (ex: ScrollRevealText sur
-  // About) calculent leurs positions de déclenchement sur cette mise en page
-  // tronquée à un viewport — une fois <body> libéré, ces positions ne
-  // correspondent plus à la vraie page et les effets se retrouvent déjà
-  // "joués" ou ne se déclenchent jamais. Un effect (pas juste un callback
-  // dans handlePreloaderComplete) garantit que le refresh tourne APRÈS que
-  // le Preloader ait réellement démonté et rendu <body> à son état normal.
+  // Recalage des ScrollTrigger au montage : les sections lazy de la Home
+  // peuvent finir de monter après le premier calcul de positions.
   useEffect(() => {
-    if (!showPreloader) ScrollTrigger.refresh();
-  }, [showPreloader]);
+    ScrollTrigger.refresh();
+  }, []);
 
   return (
     <>
-      {showPreloader && isHomePage && (
-        <Preloader onComplete={handlePreloaderComplete} minDuration={1500} />
-      )}
       <GoogleAnalytics />
       <SpeedInsights />
       <AnimatePresence mode="wait" onExitComplete={handleExitComplete}>
@@ -157,6 +135,7 @@ function AppContent() {
           <Route path="/cv-interim" element={<LocalOnly><CVInterim /></LocalOnly>} />
           <Route path="/about" element={<About />} />
           <Route path="/generatif" element={<Generatif />} />
+          <Route path="/musee" element={<Musee />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -34,7 +34,13 @@
     "availabilityValue": "En alternance"
   },
   "projects": {
-    "title": "MES PROJETS"
+    "title": "MES PROJETS",
+    "museum": {
+      "eyebrow": "MUSÉE D'AFFICHES",
+      "title": "Voir les affiches en vrai",
+      "text": "Une galerie en 3D où se promener parmi huit affiches, avec vue sur les toits de Paris.",
+      "cta": "Entrer dans le musée"
+    }
   },
   "skills": {
     "title": "COMPÉTENCES"

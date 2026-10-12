@@ -1,13 +1,19 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { useTranslation } from 'react-i18next';
 import { projects } from '../data/projects';
+import { museumLinkFor } from '../data/museeExhibits';
+import { museumAvailable } from '../utils/museumAccess';
 import ProjectHeader from '../components/ProjectHeader';
 import ProjectSectionDivider from '../components/ProjectSectionDivider';
 import ProjectFooterNav from '../components/ProjectFooterNav';
 import ImageLightbox from '../components/ImageLightbox';
+import usePerformanceTier from '../hooks/usePerformanceTier';
+import { loadYouTubeApi } from '../utils/youtubeApi';
 
 function SubProjectGallery({ subProject, isDarkMode }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -29,8 +35,13 @@ function SubProjectGallery({ subProject, isDarkMode }) {
         className="relative mx-auto overflow-hidden"
         style={{ maxWidth: '460px', height: '420px' }}
       >
+        {/* `display` : version allégée pour l'affichage en page (les originaux,
+            jusqu'à ~9600 px de large, font saccader le scroll sur mobile au
+            décodage) ; l'original reste utilisé par la lightbox. */}
         <img
-          src={gallery[currentIndex].src}
+          src={gallery[currentIndex].display || gallery[currentIndex].src}
+          loading="lazy"
+          decoding="async"
           alt={gallery[currentIndex].description || `${subProject.title} — Image ${currentIndex + 1}`}
           className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
           style={{ cursor: isMobile ? 'default' : 'zoom-in' }}
@@ -108,6 +119,212 @@ function SubProjectGallery({ subProject, isDarkMode }) {
   );
 }
 
+// Vidéo YouTube en fond fixe de toute la page, muette et non interactive
+// (`pointer-events: none` + hors tabulation : ni clic, ni pause, ni focus).
+// Rendue via portail attaché à <html>, comme ProjectHeader : `body` a
+// `transform: translateZ(0)` en desktop, ce qui casse `position: fixed`.
+// Le portail (z-index négatif) passe sous <body> : il porte donc lui-même la
+// couleur de fond de la page, dont le conteneur devient transparent.
+// Elle reste invisible tant que la lecture n'a pas réellement démarré et que
+// l'interface YouTube n'a pas disparu, puis apparaît en fondu : on ne voit
+// ainsi jamais les boutons ni l'écran d'attente de YouTube (y compris si la
+// lecture automatique est refusée). Boucle gérée à la main : le paramètre
+// `playlist` (requis par `loop`) ajoute des boutons précédent/suivant.
+// Recadrage "cover" en CSS pur : le conteneur prend la hauteur du viewport en
+// 16:9 avec au minimum sa largeur, l'iframe remplit cette largeur en 16:9.
+// Le léger zoom rogne le titre/logo YouTube sur les bords.
+// YouTube affiche son bouton pause au centre pendant ~4 s à chaque démarrage
+// de lecture (y compris après un `seekTo`) : on attend qu'il ait disparu.
+const REVEAL_DELAY = 4500;
+function BackgroundVideo({ video, isDarkMode }) {
+  const { youtubeId, start = 0, opacity = 0.15 } = video;
+  const hostRef = useRef(null);
+  const [visible, setVisible] = useState(false);
+  const [portalNode] = useState(() => document.createElement('div'));
+
+  useEffect(() => {
+    document.documentElement.appendChild(portalNode);
+    return () => portalNode.remove();
+  }, [portalNode]);
+
+  useEffect(() => {
+    let cancelled = false;
+    let player;
+    let revealTimer;
+    const mount = document.createElement('div');
+    hostRef.current.appendChild(mount);
+
+    loadYouTubeApi().then((YT) => {
+      if (cancelled) return;
+      player = new YT.Player(mount, {
+        videoId: youtubeId,
+        host: 'https://www.youtube-nocookie.com',
+        playerVars: {
+          autoplay: 1,
+          mute: 1,
+          controls: 0,
+          start,
+          playsinline: 1,
+          disablekb: 1,
+          fs: 0,
+          rel: 0,
+          iv_load_policy: 3,
+        },
+        events: {
+          onReady: (e) => {
+            e.target.mute();
+            e.target.playVideo();
+          },
+          onStateChange: (e) => {
+            if (e.data === YT.PlayerState.BUFFERING) return;
+            clearTimeout(revealTimer);
+            if (e.data === YT.PlayerState.PLAYING) {
+              revealTimer = setTimeout(() => setVisible(true), REVEAL_DELAY);
+            } else {
+              setVisible(false);
+              if (e.data === YT.PlayerState.ENDED) {
+                e.target.seekTo(start, true);
+                e.target.playVideo();
+              }
+            }
+          },
+        },
+      });
+      const iframe = player.getIframe();
+      iframe.title = "Vidéo d'arrière-plan";
+      iframe.tabIndex = -1;
+      iframe.className = 'absolute top-1/2 left-0 w-full border-0 pointer-events-none';
+      iframe.style.height = 'auto';
+      iframe.style.aspectRatio = '16 / 9';
+      iframe.style.transform = 'translateY(-50%) scale(1.2)';
+    });
+
+    return () => {
+      cancelled = true;
+      clearTimeout(revealTimer);
+      if (typeof player?.destroy === 'function') player.destroy();
+      mount.remove();
+    };
+  }, [youtubeId, start]);
+
+  return createPortal(
+    <div
+      className={`fixed top-0 left-0 w-full h-screen overflow-hidden pointer-events-none select-none ${isDarkMode ? 'bg-black' : 'bg-beige'}`}
+      // 100lvh (repli : h-screen) : hauteur stable sur mobile, sinon la vidéo
+      // est redimensionnée à chaque apparition/disparition de la barre d'URL.
+      style={{ zIndex: -1, height: '100lvh' }}
+      aria-hidden="true"
+    >
+      <div
+        className={`absolute inset-0 ${visible ? 'bg-video-reveal' : ''}`}
+        // `visibility` et non `opacity: 0` : sur mobile, index.css force à 1
+        // l'opacité de tout élément dont le style inline contient "opacity: 0".
+        style={{ opacity, visibility: visible ? 'visible' : 'hidden' }}
+      >
+        <div
+          ref={hostRef}
+          className="absolute inset-y-0 left-1/2 -translate-x-1/2"
+          style={{ aspectRatio: '16 / 9', minWidth: '100%' }}
+        />
+      </div>
+    </div>,
+    portalNode
+  );
+}
+
+// Titre dont chaque lettre démarre dorée puis se retourne, l'une après
+// l'autre, pour reprendre la couleur du texte (animation `gold-flip` dans
+// index.css). Les mots restent insécables ; le titre complet est exposé aux
+// lecteurs d'écran via `aria-label` (h1).
+function GoldFlipTitle({ text }) {
+  let letterIndex = 0;
+  return text.split(' ').map((word, w) => (
+    <span key={w} aria-hidden="true">
+      {w > 0 && ' '}
+      <span className="inline-block whitespace-nowrap">
+        {[...word].map((char, i) => (
+          <span key={i} className="gold-flip-letter" style={{ '--i': letterIndex++ }}>
+            {char}
+          </span>
+        ))}
+      </span>
+    </span>
+  ));
+}
+
+// Playlist YouTube d'ambiance, jouée en boucle à faible volume par un lecteur
+// invisible. Les navigateurs bloquent le son en lecture automatique tant que
+// le visiteur n'a pas interagi avec la page : si le démarrage est refusé, la
+// lecture est relancée au premier clic/touche. `toggle` coupe ou remet le son.
+function useBackgroundMusic(music) {
+  const hostRef = useRef(null);
+  const playerRef = useRef(null);
+  const wantedRef = useRef(true);
+  const playingRef = useRef(false);
+  const [playing, setPlaying] = useState(false);
+  const ids = music?.youtubeIds;
+  const volume = music?.volume ?? 12;
+
+  useEffect(() => {
+    if (!ids?.length || !hostRef.current) return;
+    let cancelled = false;
+    const mount = document.createElement('div');
+    hostRef.current.appendChild(mount);
+
+    const play = () => {
+      const player = playerRef.current;
+      if (typeof player?.playVideo === 'function') player.playVideo();
+    };
+
+    loadYouTubeApi().then((YT) => {
+      if (cancelled) return;
+      playerRef.current = new YT.Player(mount, {
+        width: 200,
+        height: 200,
+        playerVars: { controls: 0, disablekb: 1, playsinline: 1 },
+        events: {
+          onReady: (e) => {
+            e.target.setVolume(volume);
+            e.target.setLoop(true);
+            e.target.loadPlaylist(ids);
+          },
+          onStateChange: (e) => {
+            if (e.data === YT.PlayerState.BUFFERING) return;
+            playingRef.current = e.data === YT.PlayerState.PLAYING;
+            setPlaying(playingRef.current);
+          },
+        },
+      });
+    });
+
+    const onGesture = (e) => {
+      if (e.target instanceof Element && e.target.closest('[data-music-toggle]')) return;
+      if (wantedRef.current && !playingRef.current) play();
+    };
+    window.addEventListener('pointerdown', onGesture);
+    window.addEventListener('keydown', onGesture);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener('pointerdown', onGesture);
+      window.removeEventListener('keydown', onGesture);
+      if (typeof playerRef.current?.destroy === 'function') playerRef.current.destroy();
+      playerRef.current = null;
+      mount.remove();
+    };
+  }, [ids, volume]);
+
+  const toggle = () => {
+    const player = playerRef.current;
+    if (typeof player?.playVideo !== 'function') return;
+    wantedRef.current = !playingRef.current;
+    if (playingRef.current) player.pauseVideo();
+    else player.playVideo();
+  };
+
+  return { hostRef, playing, toggle };
+}
+
 // Liste de badges texte séparés par "/" — cf. ProjectDetail.jsx
 function CreditsList({ items, isDarkMode }) {
   return (
@@ -137,6 +354,14 @@ export default function ProjectDoubleDetail({ project }) {
   const getTitle = (proj) => t(`projects:items.${proj.id}.title`, proj.title);
 
   const subProjects = project.subProjects || [];
+
+  // Pas de vidéo de fond si l'utilisateur a demandé un mouvement réduit
+  const tier = usePerformanceTier();
+  const showBackgroundVideo = project.backgroundVideo?.youtubeId && tier !== 'none';
+  const goldFlipTitle = project.titleAnimation === 'gold-flip' && tier !== 'none';
+
+  const hasMusic = project.backgroundMusic?.youtubeIds?.length > 0;
+  const music = useBackgroundMusic(project.backgroundMusic);
 
   const siteUrl = 'https://www.rafaelpiral.fr';
   const pageUrl = `${siteUrl}/work/${project.slug}`;
@@ -208,7 +433,11 @@ export default function ProjectDoubleDetail({ project }) {
       })}</script>
     </Helmet>
     <ReactLenis root options={{ lerp: 0.05, duration: 1.2, smoothWheel: true }}>
-      <div className={`min-h-screen font-stamp ${isDarkMode ? 'bg-black text-beige' : 'bg-beige text-black'}`}>
+      <div className={`min-h-screen font-stamp ${isDarkMode ? 'text-beige' : 'text-black'} ${
+        showBackgroundVideo ? '' : isDarkMode ? 'bg-black' : 'bg-beige'
+      }`}>
+
+        {showBackgroundVideo && <BackgroundVideo video={project.backgroundVideo} isDarkMode={isDarkMode} />}
 
         <ProjectHeader isDarkMode={isDarkMode} index={currentVisibleIndex} total={visibleProjects.length} />
 
@@ -217,8 +446,15 @@ export default function ProjectDoubleDetail({ project }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="pt-24 md:pt-36 px-4 md:px-16"
+          className="relative isolate pt-24 md:pt-36 px-4 md:px-16"
         >
+          {hasMusic && (
+            <div
+              ref={music.hostRef}
+              className="absolute top-0 left-0 w-px h-px overflow-hidden opacity-0 pointer-events-none"
+              aria-hidden="true"
+            />
+          )}
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ y: 20, opacity: 0 }}
@@ -235,13 +471,16 @@ export default function ProjectDoubleDetail({ project }) {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.25 }}
               className="uppercase leading-[0.95] mb-10 md:mb-16"
+              aria-label={goldFlipTitle ? project.title : undefined}
               style={{
                 fontFamily: '"PP Neue Montreal", sans-serif',
                 fontWeight: 600,
                 fontSize: 'clamp(2.25rem, 6.5vw, 6rem)',
               }}
             >
-              {project.title}
+              {goldFlipTitle
+                ? <GoldFlipTitle text={project.title} />
+                : project.title}
             </motion.h1>
 
             <motion.div
@@ -291,6 +530,28 @@ export default function ProjectDoubleDetail({ project }) {
                         </a>
                       ))}
                     </span>
+                  </li>
+                )}
+                {museumLinkFor(project.slug) && museumAvailable() && (
+                  <li className="flex flex-col gap-1">
+                    <span className="opacity-40 text-xs tracking-widest uppercase">Exposition</span>
+                    <Link to={museumLinkFor(project.slug)} className="underline underline-offset-2 transition-opacity hover:opacity-60">
+                      Voir l'affiche au musée →
+                    </Link>
+                  </li>
+                )}
+                {hasMusic && (
+                  <li className="flex flex-col gap-1 md:items-end">
+                    <span className="opacity-40 text-xs tracking-widest uppercase">Ambiance sonore</span>
+                    <button
+                      type="button"
+                      data-music-toggle
+                      onClick={music.toggle}
+                      aria-pressed={music.playing}
+                      className="underline underline-offset-2 transition-opacity hover:opacity-60"
+                    >
+                      {music.playing ? '♪ Couper le son' : '♪ Activer le son'}
+                    </button>
                   </li>
                 )}
               </ul>

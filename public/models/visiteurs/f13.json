@@ -1,0 +1,1 @@
+{"parts": [{"name": "body", "vertexOffset": 0, "vertexCount": 3125, "indexOffset": 100000, "indexCount": 14166}, {"name": "head", "vertexOffset": 128332, "vertexCount": 1809, "indexOffset": 186220, "indexCount": 9726}, {"name": "opacity", "vertexOffset": 205672, "vertexCount": 726, "indexOffset": 228904, "indexCount": 2232}], "height": 1.752}

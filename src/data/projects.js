@@ -46,44 +46,6 @@ export const projects = [
     ]
   },
   {
-    "id": 2,
-    "slug": "affiche-fetes-saint-paul-les-dax",
-    "title": "Concours d'affiche : Fêtes Populaires de Saint-Paul-lès-Dax 2025",
-    "shortTitle": "Fêtes de Saint-Paul",
-    "category": "Affiches",
-    "type": "Universitaire",
-    "year": "2025",
-    "context": "Concours officiel - Ville de Saint-Paul-lès-Dax",
-    "period": "Décembre 2024 - Janvier 2025",
-    "duration": "1 semaines",
-    "description": "J'ai participé au concours officiel d'affiche organisé par la ville de Saint-Paul-lès-Dax pour leurs Fêtes Populaires 2025. J'ai conçu une affiche en flat design sur Illustrator et Photoshop, l'objectif était de proposer une affiche qui représente l'esprit festif de cet événement incontournable.",
-    "thumbnail": "/images/projects/thumbs/daxmockup.webp",
-    "gallery": [
-      {
-        "src": "/images/projects/Dax.webp",
-        "description": "Affiche originale des Fêtes Populaires de Saint-Paul-lès-Dax 2025."
-      },
-      {
-        "src": "/images/projects/daxmockup.webp",
-        "description": "Mockup de présentation de l'affiche des Fêtes Populaires de Saint-Paul-lès-Dax."
-      }
-    ],
-    "tags": [
-      "Photoshop",
-      "Illustrator"
-    ],
-    "competences": [
-      "Conception d'affiche",
-      "Illustration vectorielle",
-      "Flat design",
-      "Direction artistique"
-    ],
-    "outils": [
-      "Adobe Photoshop",
-      "Adobe Illustrator"
-    ]
-  },
-  {
     "id": 3,
     "slug": "poster-sade-diamond-life",
     "title": "Poster Tribute : Sade  Diamond Life",
@@ -391,76 +353,6 @@ export const projects = [
     ]
   },
   {
-    "id": 12,
-    "slug": "atelier-affiches-bollywood",
-    "title": "Atelier Affiches  Reproduction & Typographie",
-    "shortTitle": "Atelier Affiches",
-    "category": "Affiches",
-    "type": "Universitaire",
-    "year": "2025",
-    "layout": "double",
-    "thumbnail": "/images/projects/poster11.webp",
-    "tags": [
-      "Photoshop",
-      "Illustrator",
-      "InDesign"
-    ],
-    "competences": [
-      "Reproduction graphique",
-      "Typographie",
-      "Conception d'affiche",
-      "Composition visuelle",
-      "Direction artistique"
-    ],
-    "outils": [
-      "Adobe Photoshop",
-      "Adobe Illustrator",
-      "Adobe InDesign"
-    ],
-    "subProjects": [
-      {
-        "key": "reproduction",
-        "title": "Reproduction d'une affiche de musée",
-        "context": "Projet universitaire  Reproduction fidèle d'affiche institutionnelle",
-        "period": "2025",
-        "duration": "1 semaine",
-        "description": "Reproduction fidèle de l'affiche de l'exposition « Bollywood Superstars  Histoire d'un Cinéma Indien » du Musée du quai Branly - Jacques Chirac. L'objectif était de recréer à l'identique l'affiche originale sur Photoshop et Illustrator en analysant la composition, la typographie et les choix chromatiques. Un exercice technique pour maîtriser les outils et comprendre les codes du design d'affiche institutionnelle.",
-        "tags": [
-          "Photoshop",
-          "Illustrator"
-        ],
-        "gallery": [
-          {
-            "src": "/images/projects/affichedebase.webp",
-            "description": "Affiche originale  Exposition « Bollywood Superstars » au Musée du quai Branly - Jacques Chirac."
-          },
-          {
-            "src": "/images/projects/poster11.webp",
-            "description": "Ma reproduction de l'affiche."
-          }
-        ]
-      },
-      {
-        "key": "typographie",
-        "title": "Création d'une affiche typographique",
-        "context": "Projet universitaire  Affiche typographique inspirée de l'exposition",
-        "period": "2025",
-        "duration": "1 semaine",
-        "description": "Création d'une affiche typographique originale autour de l'exposition « Bollywood Superstars  Histoire d'un Cinéma Indien » du Musée du quai Branly - Jacques Chirac. Le défi : faire vivre l'univers du cinéma indien uniquement par le jeu des caractères, des poids, des espacements et de la composition. La lettre devient image, sur Illustrator et InDesign pour une maîtrise précise de la mise en page.",
-        "tags": [
-          "Photoshop",
-          "Illustrator"
-        ],
-        "gallery": [
-          {
-            "src": "/images/projects/poster1.webp",
-            "description": "Affiche typographique  Exposition « Bollywood Superstars » au Musée du quai Branly - Jacques Chirac."
-          }
-        ]
-      }
-    ]
-  },
-  {
     "id": 9,
     "slug": "reseau-alumni-iut-bobigny",
     "title": "Réseau Alumni  IUT de Bobigny",
@@ -520,6 +412,12 @@ export const projects = [
     "duration": "2 mois",
     "description": "En trinôme, conception de l'identité visuelle complète d'un coffret anniversaire pour les 20 ans de scène d'Alicia Keys : recherche typographique, personnage illustré, pochettes CD, stickers, poster de concert et vinyle collector. Chaque élément s'inscrit dans une direction artistique unifiée, du packaging au grand format urbain.",
     "thumbnail": "/images/projects/officiel.webp",
+    "titleAnimation": "gold-flip",
+    "backgroundVideo": { "youtubeId": "QmS_dY4XDCg", "opacity": 0.15 },
+    "backgroundMusic": {
+      "youtubeIds": ["Ju8Hr50Ckwk", "rywUS-ohqeE", "Urdlvw0SSEc", "J91ti_MpdHA"],
+      "volume": 12
+    },
     "tags": [
       "Branding",
       "Illustrator",
@@ -557,7 +455,7 @@ export const projects = [
         "description": "Tout commence par les mots. Renaissance, Feu, Prestige, Héritage : quatre axes qui orientent l'ensemble du projet. La planche explore trois directions typographiques (massive, calligraphique, épurée) avant de retenir une sans-serif luxe contemporaine, capable de porter vingt ans de carrière sans les écraser.",
         "tags": ["Illustrator"],
         "gallery": [
-          { "src": "/images/projects/Titres.webp", "description": "" }
+          { "src": "/images/projects/Titres.webp", "display": "/images/projects/display/alicia-titres.webp", "description": "" }
         ]
       },
       {
@@ -569,7 +467,7 @@ export const projects = [
         "description": "Une fois la direction posée, il fallait incarner l'artiste sans tomber dans le portrait. La planche retrace la construction du personnage : références flat design, géométrisation du visage, affinage des proportions, jusqu'à une palette restreinte (ocre, noir, marron, terracotta) qui deviendra la signature chromatique de tout le coffret.",
         "tags": ["Illustrator", "Photoshop"],
         "gallery": [
-          { "src": "/images/projects/Personnage.webp", "description": "" }
+          { "src": "/images/projects/Personnage.webp", "display": "/images/projects/display/alicia-personnage.webp", "description": "" }
         ]
       },
       {
@@ -581,7 +479,7 @@ export const projects = [
         "description": "Le coffret ne se limite pas à un objet : il accompagne une tournée. La scénographie proposée place Alicia Keys au piano au centre d'une scène sobre, sol doré brillant, éclairage LED couleur or. L'espace devient extension naturelle de l'identité visuelle : luxe, chaleur, présence.",
         "tags": ["Illustrator", "Photoshop"],
         "gallery": [
-          { "src": "/images/projects/Scénographie.webp", "description": "" }
+          { "src": "/images/projects/Scénographie.webp", "display": "/images/projects/display/alicia-scenographie.webp", "description": "" }
         ]
       },
       {
@@ -593,7 +491,7 @@ export const projects = [
         "description": "Différents essais pour la cover dorée du coffret : variations de cadrage, de traitement photo et d'intégration du personnage illustré. Ces explorations permettent de tester la cohérence de la palette or avant de retenir la direction définitive.",
         "tags": ["Illustrator", "Photoshop"],
         "gallery": [
-          { "src": "/images/projects/album.webp", "description": "" }
+          { "src": "/images/projects/album.webp", "display": "/images/projects/display/alicia-album.webp", "description": "" }
         ]
       },
       {
@@ -605,7 +503,7 @@ export const projects = [
         "description": "Le personnage illustré trouve sa première application concrète sur des stickers circulaires collector. Le lettrage arqué « 20TH ANNIVERSARY TOUR » ancre chaque pièce dans les codes du merchandising premium, des objets pensés pour être gardés.",
         "tags": ["Photoshop", "Illustrator", "InDesign"],
         "gallery": [
-          { "src": "/images/projects/A4 - 3.webp", "description": "" }
+          { "src": "/images/projects/A4 - 3.webp", "display": "/images/projects/display/alicia-a4-3.webp", "description": "" }
         ]
       },
       {
@@ -617,7 +515,7 @@ export const projects = [
         "description": "Toutes les recherches convergent vers ce visuel : l'identité typographique, la palette, le personnage, l'ambiance dorée. La composition verticale est pensée pour fonctionner aussi bien sur le coffret physique que sur les supports de communication. C'est la pièce centrale du projet.",
         "tags": ["Photoshop", "Illustrator", "InDesign"],
         "gallery": [
-          { "src": "/images/projects/officiel.webp", "description": "" }
+          { "src": "/images/projects/officiel.webp", "display": "/images/projects/display/alicia-officiel.webp", "description": "" }
         ]
       },
       {
@@ -629,7 +527,7 @@ export const projects = [
         "description": "Un poster simple et direct pour annoncer la tournée anniversaire, appliquant l'identité visuelle du coffret à un format d'affichage classique.",
         "tags": ["Photoshop", "Illustrator", "InDesign"],
         "gallery": [
-          { "src": "/images/projects/Affiche.webp", "description": "" }
+          { "src": "/images/projects/Affiche.webp", "display": "/images/projects/display/alicia-affiche.webp", "description": "" }
         ]
       },
       {
@@ -641,7 +539,7 @@ export const projects = [
         "description": "Dernier test de robustesse : l'affiche projetée sur un abribus en contexte réel. À cette échelle, chaque choix de composition et de contraste se révèle. Le visuel tient : la typographie reste lisible, l'image conserve sa densité, l'identité dorée s'impose dans l'espace urbain.",
         "tags": ["Photoshop", "Illustrator", "InDesign"],
         "gallery": [
-          { "src": "/images/projects/01 Free Billboard Mockup At Bus Stop.webp", "description": "" }
+          { "src": "/images/projects/01 Free Billboard Mockup At Bus Stop.webp", "display": "/images/projects/display/alicia-01-free-billboard-mockup-at-bus-stop.webp", "description": "" }
         ]
       },
       {
@@ -653,7 +551,7 @@ export const projects = [
         "description": "Le vinyle collector clôt le coffret, et le projet. Objet de prestige par essence, il porte l'identité visuelle dans sa forme la plus aboutie. Le rond du disque répond aux stickers, la palette dorée rappelle chaque pièce produite. Une cohérence qui boucle vingt ans de musique en un seul objet.",
         "tags": ["Photoshop", "Illustrator", "InDesign"],
         "gallery": [
-          { "src": "/images/projects/1-Vinyl Record Mockup.webp", "description": "" }
+          { "src": "/images/projects/1-Vinyl Record Mockup.webp", "display": "/images/projects/display/alicia-1-vinyl-record-mockup.webp", "description": "" }
         ]
       }
     ]

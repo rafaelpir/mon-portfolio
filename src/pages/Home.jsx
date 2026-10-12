@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { museumAvailable } from '../utils/museumAccess';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -479,6 +480,33 @@ export default function Home() {
             <div className="-mx-4 md:-mx-16">
               <ProjectsDualWave projects={filteredProjects} />
             </div>
+          )}
+
+          {/* Invitation au musée d'affiches (/musee), sur ordinateur seulement */}
+          {museumAvailable() && (
+          <Link
+            to="/musee"
+            className="group relative mt-16 md:mt-28 mx-auto block max-w-6xl overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current"
+          >
+            <img
+              src="/images/musee/apercu.webp"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              width="2000"
+              height="900"
+              className="w-full aspect-[4/3] md:aspect-[20/9] object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-5 md:p-10 text-white">
+              <p className="text-[10px] md:text-xs tracking-[0.3em] opacity-70">{t('home:projects.museum.eyebrow')}</p>
+              <p className="mt-2 text-2xl md:text-5xl leading-tight" style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}>
+                {t('home:projects.museum.title')}
+              </p>
+              <p className="mt-2 max-w-xl text-sm md:text-base opacity-80">{t('home:projects.museum.text')}</p>
+              <p className="mt-4 inline-block text-sm md:text-base underline underline-offset-4">{t('home:projects.museum.cta')} →</p>
+            </div>
+          </Link>
           )}
         </div>
       </motion.section>
