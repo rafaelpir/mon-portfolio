@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Renderer, Camera, Transform, Plane, Box, Program, Mesh, Texture, Mat4, Geometry, Cylinder } from 'ogl';
 import { projects } from '../data/projects';
 import { museumAvailable } from '../utils/museumAccess';
+import { SOCIAL_LOGOS } from '../data/socialLogos';
 import { MUSEE_PLAYLIST } from '../data/museePlaylist';
 import { MUSEE_EXHIBITS } from '../data/museeExhibits';
 
@@ -69,6 +70,22 @@ const COFFER = { inner: SKYLIGHT.halfWidth + 0.32, outer: HALL.halfWidth - 0.55 
 // `threshold` de la porte, regard droit) : à cet instant elle passe au
 // premier plan et la navigation se fait dessous, sans coupure visible.
 const EXIT = { width: 2, height: 3.1, openWithin: 3.4, threshold: 0.3 };
+// Réseaux de Rafael : un téléviseur accroché au mur d'entrée, de l'autre côté
+// de la porte par rapport au texte de salle. Son écran affiche une ligne par
+// réseau ; un clic sur une ligne ouvre le réseau. logo : son tracé dans
+// SOCIAL_LOGOS ; color : la couleur de la marque.
+const SOCIALS = [
+  { name: 'Instagram', logo: 'instagram', handle: '@rafa31z', href: 'https://www.instagram.com/rafa31z/', color: '#e1306c' },
+  { name: 'LinkedIn', logo: 'linkedin', handle: 'Rafael Piral', href: 'https://www.linkedin.com/in/rafaelpiral', color: '#0a66c2' },
+  { name: 'Behance', logo: 'behance', handle: 'rafaelpiral1', href: 'https://www.behance.net/rafaelpiral1', color: '#1769ff' },
+  { name: 'GitHub', logo: 'github', handle: 'rafaelpir', href: 'https://github.com/rafaelpir', color: '#f4f1ea' },
+];
+// L'écran (dalle 16:9) : centre, dimensions en mètres, part de la hauteur
+// prise par le bandeau de titre ; le reste est partagé entre les lignes.
+const TV = { x: -3.05, y: 1.78, width: 1.9, height: 1.07, header: 0.27, bezel: 0.014, depth: 0.045 };
+const TV_ROW = (TV.height * (1 - TV.header - 0.05)) / SOCIALS.length;
+const socialY = (index) => TV.y + TV.height / 2 - TV.height * TV.header - TV_ROW * (index + 0.5);
+
 // Position de chaque affiche : côté (-1 mur gauche, +1 mur droit) et z
 const placement = (index) => ({ side: index % 2 === 0 ? -1 : 1, z: FIRST_Z - SPACING * Math.floor(index / 2) });
 
@@ -1160,6 +1177,106 @@ export default function Musee() {
     introWall.position.set(3.05, 2.0, HALL.zBack - 0.02);
     introWall.setParent(scene);
 
+    // Mur d'entrée, de l'autre côté de la porte : le téléviseur des réseaux.
+    // Coque noire à bord fin, support mural, voyant de veille ; la dalle
+    // émet sa propre lumière (elle ne suit pas l'éclairage de la salle) et
+    // renvoie un léger reflet de la verrière.
+    const tvZ = HALL.zBack - 0.03 - TV.depth / 2;
+    const tvPart = (width, height, depth, albedo, x, y, z) => {
+      const mesh = fixture(width, height, depth, albedo);
+      mesh.position.set(TV.x + x, TV.y + y, z);
+      mesh.setParent(scene);
+    };
+    tvPart(0.5, 0.35, 0.03, [0.03, 0.03, 0.03], 0, 0, HALL.zBack - 0.015); // support mural
+    tvPart(TV.width + TV.bezel * 2, TV.height + TV.bezel * 2 + 0.012, TV.depth, [0.02, 0.02, 0.022], 0, -0.006, tvZ);
+    tvPart(0.012, 0.004, 0.002, [0.9, 0.12, 0.1], TV.width / 2 - 0.05, -TV.height / 2 - TV.bezel - 0.006, tvZ - TV.depth / 2 - 0.001); // voyant
+    const tvScreen = new Mesh(gl, {
+      geometry: new Plane(gl, { width: TV.width, height: TV.height }),
+      program: new Program(gl, {
+        vertex: VERTEX,
+        fragment: /* glsl */ `
+          precision highp float;
+          uniform sampler2D tMap;
+          uniform vec3 cameraPosition;
+          varying vec2 vUv;
+          varying vec3 vWorld;
+          void main() {
+            vec3 color = texture2D(tMap, vUv).rgb;
+            // dalle : un peu plus sombre dans les angles et vue de biais
+            vec2 c = vUv - 0.5;
+            color *= 1.0 - 0.35 * dot(c, c);
+            vec3 view = normalize(cameraPosition - vWorld);
+            color *= 0.75 + 0.25 * abs(view.z);
+            // reflet de la verrière sur le verre : une bande claire en biais
+            float glare = smoothstep(0.16, 0.0, abs(vUv.x * 0.8 + vUv.y - 1.25 + view.x * 0.5));
+            color += vec3(0.05, 0.055, 0.06) * glare;
+            gl_FragColor = vec4(color, 1.0);
+          }
+        `,
+        uniforms: {
+          tMap: {
+            value: textTexture(
+              gl,
+              1920,
+              1080,
+              (ctx, w, h) => {
+                const back = ctx.createLinearGradient(0, 0, w, h);
+                back.addColorStop(0, '#11131a');
+                back.addColorStop(1, '#05060a');
+                ctx.fillStyle = back;
+                ctx.fillRect(0, 0, w, h);
+                const sans = '"PP Neue Montreal", Helvetica, Arial, sans-serif';
+                ctx.fillStyle = '#f4f1ea';
+                ctx.font = `700 84px ${sans}`;
+                ctx.fillText('Pour suivre le travail et échanger :', 110, 190, w - 220);
+                const top = h * TV.header;
+                const row = (h * (1 - TV.header - 0.05)) / SOCIALS.length;
+                SOCIALS.forEach((social, index) => {
+                  const y = top + row * index;
+                  ctx.fillStyle = 'rgba(244, 241, 234, 0.06)';
+                  ctx.beginPath();
+                  ctx.roundRect(90, y + 10, w - 180, row - 20, 22);
+                  ctx.fill();
+                  // le vrai logo, dans la couleur de la marque (dégradé pour Instagram)
+                  const size = 92;
+                  const left = 124;
+                  const topEdge = y + row / 2 - size / 2;
+                  ctx.save();
+                  ctx.translate(left, topEdge);
+                  ctx.scale(size / 24, size / 24);
+                  if (social.logo === 'instagram') {
+                    const brand = ctx.createLinearGradient(0, 24, 24, 0);
+                    brand.addColorStop(0, '#feda75');
+                    brand.addColorStop(0.3, '#fa7e1e');
+                    brand.addColorStop(0.55, '#d62976');
+                    brand.addColorStop(0.8, '#962fbf');
+                    brand.addColorStop(1, '#4f5bd5');
+                    ctx.fillStyle = brand;
+                  } else {
+                    ctx.fillStyle = social.color;
+                  }
+                  ctx.fill(new Path2D(SOCIAL_LOGOS[social.logo]));
+                  ctx.restore();
+                  ctx.fillStyle = '#f4f1ea';
+                  ctx.font = `600 70px ${sans}`;
+                  ctx.fillText(social.name, 256, y + row / 2 + 24);
+                  ctx.textAlign = 'right';
+                  ctx.fillStyle = 'rgba(244, 241, 234, 0.6)';
+                  ctx.font = `400 50px ${sans}`;
+                  ctx.fillText(`${social.handle}   ↗`, w - 136, y + row / 2 + 18);
+                  ctx.textAlign = 'left';
+                });
+              },
+              repaint
+            ),
+          },
+        },
+      }),
+    });
+    tvScreen.rotation.y = Math.PI;
+    tvScreen.position.set(TV.x, TV.y, tvZ - TV.depth / 2 - 0.001);
+    tvScreen.setParent(scene);
+
     // ── Coin écoute ────────────────────────────────────────────────────────
     const box = (width, height, depth, albedo, mirror = 0) =>
       new Mesh(gl, { geometry: new Box(gl, { width, height, depth }), program: roomProgram(albedo, 4, mirror) });
@@ -1372,7 +1489,7 @@ export default function Musee() {
 
     // Affiche visée par un point de l'écran (intersection rayon/mur)
     // Renvoie l'index de l'affiche visée, 'station' pour le coin écoute, 'exit'
-    // pour la porte de sortie, ou null
+    // pour la porte de sortie, { social } pour une ligne du téléviseur des réseaux, ou null
     const posterAt = (clientX, clientY) => {
       const rect = gl.canvas.getBoundingClientRect();
       const nx = ((clientX - rect.left) / rect.width) * 2 - 1;
@@ -1418,6 +1535,11 @@ export default function Musee() {
       if (dz > 0) {
         const t = (HALL.zBack - view.z) / dz;
         if (Math.abs(view.x + dx * t) < EXIT.width / 2 && EYE + dy * t < EXIT.height && EYE + dy * t > 0 && (!best || t < best.t)) return 'exit';
+        // Lignes du téléviseur des réseaux, sur le même mur
+        if (Math.abs(view.x + dx * t - TV.x) < TV.width / 2 - 0.09 && (!best || t < best.t)) {
+          const social = SOCIALS.findIndex((_, index) => Math.abs(EYE + dy * t - socialY(index)) < TV_ROW / 2 - 0.01);
+          if (social >= 0) return { social };
+        }
       }
       return best ? best.index : null;
     };
@@ -1450,6 +1572,7 @@ export default function Musee() {
         const index = posterAt(e.clientX, e.clientY);
         if (index === 'station') goToStation();
         else if (index === 'exit') goToExit();
+        else if (index?.social !== undefined) window.open(SOCIALS[index.social].href, '_blank', 'noopener');
         else if (index !== null) goTo(index);
       }
       drag = null;
