@@ -2434,3 +2434,139 @@ html.is-opening .cover-fade {
   opacity: 0;
   transition: opacity 0.45s ease 0.05s !important;
 }
+
+/* ── Parcours en index (Timeline.jsx) ──────────────────────────────────────── */
+.parcours-group {
+  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+  font-family: 'PP Neue Montreal', sans-serif;
+}
+
+.parcours-group-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.8rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.parcours-list {
+  border-top: 1px solid rgba(128, 128, 128, 0.35);
+}
+
+.parcours-row {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.35);
+}
+
+.parcours-line {
+  display: grid;
+  grid-template-columns: minmax(0, 2.6fr) minmax(0, 6fr) minmax(0, 2fr) 1.5rem;
+  gap: 1.5rem;
+  align-items: baseline;
+  width: 100%;
+  padding: clamp(1rem, 2vw, 1.6rem) 0;
+  text-align: left;
+  transition: padding-left 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.parcours-line:hover {
+  padding-left: 0.6rem;
+}
+
+.parcours-date {
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  opacity: 0.55;
+  font-variant-numeric: tabular-nums;
+}
+
+.parcours-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.9rem;
+  font-size: clamp(1.4rem, 2.6vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.parcours-now {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.parcours-kind {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.parcours-toggle {
+  justify-self: end;
+  font-size: 1.3rem;
+  font-weight: 300;
+  opacity: 0.6;
+}
+
+.parcours-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 2.6fr) minmax(0, 6fr) minmax(0, 2fr) 1.5rem;
+  gap: 1.5rem;
+  padding: 0 0 clamp(1.2rem, 2.4vw, 2rem);
+  font-size: clamp(0.95rem, 1.15vw, 1.1rem);
+  line-height: 1.6;
+  opacity: 0.72;
+}
+
+.parcours-detail > * {
+  grid-column: 2;
+  max-width: 44rem;
+}
+
+@media (max-width: 768px) {
+  .parcours-line {
+    grid-template-columns: minmax(0, 1fr) 1.5rem;
+    gap: 0.3rem 1rem;
+  }
+
+  .parcours-date,
+  .parcours-kind {
+    grid-column: 1;
+  }
+
+  .parcours-title {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .parcours-kind {
+    grid-row: 3;
+  }
+
+  .parcours-toggle {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
+  }
+
+  .parcours-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .parcours-detail > * {
+    grid-column: 1;
+  }
+}
+
+/* étape refermée : son détail est masqué */
+.parcours-detail[hidden] {
+  display: none;
+}
