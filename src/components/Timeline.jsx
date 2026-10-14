@@ -44,7 +44,7 @@ export default function Timeline({ isDarkMode, lang = 'fr' }) {
 
   return (
     <section className={`relative w-full overflow-hidden font-stamp ${isDarkMode ? 'bg-black' : 'bg-white'}`}>
-      <GridSparkles isDarkMode={isDarkMode} className="z-0" opacity={0.5} />
+      <GridSparkles isDarkMode={isDarkMode} className="z-0" opacity={0.5} anchor="top" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-16 pt-10 md:pt-14 pb-20 md:pb-28">
         <h2

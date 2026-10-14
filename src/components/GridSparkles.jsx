@@ -1,5 +1,7 @@
 // Fond décoratif statique : grille fine avec un éclat lumineux à chaque intersection.
-export default function GridSparkles({ isDarkMode = true, cell = 150, opacity = 0.7, className = '' }) {
+// `anchor="top"` : grille et fondu calés en haut, en tailles fixes, pour
+// qu'ils ne bougent pas quand la section change de hauteur (Parcours).
+export default function GridSparkles({ isDarkMode = true, cell = 150, opacity = 0.7, className = '', anchor = 'center' }) {
   const lineColor = isDarkMode ? 'rgba(255,255,255,0.14)' : 'rgba(0,0,0,0.10)';
   const dotColor = isDarkMode ? '#ffffff' : '#000000';
 
@@ -19,7 +21,9 @@ export default function GridSparkles({ isDarkMode = true, cell = 150, opacity = 
   </svg>`;
 
   const dataUri = `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
-  const vignette = 'radial-gradient(ellipse at center, black 0%, black 35%, transparent 75%)';
+  const vignette = anchor === 'top'
+    ? 'radial-gradient(ellipse 70% 700px at 50% 450px, black 0%, black 35%, transparent 75%)'
+    : 'radial-gradient(ellipse at center, black 0%, black 35%, transparent 75%)';
 
   return (
     <div
@@ -28,7 +32,7 @@ export default function GridSparkles({ isDarkMode = true, cell = 150, opacity = 
       style={{
         backgroundImage: dataUri,
         backgroundSize: `${cell}px ${cell}px`,
-        backgroundPosition: 'center',
+        backgroundPosition: anchor === 'top' ? 'center top' : 'center',
         opacity,
         WebkitMaskImage: vignette,
         maskImage: vignette,
