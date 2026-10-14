@@ -6,7 +6,8 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import ScrollListIndex from '../components/ScrollListIndex';
 import useMobileReveal from '../hooks/useMobileReveal';
-import { ChapterHeading, Sommaire, Folio, Cover, Foreword, Plates, SkillsIndex } from '../components/Catalogue';
+import { ChapterHeading, Sommaire, Folio, Cover, Foreword, SkillsIndex } from '../components/Catalogue';
+import ProjectsDualWave from '../components/ProjectsDualWave';
 import { useForm, ValidationError } from '@formspree/react';
 import { ReactLenis, useLenis } from 'lenis/dist/lenis-react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -442,7 +443,7 @@ export default function Home() {
             />
           </div>
 
-          {/* Liste texte sur mobile, planches illustrées sur "dual wave" scroll-driven sur
+          {/* Liste texte sur mobile, colonnes en vague sur "dual wave" scroll-driven sur
               desktop, montage conditionnel (pas juste masqué en CSS) pour
               éviter le coût de l'effet sur mobile. */}
           {isMobile ? (
@@ -453,8 +454,11 @@ export default function Home() {
               />
             </div>
           ) : (
-            <div className="max-w-7xl mx-auto">
-              <Plates items={filteredProjects} lang={currentLang} />
+            /* -mx-4 md:-mx-16 : la vague a besoin de presque toute la largeur
+               de l'écran pour onduler (son écart de 25vw est calculé sur la
+               fenêtre, pas sur le conteneur). */
+            <div className="-mx-4 md:-mx-16">
+              <ProjectsDualWave projects={filteredProjects} />
             </div>
           )}
 

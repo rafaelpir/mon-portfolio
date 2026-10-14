@@ -143,7 +143,6 @@ export default function About() {
           {/* Titre courant du catalogue : cette page en est l'annexe */}
           <p className="catalogue-running mb-10 md:mb-14">
             <span>{currentLang === 'fr' ? "Annexe · L'auteur" : 'Appendix · The author'}</span>
-            <span>p. 36</span>
           </p>
           <h1
             className={`uppercase leading-none mb-8 ${isDarkMode ? 'text-white' : 'text-black'}`}

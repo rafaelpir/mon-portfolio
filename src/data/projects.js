@@ -413,7 +413,6 @@ export const projects = [
     "duration": "2 mois",
     "description": "En trinôme, conception de l'identité visuelle complète d'un coffret anniversaire pour les 20 ans de scène d'Alicia Keys : recherche typographique, personnage illustré, pochettes CD, stickers, poster de concert et vinyle collector. Chaque élément s'inscrit dans une direction artistique unifiée, du packaging au grand format urbain.",
     "thumbnail": "/images/projects/officiel.webp",
-    "titleAnimation": "gold-flip",
     "backgroundVideo": { "youtubeId": "QmS_dY4XDCg", "opacity": 0.15 },
     "backgroundMusic": {
       "youtubeIds": ["Ju8Hr50Ckwk", "rywUS-ohqeE", "Urdlvw0SSEc", "J91ti_MpdHA"],
