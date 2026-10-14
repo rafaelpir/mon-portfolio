@@ -536,19 +536,6 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Services : ce qu'un client peut commander */}
-      <section id="services" className="px-4 md:px-16 pt-8 md:pt-12 pb-24 md:pb-40">
-        <div className="max-w-7xl mx-auto">
-          <ChapterHeading id="services" lang={currentLang} className="mb-6 md:mb-10" />
-          <p className="max-w-2xl mb-10 md:mb-16 text-base md:text-xl font-light opacity-80" data-m-reveal>
-            {currentLang === 'en'
-              ? 'I work with brands, artists, non-profits and businesses on one-off projects. Pick what you need, I reply within 48 hours.'
-              : "Je travaille avec des marques, des artistes, des associations et des entreprises sur des projets ponctuels. Choisissez ce qu'il vous faut, je réponds sous 48 h."}
-          </p>
-          <ServicesIndex lang={currentLang} onRequest={requestQuote} />
-        </div>
-      </section>
-
       {/* Skills Section, entrée en parallax (léger décalage vertical qui se
           résorbe au scroll) : la section arrive avec un temps de retard
           volontaire plutôt que de suivre le flux de scroll au pixel près,
