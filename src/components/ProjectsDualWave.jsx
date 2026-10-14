@@ -27,7 +27,7 @@ import './ProjectsDualWave.css';
 // ScrollTrigger (utilisé par DualWaveAnimation) reste inchangé et reçoit
 // déjà ses mises à jour de scroll via ce pont Lenis existant.
 
-export default function ProjectsDualWave({ projects }) {
+export default function ProjectsDualWave({ projects, newLabel = 'Nouveau' }) {
   const wrapperRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -68,7 +68,7 @@ export default function ProjectsDualWave({ projects }) {
               {project.isNew && (
                 <span className="dual-wave-badge">
                   <span className="dual-wave-badge-dot" />
-                  Nouveau
+                  {newLabel}
                 </span>
               )}
             </Link>

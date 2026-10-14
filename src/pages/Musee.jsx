@@ -7,6 +7,12 @@ import { museumAvailable, touchDevice } from '../utils/museumAccess';
 import { SOCIAL_LOGOS } from '../data/socialLogos';
 import { MUSEE_PLAYLIST } from '../data/museePlaylist';
 import { MUSEE_EXHIBITS } from '../data/museeExhibits';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
+
+// Texte selon la langue du site
+const T = (fr, en) => (i18n.language?.startsWith('en') ? en : fr);
+const NOTES_EN = { 'Affiche de tournée': 'Tour poster', 'Variante dorée': 'Gold variant', 'Déclinaison noir & blanc': 'Black and white version' };
 
 // Musée d'affiches en 3D : une galerie dans laquelle on marche, les affiches
 // accrochées aux deux murs sous leur projecteur, un cartel à côté de chacune.
@@ -20,10 +26,23 @@ const EXHIBITS = MUSEE_EXHIBITS.map((exhibit) => {
     ...exhibit,
     src: `/images/musee/${exhibit.image}.webp`,
     srcHd: `/images/musee/hd/${exhibit.image}.webp`,
-    title: project?.shortTitle || project?.title || exhibit.slug,
+    titleFr: project?.shortTitle || project?.title || exhibit.slug,
     year: project?.year || '',
-    category: project?.category || '',
-    description: project?.description || '',
+    categoryFr: project?.category || '',
+    descriptionFr: project?.description || '',
+    noteFr: exhibit.note,
+    get title() {
+      return T(this.titleFr, i18n.t(`projects:items.${project?.id}.shortTitle`, { defaultValue: this.titleFr }));
+    },
+    get category() {
+      return T(this.categoryFr, i18n.t(`projects:items.${project?.id}.category`, { defaultValue: this.categoryFr }));
+    },
+    get description() {
+      return T(this.descriptionFr, i18n.t(`projects:items.${project?.id}.description`, { defaultValue: this.descriptionFr }));
+    },
+    get note() {
+      return this.noteFr && T(this.noteFr, NOTES_EN[this.noteFr] || this.noteFr);
+    },
   };
 });
 
@@ -653,10 +672,11 @@ const drawCartel = (exhibit, number) =>
 // structurées (la salle comme collection d'œuvres, chaque affiche décrite et
 // reliée à sa fiche projet, plus le fil d'Ariane).
 const SITE = 'https://www.rafaelpiral.fr';
+const seoFor = () => {
 const SEO = {
   url: `${SITE}/musee`,
-  title: "Musée d'affiches en 3D | Rafael Piral, graphiste",
-  description: `Visitez le musée virtuel de Rafael Piral : une salle parisienne en 3D où se promener parmi ${EXHIBITS.length} affiches (cinéma, musique, sport), avec vue sur les toits de Paris et playlist à écouter.`,
+  title: T("Musée d'affiches en 3D | Rafael Piral, graphiste", '3D Poster Museum | Rafael Piral, graphic designer'),
+  description: T(`Visitez le musée virtuel de Rafael Piral : une salle parisienne en 3D où se promener parmi ${EXHIBITS.length} affiches (cinéma, musique, sport), avec vue sur les toits de Paris et playlist à écouter.`, `Visit Rafael Piral's virtual museum: a 3D Parisian gallery to walk through ${EXHIBITS.length} posters (film, music, sport), with a view over the rooftops of Paris and a playlist to listen to.`),
   image: `${SITE}/images/musee/og-musee.jpg`,
 };
 SEO.jsonLd = {
@@ -668,10 +688,10 @@ SEO.jsonLd = {
       url: SEO.url,
       name: SEO.title,
       description: SEO.description,
-      inLanguage: 'fr',
+      inLanguage: T('fr', 'en'),
       image: SEO.image,
       isPartOf: { '@type': 'WebSite', name: 'Rafael Piral | Portfolio', url: SITE },
-      author: { '@type': 'Person', name: 'Rafael Piral', url: SITE, jobTitle: 'Graphiste' },
+      author: { '@type': 'Person', name: 'Rafael Piral', url: SITE, jobTitle: T('Graphiste', 'Graphic designer') },
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: EXHIBITS.length,
@@ -681,8 +701,8 @@ SEO.jsonLd = {
           item: {
             '@type': 'VisualArtwork',
             name: exhibit.title,
-            artform: 'Affiche',
-            artMedium: 'Impression numérique',
+            artform: T('Affiche', 'Poster'),
+            artMedium: T('Impression numérique', 'Digital print'),
             dateCreated: String(exhibit.year),
             creator: { '@type': 'Person', name: 'Rafael Piral', url: SITE },
             image: `${SITE}${exhibit.srcHd}`,
@@ -695,11 +715,13 @@ SEO.jsonLd = {
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE },
-        { '@type': 'ListItem', position: 2, name: "Musée d'affiches", item: SEO.url },
+        { '@type': 'ListItem', position: 1, name: T('Accueil', 'Home'), item: SITE },
+        { '@type': 'ListItem', position: 2, name: T("Musée d'affiches", 'Poster museum'), item: SEO.url },
       ],
     },
   ],
+};
+return SEO;
 };
 
 function hasWebGL() {
@@ -730,6 +752,10 @@ function hasRealGPU() {
 const MIN_FPS = 20;
 
 export default function Musee() {
+  // se redessine (salle comprise) quand on change de langue
+  const { i18n: i18nInstance } = useTranslation();
+  const language = i18nInstance.language;
+  const SEO = seoFor();
   const containerRef = useRef(null);
   const lidsRef = useRef(null); // paupières du visiteur
   const barRef = useRef(null); // sa barre de progression
@@ -1264,7 +1290,7 @@ export default function Musee() {
           ctx.fillStyle = '#2a2a2a';
           ctx.textAlign = 'center';
           ctx.font = '500 70px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-          ctx.fillText('S O R T I E  ·  P O R T F O L I O', w / 2, 90, w - 40);
+          ctx.fillText(T('S O R T I E  ·  P O R T F O L I O', 'E X I T  ·  P O R T F O L I O'), w / 2, 90, w - 40);
         },
         repaint
       )
@@ -1306,13 +1332,13 @@ export default function Musee() {
         ctx.clearRect(0, 0, w, 800);
         ctx.fillStyle = '#141414';
         ctx.font = '700 96px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-        ctx.fillText("MUSÉE D'AFFICHES", 90, 190, w - 180);
+        ctx.fillText(T("MUSÉE D'AFFICHES", 'POSTER MUSEUM'), 90, 190, w - 180);
         ctx.font = '400 44px "PP Neue Montreal", Helvetica, Arial, sans-serif';
         ctx.fillStyle = '#2a2a2a';
-        ['Cinéma, musique, sport : la création graphique', "s'impose le temps de votre visite."].forEach((line, i) => ctx.fillText(line, 90, 320 + i * 66, w - 180));
+        T(['Cinéma, musique, sport : la création graphique', "s'impose le temps de votre visite."], ['Film, music, sport: graphic design', 'takes centre stage during your visit.']).forEach((line, i) => ctx.fillText(line, 90, 320 + i * 66, w - 180));
         ctx.fillStyle = '#555';
         ctx.font = '400 34px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-        ctx.fillText('Rafael Piral, graphiste', 90, 560, w - 180);
+        ctx.fillText(T('Rafael Piral, graphiste', 'Rafael Piral, graphic designer'), 90, 560, w - 180);
       }, repaint)
     );
     introWall.rotation.y = Math.PI;
@@ -1370,7 +1396,7 @@ export default function Musee() {
                 const sans = '"PP Neue Montreal", Helvetica, Arial, sans-serif';
                 ctx.fillStyle = '#f4f1ea';
                 ctx.font = `700 84px ${sans}`;
-                ctx.fillText('Pour suivre le travail et échanger :', 110, 190, w - 220);
+                ctx.fillText(T('Pour suivre le travail et échanger :', 'Follow the work and get in touch:'), 110, 190, w - 220);
                 const top = h * TV.header;
                 const row = (h * (1 - TV.header - 0.05)) / SOCIALS.length;
                 SOCIALS.forEach((social, index) => {
@@ -1573,7 +1599,7 @@ export default function Musee() {
     const phoneCartel = imageMesh(
       0.128,
       0.08,
-      textTexture(gl, 1024, 640, drawLabel({ mark: 'UI', year: '2025', title: 'Armor Immo', line: 'Prototype du site mobile', hint: "Touchez l'écran pour l'essayer" }), repaint)
+      textTexture(gl, 1024, 640, drawLabel({ mark: 'UI', year: '2025', title: 'Armor Immo', line: T('Prototype du site mobile', 'Mobile website prototype'), hint: T("Touchez l'écran pour l'essayer", 'Tap the screen to try it') }), repaint)
     );
     phoneCartel.rotation.x = -Math.PI / 2;
     phoneCartel.position.set(-0.095, LECTERN.top / 2 + 0.001, 0.02);
@@ -1587,7 +1613,7 @@ export default function Musee() {
         gl,
         1024,
         640,
-        drawLabel({ mark: '♪', year: '2026', title: 'Coin écoute', line: `Playlist de Rafael Piral, ${MUSEE_PLAYLIST.length} titres`, hint: 'Prenez le baladeur pour écouter' }),
+        drawLabel({ mark: '♪', year: '2026', title: T('Coin écoute', 'Listening corner'), line: T(`Playlist de Rafael Piral, ${MUSEE_PLAYLIST.length} titres`, `Rafael Piral's playlist, ${MUSEE_PLAYLIST.length} tracks`), hint: T('Prenez le baladeur pour écouter', 'Pick up the player to listen') }),
         repaint
       )
     );
@@ -1944,7 +1970,7 @@ export default function Musee() {
       gl.canvas.remove();
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, [supported, navigate]);
+  }, [supported, navigate, language]);
 
   // Clignements d'yeux : deux paupières se referment un bref instant, à
   // intervalles irréguliers, parfois deux fois de suite. Animées par script
@@ -2113,7 +2139,7 @@ export default function Musee() {
   return (
     <>
       <Helmet>
-        <html lang="fr" />
+        <html lang={T('fr', 'en')} />
         <title>{SEO.title}</title>
         <meta name="description" content={SEO.description} />
         <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -2126,8 +2152,8 @@ export default function Musee() {
         <meta property="og:image" content={SEO.image} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Salle du musée en 3D : affiches de Rafael Piral accrochées aux murs, sous une verrière" />
-        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:image:alt" content={T("Salle du musée en 3D : affiches de Rafael Piral accrochées aux murs, sous une verrière", "3D museum room: posters by Rafael Piral hanging on the walls, under a skylight")} />
+        <meta property="og:locale" content={T('fr_FR', 'en_US')} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={SEO.title} />
         <meta name="twitter:description" content={SEO.description} />
@@ -2140,34 +2166,34 @@ export default function Musee() {
         // on montre quand même les affiches, à plat.
         <div className="min-h-screen bg-black text-beige font-stamp px-4 md:px-16 py-10">
           <div className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center text-center">
-            <p className="text-xs tracking-[0.3em] uppercase opacity-60">Musée d'affiches</p>
+            <p className="text-xs tracking-[0.3em] uppercase opacity-60">{T("Musée d'affiches", 'Poster museum')}</p>
             <h1 className="mt-6 text-3xl md:text-4xl" style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}>
-              {blocker === 'size' && 'La fenêtre est trop étroite'}
-              {blocker === 'browser' && "Ce navigateur ne peut pas afficher la visite"}
-              {blocker === 'power' && "Cet appareil n'est pas assez puissant"}
+              {blocker === 'size' && T('La fenêtre est trop étroite', 'The window is too narrow')}
+              {blocker === 'browser' && T('Ce navigateur ne peut pas afficher la visite', "This browser can't display the visit")}
+              {blocker === 'power' && T("Cet appareil n'est pas assez puissant", "This device isn't powerful enough")}
             </h1>
             <p className="mt-5 text-sm md:text-base opacity-70">
-              {blocker === 'size' && "Le musée est une salle en 3D dans laquelle on se promène : sur ordinateur, il lui faut une fenêtre d'au moins 1024 pixels de large. Agrandissez la fenêtre pour commencer la visite."}
-              {blocker === 'browser' && "Le musée est une salle en 3D, et ce navigateur ne sait pas l'afficher (WebGL indisponible). Essayez avec un navigateur récent, comme Chrome, Firefox ou Safari."}
-              {blocker === 'power' && "Le musée est une salle en 3D, et elle ne s'affiche pas de façon fluide sur cet appareil. Fermer d'autres onglets ou applications peut aider."}
+              {blocker === 'size' && T("Le musée est une salle en 3D dans laquelle on se promène : sur ordinateur, il lui faut une fenêtre d'au moins 1024 pixels de large. Agrandissez la fenêtre pour commencer la visite.", 'The museum is a 3D room you walk through: on a computer it needs a window at least 1024 pixels wide. Widen the window to start the visit.')}
+              {blocker === 'browser' && T("Le musée est une salle en 3D, et ce navigateur ne sait pas l'afficher (WebGL indisponible). Essayez avec un navigateur récent, comme Chrome, Firefox ou Safari.", `The museum is a 3D room, and this browser can't display it (WebGL unavailable). Try a recent browser such as Chrome, Firefox or Safari.`)}
+              {blocker === 'power' && T("Le musée est une salle en 3D, et elle ne s'affiche pas de façon fluide sur cet appareil. Fermer d'autres onglets ou applications peut aider.", `The museum is a 3D room, and it doesn't run smoothly on this device. Closing other tabs or apps may help.`)}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link to="/" className="px-5 py-3 text-xs tracking-widest uppercase border border-beige bg-beige text-black transition-opacity hover:opacity-80">
-                ← Retour au portfolio
+                {T('← Retour au portfolio', '← Back to the portfolio')}
               </Link>
               {blocker === 'power' && (
                 <button type="button" onClick={() => setForced(true)} className="px-5 py-3 text-xs tracking-widest uppercase border border-beige/30 transition-colors hover:border-beige">
-                  Visiter quand même
+                  {T('Visiter quand même', 'Visit anyway')}
                 </button>
               )}
             </div>
           </div>
-          <p className="mt-6 text-xs tracking-[0.3em] uppercase opacity-60">Les affiches exposées</p>
+          <p className="mt-6 text-xs tracking-[0.3em] uppercase opacity-60">{T('Les affiches exposées', 'Posters on show')}</p>
           <ul className="mt-6 grid grid-cols-2 md:grid-cols-5 gap-6">
             {EXHIBITS.map((item) => (
               <li key={item.image}>
                 <Link to={`/work/${item.slug}`}>
-                  <img src={item.src} alt={`Affiche : ${item.title}`} loading="lazy" />
+                  <img src={item.src} alt={`${T('Affiche', 'Poster')} : ${item.title}`} loading="lazy" />
                   <span className="mt-2 block text-sm">{item.title} · {item.year}</span>
                 </Link>
               </li>
@@ -2176,14 +2202,17 @@ export default function Musee() {
         </div>
       ) : (
         <div className={`relative text-beige font-stamp overflow-clip ${leaving ? 'musee-leaving' : ''}`} style={{ height: '100dvh' }}>
-          <div ref={containerRef} className="absolute inset-0" role="img" aria-label="Galerie en 3D : huit affiches accrochées aux murs blancs d'une salle d'exposition, sous une verrière" />
+          <div ref={containerRef} className="absolute inset-0" role="img" aria-label={T("Galerie en 3D : huit affiches accrochées aux murs blancs d'une salle d'exposition, sous une verrière", "3D gallery: eight posters hanging on the white walls of an exhibition room, under a skylight")} />
           {/* La salle est une image pour les moteurs de recherche et les
               lecteurs d'écran : ce bloc leur en donne le contenu en texte. */}
           <div className="sr-only">
             <p>
-              Musée virtuel de Rafael Piral, graphiste : une salle d'exposition parisienne en 3D, sous verrière, où l'on se promène parmi {EXHIBITS.length} affiches de cinéma, de musique et de sport, avec vue sur les toits de Paris et la tour Eiffel.
+              {T(
+                `Musée virtuel de Rafael Piral, graphiste : une salle d'exposition parisienne en 3D, sous verrière, où l'on se promène parmi ${EXHIBITS.length} affiches de cinéma, de musique et de sport, avec vue sur les toits de Paris et la tour Eiffel.`,
+                `Rafael Piral's virtual museum, graphic designer: a 3D Parisian exhibition room under a skylight, where you walk among ${EXHIBITS.length} film, music and sport posters, with a view over the rooftops of Paris and the Eiffel Tower.`
+              )}
             </p>
-            <h2>Affiches exposées</h2>
+            <h2>{T('Affiches exposées', 'Posters on show')}</h2>
             <ul>
               {EXHIBITS.map((item) => (
                 <li key={item.image}>
@@ -2195,7 +2224,7 @@ export default function Musee() {
               ))}
             </ul>
             <p>
-              <Link to="/">Retour au portfolio de Rafael Piral</Link>
+              <Link to="/">{T('Retour au portfolio de Rafael Piral', "Back to Rafael Piral's portfolio")}</Link>
             </p>
           </div>
           <div aria-hidden="true" className="musee-vignette" />
@@ -2208,7 +2237,7 @@ export default function Musee() {
 
           <div className="absolute top-0 left-0 right-0 flex items-baseline justify-between px-4 md:px-8 py-4 text-xs md:text-sm tracking-[0.3em] uppercase pointer-events-none">
             <Link to="/" className="pointer-events-auto opacity-70 transition-opacity hover:opacity-100">← Portfolio</Link>
-            <h1 className="opacity-70">Musée d'affiches</h1>
+            <h1 className="opacity-70">{T("Musée d'affiches", 'Poster museum')}</h1>
           </div>
 
           {/* Coin écoute : une fois pris, le baladeur reste en bas à droite de
@@ -2216,14 +2245,14 @@ export default function Musee() {
               molette change de morceau. L'image de l'appareil est un rendu
               Blender ; l'écran et les boutons sont posés dessus. */}
           {music && (
-            <div className="musee-player" role="group" aria-label="Baladeur : playlist de Rafael Piral">
+            <div className="musee-player" role="group" aria-label={T('Baladeur : playlist de Rafael Piral', "Music player: Rafael Piral's playlist")}>
               <div className="musee-player-hand">
                 <img src="/images/musee/baladeur.webp" alt="" draggable={false} />
                 <div className="musee-player-device">
                   <div className="musee-player-screen">
                     <div className="musee-player-head">
                       <span>{music.playing ? '▶' : '❚❚'}</span>
-                      <span>{menuOpen ? 'Morceaux' : 'En lecture'}</span>
+                      <span>{menuOpen ? T('Morceaux', 'Tracks') : T('En lecture', 'Now playing')}</span>
                       <span className="musee-player-battery" />
                     </div>
                     <div className="musee-player-body">
@@ -2244,7 +2273,7 @@ export default function Musee() {
                     ) : (
                       <>
                         <p className="musee-player-count">
-                          {(music.index % MUSEE_PLAYLIST.length) + 1} sur {MUSEE_PLAYLIST.length}
+                          {(music.index % MUSEE_PLAYLIST.length) + 1} {T('sur', 'of')} {MUSEE_PLAYLIST.length}
                         </p>
                         <p className="musee-player-title">{currentTrack.title}</p>
                         <p className="musee-player-artist">{currentTrack.artist}</p>
@@ -2253,10 +2282,10 @@ export default function Musee() {
                         </div>
                         <p className="musee-player-note">
                           {previewsFailed ? (
-                            'Extraits indisponibles'
+                            T('Extraits indisponibles', 'Previews unavailable')
                           ) : (
                             <a href={musicRef.current.previews[currentTrack.itunesId]?.link || 'https://music.apple.com/fr/'} target="_blank" rel="noopener noreferrer">
-                              Extrait · Apple Music ↗
+                              {T('Extrait', 'Preview')} · Apple Music ↗
                             </a>
                           )}
                         </p>
@@ -2265,31 +2294,31 @@ export default function Musee() {
                     </div>
                   </div>
                   <div className="musee-player-wheel">
-                    <button type="button" className="is-menu" onClick={menuOpen ? () => setMenuOpen(false) : openMenu} aria-expanded={menuOpen} aria-label={menuOpen ? 'Revenir au titre en cours' : 'Afficher la liste des titres'}>
+                    <button type="button" className="is-menu" onClick={menuOpen ? () => setMenuOpen(false) : openMenu} aria-expanded={menuOpen} aria-label={menuOpen ? T('Revenir au titre en cours', 'Back to the current track') : T('Afficher la liste des titres', 'Show the track list')}>
                       MENU
                     </button>
-                    <button type="button" className="is-prev" onClick={menuOpen ? () => moveMenu(-1) : () => musicRef.current.play(music.index - 1)} aria-label={menuOpen ? 'Monter dans la liste' : 'Titre précédent'}>
+                    <button type="button" className="is-prev" onClick={menuOpen ? () => moveMenu(-1) : () => musicRef.current.play(music.index - 1)} aria-label={menuOpen ? T('Monter dans la liste', 'Move up the list') : T('Titre précédent', 'Previous track')}>
                       ◀◀
                     </button>
-                    <button type="button" className="is-next" onClick={menuOpen ? () => moveMenu(1) : () => musicRef.current.play(music.index + 1)} aria-label={menuOpen ? 'Descendre dans la liste' : 'Titre suivant'}>
+                    <button type="button" className="is-next" onClick={menuOpen ? () => moveMenu(1) : () => musicRef.current.play(music.index + 1)} aria-label={menuOpen ? T('Descendre dans la liste', 'Move down the list') : T('Titre suivant', 'Next track')}>
                       ▶▶
                     </button>
-                    <button type="button" className="is-play" onClick={toggleMusic} aria-label={music.playing ? 'Mettre en pause' : 'Reprendre la lecture'}>
+                    <button type="button" className="is-play" onClick={toggleMusic} aria-label={music.playing ? T('Mettre en pause', 'Pause') : T('Reprendre la lecture', 'Play')}>
                       ▶❚❚
                     </button>
-                    <button type="button" className="is-center" onClick={menuOpen ? () => pickMenu(menuIndex) : toggleMusic} aria-label={menuOpen ? 'Lancer le titre surligné' : music.playing ? 'Mettre en pause' : 'Reprendre la lecture'} />
+                    <button type="button" className="is-center" onClick={menuOpen ? () => pickMenu(menuIndex) : toggleMusic} aria-label={menuOpen ? T('Lancer le titre surligné', 'Play the highlighted track') : music.playing ? T('Mettre en pause', 'Pause') : T('Reprendre la lecture', 'Play')} />
                   </div>
                 </div>
               </div>
               <button type="button" className="musee-player-drop" onClick={closeMusic}>
-                Reposer le baladeur ✕
+                {T('Reposer le baladeur', 'Put the player down')} ✕
               </button>
             </div>
           )}
 
           {/* Crédits des photos de Paris (licences CC BY : mention obligatoire) */}
           <p className="hidden md:block absolute bottom-2 right-3 z-[1] text-[10px] text-beige/50">
-            Vues de Paris :{' '}
+            {T('Vues de Paris', 'Views of Paris')} :{' '}
             {PARIS_CREDITS.map((credit, i) => (
               <span key={credit.href}>
                 {i > 0 && ', '}
@@ -2303,14 +2332,14 @@ export default function Musee() {
 
           {/* Prototype Armor Immo, ouvert depuis le téléphone d'exposition */}
           {phoneOpen && PHONE_PROJECT?.figmaEmbed && (
-            <div className="musee-zoom musee-phone" role="dialog" aria-modal="true" aria-label="Prototype du site mobile Armor Immo" onClick={() => setPhoneOpen(false)}>
+            <div className="musee-zoom musee-phone" role="dialog" aria-modal="true" aria-label={T('Prototype du site mobile Armor Immo', 'Armor Immo mobile website prototype')} onClick={() => setPhoneOpen(false)}>
               <div className="musee-phone-frame" onClick={(e) => e.stopPropagation()}>
-                <iframe src={PHONE_PROJECT.figmaEmbed} title="Prototype Figma du site mobile Armor Immo" allowFullScreen />
+                <iframe src={PHONE_PROJECT.figmaEmbed} title={T('Prototype Figma du site mobile Armor Immo', 'Figma prototype of the Armor Immo mobile website')} allowFullScreen />
               </div>
               <p className="musee-phone-caption">
-                Armor Immo, prototype du site mobile · <Link to={`/work/${PHONE_PROJECT.slug}`}>Voir le projet →</Link>
+                Armor Immo, {T('prototype du site mobile', 'mobile website prototype')} · <Link to={`/work/${PHONE_PROJECT.slug}`}>{T('Voir le projet', 'See the project')} →</Link>
               </p>
-              <button type="button" aria-label="Fermer" onClick={() => setPhoneOpen(false)}>
+              <button type="button" aria-label={T('Fermer', 'Close')} onClick={() => setPhoneOpen(false)}>
                 ✕
               </button>
             </div>
@@ -2318,9 +2347,9 @@ export default function Musee() {
 
           {/* Affiche ouverte en grand : un clic n'importe où, ou Échap, la referme */}
           {zoomed !== null && EXHIBITS[zoomed] && (
-            <div className="musee-zoom" role="dialog" aria-modal="true" aria-label={`Affiche : ${EXHIBITS[zoomed].title}`} onClick={() => setZoomed(null)}>
-              <img src={EXHIBITS[zoomed].srcHd} alt={`Affiche : ${EXHIBITS[zoomed].title}`} draggable={false} />
-              <button type="button" aria-label="Fermer" onClick={() => setZoomed(null)}>
+            <div className="musee-zoom" role="dialog" aria-modal="true" aria-label={`${T('Affiche', 'Poster')} : ${EXHIBITS[zoomed].title}`} onClick={() => setZoomed(null)}>
+              <img src={EXHIBITS[zoomed].srcHd} alt={`${T('Affiche', 'Poster')} : ${EXHIBITS[zoomed].title}`} draggable={false} />
+              <button type="button" aria-label={T('Fermer', 'Close')} onClick={() => setZoomed(null)}>
                 ✕
               </button>
             </div>
@@ -2345,27 +2374,27 @@ export default function Musee() {
                 <p className="mt-2 text-sm opacity-70 line-clamp-2">{exhibit.description}</p>
                 <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
                   <button type="button" onClick={() => setZoomed(focused)} className="underline underline-offset-2 transition-opacity hover:opacity-60">
-                    Voir en grand ⤢
+                    {T('Voir en grand', 'View large')} ⤢
                   </button>
                   <Link to={`/work/${exhibit.slug}`} className="underline underline-offset-2 transition-opacity hover:opacity-60">
-                    Voir le projet →
+                    {T('Voir le projet', 'See the project')} →
                   </Link>
                 </div>
               </div>
             ) : (
               <p className="text-[11px] md:text-xs tracking-[0.25em] uppercase opacity-60 text-center">
-                {touch ? 'Joystick pour marcher · Glisse pour regarder · Touche une affiche' : 'Flèches ou ZQSD pour marcher · Glisse pour regarder · Clique une affiche ou le baladeur · Sortie par la porte'}
+                {touch ? T('Joystick pour marcher · Glisse pour regarder · Touche une affiche', 'Joystick to walk · Swipe to look · Tap a poster') : T('Flèches ou ZQSD pour marcher · Glisse pour regarder · Clique une affiche ou le baladeur · Sortie par la porte', 'Arrows or WASD to walk · Drag to look · Click a poster or the player · Exit through the door')}
               </p>
             )}
             <div className="musee-actions pointer-events-auto flex items-center gap-3">
               <button type="button" onClick={() => step(-1)} className="px-4 py-2 text-xs tracking-widest uppercase border border-beige/25 bg-black/60 transition-colors hover:border-beige">
-                ←<span className="musee-wide"> Précédente</span>
+                ←<span className="musee-wide"> {T('Précédente', 'Previous')}</span>
               </button>
               <button type="button" onClick={() => step(1)} className="px-4 py-2 text-xs tracking-widest uppercase border border-beige/25 bg-black/60 transition-colors hover:border-beige">
-                {focused === null ? (touch ? 'Visite guidée' : 'Commencer la visite') : 'Suivante →'}
+                {focused === null ? (touch ? T('Visite guidée', 'Guided tour') : T('Commencer la visite', 'Start the tour')) : T('Suivante →', 'Next →')}
               </button>
               <button type="button" onClick={() => apiRef.current?.goToStation()} className="px-4 py-2 text-xs tracking-widest uppercase border border-beige/25 bg-black/60 transition-colors hover:border-beige">
-                ♪<span className="musee-wide"> Coin écoute</span>
+                ♪<span className="musee-wide"> {T('Coin écoute', 'Listening corner')}</span>
               </button>
             </div>
           </div>

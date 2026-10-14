@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import i18nLang from '../i18n';
 
 const FIRST = 'Rafael';
 const LAST = 'Piral';
@@ -43,7 +44,7 @@ export default function Logo({ isDarkMode, className = '' }) {
         onMouseLeave={() => setHovered(false)}
         onFocus={() => setHovered(true)}
         onBlur={() => setHovered(false)}
-        aria-label="Rafael Piral, retour en haut de page"
+        aria-label={!i18nLang.language?.startsWith('en') ? 'Rafael Piral, retour en haut de page' : 'Rafael Piral, back to top'}
         className={`absolute left-0 top-1/2 -translate-y-1/2 whitespace-nowrap uppercase font-heading tracking-wide text-lg md:text-2xl leading-none transition-colors duration-300 ${
           isDarkMode ? 'text-beige' : 'text-black'
         }`}

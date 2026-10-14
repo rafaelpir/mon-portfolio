@@ -13,6 +13,7 @@ import ProjectSectionDivider from '../components/ProjectSectionDivider';
 import ProjectFooterNav from '../components/ProjectFooterNav';
 import ImageLightbox from '../components/ImageLightbox';
 import ProjectDoubleDetail from './ProjectDoubleDetail';
+import i18nLang from '../i18n';
 
 // Thème "à l'effigie" d'un club, pour les quelques projets qui en portent
 // un (`project.clubTheme`), classes Tailwind écrites en toutes lettres :
@@ -206,6 +207,7 @@ export default function ProjectDetail() {
     return {
       ...proj,
       title: translatedProject?.title || proj.title,
+      shortTitle: translatedProject?.shortTitle || proj.shortTitle,
       description: translatedProject?.description || proj.description,
       category: translatedProject?.category || proj.category,
       type: translatedProject?.type || proj.type,
@@ -376,7 +378,7 @@ export default function ProjectDetail() {
             }}
           />
         )}
-        <ProjectHeader isDarkMode={isDarkMode} index={currentVisibleIndex} total={visibleProjects.length} folio={project.shortTitle || project.title} />
+        <ProjectHeader isDarkMode={isDarkMode} index={currentVisibleIndex} total={visibleProjects.length} folio={translatedProject.shortTitle || translatedProject.title} />
 
         {/* Masthead du projet, titre + image tiennent dans l'écran, sans
             scroll : hauteur bornée à la fenêtre (h-[100svh], stable même
@@ -409,9 +411,9 @@ export default function ProjectDetail() {
               className="plate-title shrink-0 uppercase leading-[0.95] mb-4 md:mb-6"
               style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}
             >
-              {project.shortTitle || translatedProject.title}
+              {translatedProject.shortTitle || translatedProject.title}
             </motion.h1>
-            {project.shortTitle && project.shortTitle !== translatedProject.title && (
+            {translatedProject.shortTitle && translatedProject.shortTitle !== translatedProject.title && (
               <p className="plate-subtitle">{translatedProject.title}</p>
             )}
             {/* Grand écran : le texte et le cartel de la planche, à côté de l'image */}
@@ -514,7 +516,7 @@ export default function ProjectDetail() {
                             ? 'border-beige/20 bg-black/50 hover:border-beige hover:bg-beige/10'
                             : 'border-black/20 bg-white/50 hover:border-black hover:bg-black/10'
                         }`}
-                        aria-label="Image précédente"
+                        aria-label={!i18nLang.language?.startsWith('en') ? 'Image précédente' : 'Previous image'}
                       >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -527,7 +529,7 @@ export default function ProjectDetail() {
                             ? 'border-beige/20 bg-black/50 hover:border-beige hover:bg-beige/10'
                             : 'border-black/20 bg-white/50 hover:border-black hover:bg-black/10'
                         }`}
-                        aria-label="Image suivante"
+                        aria-label={!i18nLang.language?.startsWith('en') ? 'Image suivante' : 'Next image'}
                       >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

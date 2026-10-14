@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import ScrollListIndex from '../components/ScrollListIndex';
 import useMobileReveal from '../hooks/useMobileReveal';
-import { ChapterHeading, Sommaire, Folio, Cover, Foreword, SkillsIndex } from '../components/Catalogue';
+import { ChapterHeading, Sommaire, Folio, Cover, Foreword, SkillsIndex, ServicesIndex, SERVICES } from '../components/Catalogue';
 import ProjectsDualWave from '../components/ProjectsDualWave';
 import { useForm, ValidationError } from '@formspree/react';
 import { ReactLenis, useLenis } from 'lenis/dist/lenis-react';
@@ -30,6 +30,9 @@ function LenisScrollTriggerBridge() {
   });
   return null;
 }
+
+// Libellés des catégories (les valeurs internes restent en français)
+const CATEGORY_KEYS = { Tous: 'all', Affiches: 'posters', Branding: 'branding', 'UI/UX Design': 'uiux', Photographie: 'photography', Audiovisuel: 'audiovisual', 'Développement web': 'webdev' };
 
 export default function Home() {
   const navigate = useNavigate();
@@ -65,6 +68,12 @@ export default function Home() {
   // Formspree hook pour le formulaire de contact
   // Remplacez "xjknoepn" par votre vrai ID de formulaire Formspree
   const [formState, handleFormSubmit] = useForm("xjknoepn");
+  // Type de projet du formulaire, prérempli depuis la rubrique Services
+  const [projectType, setProjectType] = useState('');
+  const requestQuote = (type) => {
+    setProjectType(type);
+    scrollToSection('contact');
+  };
 
   // Fonction de navigation smooth sans changer l'URL
   const scrollToSection = (sectionId) => {
@@ -112,6 +121,20 @@ export default function Home() {
   const isLocalhost = window.location.hostname === 'localhost';
 
   // Filtrer les projets selon la catégorie et les tags (exclure les projets cachés)
+  // Titres et catégories dans la langue du site (traductions de projects.json)
+  const localize = (project) => {
+    if (currentLang === 'fr') return project;
+    const tr = t(`projects:items.${project.id}`, { returnObjects: true });
+    const key = CATEGORY_KEYS[project.category];
+    return {
+      ...project,
+      title: tr?.title || project.title,
+      shortTitle: tr?.shortTitle || project.shortTitle,
+      category: key ? t(`projects:categories.${key}`) : project.category,
+    };
+  };
+  const categoryLabel = (category) => (CATEGORY_KEYS[category] ? t(`projects:categories.${CATEGORY_KEYS[category]}`) : category);
+
   const filteredProjects = allProjects.filter(project => {
     if (project.hidden && !isLocalhost) return false;
     const categoryMatch = selectedCategory === 'Tous' || project.category === selectedCategory;
@@ -357,15 +380,24 @@ export default function Home() {
             className={`m-hero-2 mt-7 select-none ${isDarkMode ? 'text-white' : 'text-black'}`}
             style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 300, fontSize: '1.3rem', lineHeight: 1.4 }}
           >
-            Designer graphique basé à Paris. Mon travail navigue entre design graphique, UI/UX design et audiovisuel, porté par un goût pour les{' '}
-            <span style={{ fontStyle: 'italic' }}>identités visuelles épurées et affirmées</span>.
+            {currentLang === 'fr' ? (
+              <>
+                Designer graphique basé à Paris. Mon travail navigue entre design graphique, UI/UX design et audiovisuel, porté par un goût pour les{' '}
+                <span style={{ fontStyle: 'italic' }}>identités visuelles épurées et affirmées</span>.
+              </>
+            ) : (
+              <>
+                Graphic designer based in Paris. My work moves between graphic design, UI/UX design and audiovisual, driven by a taste for{' '}
+                <span style={{ fontStyle: 'italic' }}>clean, bold visual identities</span>.
+              </>
+            )}
           </p>
           <button
             type="button"
             onClick={() => scrollToSection('projects')}
             className={`m-hero-3 mt-9 self-start px-6 py-3.5 border text-xs tracking-[0.2em] uppercase ${isDarkMode ? 'border-white text-white' : 'border-black text-black'}`}
           >
-            Voir les projets ↓
+            {currentLang === 'fr' ? 'Voir les projets' : 'See the projects'} ↓
           </button>
         </div>
 
@@ -373,7 +405,15 @@ export default function Home() {
         <div className="hidden md:flex flex-1 min-h-0 relative z-10">
           <Cover lang={currentLang} isDarkMode={isDarkMode} onGo={scrollToSection}>
             <p>
-              Rafael Piral est un designer graphique basé à Paris, dont le travail navigue entre design graphique, UI/UX design et audiovisuel, porté par un goût pour les <em>identités visuelles épurées et affirmées</em>.
+              {currentLang === 'fr' ? (
+                <>
+                  Rafael Piral est un designer graphique basé à Paris, dont le travail navigue entre design graphique, UI/UX design et audiovisuel, porté par un goût pour les <em>identités visuelles épurées et affirmées</em>.
+                </>
+              ) : (
+                <>
+                  Rafael Piral is a graphic designer based in Paris whose work moves between graphic design, UI/UX design and audiovisual, driven by a taste for <em>clean, bold visual identities</em>.
+                </>
+              )}
             </p>
           </Cover>
         </div>
@@ -440,6 +480,8 @@ export default function Home() {
               isDarkMode={isDarkMode}
               textEffectsEnabled={textEffectsEnabled}
               filteredCount={filteredProjects.length}
+              labelFor={categoryLabel}
+              lang={currentLang}
             />
           </div>
 
@@ -449,7 +491,7 @@ export default function Home() {
           {isMobile ? (
             <div className="max-w-6xl mx-auto">
               <ScrollListIndex
-                items={filteredProjects}
+                items={filteredProjects.map(localize)}
                 isDarkMode={isDarkMode}
               />
             </div>
@@ -458,7 +500,7 @@ export default function Home() {
                de l'écran pour onduler (son écart de 25vw est calculé sur la
                fenêtre, pas sur le conteneur). */
             <div className="-mx-4 md:-mx-16">
-              <ProjectsDualWave projects={filteredProjects} />
+              <ProjectsDualWave projects={filteredProjects.map(localize)} newLabel={currentLang === 'fr' ? 'Nouveau' : 'New'} />
             </div>
           )}
 
@@ -494,6 +536,19 @@ export default function Home() {
         </div>
       </motion.section>
 
+      {/* Services : ce qu'un client peut commander */}
+      <section id="services" className="px-4 md:px-16 pt-8 md:pt-12 pb-24 md:pb-40">
+        <div className="max-w-7xl mx-auto">
+          <ChapterHeading id="services" lang={currentLang} className="mb-6 md:mb-10" />
+          <p className="max-w-2xl mb-10 md:mb-16 text-base md:text-xl font-light opacity-80" data-m-reveal>
+            {currentLang === 'en'
+              ? 'I work with brands, artists, non-profits and businesses on one-off projects. Pick what you need, I reply within 48 hours.'
+              : "Je travaille avec des marques, des artistes, des associations et des entreprises sur des projets ponctuels. Choisissez ce qu'il vous faut, je réponds sous 48 h."}
+          </p>
+          <ServicesIndex lang={currentLang} onRequest={requestQuote} />
+        </div>
+      </section>
+
       {/* Skills Section, entrée en parallax (léger décalage vertical qui se
           résorbe au scroll) : la section arrive avec un temps de retard
           volontaire plutôt que de suivre le flux de scroll au pixel près,
@@ -513,7 +568,7 @@ export default function Home() {
         <ChapterHeading id="skills" lang={currentLang} className="max-w-7xl mx-4 md:mx-16 xl:mx-auto mb-12 md:mb-16" />
 
         <div>
-<SkillsIndex categories={skillCategories} />
+<SkillsIndex categories={skillCategories} t={t} />
         </div>
       </motion.section>
 
@@ -523,6 +578,7 @@ export default function Home() {
           <ChapterHeading id="parcours" lang={currentLang} as="p" className="max-w-7xl mx-auto" />
         </div>
         <Timeline
+          lang={currentLang}
           isDarkMode={isDarkMode}
           textEffectsEnabled={textEffectsEnabled}
         />
@@ -605,6 +661,48 @@ export default function Home() {
                       required
                     />
                     <ValidationError prefix="Email" field="email" errors={formState.errors} />
+                  </div>
+
+                  <fieldset className="brief-field" style={{ '--brief-ink': isDarkMode ? '#000' : '#fff' }}>
+                    <legend>{currentLang === 'en' ? 'Project type' : 'Type de projet'}</legend>
+                    <div className="brief-chips">
+                      {[...SERVICES.map((service) => ({ value: service.type, label: (service[currentLang] || service.fr).title })),
+                        { value: 'other', label: currentLang === 'en' ? 'Other' : 'Autre' }].map((option) => (
+                        <label key={option.value}>
+                          <input
+                            type="radio"
+                            name="type"
+                            value={option.label}
+                            checked={projectType === option.value}
+                            onChange={() => setProjectType(option.value)}
+                          />
+                          <span><em>{option.label}</em></span>
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="brief-field">
+                      <label htmlFor="contact-budget" className="brief-label">Budget</label>
+                      <select id="contact-budget" name="budget" defaultValue="" className="brief-select">
+                        <option value="" disabled>{currentLang === 'en' ? 'Choose' : 'Choisir'}</option>
+                        {(currentLang === 'en'
+                          ? ['Under €500', '€500 to €1,500', '€1,500 to €3,000', 'Over €3,000', 'Not sure yet']
+                          : ['Moins de 500 €', '500 à 1 500 €', '1 500 à 3 000 €', 'Plus de 3 000 €', 'À définir']
+                        ).map((value) => <option key={value} value={value}>{value}</option>)}
+                      </select>
+                    </div>
+                    <div className="brief-field">
+                      <label htmlFor="contact-deadline" className="brief-label">{currentLang === 'en' ? 'Deadline' : 'Délai'}</label>
+                      <select id="contact-deadline" name="deadline" defaultValue="" className="brief-select">
+                        <option value="" disabled>{currentLang === 'en' ? 'Choose' : 'Choisir'}</option>
+                        {(currentLang === 'en'
+                          ? ['Under 2 weeks', 'Within a month', 'Within 3 months', 'No rush']
+                          : ['Moins de 2 semaines', 'Dans le mois', "D'ici 3 mois", 'Pas pressé']
+                        ).map((value) => <option key={value} value={value}>{value}</option>)}
+                      </select>
+                    </div>
                   </div>
 
                   <div className="group">
@@ -915,13 +1013,15 @@ export default function Home() {
       {helmet}
       <ReactLenis
         root
+        // lerp : part de distance restante parcourue à chaque image. 0.1
+        // laissait la page « flotter » longtemps derrière la molette ; 0.15
+        // suit le geste de plus près tout en restant doux.
         options={{
-          lerp: 0.1,
+          lerp: 0.15,
           smoothWheel: true,
           wheelMultiplier: 1,
-          touchMultiplier: 2,
+          touchMultiplier: 1.5,
           infinite: false,
-          syncTouch: true,
         }}
       >
         {mainContent}

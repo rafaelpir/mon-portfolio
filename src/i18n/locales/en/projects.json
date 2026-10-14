@@ -49,7 +49,8 @@
         "Photo retouching",
         "Art direction",
         "Visual composition"
-      ]
+      ],
+      "shortTitle": "A Man Asleep"
     },
     "3": {
       "title": "Poster Tribute: Sade - Diamond Life",
@@ -68,7 +69,8 @@
         "Retro treatment",
         "Typography",
         "Visual composition"
-      ]
+      ],
+      "shortTitle": "Sade Diamond Life"
     },
     "4": {
       "title": "UX Design: Veco App",
@@ -98,7 +100,8 @@
         "Design System",
         "Teamwork",
         "Communication"
-      ]
+      ],
+      "shortTitle": "Veco App"
     },
     "5": {
       "title": "UI Design & Branding: Real Estate Agency",
@@ -122,7 +125,8 @@
         "Information architecture",
         "Teamwork",
         "Team spirit"
-      ]
+      ],
+      "shortTitle": "Real Estate Agency"
     },
     "6": {
       "title": "Statue of Liberty  From Photo to ASCII",
@@ -141,7 +145,8 @@
         "ASCII art",
         "Visual experimentation",
         "Digital processing"
-      ]
+      ],
+      "shortTitle": "ASCII Statue"
     },
     "7": {
       "title": "Open Heart, NGO Visual Identity",
@@ -206,7 +211,8 @@
         "Social media editorial calendar",
         "Creative brief",
         "Figma prototype"
-      ]
+      ],
+      "shortTitle": "Open Heart"
     },
     "8": {
       "title": "Gummo  Film Poster",
@@ -225,7 +231,8 @@
         "Art direction",
         "Visual composition",
         "Typography"
-      ]
+      ],
+      "shortTitle": "Gummo"
     },
     "10": {
       "title": "FLEMME  Short Film",
@@ -247,7 +254,8 @@
         "Art direction",
         "Visual storytelling",
         "Storytelling"
-      ]
+      ],
+      "shortTitle": "FLEMME"
     },
     "11": {
       "title": "Batman: The Dark Knight  Jimdo Website",
@@ -265,7 +273,8 @@
         "Transmedia analysis",
         "Cultural monitoring",
         "Animated GIF creation"
-      ]
+      ],
+      "shortTitle": "The Dark Knight"
     },
     "13": {
       "title": "Ricardo Kaká Poster",
@@ -286,7 +295,8 @@
         "Typography",
         "Art direction",
         "Visual composition"
-      ]
+      ],
+      "shortTitle": "Ricardo Kaká"
     },
     "9": {
       "title": "Alumni Network  IUT de Bobigny",
@@ -310,6 +320,109 @@
         "Branding",
         "Art direction",
         "Teamwork"
+      ],
+      "shortTitle": "Alumni Bobigny"
+    },
+    "14": {
+      "title": "Alicia Keys 20th Anniversary Box Set",
+      "shortTitle": "Alicia Keys",
+      "category": "Branding",
+      "type": "University",
+      "context": "SAE401 project, IUT de Bobigny, MMI department",
+      "period": "2026",
+      "duration": "2 months",
+      "description": "As a team of three, we designed the complete visual identity of an anniversary box set celebrating Alicia Keys' 20 years on stage: typographic research, an illustrated character, CD sleeves, stickers, a concert poster and a collector's vinyl. Every piece follows a single art direction, from packaging to large-format street display.",
+      "competences": [
+        "Art direction",
+        "Branding",
+        "Poster design",
+        "Layout (InDesign)",
+        "Visual identity design",
+        "Motion design",
+        "Box set design",
+        "Teamwork"
+      ],
+      "gallery": [],
+      "subProjects": [
+        {
+          "title": "Defining the world",
+          "description": "It all starts with words. Renaissance, Fire, Prestige, Heritage: four themes that steer the whole project. The board explores three typographic directions (bold, calligraphic, minimal) before settling on a contemporary luxury sans-serif, strong enough to carry twenty years of career without overpowering it."
+        },
+        {
+          "title": "Giving the project a face",
+          "description": "Once the direction was set, the artist had to be embodied without falling into portraiture. The board traces how the character was built: flat design references, a geometric face, refined proportions, down to a restricted palette (ochre, black, brown, terracotta) that became the colour signature of the whole box set."
+        },
+        {
+          "title": "Designing the stage",
+          "description": "The box set is more than an object: it accompanies a tour. The proposed stage design puts Alicia Keys at the piano in the middle of a sober stage, with a glossy gold floor and gold LED lighting. The space becomes a natural extension of the visual identity: luxury, warmth, presence."
+        },
+        {
+          "title": "Cover research",
+          "description": "Several attempts at the box set's gold cover: different framings, photo treatments and ways of integrating the illustrated character. These explorations tested how well the gold palette held together before the final direction was chosen."
+        },
+        {
+          "title": "Collector's stickers",
+          "description": "The illustrated character finds its first real use on round collector's stickers. The arched '20TH ANNIVERSARY TOUR' lettering roots each piece in the codes of premium merchandise: objects made to be kept."
+        },
+        {
+          "title": "The official artwork",
+          "description": "All the research comes together in this artwork: the typographic identity, the palette, the character, the golden mood. The vertical layout is designed to work on the physical box set as well as on communication media. It is the centrepiece of the project."
+        },
+        {
+          "title": "Concert poster",
+          "description": "A simple, direct poster announcing the anniversary tour, applying the box set's visual identity to a classic poster format."
+        },
+        {
+          "title": "Large-format street display",
+          "description": "A final robustness test: the poster shown on a bus shelter in a real setting. At this scale, every choice of composition and contrast shows. The artwork holds: the type stays legible, the image keeps its density, and the golden identity stands out in the street."
+        },
+        {
+          "title": "The centrepiece",
+          "description": "The collector's vinyl closes the box set, and the project. A prestige object by nature, it carries the visual identity in its most finished form. The round record echoes the stickers, and the gold palette recalls every piece produced: twenty years of music brought together in a single object."
+        }
+      ]
+    },
+    "15": {
+      "title": "Monaco Grand Prix",
+      "shortTitle": "Monaco Grand Prix",
+      "category": "Posters",
+      "type": "Personal",
+      "context": "Personal project, Save the Date poster",
+      "period": "March 2026",
+      "duration": "2 days",
+      "description": "Save the Date poster for the 83rd Monaco Grand Prix, 4 to 7 June 2026. Red dominates, the colour of speed and of the Principality, over a textured diamond background that echoes the silver and red lozenges of the Grimaldi coat of arms. The Monaco crest anchors the institutional identity.",
+      "competences": [
+        "Poster design",
+        "Art direction",
+        "Typography",
+        "Visual composition"
+      ],
+      "gallery": [
+        "Save the Date poster, Monaco Grand Prix.",
+        "Billboard mockup, Monaco Grand Prix variant.",
+        "Gold variant, Monaco Grand Prix Save the Date poster.",
+        "Billboard mockup, Monaco Grand Prix Save the Date poster."
+      ]
+    },
+    "16": {
+      "title": "Mario Balotelli Poster",
+      "shortTitle": "Mario Balotelli",
+      "category": "Posters",
+      "type": "Personal",
+      "context": "Personal project, sports poster for Nike and Inter Milan",
+      "period": "2026",
+      "duration": "1 day",
+      "description": "A poster about Mario Balotelli during his time at Inter Milan, imagined as a Nike x Inter crossover campaign. A profile portrait in the club's historic colours.",
+      "competences": [
+        "Poster design",
+        "Photo retouching",
+        "Art direction",
+        "Visual composition"
+      ],
+      "gallery": [
+        "Mario Balotelli poster, Nike x Inter Milan crossover campaign.",
+        "Presentation mockup of the Mario Balotelli poster.",
+        "Black and white version of the Mario Balotelli poster."
       ]
     }
   },

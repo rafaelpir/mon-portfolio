@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import i18nLang from '../i18n';
 
 // Zoom en vraie lightbox plutôt qu'un agrandissement en place : l'ancienne
 // version gonflait l'image dans le flux de la page (width/maxWidth animés),
@@ -123,7 +124,7 @@ export default function ImageLightbox({ src, alt, onClose, onPrev, onNext, count
             type="button"
             onClick={(e) => { e.stopPropagation(); onPrev(); }}
             className="fixed left-3 md:left-8 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center border border-white/20 bg-black/40 text-white hover:bg-white/15 hover:border-white/40 transition-colors"
-            aria-label="Image précédente"
+            aria-label={!i18nLang.language?.startsWith('en') ? 'Image précédente' : 'Previous image'}
           >
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -135,7 +136,7 @@ export default function ImageLightbox({ src, alt, onClose, onPrev, onNext, count
             type="button"
             onClick={(e) => { e.stopPropagation(); onNext(); }}
             className="fixed right-3 md:right-8 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center border border-white/20 bg-black/40 text-white hover:bg-white/15 hover:border-white/40 transition-colors"
-            aria-label="Image suivante"
+            aria-label={!i18nLang.language?.startsWith('en') ? 'Image suivante' : 'Next image'}
           >
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

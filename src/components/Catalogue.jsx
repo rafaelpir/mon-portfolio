@@ -14,9 +14,10 @@ export const CHAPTERS = [
   { number: '01', id: 'about', fr: 'À propos', en: 'About' },
   { number: '02', id: 'projects', fr: 'Projets', en: 'Projects' },
   { number: '03', id: 'exposition', fr: 'Le musée', en: 'The museum', to: '/musee', note: '3D' },
-  { number: '04', id: 'skills', fr: 'Compétences', en: 'Skills' },
-  { number: '05', id: 'parcours', fr: 'Parcours', en: 'Background' },
-  { number: '06', id: 'contact', fr: 'Contact', en: 'Contact' },
+  { number: '04', id: 'services', fr: 'Services', en: 'Services' },
+  { number: '05', id: 'skills', fr: 'Compétences', en: 'Skills' },
+  { number: '06', id: 'parcours', fr: 'Parcours', en: 'Background' },
+  { number: '07', id: 'contact', fr: 'Contact', en: 'Contact' },
 ];
 export const chapter = (id) => CHAPTERS.find((item) => item.id === id);
 
@@ -178,14 +179,74 @@ export function Foreword({ lang = 'fr', paragraphs }) {
 
 // Chapitre « Savoir-faire » : une liste typographique par domaine, comme un
 // index d'ouvrage, à la place d'un défilé de logos.
-export function SkillsIndex({ categories }) {
+const SKILL_KEYS = { 'DESIGN GRAPHIQUE': 'graphicDesign', 'DÉVELOPPEMENT WEB': 'webDev', AUDIOVISUEL: 'audiovisual', BUREAUTIQUE: 'office' };
+// Ce qu'un client peut commander, chacun avec un projet du site en exemple.
+// `type` : valeur reprise dans le formulaire de contact.
+export const SERVICES = [
+  {
+    type: 'poster',
+    fr: { title: 'Affiche', text: "Affiche de film, de concert, d'événement ou de sport, du concept au fichier prêt à imprimer.", example: 'Gummo' },
+    en: { title: 'Poster', text: 'Film, concert, event or sports posters, from the idea to the print-ready file.', example: 'Gummo' },
+    slug: 'affiche-gummo',
+  },
+  {
+    type: 'identity',
+    fr: { title: 'Identité visuelle', text: 'Logo, couleurs, typographies et supports pour une marque, une association ou un projet.', example: 'À Cœur Ouvert' },
+    en: { title: 'Visual identity', text: 'Logo, colours, typefaces and materials for a brand, a non-profit or a project.', example: 'À Cœur Ouvert' },
+    slug: 'identite-visuelle-a-coeur-ouvert',
+  },
+  {
+    type: 'interface',
+    fr: { title: 'Site & application', text: "Maquettes Figma d'un site ou d'une appli, pensées d'abord pour le téléphone.", example: 'Agence immobilière' },
+    en: { title: 'Website & app', text: 'Figma designs for a website or an app, built mobile first.', example: 'Real estate agency' },
+    slug: 'branding-agence-immobiliere',
+  },
+  {
+    type: 'video',
+    fr: { title: 'Vidéo & motion', text: 'Montage, animation de texte et petits films pour les réseaux sociaux.', example: 'Coffret Alicia Keys' },
+    en: { title: 'Video & motion', text: 'Editing, animated type and short films for social media.', example: 'Alicia Keys box set' },
+    slug: 'coffret-alicia-keys',
+  },
+];
+
+export function ServicesIndex({ lang = 'fr', onRequest }) {
+  return (
+    <ol className="services-index">
+      {SERVICES.map((service, index) => {
+        const copy = service[lang] || service.fr;
+        return (
+          <li key={service.type} data-m-reveal>
+            <span className="services-index-number">{String(index + 1).padStart(2, '0')}</span>
+            <h3 className="services-index-title">{copy.title}</h3>
+            <div className="services-index-body">
+              <p>{copy.text}</p>
+              <p className="services-index-links">
+                <Link to={`/work/${service.slug}`}>
+                  {lang === 'en' ? `Example: ${copy.example}` : `Exemple : ${copy.example}`} →
+                </Link>
+                <button type="button" onClick={() => onRequest?.(service.type)}>
+                  {lang === 'en' ? 'Ask for a quote' : 'Demander un devis'}
+                </button>
+              </p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+export function SkillsIndex({ categories, t }) {
   return (
     <dl className="skills-index">
       {categories.map((group, index) => (
         <div key={group.category} data-m-reveal>
           <dt>
             <span>{String(index + 1).padStart(2, '0')}</span>
-            {group.category.charAt(0) + group.category.slice(1).toLowerCase()}
+            {(() => {
+              const label = t && SKILL_KEYS[group.category] ? t(`projects:skillCategories.${SKILL_KEYS[group.category]}`) : group.category;
+              return label.charAt(0) + label.slice(1).toLowerCase();
+            })()}
           </dt>
           <dd>
             {group.skills.map((skill) => (

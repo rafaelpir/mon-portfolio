@@ -8,7 +8,9 @@ export default function ProjectFilters({
   onCategoryChange,
   onTagsChange,
   isDarkMode,
-  filteredCount
+  filteredCount,
+  labelFor = (category) => category,
+  lang = 'fr',
 }) {
   const [showTags, setShowTags] = useState(false);
 
@@ -48,7 +50,7 @@ export default function ProjectFilters({
                 : (isDarkMode ? '#999999' : '#666666')
             }}
           >
-            {category}
+            {labelFor(category)}
             {selectedCategory === category && (
               <span className={`absolute -bottom-2 left-0 right-0 h-px transition-all duration-300 ${
                 isDarkMode ? 'bg-beige' : 'bg-black'
@@ -68,7 +70,7 @@ export default function ProjectFilters({
           }`}
         >
           <span>
-            {showTags ? 'MASQUER LES FILTRES' : 'FILTRER PAR OUTIL'}
+            {showTags ? (lang === 'fr' ? 'MASQUER LES FILTRES' : 'HIDE FILTERS') : lang === 'fr' ? 'FILTRER PAR OUTIL' : 'FILTER BY TOOL'}
           </span>
           <svg
             className={`w-4 h-4 transition-transform duration-300 ${showTags ? 'rotate-180' : ''}`}
@@ -111,7 +113,7 @@ export default function ProjectFilters({
           <span className={`text-xs md:text-sm ${
             isDarkMode ? 'text-gray-400' : 'text-gray-600'
           }`}>
-            {filteredCount} {filteredCount === 1 ? 'projet' : 'projets'}
+            {filteredCount} {lang === 'fr' ? (filteredCount === 1 ? 'projet' : 'projets') : filteredCount === 1 ? 'project' : 'projects'}
           </span>
 
           {selectedTags.length > 0 && (

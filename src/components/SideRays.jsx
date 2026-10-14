@@ -69,7 +69,9 @@ const uniformsRef         = useRef(null);
       await new Promise(resolve => setTimeout(resolve, 10));
       if (!containerRef.current) return;
 
-      const renderer = new Renderer({ dpr: Math.min(window.devicePixelRatio, 2), alpha: true });
+      // Rayons très flous : une définition 1× suffit, et divise par quatre
+      // le travail de la carte graphique sur un écran Retina
+      const renderer = new Renderer({ dpr: 1, alpha: true });
       rendererRef.current = renderer;
       const gl = renderer.gl;
       gl.canvas.style.width  = '100%';
@@ -164,7 +166,7 @@ void main() {
 
       const updateSize = () => {
         if (!containerRef.current || !renderer) return;
-        renderer.dpr = Math.min(window.devicePixelRatio, 2);
+        renderer.dpr = 1;
         const { clientWidth: w, clientHeight: h } = containerRef.current;
         renderer.setSize(w, h);
         uniforms.iResolution.value = [w * renderer.dpr, h * renderer.dpr];

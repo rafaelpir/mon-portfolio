@@ -14,6 +14,7 @@ import ProjectFooterNav from '../components/ProjectFooterNav';
 import ImageLightbox from '../components/ImageLightbox';
 import usePerformanceTier from '../hooks/usePerformanceTier';
 import { loadYouTubeApi } from '../utils/youtubeApi';
+import i18nLang from '../i18n';
 
 function SubProjectGallery({ subProject, isDarkMode, figure }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -81,7 +82,7 @@ function SubProjectGallery({ subProject, isDarkMode, figure }) {
                 ? 'border-beige/20 hover:border-beige hover:bg-beige/10'
                 : 'border-black/20 hover:border-black hover:bg-black/10'
             }`}
-            aria-label="Image précédente"
+            aria-label={!i18nLang.language?.startsWith('en') ? 'Image précédente' : 'Previous image'}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -95,7 +96,7 @@ function SubProjectGallery({ subProject, isDarkMode, figure }) {
                 ? 'border-beige/20 hover:border-beige hover:bg-beige/10'
                 : 'border-black/20 hover:border-black hover:bg-black/10'
             }`}
-            aria-label="Image suivante"
+            aria-label={!i18nLang.language?.startsWith('en') ? 'Image suivante' : 'Next image'}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -333,9 +334,24 @@ function CreditsList({ items, isDarkMode }) {
   );
 }
 
-export default function ProjectDoubleDetail({ project }) {
+export default function ProjectDoubleDetail({ project: source }) {
   const { t, i18n } = useTranslation(['projects']);
   const isFrench = i18n.language?.startsWith('fr');
+  // Textes dans la langue du site (projects.json) : titre, notice, volets
+  const tr = isFrench ? null : t(`projects:items.${source.id}`, { returnObjects: true });
+  const project = tr && typeof tr === 'object'
+    ? {
+        ...source,
+        title: tr.title || source.title,
+        shortTitle: tr.shortTitle || source.shortTitle,
+        category: tr.category || source.category,
+        type: tr.type || source.type,
+        description: tr.description || source.description,
+        competences: tr.competences || source.competences,
+        subProjects: (source.subProjects || []).map((sub, index) => ({ ...sub, ...(tr.subProjects?.[index] || {}), period: tr.period || sub.period, duration: tr.duration || sub.duration })),
+      }
+    : source;
+  const L = (fr, en) => (isFrench ? fr : en);
   const [isDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved !== null ? JSON.parse(saved) : true;
@@ -374,7 +390,7 @@ export default function ProjectDoubleDetail({ project }) {
     return `${cut.slice(0, lastSpace > 0 ? lastSpace : max)}…`;
   };
   const metaDesc = truncateAtWord(project.description, 155)
-    || `${project.title}, ${project.category}, ${project.year}. Un projet de Rafael Piral.`;
+    || `${project.title}, ${project.category}, ${project.year}. ${L('Un projet de Rafael Piral.', 'A project by Rafael Piral.')}`;
   const imageAlt = `${project.title}, ${project.category}, Rafael Piral`;
   const keywords = [...(project.tags || []), ...(project.competences || [])].join(', ');
 
@@ -495,25 +511,25 @@ export default function ProjectDoubleDetail({ project }) {
               <ul className="double-hero-cartel flex flex-col gap-4 text-sm md:text-right md:items-end">
                 {subProjects[0]?.period && (
                   <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-widest uppercase">Période</span>
+                    <span className="opacity-40 text-xs tracking-widest uppercase">{L('Période', 'Period')}</span>
                     <span>{subProjects[0].period}</span>
                   </li>
                 )}
                 {subProjects[0]?.duration && (
                   <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-widest uppercase">Durée</span>
+                    <span className="opacity-40 text-xs tracking-widest uppercase">{L('Durée', 'Duration')}</span>
                     <span>{subProjects[0].duration}</span>
                   </li>
                 )}
                 {project.type && (
                   <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-widest uppercase">Contexte</span>
+                    <span className="opacity-40 text-xs tracking-widest uppercase">{L('Contexte', 'Context')}</span>
                     <span>{project.type}</span>
                   </li>
                 )}
                 {project.collaborators && project.collaborators.length > 0 && (
                   <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-widest uppercase">Réalisé avec</span>
+                    <span className="opacity-40 text-xs tracking-widest uppercase">{L('Réalisé avec', 'Made with')}</span>
                     <span className="flex flex-col gap-1">
                       {project.collaborators.map((c, i) => (
                         <a
@@ -531,15 +547,15 @@ export default function ProjectDoubleDetail({ project }) {
                 )}
                 {museumLinkFor(project.slug) && museumAvailable() && (
                   <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-widest uppercase">Exposition</span>
+                    <span className="opacity-40 text-xs tracking-widest uppercase">{L('Exposition', 'Exhibition')}</span>
                     <Link to={museumLinkFor(project.slug)} className="underline underline-offset-2 transition-opacity hover:opacity-60">
-                      Voir l'affiche au musée →
+                      {L("Voir l'affiche au musée", 'See the poster in the museum')} →
                     </Link>
                   </li>
                 )}
                 {hasMusic && (
                   <li className="flex flex-col gap-1 md:items-end">
-                    <span className="opacity-40 text-xs tracking-widest uppercase">Ambiance sonore</span>
+                    <span className="opacity-40 text-xs tracking-widest uppercase">{L('Ambiance sonore', 'Soundtrack')}</span>
                     <button
                       type="button"
                       data-music-toggle
@@ -547,7 +563,7 @@ export default function ProjectDoubleDetail({ project }) {
                       aria-pressed={music.playing}
                       className="underline underline-offset-2 transition-opacity hover:opacity-60"
                     >
-                      {music.playing ? '♪ Couper le son' : '♪ Activer le son'}
+                      {music.playing ? L('♪ Couper le son', '♪ Mute') : L('♪ Activer le son', '♪ Turn sound on')}
                     </button>
                   </li>
                 )}
@@ -561,7 +577,7 @@ export default function ProjectDoubleDetail({ project }) {
                 transition={{ delay: 0.4 }}
                 className="double-hero-figure"
               >
-                <img src={project.heroImage} alt={`${project.title}, visuel officiel`} decoding="async" draggable={false} />
+                <img src={project.heroImage} alt={`${project.title}, ${L('visuel officiel', 'official artwork')}`} decoding="async" draggable={false} />
                 <figcaption>
                   <span>fig. 0</span>
                   <span>{isFrench ? 'Visuel officiel du coffret' : 'Official box set artwork'}</span>
@@ -599,7 +615,7 @@ export default function ProjectDoubleDetail({ project }) {
                       <p className="text-base opacity-70 leading-relaxed mb-8">{sub.description}</p>
                       {sub.tags && (
                         <div className="flex flex-col gap-2">
-                          <span className="opacity-40 text-xs tracking-widest uppercase">Outils</span>
+                          <span className="opacity-40 text-xs tracking-widest uppercase">{L('Outils', 'Tools')}</span>
                           <CreditsList items={sub.tags} isDarkMode={isDarkMode} />
                         </div>
                       )}
@@ -618,7 +634,7 @@ export default function ProjectDoubleDetail({ project }) {
                 transition={{ delay: 0.75 }}
                 className="mb-4"
               >
-                <ProjectSectionDivider index={detailsIndex} label="Compétences mobilisées" isDarkMode={isDarkMode} />
+                <ProjectSectionDivider index={detailsIndex} label={L('Compétences mobilisées', 'Skills used')} isDarkMode={isDarkMode} />
                 <CreditsList items={project.competences} isDarkMode={isDarkMode} />
               </motion.div>
             )}

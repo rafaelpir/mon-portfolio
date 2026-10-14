@@ -1692,6 +1692,8 @@ canvas {
 }
 
 .cover-links > * {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
   padding-bottom: 0.35rem;
   border-bottom: 1px solid currentColor;
   transition: opacity 0.2s ease;
@@ -2569,4 +2571,152 @@ html.is-opening .cover-fade {
 /* étape refermée : son détail est masqué */
 .parcours-detail[hidden] {
   display: none;
+}
+
+/* Services : même grille que l'index des compétences */
+.services-index {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  font-family: 'PP Neue Montreal', sans-serif;
+}
+
+.services-index > li {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 4fr) minmax(0, 7fr);
+  gap: 0.6rem clamp(1rem, 4vw, 4rem);
+  align-items: baseline;
+  padding: clamp(1.2rem, 2.6vw, 2.2rem) 0;
+  border-top: 1px solid rgba(128, 128, 128, 0.35);
+}
+
+.services-index > li:last-child {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.35);
+}
+
+.services-index-number {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  opacity: 0.5;
+}
+
+.services-index-title {
+  font-size: clamp(1.6rem, 3.2vw, 3rem);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.services-index-body p:first-child {
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+.services-index-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.6rem;
+  margin-top: 0.9rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.services-index-links a,
+.services-index-links button {
+  text-transform: inherit;
+  letter-spacing: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.services-index-links a:hover,
+.services-index-links button:hover {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .services-index > li {
+    grid-template-columns: 2.2rem minmax(0, 1fr);
+  }
+  .services-index-body {
+    grid-column: 2;
+  }
+}
+
+/* Formulaire : type de projet, budget, délai */
+.brief-field legend,
+.brief-field label.brief-label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.brief-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.brief-chips label {
+  cursor: pointer;
+}
+
+.brief-chips input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.brief-chips span {
+  display: inline-block;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  opacity: 0.55;
+  transition: opacity 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.brief-chips label:hover span {
+  opacity: 0.9;
+}
+
+.brief-chips input:checked + span {
+  opacity: 1;
+  background: currentColor;
+}
+
+.brief-chips span > em {
+  font-style: normal;
+}
+
+.brief-chips input:checked + span > em {
+  color: var(--brief-ink, #fff);
+}
+
+.brief-chips input:focus-visible + span {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.brief-select {
+  width: 100%;
+  padding: 0.6rem 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.4);
+  font-size: 1rem;
+  font-weight: 300;
+  color: inherit;
+}
+
+.brief-select option {
+  color: #000;
 }

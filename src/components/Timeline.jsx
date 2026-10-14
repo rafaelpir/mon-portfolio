@@ -8,9 +8,9 @@ import GridSparkles from './GridSparkles';
 // l'étape. Le détail s'ouvre au clic (une étape à la fois). Deux temps séparent le parcours :
 // « Création » (le design et la communication) puis « Tech » (les études
 // scientifiques d'avant), qui racontent le titre de la section.
-const isCreative = (event) => ['Alternance', 'Stage'].includes(event.category) || /MMI/.test(event.title);
+const isCreative = (event) => ['Alternance', 'Stage'].includes(event.kind || event.category) || /MMI/.test(event.title);
 
-function Row({ event, open, onToggle, isDarkMode, current }) {
+function Row({ event, open, onToggle, isDarkMode, current, lang }) {
   const ink = isDarkMode ? 'text-beige' : 'text-black';
   return (
     <li className={`parcours-row ${open ? 'is-open' : ''}`} data-m-reveal>
@@ -18,7 +18,7 @@ function Row({ event, open, onToggle, isDarkMode, current }) {
         <span className="parcours-date">{event.year.replace(/\s*-\s*$/, ' →')}</span>
         <span className="parcours-title">
           {event.title}
-          {current && <span className="parcours-now">En cours</span>}
+          {current && <span className="parcours-now">{lang === 'fr' ? 'En cours' : 'Current'}</span>}
         </span>
         <span className="parcours-kind">{event.category}</span>
         <span className="parcours-toggle" aria-hidden="true">
@@ -32,12 +32,14 @@ function Row({ event, open, onToggle, isDarkMode, current }) {
   );
 }
 
-export default function Timeline({ isDarkMode }) {
+export default function Timeline({ isDarkMode, lang = 'fr' }) {
+  // textes anglais des étapes (champ `en` de timeline.js)
+  const events = timelineEvents.map((event) => (lang === 'fr' || !event.en ? event : { ...event, ...event.en, kind: event.category }));
   // la première ligne (l'étape en cours) est ouverte d'office
   const [openId, setOpenId] = useState(timelineEvents[0]?.id);
   const groups = [
-    { label: 'Création', hint: 'Design, communication, audiovisuel', items: timelineEvents.filter(isCreative) },
-    { label: 'Tech', hint: 'Informatique, sciences', items: timelineEvents.filter((event) => !isCreative(event)) },
+    { label: lang === 'fr' ? 'Création' : 'Creative', hint: lang === 'fr' ? 'Design, communication, audiovisuel' : 'Design, communication, audiovisual', items: events.filter(isCreative) },
+    { label: 'Tech', hint: lang === 'fr' ? 'Informatique, sciences' : 'Computer science, sciences', items: events.filter((event) => !isCreative(event)) },
   ];
 
   return (
@@ -50,8 +52,8 @@ export default function Timeline({ isDarkMode }) {
           style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}
           data-m-reveal
         >
-          De la tech à la{' '}
-          <span style={{ fontStyle: 'italic' }}>création numérique</span>
+          {lang === 'fr' ? 'De la tech à la' : 'From tech to'}{' '}
+          <span style={{ fontStyle: 'italic' }}>{lang === 'fr' ? 'création numérique' : 'digital design'}</span>
         </h2>
 
         {groups.map((group) => (
@@ -65,8 +67,9 @@ export default function Timeline({ isDarkMode }) {
                 <Row
                   key={event.id}
                   event={event}
+                  lang={lang}
                   isDarkMode={isDarkMode}
-                  current={event === timelineEvents[0]}
+                  current={event.id === timelineEvents[0]?.id}
                   open={openId === event.id}
                   onToggle={() => setOpenId((id) => (id === event.id ? null : event.id))}
                 />
