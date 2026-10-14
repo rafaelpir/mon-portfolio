@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-// Liste texte pour la home mobile — plus de miniature flottante qui suit le
+// Liste texte pour la home mobile, plus de miniature flottante qui suit le
 // scroll (retirée à la demande : pas d'images de projet sur cette version
 // mobile). Ne reste que l'effet de parallaxe/contraste du texte selon sa
 // proximité du centre de l'écran.
@@ -41,8 +41,18 @@ export default function ScrollListIndex({ items, isDarkMode, onHoverItem }) {
       rafRef.current = requestAnimationFrame(tick);
     };
 
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
+    // La boucle ne tourne que lorsque la liste est à l'écran : ailleurs sur
+    // la page, elle ne coûte rien au défilement.
+    const container = containerRef.current;
+    const observer = new IntersectionObserver(([entry]) => {
+      cancelAnimationFrame(rafRef.current);
+      if (entry.isIntersecting) rafRef.current = requestAnimationFrame(tick);
+    });
+    if (container) observer.observe(container);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(rafRef.current);
+    };
   }, [items, isDarkMode]);
 
   return (
@@ -66,7 +76,10 @@ export default function ScrollListIndex({ items, isDarkMode, onHoverItem }) {
               </span>
               <span
                 className="sli-text text-lg sm:text-xl md:text-2xl font-heading uppercase flex-1 text-center"
-                style={{ willChange: 'transform, color', color: isDarkMode ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.22)' }}
+                // paddingRight = le décalage maximal appliqué au centre de
+                // l'écran (voir maxShift) : le texte glisse dans cette
+                // réserve et ne sort jamais du bord droit.
+                style={{ willChange: 'transform, color', color: isDarkMode ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.22)', paddingRight: 'min(44px, 8vw)', overflowWrap: 'anywhere' }}
               >
                 {item.title}
               </span>

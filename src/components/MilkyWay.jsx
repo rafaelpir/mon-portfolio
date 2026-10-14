@@ -3,11 +3,11 @@ import { useMemo } from 'react';
 // Voie lactée légère : semis d'étoiles + bande diagonale plus dense, en
 // CSS/SVG pur (pas de WebGL, contrairement à SideRays) pour rester bon
 // marché en perf. S'ajoute au-dessus/à côté de GridSparkles et SideRays
-// sans les remplacer — juste une couche de plus dans le fond du hero.
+// sans les remplacer, juste une couche de plus dans le fond du hero.
 //
 // Taille en loi de puissance (Math.random() ** 2.4) plutôt qu'uniforme :
 // un vrai ciel a une grosse majorité de points minuscules et une poignée
-// d'étoiles nettement plus grosses/brillantes — une distribution uniforme
+// d'étoiles nettement plus grosses/brillantes, une distribution uniforme
 // donne un semis de confettis tous à peu près pareils, pas des étoiles.
 function generateStars(count) {
   const stars = [];
@@ -26,7 +26,7 @@ function generateStars(count) {
 
 // Pendant clair de la voie lactée : pas un ciel nocturne recoloré (des
 // étoiles n'ont aucun sens en plein jour), mais un motif thématiquement
-// équivalent — poussière dorée qui scintille dans un rayon de lumière.
+// équivalent, poussière dorée qui scintille dans un rayon de lumière.
 // Beaucoup plus éparse que les étoiles (le plein jour est lumineux, pas
 // dense), avec une poignée de motes qui "scintillent" (petit éclat en
 // croix) plutôt qu'un simple halo flou.
@@ -70,7 +70,7 @@ export default function MilkyWay({ className = '', opacity = 0.45, isDarkMode = 
         const dot = `<circle cx='${d.x.toFixed(1)}' cy='${d.y.toFixed(1)}' r='${d.r.toFixed(2)}' fill='rgba(160,110,30,${d.o.toFixed(2)})'${d.sparkle ? " filter='url(#sparkle)'" : ''} />`;
         if (!d.sparkle) return dot;
         // Petit éclat en croix sur les plus grosses particules, comme un
-        // reflet de lumière — pas juste un point plus gros.
+        // reflet de lumière, pas juste un point plus gros.
         const armLen = d.r * 3.6;
         const cross = `<path d='M${d.x.toFixed(1)} ${(d.y - armLen).toFixed(1)} L${d.x.toFixed(1)} ${(d.y + armLen).toFixed(1)} M${(d.x - armLen).toFixed(1)} ${d.y.toFixed(1)} L${(d.x + armLen).toFixed(1)} ${d.y.toFixed(1)}' stroke='rgba(180,130,40,${(d.o * 0.7).toFixed(2)})' stroke-width='0.6' />`;
         return cross + dot;

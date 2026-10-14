@@ -2,7 +2,7 @@
   "details": {
     "museum": "Exposition",
     "museumLink": "Voir l'affiche au musée",
-    "back": "RETOUR",
+    "back": "ŒUVRES",
     "breadcrumb": {
       "home": "Accueil",
       "projects": "Projets"
@@ -322,7 +322,10 @@
         },
         {
           "title": "Un CRM au service du lien",
-          "images": ["/images/projects/CRM1.webp", "/images/projects/CRM2.webp"],
+          "images": [
+            "/images/projects/CRM1.webp",
+            "/images/projects/CRM2.webp"
+          ],
           "imageMaxWidth": "500px",
           "imageMaxHeight": "750px",
           "paragraphs": [
@@ -332,7 +335,10 @@
         },
         {
           "title": "Identité visuelle & Charte graphique",
-          "images": ["/images/projects/AlumniCharte1.webp", "/images/projects/Alumnicharte2.webp"],
+          "images": [
+            "/images/projects/AlumniCharte1.webp",
+            "/images/projects/Alumnicharte2.webp"
+          ],
           "imageMaxWidth": "700px",
           "paragraphs": [
             "Mon rôle dans ce projet : concevoir l'identité visuelle complète. Logo, palette de couleurs, typographies, règles d'usage  tout ce qui permet à la plateforme d'avoir une image cohérente, reconnaissable, et en accord avec l'établissement qui la porte.",

@@ -15,7 +15,7 @@ import ImageLightbox from '../components/ImageLightbox';
 import usePerformanceTier from '../hooks/usePerformanceTier';
 import { loadYouTubeApi } from '../utils/youtubeApi';
 
-function SubProjectGallery({ subProject, isDarkMode }) {
+function SubProjectGallery({ subProject, isDarkMode, figure }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
@@ -29,12 +29,9 @@ function SubProjectGallery({ subProject, isDarkMode }) {
   if (gallery.length === 0) return null;
 
   return (
-    <div className="mt-8">
-      {/* Image · hauteur fixe */}
-      <div
-        className="relative mx-auto overflow-hidden"
-        style={{ maxWidth: '460px', height: '420px' }}
-      >
+    <div className="sub-figure">
+      {/* Image · hauteur fixe (voir .sub-figure-frame) */}
+      <div className="sub-figure-frame relative mx-auto overflow-hidden">
         {/* `display` : version allégée pour l'affichage en page (les originaux,
             jusqu'à ~9600 px de large, font saccader le scroll sur mobile au
             décodage) ; l'original reste utilisé par la lightbox. */}
@@ -42,7 +39,7 @@ function SubProjectGallery({ subProject, isDarkMode }) {
           src={gallery[currentIndex].display || gallery[currentIndex].src}
           loading="lazy"
           decoding="async"
-          alt={gallery[currentIndex].description || `${subProject.title} — Image ${currentIndex + 1}`}
+          alt={gallery[currentIndex].description || `${subProject.title}, image ${currentIndex + 1}`}
           className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
           style={{ cursor: isMobile ? 'default' : 'zoom-in' }}
           draggable={false}
@@ -66,7 +63,7 @@ function SubProjectGallery({ subProject, isDarkMode }) {
       {expanded && (
         <ImageLightbox
           src={gallery[currentIndex].src}
-          alt={gallery[currentIndex].description || `${subProject.title} — Image ${currentIndex + 1}`}
+          alt={gallery[currentIndex].description || `${subProject.title}, image ${currentIndex + 1}`}
           onClose={() => setExpanded(false)}
           onPrev={gallery.length > 1 ? handlePrev : undefined}
           onNext={gallery.length > 1 ? handleNext : undefined}
@@ -76,7 +73,7 @@ function SubProjectGallery({ subProject, isDarkMode }) {
 
       {/* Boutons + compteur · hauteur fixe, jamais déplacés */}
       {gallery.length > 1 && (
-        <div className="flex items-center justify-between mt-3" style={{ height: '36px', maxWidth: '460px', margin: '12px auto 0' }}>
+        <div className="sub-figure-controls flex items-center justify-between mt-3" style={{ height: '36px' }}>
           <button
             onClick={handlePrev}
             className={`hidden md:flex items-center justify-center p-2 rounded-full border transition-colors ${
@@ -108,12 +105,9 @@ function SubProjectGallery({ subProject, isDarkMode }) {
       )}
 
       {/* Description · hauteur fixe pour éviter tout déplacement */}
-      <div style={{ height: '4rem', overflow: 'hidden', marginTop: '8px', maxWidth: '460px', margin: '8px auto 0' }}>
-        {gallery[currentIndex].description && (
-          <p className="text-center text-sm opacity-60">
-            {gallery[currentIndex].description}
-          </p>
-        )}
+      <div className="sub-figure-caption">
+        {figure && <span>fig. {figure}</span>}
+        {gallery[currentIndex].description && <p>{gallery[currentIndex].description}</p>}
       </div>
     </div>
   );
@@ -325,7 +319,7 @@ function useBackgroundMusic(music) {
   return { hostRef, playing, toggle };
 }
 
-// Liste de badges texte séparés par "/" — cf. ProjectDetail.jsx
+// Liste de badges texte séparés par "/", cf. ProjectDetail.jsx
 function CreditsList({ items, isDarkMode }) {
   return (
     <p className={`text-xs md:text-sm leading-relaxed ${isDarkMode ? 'text-beige/80' : 'text-black/80'}`}>
@@ -340,7 +334,8 @@ function CreditsList({ items, isDarkMode }) {
 }
 
 export default function ProjectDoubleDetail({ project }) {
-  const { t } = useTranslation(['projects']);
+  const { t, i18n } = useTranslation(['projects']);
+  const isFrench = i18n.language?.startsWith('fr');
   const [isDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved !== null ? JSON.parse(saved) : true;
@@ -369,7 +364,7 @@ export default function ProjectDoubleDetail({ project }) {
     ? `${siteUrl}/og-image.png`
     : `${siteUrl}${project.thumbnail}`;
   // Troncature à la limite d'un mot (pas au milieu) pour un extrait propre
-  // dans les résultats de recherche — avec repli sur catégorie/année si la
+  // dans les résultats de recherche, avec repli sur catégorie/année si la
   // description manque, pour ne jamais laisser la meta vide.
   const truncateAtWord = (text, max) => {
     if (!text) return '';
@@ -379,8 +374,8 @@ export default function ProjectDoubleDetail({ project }) {
     return `${cut.slice(0, lastSpace > 0 ? lastSpace : max)}…`;
   };
   const metaDesc = truncateAtWord(project.description, 155)
-    || `${project.title} — ${project.category}, ${project.year}. Un projet de Rafael Piral.`;
-  const imageAlt = `${project.title} — ${project.category}, Rafael Piral`;
+    || `${project.title}, ${project.category}, ${project.year}. Un projet de Rafael Piral.`;
+  const imageAlt = `${project.title}, ${project.category}, Rafael Piral`;
   const keywords = [...(project.tags || []), ...(project.competences || [])].join(', ');
 
   const detailsIndex = subProjects.length + 1;
@@ -439,7 +434,7 @@ export default function ProjectDoubleDetail({ project }) {
 
         {showBackgroundVideo && <BackgroundVideo video={project.backgroundVideo} isDarkMode={isDarkMode} />}
 
-        <ProjectHeader isDarkMode={isDarkMode} index={currentVisibleIndex} total={visibleProjects.length} />
+        <ProjectHeader isDarkMode={isDarkMode} index={currentVisibleIndex} total={visibleProjects.length} folio={project.shortTitle || project.title} />
 
         {/* Masthead du projet combiné */}
         <motion.header
@@ -460,22 +455,24 @@ export default function ProjectDoubleDetail({ project }) {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.15 }}
-              className="flex flex-wrap items-baseline justify-between gap-2 mb-6 md:mb-10 text-xs md:text-sm tracking-[0.3em] uppercase opacity-50"
+              className={`flex flex-wrap items-baseline justify-between gap-2 mb-6 md:mb-10 pb-3 border-b text-xs md:text-sm tracking-[0.3em] uppercase ${isDarkMode ? 'border-beige/25' : 'border-black/25'}`}
             >
-              <span>N° {String(currentVisibleIndex + 1).padStart(3, '0')} · {project.category}</span>
+              <span>{isFrench ? 'Planche' : 'Plate'} {String(currentVisibleIndex + 1).padStart(2, '0')} · {project.category}</span>
               <span>{project.year}</span>
             </motion.div>
 
+            {/* Grand écran : double page, texte à gauche, visuel officiel à droite */}
+            <div className={`double-hero ${project.heroImage ? 'has-figure' : ''}`}>
+            <div className="double-hero-text">
             <motion.h1
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.25 }}
-              className="uppercase leading-[0.95] mb-10 md:mb-16"
+              className="double-hero-title uppercase leading-[0.95] mb-10 md:mb-16"
               aria-label={goldFlipTitle ? project.title : undefined}
               style={{
                 fontFamily: '"PP Neue Montreal", sans-serif',
                 fontWeight: 600,
-                fontSize: 'clamp(2.25rem, 6.5vw, 6rem)',
               }}
             >
               {goldFlipTitle
@@ -487,15 +484,15 @@ export default function ProjectDoubleDetail({ project }) {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.35 }}
-              className={`grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pb-10 md:pb-16 border-b ${
+              className={`double-hero-notes grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pb-10 md:pb-16 border-b ${
                 isDarkMode ? 'border-beige/15' : 'border-black/15'
               }`}
             >
-              <p className="md:col-span-2 text-xl md:text-3xl font-light leading-snug opacity-80 text-pretty">
+              <p className="double-hero-lead md:col-span-2 text-xl md:text-3xl font-light leading-snug opacity-80 text-pretty">
                 {project.description}
               </p>
 
-              <ul className="flex flex-col gap-4 text-sm md:text-right md:items-end">
+              <ul className="double-hero-cartel flex flex-col gap-4 text-sm md:text-right md:items-end">
                 {subProjects[0]?.period && (
                   <li className="flex flex-col gap-1">
                     <span className="opacity-40 text-xs tracking-widest uppercase">Période</span>
@@ -556,6 +553,22 @@ export default function ProjectDoubleDetail({ project }) {
                 )}
               </ul>
             </motion.div>
+            </div>
+            {project.heroImage && (
+              <motion.figure
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="double-hero-figure"
+              >
+                <img src={project.heroImage} alt={`${project.title}, visuel officiel`} decoding="async" draggable={false} />
+                <figcaption>
+                  <span>fig. 0</span>
+                  <span>{isFrench ? 'Visuel officiel du coffret' : 'Official box set artwork'}</span>
+                </figcaption>
+              </motion.figure>
+            )}
+            </div>
           </div>
         </motion.header>
 
@@ -572,49 +585,26 @@ export default function ProjectDoubleDetail({ project }) {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.1 + idx * 0.2 }}
                 >
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                    <div className={idx % 2 === 1 ? 'order-2 lg:order-1' : ''}>
-                      {idx % 2 === 0 ? (
-                        <>
-                          <h2
-                            className="text-3xl md:text-4xl mb-4 leading-tight"
-                            style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}
-                          >
-                            {sub.title}
-                          </h2>
-                          <p className="text-base opacity-70 leading-relaxed mb-8">{sub.description}</p>
-                          {sub.tags && (
-                            <div className="flex flex-col gap-2">
-                              <span className="opacity-40 text-xs tracking-widest uppercase">Outils</span>
-                              <CreditsList items={sub.tags} isDarkMode={isDarkMode} />
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <SubProjectGallery subProject={sub} isDarkMode={isDarkMode} />
+                  <div className={`sub-spread ${idx % 2 === 1 ? 'is-reversed' : ''}`}>
+                    <div className="sub-text">
+                      <p className="sub-count">
+                        {String(idx + 1).padStart(2, '0')} / {String(subProjects.length).padStart(2, '0')}
+                      </p>
+                      <h2
+                        className="text-3xl md:text-4xl mb-4 leading-tight"
+                        style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}
+                      >
+                        {sub.title}
+                      </h2>
+                      <p className="text-base opacity-70 leading-relaxed mb-8">{sub.description}</p>
+                      {sub.tags && (
+                        <div className="flex flex-col gap-2">
+                          <span className="opacity-40 text-xs tracking-widest uppercase">Outils</span>
+                          <CreditsList items={sub.tags} isDarkMode={isDarkMode} />
+                        </div>
                       )}
                     </div>
-                    <div className={idx % 2 === 1 ? 'order-1 lg:order-2' : ''}>
-                      {idx % 2 === 0 ? (
-                        <SubProjectGallery subProject={sub} isDarkMode={isDarkMode} />
-                      ) : (
-                        <>
-                          <h2
-                            className="text-3xl md:text-4xl mb-4 leading-tight"
-                            style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}
-                          >
-                            {sub.title}
-                          </h2>
-                          <p className="text-base opacity-70 leading-relaxed mb-8">{sub.description}</p>
-                          {sub.tags && (
-                            <div className="flex flex-col gap-2">
-                              <span className="opacity-40 text-xs tracking-widest uppercase">Outils</span>
-                              <CreditsList items={sub.tags} isDarkMode={isDarkMode} />
-                            </div>
-                          )}
-                        </>
-                      )}
-                    </div>
+                    <SubProjectGallery subProject={sub} isDarkMode={isDarkMode} figure={idx + 1} />
                   </div>
                 </motion.div>
               </div>

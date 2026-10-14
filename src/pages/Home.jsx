@@ -5,7 +5,8 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import ScrollListIndex from '../components/ScrollListIndex';
-import ProjectsDualWave from '../components/ProjectsDualWave';
+import useMobileReveal from '../hooks/useMobileReveal';
+import { ChapterHeading, Sommaire, Folio, Cover, Foreword, Plates, SkillsIndex } from '../components/Catalogue';
 import { useForm, ValidationError } from '@formspree/react';
 import { ReactLenis, useLenis } from 'lenis/dist/lenis-react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -13,9 +14,6 @@ import { projects, experiencesPro, skillCategories } from '../data/projects';
 import ProjectFilters from '../components/ProjectFilters';
 import HomeHeader from '../components/HomeHeader';
 import Timeline from '../components/Timeline';
-import FullWidthText from '../components/FullWidthText';
-import ScrollRevealText from '../components/ScrollRevealText';
-import LogoCarousel from '../components/LogoCarousel';
 import CVDownloadButton from '../components/CVDownloadButton';
 import usePerformanceTier from '../hooks/usePerformanceTier';
 import SideRays from '../components/SideRays';
@@ -59,6 +57,9 @@ export default function Home() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Sur téléphone : apparitions au défilement des blocs marqués data-m-reveal
+  useMobileReveal(isMobile);
 
   // Formspree hook pour le formulaire de contact
   // Remplacez "xjknoepn" par votre vrai ID de formulaire Formspree
@@ -169,9 +170,10 @@ export default function Home() {
             "url": "https://www.rafaelpiral.fr",
             "image": "https://www.rafaelpiral.fr/og-image.jpg",
             "sameAs": [
+              "https://www.instagram.com/rafa31z/",
               "https://www.linkedin.com/in/rafaelpiral",
               "https://github.com/rafaelpir",
-              "https://www.rafaelpiral.fr"
+              "https://www.behance.net/rafaelpiral1"
             ],
             "jobTitle": "Étudiant BUT MMI - Designer Graphique & Audiovisuel",
             "worksFor": {
@@ -280,23 +282,23 @@ export default function Home() {
     }`}>
       <LenisScrollTriggerBridge />
 
-      {/* Header avec navigation — extrait dans son propre composant
+      {/* Header avec navigation, extrait dans son propre composant
           (HomeHeader) : son état (section active, contraste au scroll,
           menus) est purement local au header, isolé ainsi des re-renders
           du reste de la page (hero WebGL, projets, skills, timeline...). */}
       <HomeHeader isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} scrollToSection={scrollToSection} />
 
       {/* Hero Section */}
-      <section className="h-screen flex flex-col relative overflow-hidden">
+      <section className="m-hero h-screen flex flex-col relative overflow-hidden">
         {/* Grille de points lumineux, en fond statique */}
         <GridSparkles isDarkMode={isDarkMode} className="z-0" />
 
-        {/* Semis de points en fond (CSS/SVG, pas de WebGL) — colorimétrie
+        {/* Semis de points en fond (CSS/SVG, pas de WebGL), colorimétrie
             adaptée par mode (étoiles blanches sur fond sombre, grain
             ambré/encre sur fond clair, voir MilkyWay.jsx) */}
         <MilkyWay className="z-0" isDarkMode={isDarkMode} />
 
-        {/* SideRays background — coûteuse en GPU (WebGL), désactivée hors tier 'full' */}
+        {/* SideRays background, coûteuse en GPU (WebGL), désactivée hors tier 'full' */}
         {tier === 'full' && (
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0">
@@ -328,58 +330,73 @@ export default function Home() {
           </div>
         )}
 
-        {/* Sous-titre — centre, aligné à droite */}
-        <div className={`flex-1 flex items-center relative z-10 px-4 md:px-16 pt-16 ${!isMobile ? 'animate-fade-in-up' : ''}`}>
-          <div className="w-full flex justify-end">
-            <div className="w-full sm:w-[45%] text-right">
-              <p
-                className={`select-none ${isDarkMode ? 'text-white' : 'text-black'}`}
-                style={{ fontSize: 'clamp(0.95rem, 1.3vw, 1.35rem)', lineHeight: 1.4 }}
-              >
-                <span style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 300 }}>
-                  Rafael Piral est un designer graphique basé à Paris, dont le travail navigue entre design graphique, UI/UX design et audiovisuel, porté par un goût pour les{' '}
-                </span>
-                <span style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontStyle: 'italic', fontWeight: 300 }}>
-                  identités visuelles épurées et affirmées
-                </span>
-                <span style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 300 }}>
-                  .
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Titre — en bas, pleine largeur */}
-        <div className={`relative z-10 pt-8 md:pt-12 px-4 md:px-10 ${!isMobile ? 'animate-slide-down' : ''}`}>
-          <h1 className={`uppercase select-none ${isDarkMode ? 'text-white' : 'text-black'}`}>
-            <FullWidthText
-              text="Rafael Piral"
-              style={{
-                fontFamily: '"PP Neue Montreal", sans-serif',
-                fontWeight: 600,
-                fontSize: 'clamp(3rem, 11vw, 14rem)',
-                lineHeight: 1,
-              }}
-            />
+        {/* Téléphone : le nom d'abord, en très grand sur deux lignes, visible
+            dès l'arrivée ; la présentation dessous, dans une taille lisible. */}
+        <div className="md:hidden flex-1 flex flex-col justify-center relative z-10 px-4 pt-20">
+          <p className="m-hero-1 mb-5 text-[0.7rem] tracking-[0.3em] uppercase" style={{ color: '#888888' }}>
+            {currentLang === 'fr' ? 'Créations 2024-2026' : 'Works 2024-2026'}
+          </p>
+          <h1
+            aria-label="Rafael Piral"
+            className={`uppercase select-none ${isDarkMode ? 'text-white' : 'text-black'}`}
+            style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600, fontSize: 'min(23.5vw, 7.5rem)', lineHeight: 0.88, letterSpacing: '-0.02em' }}
+          >
+            {/* Chaque lettre monte de derrière un cache, l'une après l'autre */}
+            {['Rafael', 'Piral'].map((word, line) => (
+              <span key={word} className="m-hero-line" aria-hidden="true">
+                {[...word].map((letter, index) => (
+                  <span key={index} className="m-hero-letter" style={{ '--d': `${0.12 + line * 0.22 + index * 0.055}s` }}>
+                    {letter}
+                  </span>
+                ))}
+              </span>
+            ))}
           </h1>
+          <p
+            className={`m-hero-2 mt-7 select-none ${isDarkMode ? 'text-white' : 'text-black'}`}
+            style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 300, fontSize: '1.3rem', lineHeight: 1.4 }}
+          >
+            Designer graphique basé à Paris. Mon travail navigue entre design graphique, UI/UX design et audiovisuel, porté par un goût pour les{' '}
+            <span style={{ fontStyle: 'italic' }}>identités visuelles épurées et affirmées</span>.
+          </p>
+          <button
+            type="button"
+            onClick={() => scrollToSection('projects')}
+            className={`m-hero-3 mt-9 self-start px-6 py-3.5 border text-xs tracking-[0.2em] uppercase ${isDarkMode ? 'border-white text-white' : 'border-black text-black'}`}
+          >
+            Voir les projets ↓
+          </button>
         </div>
 
-        {/* Métadonnées — toujours en bas, juste en dessous du titre */}
-        <div className="relative z-10 flex items-center px-4 md:px-16 py-4 shrink-0">
+        {/* Ordinateur : la couverture du catalogue (titre, texte, planche) */}
+        <div className="hidden md:flex flex-1 min-h-0 relative z-10">
+          <Cover lang={currentLang} isDarkMode={isDarkMode} onGo={scrollToSection}>
+            <p>
+              Rafael Piral est un designer graphique basé à Paris, dont le travail navigue entre design graphique, UI/UX design et audiovisuel, porté par un goût pour les <em>identités visuelles épurées et affirmées</em>.
+            </p>
+          </Cover>
+        </div>
+
+        {/* Métadonnées, toujours en bas, juste en dessous du titre */}
+        <div className="m-hero-3 relative z-10 flex items-center px-4 md:px-16 py-4 shrink-0">
           <div
             className="flex-1 flex justify-between uppercase tracking-widest"
-            style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 300, fontSize: '0.75rem', color: '#888888' }}
+            style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 300, fontSize: 'clamp(0.7rem, 3vw, 0.75rem)', color: '#888888' }}
           >
-            <span>{t('home:hero.meta.year')}</span>
-            <span>{t('home:hero.meta.location')}</span>
-            <span>{t('home:hero.meta.role')}</span>
+            {/* La couverture du catalogue */}
+            <span>{currentLang === 'fr' ? "Catalogue d'exposition" : 'Exhibition catalogue'}</span>
+            <span className="hidden sm:inline">{currentLang === 'fr' ? 'Créations 2024-2026' : 'Works 2024-2026'}</span>
+            <span>{currentLang === 'fr' ? 'Paris · Édition en ligne' : 'Paris · Online edition'}</span>
           </div>
         </div>
 
       </section>
 
-      {/* Introduction / About — un fondu vertical léger et déclenché tôt
+      {/* Sommaire du catalogue, puis le folio qui suit la lecture */}
+      <Sommaire lang={currentLang} onGo={scrollToSection} isDarkMode={isDarkMode} />
+      <Folio lang={currentLang} isDarkMode={isDarkMode} />
+
+      {/* Introduction / About, un fondu vertical léger et déclenché tôt
           (amount: 0.05) plutôt qu'un grand glissement horizontal (x:-100)
           qui ne se déclenchait qu'à 30% de section visible : après le hero
           plein écran et statique, ce "pop" tardif créait une coupure nette
@@ -393,39 +410,8 @@ export default function Home() {
         transition={tier === 'full' ? { duration: 0.8, ease: "easeOut" } : {}}
       >
         <div className="max-w-7xl mx-auto w-full">
-          <h2 className="sr-only">À propos de Rafael Piral</h2>
-          <div className="w-full">
-            <div>
-            <div className="space-y-6 md:space-y-8 text-xl md:text-3xl font-light mb-8 md:mb-12 text-pretty" style={{ lineHeight: 1.6 }}>
-  <ScrollRevealText>
-    {t('home:about.intro1')}
-  </ScrollRevealText>
-
-  <ScrollRevealText className="text-gray-400">
-    {t('home:about.intro2')}
-  </ScrollRevealText>
-
-  <ScrollRevealText className="text-gray-400">
-    {t('home:about.intro3')}
-  </ScrollRevealText>
-</div>
-
-            </div>
-          </div>
-
-          {/* Bouton vers la page À propos complète */}
-          <div className="flex justify-center mt-12 md:mt-16">
-            <Link
-              to="/about"
-              className={`px-8 py-4 border-2 text-sm tracking-widest transition-all ${
-                isDarkMode
-                  ? 'border-beige text-beige hover:bg-beige hover:text-black'
-                  : 'border-black text-black hover:bg-black hover:text-white'
-              }`}
-            >
-              {t('common:buttons.learnMore')}
-            </Link>
-          </div>
+          <ChapterHeading id="about" lang={currentLang} className="mb-10 md:mb-16" />
+          <Foreword lang={currentLang} paragraphs={[t('home:about.intro1'), t('home:about.intro2'), t('home:about.intro3')]} />
         </div>
       </motion.section>
 
@@ -439,9 +425,7 @@ export default function Home() {
         transition={tier === 'full' ? { duration: 0.4, ease: [0.4, 0, 0.2, 1] } : {}}
       >
         <div className="relative z-10">
-          <h2 className="text-[10px] md:text-sm tracking-widest mb-6 md:mb-10 text-gray-500 text-center">
-           {t('home:projects.title')}
-          </h2>
+          <ChapterHeading id="projects" lang={currentLang} className="max-w-7xl mx-auto mb-8 md:mb-12" />
 
           {/* Filtres avancés */}
           <div className="mb-4 md:mb-6">
@@ -458,8 +442,8 @@ export default function Home() {
             />
           </div>
 
-          {/* Liste texte sur mobile, colonnes "dual wave" scroll-driven sur
-              desktop — montage conditionnel (pas juste masqué en CSS) pour
+          {/* Liste texte sur mobile, planches illustrées sur "dual wave" scroll-driven sur
+              desktop, montage conditionnel (pas juste masqué en CSS) pour
               éviter le coût de l'effet sur mobile. */}
           {isMobile ? (
             <div className="max-w-6xl mx-auto">
@@ -469,24 +453,18 @@ export default function Home() {
               />
             </div>
           ) : (
-            /* -mx-4 md:-mx-16 : neutralise le padding horizontal de la
-               section pour redonner à .dual-wave-wrapper une largeur proche
-               du viewport complet. Son `gap: 25vw` (valeur du demo, non
-               modifiée) est calculé par rapport au viewport, pas au
-               conteneur : dans une largeur réduite par le padding de la
-               page, ce gap fixe laissait 0px de marge de mouvement aux deux
-               colonnes (elles remplissaient déjà tout l'espace restant),
-               d'où l'absence d'ondulation. */
-            <div className="-mx-4 md:-mx-16">
-              <ProjectsDualWave projects={filteredProjects} />
+            <div className="max-w-7xl mx-auto">
+              <Plates items={filteredProjects} lang={currentLang} />
             </div>
           )}
 
-          {/* Invitation au musée d'affiches (/musee), sur ordinateur seulement */}
+          {/* Chapitre « Visiter l'exposition » : l'entrée du musée (/musee) */}
           {museumAvailable() && (
+          <div id="exposition" className="mt-20 md:mt-32">
+          <ChapterHeading id="exposition" lang={currentLang} className="max-w-7xl mx-auto" />
           <Link
             to="/musee"
-            className="group relative mt-16 md:mt-28 mx-auto block max-w-6xl overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current"
+            className="group relative mt-8 md:mt-12 mx-auto block max-w-6xl overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current"
           >
             <img
               src="/images/musee/apercu.webp"
@@ -507,11 +485,12 @@ export default function Home() {
               <p className="mt-4 inline-block text-sm md:text-base underline underline-offset-4">{t('home:projects.museum.cta')} →</p>
             </div>
           </Link>
+          </div>
           )}
         </div>
       </motion.section>
 
-      {/* Skills Section — entrée en parallax (léger décalage vertical qui se
+      {/* Skills Section, entrée en parallax (léger décalage vertical qui se
           résorbe au scroll) : la section arrive avec un temps de retard
           volontaire plutôt que de suivre le flux de scroll au pixel près,
           pour ne pas empiéter visuellement sur la fin de la zone projets. */}
@@ -527,26 +506,23 @@ export default function Home() {
         viewport={{ once: true, amount: 0.15 }}
         transition={tier === 'full' ? { duration: 0.8, ease: [0.4, 0, 0.2, 1] } : {}}
       >
-        <div className="mb-12 text-center">
-          <h2 className="text-xs md:text-sm tracking-widest text-gray-500">
-            {t('home:skills.title')}
-          </h2>
-        </div>
+        <ChapterHeading id="skills" lang={currentLang} className="max-w-7xl mx-4 md:mx-16 xl:mx-auto mb-12 md:mb-16" />
 
         <div>
-          <LogoCarousel
-            skillCategories={skillCategories}
-            isDarkMode={isDarkMode}
-            performanceTier={tier}
-          />
+<SkillsIndex categories={skillCategories} />
         </div>
       </motion.section>
 
       {/* Timeline Section */}
-      <Timeline
-        isDarkMode={isDarkMode}
-        textEffectsEnabled={textEffectsEnabled}
-      />
+      <div id="parcours">
+        <div className="px-4 md:px-16 pt-16 md:pt-24">
+          <ChapterHeading id="parcours" lang={currentLang} as="p" className="max-w-7xl mx-auto" />
+        </div>
+        <Timeline
+          isDarkMode={isDarkMode}
+          textEffectsEnabled={textEffectsEnabled}
+        />
+      </div>
 
       {/* Contact Section */}
       <motion.section
@@ -558,13 +534,14 @@ export default function Home() {
         transition={tier === 'full' ? { duration: 0.6, ease: "easeOut" } : {}}
       >
         <div className="max-w-4xl w-full">
-          <h2 className="text-3xl md:text-7xl lg:text-9xl mb-8 md:mb-20 leading-none text-center">
+          <ChapterHeading id="contact" lang={currentLang} as="p" className="mb-10 md:mb-16" />
+          <h2 className="text-[3.4rem] md:text-7xl lg:text-9xl mb-10 md:mb-20 leading-[0.95] md:leading-none text-left md:text-center" data-m-reveal>
             {t('home:contact.title1')}
             <br />
             {t('home:contact.title2')}
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-8 md:gap-16">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-16" data-m-reveal="2">
             {/* Formulaire de contact */}
             <div>
               {formState.succeeded ? (
@@ -763,6 +740,24 @@ export default function Home() {
                     </span>
                   </a>
                   <a
+                    href="https://www.instagram.com/rafa31z/"
+                    target="_blank"
+                    rel="me noopener noreferrer"
+                    className={`group/link text-lg md:text-2xl font-light transition-all duration-300 inline-block relative ${
+                      isDarkMode ? 'hover:text-beige' : 'hover:text-black'
+                    }`}
+                  >
+                    <span className="relative inline-flex items-center gap-2">
+                      Instagram
+                      <svg className="w-5 h-5 transition-transform duration-300 group-hover/link:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                      <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover/link:w-full ${
+                        isDarkMode ? 'bg-beige' : 'bg-black'
+                      }`}></span>
+                    </span>
+                  </a>
+                  <a
                     href="https://www.behance.net/rafaelpiral1"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -822,6 +817,9 @@ export default function Home() {
                 <button onClick={() => scrollToSection('contact')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
                   <span className="text-[8px] align-super opacity-40 mr-1">04</span>{t('common:footer.contactLink')}
                 </button>
+                <Link to="/musee" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
+                  <span className="text-[8px] align-super opacity-40 mr-1">05</span>{currentLang === 'fr' ? "Musée d'affiches" : 'Poster museum'}
+                </Link>
               </nav>
             </div>
 
@@ -855,6 +853,14 @@ export default function Home() {
                     GitHub →
                   </a>
                   <a
+                    href="https://www.instagram.com/rafa31z/"
+                    target="_blank"
+                    rel="me noopener noreferrer"
+                    className="block text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity"
+                  >
+                    Instagram →
+                  </a>
+                  <a
                     href="https://www.behance.net/rafaelpiral1"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -866,6 +872,13 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* Colophon : la dernière page d'un catalogue */}
+          <p className="catalogue-colophon mb-10">
+            {currentLang === 'fr'
+              ? "Colophon. Ce catalogue accompagne l'exposition « Rafael Piral, créations 2024-2026 », à visiter en ligne dans la salle des affiches. Composé en PP Neue Montreal et Bebas Neue. Conception, graphisme et mise en ligne : Rafael Piral, Paris."
+              : 'Colophon. This catalogue accompanies the exhibition “Rafael Piral, works 2024-2026”, to be visited online in the poster room. Set in PP Neue Montreal and Bebas Neue. Design and production: Rafael Piral, Paris.'}
+          </p>
 
           {/* Bottom Bar */}
           <div className={`pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-6 text-xs md:text-sm opacity-50 ${

@@ -5,11 +5,12 @@ import { useTranslation } from 'react-i18next';
 import Logo from './Logo';
 
 // Header minimal des pages projet, aligné sur celui de la home. Rendu via
-// portail attaché à <html> — même contrainte que sur Home.jsx : `body` a
+// portail attaché à <html>, même contrainte que sur Home.jsx : `body` a
 // `transform: translateZ(0)` en desktop (perf Lenis), ce qui casse
 // `position: fixed` pour tout descendant normal de <body>.
-export default function ProjectHeader({ isDarkMode, index, total }) {
-  const { t } = useTranslation(['projects']);
+export default function ProjectHeader({ isDarkMode, index, total, folio }) {
+  const { t, i18n } = useTranslation(['projects']);
+  const plate = i18n.language?.startsWith('fr') ? 'Planche' : 'Plate';
   const [portalNode, setPortalNode] = useState(null);
 
   useEffect(() => {
@@ -22,11 +23,12 @@ export default function ProjectHeader({ isDarkMode, index, total }) {
   if (!portalNode) return null;
 
   return createPortal(
-    // backdrop-blur : le fond quasi transparent (5%) laissait le contenu qui
-    // défile dessous se mélanger visuellement au logo/nav — sur mobile en
+    <>
+    {/* backdrop-blur : le fond quasi transparent (5%) laissait le contenu qui
+    // défile dessous se mélanger visuellement au logo/nav, sur mobile en
     // particulier, du texte pouvait se retrouver à se superposer lettre sur
     // lettre avec "RP" à certaines positions de scroll. Le flou garde
-    // l'aspect minimal tout en assurant la lisibilité du header.
+    // l'aspect minimal tout en assurant la lisibilité du header. */}
     <header className={`fixed top-0 left-0 right-0 z-[110] px-4 md:px-8 py-2 md:py-3 backdrop-blur-sm transition-colors duration-300 ${
       isDarkMode ? 'bg-black/5' : 'bg-beige/5'
     }`}>
@@ -47,12 +49,20 @@ export default function ProjectHeader({ isDarkMode, index, total }) {
           </Link>
           {typeof index === 'number' && typeof total === 'number' && (
             <span className={`text-xs md:text-sm tracking-widest ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`}>
-              {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+              <span className="hidden sm:inline">{plate} </span>{String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
             </span>
           )}
         </div>
       </div>
-    </header>,
+    </header>
+    {/* Folio du catalogue : la planche en cours, en bas de l'écran */}
+    {folio && typeof index === 'number' && (
+      <p className={`catalogue-folio is-plate is-visible ${isDarkMode ? 'is-dark' : ''}`} aria-hidden="true">
+        <span>{plate} {String(index + 1).padStart(2, '0')}</span>
+        <span>{folio}</span>
+      </p>
+    )}
+    </>,
     portalNode
   );
 }

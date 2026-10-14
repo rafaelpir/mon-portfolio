@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-// Bloc "projet précédent / suivant" en pleine largeur, typo XL — pensé
+// Bloc "projet précédent / suivant" en pleine largeur, typo XL, pensé
 // comme la double page de fin d'un magazine plutôt que deux cartes.
 export default function ProjectFooterNav({ previousProject, nextProject, getTitle, isDarkMode }) {
   const { t } = useTranslation(['projects']);

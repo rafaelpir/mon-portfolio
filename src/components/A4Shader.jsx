@@ -6,7 +6,7 @@ export default function A4Shader() {
 
   return (
     <>
-      {/* Pattern à 100% — l'opacité est gérée par le voile */}
+      {/* Pattern à 100%, l'opacité est gérée par le voile */}
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: -2 }}>
         <GrainGradient
           style={{ width: '100%', height: '100%' }}
@@ -23,7 +23,7 @@ export default function A4Shader() {
         />
       </div>
 
-      {/* Voile blanc CSS — contrôle l'opacité visible (impression incluse) */}
+      {/* Voile blanc CSS, contrôle l'opacité visible (impression incluse) */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ zIndex: -1, background: `rgba(255,255,255,${1 - opacity})` }}

@@ -9,14 +9,14 @@ import './ProjectsDualWave.css';
 // titres oscillent au scroll, le texte au centre du viewport pilote une
 // miniature qui suit le scroll. Animation (dualWaveAnimation.js), preload
 // (preloadImages.js) et style (ProjectsDualWave.css) sont une copie fidèle
-// du demo, non modifiés — seule la source des données change : colonne
+// du demo, non modifiés, seule la source des données change : colonne
 // gauche = titre du projet (relié à sa miniature via data-image), colonne
 // droite = catégorie, alignées par index comme dans le demo original
 // (codename produit / vraie marque).
 //
 // Init calquée sur src/main.js du demo : attendre preloadImages() avant
 // d'appeler animation.init() (comme main.js), avec une classe "loading" le
-// temps du chargement (comme body.loading dans le demo — voir css/base.css
+// temps du chargement (comme body.loading dans le demo, voir css/base.css
 // pour l'overlay). Seule différence volontaire : pas de ScrollSmoother.
 // main.js appelle `ScrollSmoother.create({smooth:1.5, normalizeScroll:true})`
 // qui prend le scroll de TOUTE la page en charge (wrapper #smooth-wrapper/

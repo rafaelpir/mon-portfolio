@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { projects } from '../data/projects';
 import { museumLinkFor } from '../data/museeExhibits';
+import { DISPLAY_IMAGES } from '../data/displayImages';
 import { museumAvailable } from '../utils/museumAccess';
 import { ReactLenis } from 'lenis/dist/lenis-react';
 import { useState, useRef, useCallback } from 'react';
@@ -14,7 +15,7 @@ import ImageLightbox from '../components/ImageLightbox';
 import ProjectDoubleDetail from './ProjectDoubleDetail';
 
 // Thème "à l'effigie" d'un club, pour les quelques projets qui en portent
-// un (`project.clubTheme`) — classes Tailwind écrites en toutes lettres :
+// un (`project.clubTheme`), classes Tailwind écrites en toutes lettres :
 // le JIT scanne le texte source, une classe reconstruite dynamiquement
 // (ex. via `.replace()`) ne serait jamais générée.
 const CLUB_THEMES = {
@@ -28,7 +29,7 @@ const CLUB_THEMES = {
     // titre reste blanc (club.text), pas d'accent bleu dessus.
     topBarBg: 'bg-[#A39261]',
     goldText: 'text-[#A39261]',
-    // Bandes noir et bleu — l'or reste réservé aux traits et au liseré.
+    // Bandes noir et bleu, l'or reste réservé aux traits et au liseré.
     stripeA: '#08018C',
     stripeB: '#040707',
   },
@@ -151,7 +152,8 @@ function CreditsList({ items, isDarkMode }) {
 
 export default function ProjectDetail() {
   const { slug } = useParams();
-  const { t } = useTranslation(['projects', 'common']);
+  const { t, i18n } = useTranslation(['projects', 'common']);
+  const isFrench = i18n.language?.startsWith('fr');
   const [isDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved !== null ? JSON.parse(saved) : true;
@@ -230,7 +232,7 @@ export default function ProjectDetail() {
     ? `${siteUrl}/og-image.png`
     : `${siteUrl}${project.thumbnail}`;
   // Troncature à la limite d'un mot (pas au milieu) pour un extrait propre
-  // dans les résultats de recherche — avec repli sur catégorie/année si la
+  // dans les résultats de recherche, avec repli sur catégorie/année si la
   // description manque, pour ne jamais laisser la meta vide.
   const truncateAtWord = (text, max) => {
     if (!text) return '';
@@ -240,17 +242,17 @@ export default function ProjectDetail() {
     return `${cut.slice(0, lastSpace > 0 ? lastSpace : max)}…`;
   };
   const metaDesc = truncateAtWord(translatedProject.description, 155)
-    || `${translatedProject.title} — ${translatedProject.category}, ${project.year}. Un projet de Rafael Piral.`;
-  const imageAlt = `${translatedProject.title} — ${translatedProject.category}, Rafael Piral`;
+    || `${translatedProject.title}, ${translatedProject.category}, ${project.year}. Un projet de Rafael Piral.`;
+  const imageAlt = `${translatedProject.title}, ${translatedProject.category}, Rafael Piral`;
   const keywords = [...(project.tags || []), ...(translatedProject.competences || [])].join(', ');
   // Alt texte descriptif par image de galerie : reprend la légende propre à
   // l'image quand elle existe (meilleur pour la recherche d'images), avec
   // repli sur titre + numéro sinon.
   const getGalleryAlt = (index) =>
     translatedProject.galleryDescriptions?.[index] || project.gallery?.[index]?.description
-      || `${translatedProject.title} — Image ${index + 1}`;
+      || `${translatedProject.title}, image ${index + 1}`;
 
-  // Numérotation séquentielle des sections — même logique que le "01/02/03"
+  // Numérotation séquentielle des sections, même logique que le "01/02/03"
   // de la nav de la home, calculée à l'avance pour matcher l'ordre de rendu.
   // La galerie/image de titre vit dans le masthead (pas de diviseur propre,
   // c'est la couverture, pas une "section") : elle n'entre pas dans le
@@ -265,6 +267,39 @@ export default function ProjectDetail() {
   const partsIndex = hasParts ? ++sectionCounter : null;
   const detailsIndex = ++sectionCounter;
   const club = CLUB_THEMES[project.clubTheme];
+
+  // Cartel de la planche (rôle, période, durée, lien vers l'exposition) :
+  // affiché à côté de l'image sur grand écran, sous elle sur petit écran.
+  const cartel = (className) => (
+    <ul className={className}>
+                {project.role && (Array.isArray(project.role) ? project.role.length > 0 : true) && (
+                  <li className="flex flex-col gap-1">
+                    <span className="opacity-40 text-xs tracking-widest uppercase">{t('projects:details.role')}</span>
+                    <span>{Array.isArray(project.role) ? project.role.join(', ') : project.role}</span>
+                  </li>
+                )}
+                {translatedProject.period && (
+                  <li className="flex flex-col gap-1">
+                    <span className="opacity-40 text-xs tracking-widest uppercase">{t('projects:details.period')}</span>
+                    <span>{translatedProject.period}</span>
+                  </li>
+                )}
+                {translatedProject.duration && (
+                  <li className="flex flex-col gap-1">
+                    <span className="opacity-40 text-xs tracking-widest uppercase">{t('projects:details.duration')}</span>
+                    <span>{translatedProject.duration}</span>
+                  </li>
+                )}
+                {museumLinkFor(project.slug) && museumAvailable() && (
+                  <li className="flex flex-col gap-1">
+                    <span className="opacity-40 text-xs tracking-widest uppercase">{t('projects:details.museum')}</span>
+                    <Link to={museumLinkFor(project.slug)} className="underline underline-offset-2 transition-opacity hover:opacity-60">
+                      {t('projects:details.museumLink')} →
+                    </Link>
+                  </li>
+                )}
+    </ul>
+  );
 
   return (
     <>
@@ -324,10 +359,10 @@ export default function ProjectDetail() {
       <div className={`relative z-0 min-h-screen font-stamp ${
         club ? `${club.bg} ${club.text}` : (isDarkMode ? 'bg-black text-beige' : 'bg-beige text-black')
       }`}>
-        {/* Liseré aux couleurs du club — "à l'effigie" dès le premier pixel,
+        {/* Liseré aux couleurs du club, "à l'effigie" dès le premier pixel,
             pinné au-dessus du header (lui-même en z-[110]). */}
         {club && <div className={`fixed top-0 left-0 right-0 h-1 z-[111] ${club.topBarBg || club.accentBg}`} />}
-        {/* Bandes du maillot en filigrane derrière tout le contenu — les
+        {/* Bandes du maillot en filigrane derrière tout le contenu, les
             vraies couleurs du club (pas l'accent doré/rouge du logo), en
             z-index négatif pour rester sous le texte statique. */}
         {club && (
@@ -341,9 +376,9 @@ export default function ProjectDetail() {
             }}
           />
         )}
-        <ProjectHeader isDarkMode={isDarkMode} index={currentVisibleIndex} total={visibleProjects.length} />
+        <ProjectHeader isDarkMode={isDarkMode} index={currentVisibleIndex} total={visibleProjects.length} folio={project.shortTitle || project.title} />
 
-        {/* Masthead du projet — titre + image tiennent dans l'écran, sans
+        {/* Masthead du projet, titre + image tiennent dans l'écran, sans
             scroll : hauteur bornée à la fenêtre (h-[100svh], stable même
             avec la barre d'adresse mobile qui va et vient), colonne flex où
             seule l'image (flex-1 min-h-0) absorbe l'espace restant. Le zoom
@@ -355,30 +390,43 @@ export default function ProjectDetail() {
           transition={{ duration: 0.5 }}
           className="flex flex-col px-4 md:px-16 pt-20 md:pt-28 pb-4 md:pb-6 h-[100svh]"
         >
-          <div className="max-w-7xl mx-auto w-full flex flex-col flex-1 min-h-0">
+          <div className="plate-spread max-w-7xl mx-auto w-full flex flex-col flex-1 min-h-0">
             <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.15 }}
-              className={`shrink-0 flex flex-wrap items-baseline justify-between gap-2 mb-3 md:mb-5 text-xs md:text-sm tracking-[0.3em] uppercase ${club ? (club.goldText || club.accent) : 'opacity-50'}`}
+              className={`plate-meta shrink-0 flex flex-wrap items-baseline justify-between gap-2 mb-3 md:mb-5 text-xs md:text-sm tracking-[0.3em] uppercase ${club ? (club.goldText || club.accent) : 'opacity-50'}`}
             >
-              <span>N° {String(currentVisibleIndex + 1).padStart(3, '0')} · {translatedProject.category}</span>
+              <span>{isFrench ? 'Planche' : 'Plate'} {String(currentVisibleIndex + 1).padStart(2, '0')} · {translatedProject.category}</span>
               <span>{project.year}</span>
             </motion.div>
 
+            <div className="plate-text shrink-0">
             <motion.h1
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.25 }}
-              className="shrink-0 uppercase leading-[0.95] mb-4 md:mb-6"
-              style={{
-                fontFamily: '"PP Neue Montreal", sans-serif',
-                fontWeight: 600,
-                fontSize: 'clamp(1.75rem, 5vw, 5rem)',
-              }}
+              className="plate-title shrink-0 uppercase leading-[0.95] mb-4 md:mb-6"
+              style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}
             >
-              {translatedProject.title}
+              {project.shortTitle || translatedProject.title}
             </motion.h1>
+            {project.shortTitle && project.shortTitle !== translatedProject.title && (
+              <p className="plate-subtitle">{translatedProject.title}</p>
+            )}
+            {/* Grand écran : le texte et le cartel de la planche, à côté de l'image */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.35 }}
+              className="plate-notes"
+            >
+              <p className="plate-lead text-pretty">{translatedProject.description}</p>
+              {cartel(`plate-cartel ${club ? club.border : (isDarkMode ? 'border-beige/15' : 'border-black/15')}`)}
+            </motion.div>
+            </div>
+
+            <div className="plate-figure flex-1 min-h-0 flex flex-col">
 
             {/* Image principale (masquée si carousel présent) */}
             {!hasGallery && (
@@ -389,7 +437,7 @@ export default function ProjectDetail() {
                 className="flex-1 min-h-0 flex items-center justify-center"
               >
                 <img
-                  src={project.thumbnail}
+                  src={DISPLAY_IMAGES[project.thumbnail] || project.thumbnail}
                   alt={imageAlt}
                   className="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
                   style={{
@@ -443,7 +491,7 @@ export default function ProjectDetail() {
                     <AnimatePresence initial={false} custom={galleryDirection} mode="wait">
                       <motion.img
                         key={currentImageIndex}
-                        src={project.gallery[currentImageIndex].src}
+                        src={project.gallery[currentImageIndex].display || DISPLAY_IMAGES[project.gallery[currentImageIndex].src] || project.gallery[currentImageIndex].src}
                         alt={getGalleryAlt(currentImageIndex)}
                         custom={galleryDirection}
                         variants={slideVariants}
@@ -489,24 +537,30 @@ export default function ProjectDetail() {
                   )}
                 </div>
 
-                {/* Légende façon "fig." de magazine — reste compacte pour ne
+                {/* Légende façon "fig." de magazine, reste compacte pour ne
                     pas grignoter l'espace réservé à l'image. */}
-                <div className="shrink-0 text-center mt-2 md:mt-3">
+                <div className="plate-caption shrink-0 text-center mt-2 md:mt-3">
                   <span className="text-xs tracking-widest opacity-40 uppercase">
                     Fig. {String(currentImageIndex + 1).padStart(2, '0')} / {String(project.gallery.length).padStart(2, '0')}
                   </span>
+                  {(translatedProject.galleryDescriptions[currentImageIndex] || project.gallery[currentImageIndex].description) && (
+                    <span className="plate-caption-text">
+                      {translatedProject.galleryDescriptions[currentImageIndex] || project.gallery[currentImageIndex].description}
+                    </span>
+                  )}
                 </div>
               </motion.div>
             )}
+            </div>
           </div>
         </motion.header>
 
-        {/* Chapô : légende de l'image courante, description et infos clés —
+        {/* Chapô : légende de l'image courante, description et infos clés ,
             premier contenu qu'on découvre en scrollant, sous le titre/visuel. */}
         <div className="px-4 md:px-16">
           <div className="max-w-7xl mx-auto">
             {hasGallery && (translatedProject.galleryDescriptions[currentImageIndex] || project.gallery[currentImageIndex].description) && (
-              <p className="text-center text-base opacity-70 max-w-3xl mx-auto pt-6 md:pt-10">
+              <p className="lg:hidden text-center text-base opacity-70 max-w-3xl mx-auto pt-6 md:pt-10">
                 {translatedProject.galleryDescriptions[currentImageIndex] || project.gallery[currentImageIndex].description}
               </p>
             )}
@@ -520,7 +574,7 @@ export default function ProjectDetail() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.35 }}
-              className={`grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pt-10 md:pt-14 pb-10 md:pb-16 border-b ${
+              className={`lg:hidden grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pt-10 md:pt-14 pb-10 md:pb-16 border-b ${
                 club ? club.border : (isDarkMode ? 'border-beige/15' : 'border-black/15')
               }`}
             >
@@ -528,34 +582,7 @@ export default function ProjectDetail() {
                 {translatedProject.description}
               </p>
 
-              <ul className="flex flex-col gap-4 text-sm md:text-right md:items-end">
-                {project.role && (Array.isArray(project.role) ? project.role.length > 0 : true) && (
-                  <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-widest uppercase">{t('projects:details.role')}</span>
-                    <span>{Array.isArray(project.role) ? project.role.join(', ') : project.role}</span>
-                  </li>
-                )}
-                {translatedProject.period && (
-                  <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-widest uppercase">{t('projects:details.period')}</span>
-                    <span>{translatedProject.period}</span>
-                  </li>
-                )}
-                {translatedProject.duration && (
-                  <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-widest uppercase">{t('projects:details.duration')}</span>
-                    <span>{translatedProject.duration}</span>
-                  </li>
-                )}
-                {museumLinkFor(project.slug) && museumAvailable() && (
-                  <li className="flex flex-col gap-1">
-                    <span className="opacity-40 text-xs tracking-widest uppercase">{t('projects:details.museum')}</span>
-                    <Link to={museumLinkFor(project.slug)} className="underline underline-offset-2 transition-opacity hover:opacity-60">
-                      {t('projects:details.museumLink')} →
-                    </Link>
-                  </li>
-                )}
-              </ul>
+              {cartel('flex flex-col gap-4 text-sm md:text-right md:items-end')}
             </motion.div>
           </div>
         </div>
@@ -717,7 +744,7 @@ export default function ProjectDetail() {
               </motion.div>
             )}
 
-            {/* Détails du projet — colophon */}
+            {/* Détails du projet, colophon */}
             <motion.div
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}

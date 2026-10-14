@@ -40,7 +40,7 @@ export default function RepeaterGrid({ isDarkMode, className = '' }) {
           const cx = (c + 0.5) * cellW;
           const cy = (r + 0.5) * cellH;
 
-          // Deux vagues superposées — crée des motifs d'interférence
+          // Deux vagues superposées, crée des motifs d'interférence
           const w1 = Math.sin(t       + c * 0.50 + r * 0.32) * 0.5 + 0.5;
           const w2 = Math.sin(t * 0.7 - c * 0.28 + r * 0.45 + 1.8) * 0.5 + 0.5;
           const v  = (w1 + w2) / 2; // 0 → 1

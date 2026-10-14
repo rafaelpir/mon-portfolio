@@ -13,7 +13,7 @@ const CATEGORY_STYLES = {
     border: 'border-l-orange-400/40', borderLight: 'border-l-orange-500/40',
   },
   // Rose : même accent que "Communication" dans les cartes Compétences
-  // (About.jsx) — cohérent puisque ce poste est justement en communication.
+  // (About.jsx), cohérent puisque ce poste est justement en communication.
   Alternance: {
     dot: 'bg-rose-400/55', dotLight: 'bg-rose-500/55',
     text: 'text-rose-300/60', textLight: 'text-rose-700/70',
@@ -72,13 +72,8 @@ export default function Timeline({ isDarkMode }) {
       <GridSparkles isDarkMode={isDarkMode} className="z-0" opacity={0.5} />
 
       {/* Header */}
-      <div className="relative z-10 max-w-7xl mx-auto py-16 md:py-20 px-4 md:px-8 lg:px-10">
-        <h2 className={`text-[10px] md:text-sm tracking-widest uppercase mb-4 ${
-          isDarkMode ? 'text-gray-500' : 'text-gray-600'
-        }`}>
-          Mon Parcours
-        </h2>
-        <p
+      <div className="relative z-10 max-w-7xl mx-auto pt-10 md:pt-14 pb-16 md:pb-20 px-4 md:px-8 lg:px-10" data-m-reveal>
+        <h2
           className={`text-3xl md:text-6xl max-w-4xl ${
             isDarkMode ? 'text-beige' : 'text-black'
           }`}
@@ -88,7 +83,7 @@ export default function Timeline({ isDarkMode }) {
           <span style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontStyle: 'italic', fontWeight: 600 }}>
             création numérique
           </span>
-        </p>
+        </h2>
       </div>
 
       {/* Timeline */}
@@ -127,11 +122,12 @@ export default function Timeline({ isDarkMode }) {
                 {event.year}
               </h3>
 
-              {/* Content Card — traitement éditorial (bordure fine, pas de
+              {/* Content Card, traitement éditorial (bordure fine, pas de
                   pastille arrondie) aligné sur le reste du site plutôt que
                   la carte "app" avec fond teinté et étiquette pivotée. Le
                   liseré gauche prend la couleur de la catégorie. */}
               <div
+                data-m-reveal
                 className={`group relative overflow-hidden p-6 md:p-10 mb-8 border transition-all duration-300 hover:-translate-y-0.5 ${
                   isDarkMode
                     ? 'border-beige/10 hover:bg-beige/[0.03] hover:border-beige/20'
@@ -154,7 +150,7 @@ export default function Timeline({ isDarkMode }) {
                   {String(index + 1).padStart(2, '0')}
                 </span>
 
-                {/* Category label — étiquette plate, sans pastille */}
+                {/* Category label, étiquette plate, sans pastille */}
                 <div
                   className={`relative z-10 inline-flex items-center gap-2 text-xs tracking-[0.25em] uppercase mb-5 ${
                     isDarkMode ? catStyle.text : catStyle.textLight

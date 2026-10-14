@@ -1,7 +1,7 @@
 // Port fidèle de horizontalLoop() du demo Osmo "Infinite slider"
 // (https://osmo.supply/, via CodePen). Utilitaire GSAP générique : anime un
 // jeu d'éléments en boucle horizontale infinie, avec drag + snap optionnels.
-// Non modifié dans sa logique — seule la fin diffère (voir commentaire) pour
+// Non modifié dans sa logique, seule la fin diffère (voir commentaire) pour
 // exposer un moyen de tout nettoyer proprement au démontage d'un composant
 // React (le demo original, en single-page HTML, ne s'en soucie jamais).
 import { gsap } from 'gsap';

@@ -41,7 +41,7 @@ export default function ProjectFilters({
             }`}
             style={{
               // #666666 sur fond noir ne passe pas le contraste AA (3.66:1,
-              // il faut 4.5:1) — #999999 y suffit ; en clair, #666666 sur
+              // il faut 4.5:1), #999999 y suffit ; en clair, #666666 sur
               // blanc passait déjà (5.74:1), gardé tel quel.
               color: selectedCategory === category
                 ? (isDarkMode ? '#FFFFFF' : '#000000')

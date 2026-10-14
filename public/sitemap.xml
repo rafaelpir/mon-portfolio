@@ -34,7 +34,7 @@
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/Balotelli.webp</image:loc>
-      <image:title>Affiche Mario Balotelli — Nike x Inter Milan — Rafael Piral</image:title>
+      <image:title>Affiche Mario Balotelli | Nike x Inter Milan | Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -45,7 +45,7 @@
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/officiel.webp</image:loc>
-      <image:title>Coffret 20 Ans Alicia Keys — Rafael Piral</image:title>
+      <image:title>Coffret 20 Ans Alicia Keys | Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -56,7 +56,7 @@
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/formule1.webp</image:loc>
-      <image:title>Grand Prix de Monaco — Affiche Save the Date — Rafael Piral</image:title>
+      <image:title>Grand Prix de Monaco | Affiche Save the Date | Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -67,7 +67,7 @@
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/rickakagra.webp</image:loc>
-      <image:title>Affiche Ricardo Kaká — Rafael Piral</image:title>
+      <image:title>Affiche Ricardo Kaká | Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -78,7 +78,7 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/armorimmo.webp</image:loc>
-      <image:title>UI Design &amp; Branding Agence Immobilière — Rafael Piral</image:title>
+      <image:title>UI Design &amp; Branding Agence Immobilière | Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -89,7 +89,7 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/Alumni.webp</image:loc>
-      <image:title>Réseau Alumni IUT de Bobigny — Rafael Piral</image:title>
+      <image:title>Réseau Alumni IUT de Bobigny | Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -100,7 +100,7 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/veco/thumbnail.webp</image:loc>
-      <image:title>UX Design Application Veco — Rafael Piral</image:title>
+      <image:title>UX Design Application Veco | Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -111,7 +111,7 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/ACoeurOuvert.svg</image:loc>
-      <image:title>À Cœur Ouvert — Identité visuelle ONG — Rafael Piral</image:title>
+      <image:title>À Cœur Ouvert | Identité visuelle ONG | Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -122,7 +122,7 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/lhommequidort.webp</image:loc>
-      <image:title>Un Homme qui dort — Affiche revisitée — Rafael Piral</image:title>
+      <image:title>Un Homme qui dort | Affiche revisitée | Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -133,7 +133,7 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/sade.webp</image:loc>
-      <image:title>Poster Tribute Sade Diamond Life — Rafael Piral</image:title>
+      <image:title>Poster Tribute Sade Diamond Life | Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -144,7 +144,7 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/Liberté.webp</image:loc>
-      <image:title>Statue de la Liberté — De la photo à l'ASCII — Rafael Piral</image:title>
+      <image:title>Statue de la Liberté | De la photo à l'ASCII | Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -155,7 +155,7 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/Gummo.webp</image:loc>
-      <image:title>Gummo — Affiche de film — Rafael Piral</image:title>
+      <image:title>Gummo | Affiche de film | Rafael Piral</image:title>
     </image:image>
   </url>
 
@@ -166,17 +166,49 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://www.rafaelpiral.fr/images/projects/batman-dark-knight.webp</image:loc>
-      <image:title>Batman The Dark Knight — Site web Jimdo — Rafael Piral</image:title>
+      <image:title>Batman The Dark Knight | Site web Jimdo | Rafael Piral</image:title>
     </image:image>
   </url>
   <url>
     <loc>https://www.rafaelpiral.fr/musee</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-10-14</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <image:image>
-      <image:loc>https://www.rafaelpiral.fr/images/musee/apercu.webp</image:loc>
-      <image:title>Musée d'affiches en 3D — Rafael Piral</image:title>
+      <image:loc>https://www.rafaelpiral.fr/images/musee/og-musee.jpg</image:loc>
+      <image:title>Musée d'affiches en 3D | Rafael Piral</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/musee/hd/homme-qui-dort.webp</image:loc>
+      <image:title>Affiche Un Homme qui dort | Rafael Piral</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/musee/hd/sade.webp</image:loc>
+      <image:title>Affiche Sade Diamond Life | Rafael Piral</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/musee/hd/gummo.webp</image:loc>
+      <image:title>Affiche Gummo | Rafael Piral</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/musee/hd/liberte.webp</image:loc>
+      <image:title>Affiche Statue de la Liberté ASCII | Rafael Piral</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/musee/hd/monaco.webp</image:loc>
+      <image:title>Affiche Grand Prix de Monaco | Rafael Piral</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/musee/hd/kaka.webp</image:loc>
+      <image:title>Affiche Ricardo Kaká | Rafael Piral</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/musee/hd/balotelli.webp</image:loc>
+      <image:title>Affiche Mario Balotelli | Rafael Piral</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/musee/hd/alicia.webp</image:loc>
+      <image:title>Affiche Alicia Keys | Rafael Piral</image:title>
     </image:image>
   </url>
 

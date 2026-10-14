@@ -2,7 +2,7 @@
 // ~/Downloads/codrops-tutorial-text-animation-main/src/dual-wave/DualWaveAnimation.js).
 // Deux colonnes de texte oscillent (sinusoïde) en fonction du scroll ; le
 // texte le plus proche du centre du viewport est "focused" et pilote une
-// image miniature qui suit le scroll. Logique non modifiée — seul le nom
+// image miniature qui suit le scroll. Logique non modifiée, seul le nom
 // d'export et ce commentaire diffèrent de l'original.
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -77,7 +77,7 @@ export class DualWaveAnimation {
   // Position verticale de chaque texte gauche, mise en cache une seule fois
   // (init + resize) relativement au wrapper, plutôt que remesurée à chaque
   // frame de scroll. handleScroll() tournait un getBoundingClientRect() par
-  // texte (14) + 1 pour la miniature à CHAQUE frame — du "layout thrashing"
+  // texte (14) + 1 pour la miniature à CHAQUE frame, du "layout thrashing"
   // classique (lectures forcées en boucle serrée avec les écritures de
   // transform de GSAP juste à côté), source de saccades identifiée en
   // profilant le scroll. Avec ce cache, il ne reste qu'une seule lecture de

@@ -1,4 +1,4 @@
-import { useEffect, useRef, lazy, Suspense } from 'react';
+import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLenis } from 'lenis/dist/lenis-react';
@@ -7,7 +7,9 @@ import { projects } from './data/projects';
 import { ShaderProvider } from './context/ShaderContext';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import GoogleAnalytics from './components/GoogleAnalytics';
+import { EMBEDDED_COPY } from './utils/museumAccess';
 import AdminGuard from './components/AdminGuard';
+import PageTurn, { pageLabel, TURN_IN } from './components/PageTurn';
 // Code splitting - Chargement différé des pages
 const Home = lazy(() => import('./pages/Home'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
@@ -57,28 +59,60 @@ function AppContent() {
   const lenis = useLenis();
   const prevPathRef = useRef(location.pathname);
 
-  // Remise à zéro du scroll entre deux pages — déclenchée par la FIN de
+  // Tourne-page entre deux pages (voir PageTurn.jsx). Pas à la sortie du
+  // musée, qui a son propre passage par la porte ; pas dans la copie du site
+  // affichée dans le musée ; pas si l'on a demandé moins d'animations.
+  const [turn, setTurn] = useState({ phase: null, label: null });
+  const turnPathRef = useRef(location.pathname);
+  const turnsRef = useRef(!EMBEDDED_COPY && !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  useEffect(() => {
+    const from = turnPathRef.current;
+    if (from === location.pathname) return undefined;
+    turnPathRef.current = location.pathname;
+    if (!turnsRef.current || from === '/musee') return undefined;
+    setTurn({ phase: 'in', label: pageLabel(location.pathname + location.hash, (document.documentElement.lang || 'fr').startsWith('fr')) });
+    // secours : si la sortie de l'ancienne page ne se signale pas, la feuille repart quand même
+    const rescue = setTimeout(() => setTurn((current) => (current.phase === 'in' ? { ...current, phase: 'out' } : current)), TURN_IN + 1500);
+    return () => clearTimeout(rescue);
+  }, [location.pathname]);
+  useEffect(() => {
+    if (turn.phase !== 'out') return undefined;
+    const done = setTimeout(() => setTurn({ phase: null, label: null }), 700);
+    return () => clearTimeout(done);
+  }, [turn.phase]);
+
+  // Remise à zéro du scroll entre deux pages, déclenchée par la FIN de
   // l'animation de sortie (onExitComplete), pas par le changement de route
   // lui-même : avec <AnimatePresence mode="wait">, l'ancienne page reste
   // montée et visible pendant tout son fondu de sortie. La déclencher sur
   // le changement de route la faisait retomber en haut de page ANCIENNE
   // (le contenu qu'on venait de scroller redescendait brutalement à zéro)
-  // avant même de commencer à s'estomper — un "saut" bien visible d'un
+  // avant même de commencer à s'estomper, un "saut" bien visible d'un
   // projet à l'autre. En attendant la fin du fondu, l'ancienne page a déjà
   // disparu quand le scroll se réinitialise : plus rien à voir sauter.
   const handleExitComplete = () => {
+    // la nouvelle page est montée sous la feuille : celle-ci peut repartir
+    setTimeout(() => setTurn((current) => (current.phase === 'in' ? { ...current, phase: 'out' } : current)), location.pathname === '/' ? 620 : 220);
     const prevPath = prevPathRef.current;
     const pathname = location.pathname;
     prevPathRef.current = pathname;
 
     if (pathname === '/' && (prevPath.startsWith('/work/') || prevPath.startsWith('/project/'))) {
-      setTimeout(() => {
-        const projectsSection = document.getElementById('projects');
-        if (projectsSection) {
-          if (lenis) lenis.scrollTo(projectsSection, { immediate: true });
-          else projectsSection.scrollIntoView({ behavior: 'instant' });
-        }
-      }, 100);
+      // L'accueil finit de se mettre en page par étapes (polices, textes
+      // découpés en lignes) : on recale plusieurs fois, sous la feuille du
+      // tourne-page, pour arriver pile sur la liste des œuvres.
+      [100, 320, 560].forEach((delay) => {
+        setTimeout(() => {
+          const projectsSection = document.getElementById('projects');
+          if (!projectsSection) return;
+          // Le défilement fluide (Lenis) garde en mémoire la hauteur de
+          // l'ancienne page : sans cette mise à jour, il s'arrête trop tôt.
+          lenis?.resize?.();
+          const top = projectsSection.getBoundingClientRect().top + window.scrollY;
+          if (lenis) lenis.scrollTo(top, { immediate: true, force: true });
+          if (Math.abs(window.scrollY - top) > 4) window.scrollTo({ top, behavior: 'instant' });
+        }, delay);
+      });
       return;
     }
 
@@ -96,14 +130,19 @@ function AppContent() {
 
   return (
     <>
-      <GoogleAnalytics />
-      <SpeedInsights />
+      {/* Pas de mesures depuis la copie du site affichée dans le musée */}
+      {!EMBEDDED_COPY && <GoogleAnalytics />}
+      {!EMBEDDED_COPY && <SpeedInsights />}
+      <PageTurn phase={turn.phase} label={turn.label} />
+      {/* Avec le tourne-page, l'ancienne page reste en place le temps que la
+          feuille la recouvre (TURN_IN), puis la nouvelle apparaît dessous ;
+          sans lui, un simple fondu. */}
       <AnimatePresence mode="wait" onExitComplete={handleExitComplete}>
         <motion.div
           key={location.pathname}
-          initial={{ opacity: 0, y: 8 }}
+          initial={turnsRef.current ? { opacity: 1 } : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
+          exit={turnsRef.current ? { opacity: 0.999, transition: { duration: TURN_IN / 1000 } } : { opacity: 0, y: -8 }}
           transition={{ duration: 0.35, ease: 'easeInOut' }}
         >
           <Suspense fallback={null}>

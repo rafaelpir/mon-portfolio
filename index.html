@@ -12,16 +12,19 @@
          et JSON-LD Person NE SONT PAS déclarés ici : chaque page les fournit
          elle-même via react-helmet-async (voir Home.jsx, ProjectDetail.jsx,
          etc.). Helmet remplace le <title> en place mais NE SUPPRIME PAS les
-         balises meta/link statiques déjà présentes dans ce fichier — les
+         balises meta/link statiques déjà présentes dans ce fichier, les
          dupliquer ici les aurait rendues inertes : un crawler qui lit la
          PREMIÈRE occurrence (donc celle-ci, toujours générique/accueil)
          aurait ignoré la version spécifique à chaque page/projet, quelle
          que soit la route visitée. -->
 
+    <!-- Profils de Rafael Piral : aide les moteurs à relier ces comptes au site -->
+    <link rel="me" href="https://www.instagram.com/rafa31z/" />
+    <link rel="me" href="https://www.linkedin.com/in/rafaelpiral" />
     <link rel="apple-touch-icon" href="/logo192.png" />
     <link rel="manifest" href="/manifest.json" />
 
-    <!-- Polices : Satoshi (corps), Bebas Neue (titres), Coolvetica (héro) — auto-hébergées -->
+    <!-- Polices : Satoshi (corps), Bebas Neue (titres), Coolvetica (héro), auto-hébergées -->
     <link rel="preload" href="/font/Satoshi-Medium.otf" as="font" type="font/otf" crossorigin="anonymous" />
     <link rel="preload" href="/font/BebasNeue-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
     <link rel="preload" href="/font/Coolvetica-Regular.otf" as="font" type="font/otf" crossorigin="anonymous" />
@@ -37,26 +40,27 @@
   <body>
     <noscript>
       <div style="font-family: sans-serif; padding: 2rem; max-width: 800px; margin: 0 auto;">
-        <h1>Rafael Piral — Portfolio Design Graphique &amp; Audiovisuel</h1>
+        <h1>Rafael Piral | Portfolio Design Graphique &amp; Audiovisuel</h1>
         <p>Étudiant en BUT Métiers du Multimédia et de l'Internet (MMI) à l'IUT de Bobigny.
         Spécialisé en design graphique, UI/UX design et audiovisuel. Parcours Créations Numériques.
         Disponible pour stage 2026.</p>
         <h2>Projets</h2>
         <ul>
           <li><a href="/work/coffret-alicia-keys">Coffret 20 Ans Alicia Keys</a></li>
-          <li><a href="/work/grand-prix-monaco">Grand Prix de Monaco — Affiche Save the Date</a></li>
+          <li><a href="/work/grand-prix-monaco">Grand Prix de Monaco : Affiche Save the Date</a></li>
           <li><a href="/work/affiche-kaka">Affiche Ricardo Kaká</a></li>
           <li><a href="/work/branding-agence-immobiliere">UI Design &amp; Branding Agence Immobilière</a></li>
           <li><a href="/work/reseau-alumni-iut-bobigny">Réseau Alumni IUT de Bobigny</a></li>
           <li><a href="/work/ux-design-app-veco">UX Design Application Veco</a></li>
           <li><a href="/work/identite-visuelle-a-coeur-ouvert">Identité visuelle ONG À Cœur Ouvert</a></li>
-          <li><a href="/work/un-homme-qui-dort">Un Homme qui dort — Affiche revisitée</a></li>
+          <li><a href="/work/un-homme-qui-dort">Un Homme qui dort : Affiche revisitée</a></li>
           <li><a href="/work/poster-sade-diamond-life">Poster Tribute Sade Diamond Life</a></li>
-          <li><a href="/work/statue-liberte-ascii">Statue de la Liberté — De la photo à l'ASCII</a></li>
-          <li><a href="/work/affiche-gummo">Gummo — Affiche de film</a></li>
-          <li><a href="/work/batman-dark-knight-jimdo">Batman The Dark Knight — Site web Jimdo</a></li>
+          <li><a href="/work/statue-liberte-ascii">Statue de la Liberté : De la photo à l'ASCII</a></li>
+          <li><a href="/work/affiche-gummo">Gummo : Affiche de film</a></li>
+          <li><a href="/work/batman-dark-knight-jimdo">Batman The Dark Knight : Site web Jimdo</a></li>
         </ul>
-        <p><a href="/about">À propos</a> | <a href="/legal">Mentions légales</a></p>
+        <p>Instagram : <a href="https://www.instagram.com/rafa31z/" rel="me">@rafa31z</a> | <a href="https://www.linkedin.com/in/rafaelpiral" rel="me">LinkedIn</a></p>
+        <p><a href="/musee">Musée d'affiches en 3D</a> | <a href="/about">À propos</a> | <a href="/legal">Mentions légales</a></p>
         <p>Veuillez activer JavaScript pour accéder au portfolio complet de Rafael Piral.</p>
       </div>
     </noscript>

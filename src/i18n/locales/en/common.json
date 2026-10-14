@@ -1,7 +1,7 @@
 {
   "nav": {
-    "about": "ABOUT",
-    "projects": "PROJECTS",
+    "about": "FOREWORD",
+    "projects": "WORKS",
     "skills": "SKILLS",
     "contact": "CONTACT",
     "downloadCV": "DOWNLOAD RESUME",
@@ -49,8 +49,8 @@
     "description": "3rd year BUT MMI student, passionate about graphic design and web development.",
     "navigation": "NAVIGATION",
     "contact": "CONTACT",
-    "aboutLink": "About",
-    "projectsLink": "Projects",
+    "aboutLink": "Foreword",
+    "projectsLink": "Works",
     "skillsLink": "Skills",
     "contactLink": "Contact",
     "rights": "All rights reserved.",

@@ -6,7 +6,7 @@ const pad = (n) => String(Math.max(0, Math.floor(n))).padStart(2, '0');
 
 // Enveloppe sinusoïdale (pas de bruit uniforme) : une vraie mesure de niveau
 // par bande de fréquence a des zones qui montent/descendent plutôt qu'un
-// plateau plat — le sinus donne cette respiration, le random garde chaque
+// plateau plat, le sinus donne cette respiration, le random garde chaque
 // barre irrégulière. Valeurs normalisées 0..1 (converties en hauteur SVG au
 // rendu, en fonction de l'échelle dB du diagramme).
 function generateSpectrum(count) {
@@ -43,7 +43,7 @@ const GOLDEN_TANGENT_POINTS = [
 ];
 
 // Figure de Lissajous 3:2 (ratio de fréquences), précalculée une seule fois
-// au chargement du module — elle ne dépend que du temps t, pas des props.
+// au chargement du module, elle ne dépend que du temps t, pas des props.
 const LISSAJOUS_PATH = (() => {
   const N = 140;
   const pts = [];
@@ -93,7 +93,7 @@ const AV_DB_LINES = [
 ];
 
 // Trois variantes structurellement différentes, chacune sur un diagramme
-// scientifique réel de la discipline — pas une simple grille décorative :
+// scientifique réel de la discipline, pas une simple grille décorative :
 // dispersion de la lumière par un prisme (optique, loi de Snell) pour le
 // design, construction de De Casteljau d'une courbe de Bézier cubique pour
 // l'UX/UI, analyseur de spectre FFT pour l'audiovisuel. Badges/citation/CTA
@@ -129,7 +129,7 @@ const VARIANTS = [
     ),
     // Dispersion de la lumière blanche à travers un prisme : rayon incident,
     // réfraction (normales en pointillés, angles θ₁/θ₂), puis éventail du
-    // spectre visible — révélé progressivement avec le chargement.
+    // spectre visible, révélé progressivement avec le chargement.
     centerpiece: (progress) => (
       <svg width="240" height="148" viewBox="0 0 260 160" fill="none">
         <polygon points="60,130 110,30 140,130" stroke="#E5E5E5" strokeOpacity="0.35" strokeWidth="1" />
@@ -189,7 +189,7 @@ const VARIANTS = [
     ),
     // Construction de De Casteljau d'une courbe de Bézier cubique : polygone
     // de contrôle (P0..P3), interpolations successives (Q, R) jusqu'au point
-    // sur la courbe à t=0.5 — la courbe elle-même se trace avec le chargement.
+    // sur la courbe à t=0.5, la courbe elle-même se trace avec le chargement.
     centerpiece: (progress) => {
       const P0 = [20, 130], P1 = [60, 20], P2 = [150, 20], P3 = [200, 120];
       const Q0 = mid(P0, P1), Q1 = mid(P1, P2), Q2 = mid(P2, P3);
@@ -258,7 +258,7 @@ const VARIANTS = [
     ),
     // Analyseur de spectre audio : grille dB (horizontale) + fréquence en
     // échelle log (verticale), barres par bande, curseur de lecture qui
-    // avance avec le chargement — comme un vrai analyseur FFT de studio.
+    // avance avec le chargement, comme un vrai analyseur FFT de studio.
     centerpiece: (progress, extra) => {
       const bars = extra?.bars || [];
       const n = bars.length;
@@ -373,7 +373,7 @@ const VARIANTS = [
     // Rectangle d'or subdivisé sur 6 niveaux (136→84→52→32→20→12, chaque
     // côté = le précédent ÷ φ), spirale tracée progressivement avec le
     // chargement, point de tangence à chaque changement de rayon, et table
-    // des ratios sous le diagramme — la construction complète au compas.
+    // des ratios sous le diagramme, la construction complète au compas.
     centerpiece: (progress) => (
       <svg width="230" height="176" viewBox="0 0 240 182" fill="none">
         <rect x="10" y="6" width="220" height="136" stroke="#E5E5E5" strokeOpacity="0.25" strokeWidth="1" />
@@ -631,7 +631,7 @@ const VARIANTS = [
         <path d="M10 18 C 14 8, 22 28, 26 18" stroke="#E5E5E5" strokeWidth="0.8" fill="none" />
       </svg>
     ),
-    // Figure de Lissajous (rapport 3:2), tracée progressivement — motif
+    // Figure de Lissajous (rapport 3:2), tracée progressivement, motif
     // classique d'un oscilloscope en mode X-Y (phase scope).
     centerpiece: (progress) => (
       <svg width="180" height="180" viewBox="0 0 200 200" fill="none">
@@ -672,7 +672,7 @@ const VARIANTS = [
       </svg>
     ),
     // Source en mouvement + fronts d'onde : cercles compressés à l'avant,
-    // étalés à l'arrière — schéma classique de l'effet Doppler.
+    // étalés à l'arrière, schéma classique de l'effet Doppler.
     centerpiece: () => (
       <svg width="230" height="140" viewBox="0 0 240 140" fill="none">
         <circle cx="100" cy="70" r="68" stroke="#E5E5E5" strokeOpacity="0.18" strokeWidth="1" fill="none" />
@@ -786,7 +786,7 @@ const VARIANTS = [
     ),
     // Vrai blason du club (fichier Wikipédia, fourni par l'utilisateur),
     // reteinté en niveaux du beige du site plutôt que ses couleurs
-    // officielles (bleu/rouge/or) — cohérent avec les 12 autres variantes.
+    // officielles (bleu/rouge/or), cohérent avec les 12 autres variantes.
     // Apparaît en "tampon" (scale-in) avec le chargement plutôt qu'un tracé
     // au trait, puisque c'est une image en aplats et non du line-art.
     // Deux étoiles fixes au-dessus (une par titre européen déjà acquis) et
@@ -842,7 +842,7 @@ const Preloader = ({ onComplete, minDuration = 3000 }) => {
   // État des quelques centerpieces interactifs à la souris : tant que
   // l'utilisateur n'a pas touché au diagramme, chaque valeur reste `null`
   // et le centerpiece se rabat sur son animation automatique liée à
-  // `progress` — l'interaction, quand elle a lieu, prend le dessus.
+  // `progress`, l'interaction, quand elle a lieu, prend le dessus.
   const [mousePos, setMousePos] = useState(null);
   const [manualBpX, setManualBpX] = useState(null);
   const [manualTempX, setManualTempX] = useState(null);
@@ -859,7 +859,7 @@ const Preloader = ({ onComplete, minDuration = 3000 }) => {
   const ctaRef = useRef(null);
   const scanlineRef = useRef(null);
   const curtainRef = useRef(null);
-  // Le rideau de sortie ne doit se jouer qu'une fois — sans ce garde, un
+  // Le rideau de sortie ne doit se jouer qu'une fois, sans ce garde, un
   // clic sur "PASSER" pile au moment où la barre atteint 100% déclencherait
   // la même timeline GSAP deux fois en parallèle.
   const hasExitedRef = useRef(false);
@@ -868,7 +868,7 @@ const Preloader = ({ onComplete, minDuration = 3000 }) => {
   // <body> a `transform: translateZ(0)` sur desktop (perf Lenis, index.css),
   // ce qui crée un stacking context : un simple z-index élevé à l'intérieur
   // de <body> ne suffit plus à passer au-dessus d'éléments portalés hors de
-  // <body> (le header, notamment — voir Home.jsx). Portail attaché à <html>
+  // <body> (le header, notamment, voir Home.jsx). Portail attaché à <html>
   // pour rester au-dessus de tout, même chose.
   const [portalNode, setPortalNode] = useState(null);
   useEffect(() => {
@@ -896,7 +896,7 @@ const Preloader = ({ onComplete, minDuration = 3000 }) => {
       footerRef.current,
     ].filter(Boolean);
 
-    // C'est le calque `curtain` qui glisse — le fond noir de `.preloader`
+    // C'est le calque `curtain` qui glisse, le fond noir de `.preloader`
     // (rootRef) reste fixe et opaque en permanence, sinon on verrait la
     // vraie page apparaître par en dessous pendant la descente.
     gsap.set(curtainRef.current, { yPercent: -100 });
@@ -981,7 +981,7 @@ const Preloader = ({ onComplete, minDuration = 3000 }) => {
       if (newProgress < 100) {
         rafRef.current = requestAnimationFrame(updateProgress);
       } else {
-        // À 100%, on enchaîne automatiquement sur le rideau de sortie — le
+        // À 100%, on enchaîne automatiquement sur le rideau de sortie, le
         // CTA/la molette restent un raccourci pour sauter l'attente, mais
         // ne sont plus nécessaires pour entrer sur le site.
         runExit();
@@ -998,7 +998,7 @@ const Preloader = ({ onComplete, minDuration = 3000 }) => {
   };
 
   // Le scroll (molette/trackpad) vaut clic sur le CTA : un geste de scroll
-  // dit "laisse-moi entrer" aussi clairement qu'un clic — pas besoin
+  // dit "laisse-moi entrer" aussi clairement qu'un clic, pas besoin
   // d'attendre la fin du chargement pour que ce raccourci fonctionne.
   useEffect(() => {
     const onWheel = () => handleSkip();
@@ -1316,7 +1316,7 @@ const Preloader = ({ onComplete, minDuration = 3000 }) => {
             </svg>
           </div>
 
-          {/* Centerpiece — diagramme scientifique unique par variante */}
+          {/* Centerpiece, diagramme scientifique unique par variante */}
           <div ref={centerpieceRef} className="preloader__centerpiece-wrap">
             <div className="preloader__centerpiece">
               {variant.centerpiece(progress, centerpieceExtra)}
@@ -1355,7 +1355,7 @@ const Preloader = ({ onComplete, minDuration = 3000 }) => {
             {variant.quote}
           </div>
 
-          {/* CTA — passe directement au rideau de sortie */}
+          {/* CTA, passe directement au rideau de sortie */}
           <div ref={ctaRef} className="preloader__cta-wrap">
             <button type="button" className="preloader__cta" onClick={handleSkip}>
               <span>{progress >= 100 ? 'ENTRER' : 'PASSER'}</span>

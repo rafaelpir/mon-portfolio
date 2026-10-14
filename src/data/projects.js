@@ -401,6 +401,7 @@ export const projects = [
   {
     "id": 14,
     "slug": "coffret-alicia-keys",
+    "heroImage": "/images/projects/display/alicia-officiel.webp",
     "title": "Coffret 20 Ans Alicia Keys",
     "shortTitle": "Alicia Keys",
     "category": "Branding",

@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { Renderer, Camera, Transform, Plane, Box, Program, Mesh, Texture, Mat4, Geometry, Cylinder } from 'ogl';
 import { projects } from '../data/projects';
-import { museumAvailable } from '../utils/museumAccess';
+import { museumAvailable, touchDevice } from '../utils/museumAccess';
 import { SOCIAL_LOGOS } from '../data/socialLogos';
 import { MUSEE_PLAYLIST } from '../data/museePlaylist';
 import { MUSEE_EXHIBITS } from '../data/museeExhibits';
@@ -89,7 +89,8 @@ const socialY = (index) => TV.y + TV.height / 2 - TV.height * TV.header - TV_ROW
 // Position de chaque affiche : côté (-1 mur gauche, +1 mur droit) et z
 const placement = (index) => ({ side: index % 2 === 0 ? -1 : 1, z: FIRST_Z - SPACING * Math.floor(index / 2) });
 
-// Autres visiteurs : personnages 3D figés dans une pose debout (avatars
+// Autres visiteurs : personnages 3D dans une pose de spectateur, appuyé sur
+// une jambe, main au menton, mains dans le dos, sur la hanche… (avatars
 // Microsoft Rocketbox, licence MIT, préparés avec Blender ; fichiers dans
 // public/models/visiteurs/). Chacun se tient devant une affiche, un peu de
 // côté pour ne pas la cacher quand on vient la regarder à son tour. sounds :
@@ -268,7 +269,7 @@ const ROOM_FRAGMENT = /* glsl */ `
     }
     if (uKind > 3.5) {
       // Mobilier et moulures : la lumière vient d'en haut, donc les dessous
-      // sont plus sombres que les faces — c'est ce qui dessine leur relief
+      // sont plus sombres que les faces, c'est ce qui dessine leur relief
       light.y *= 0.93 + 0.13 * n.y;
     }
     if (uKind < 0.5) {
@@ -348,9 +349,48 @@ const IMAGE_FRAGMENT = /* glsl */ `
   }
 `;
 
+// Visiteurs : ils ne sont pas des statues. Le haut du corps se balance très
+// légèrement (de plus en plus vers la tête, les pieds restent au sol) et la
+// poitrine se soulève au rythme de la respiration. uPhase décale chaque
+// visiteur ; uTime vaut 0 si l'on a demandé moins d'animations.
+const VISITOR_VERTEX = /* glsl */ `
+  attribute vec3 position;
+  attribute vec3 normal;
+  attribute vec2 uv;
+  uniform mat4 modelMatrix;
+  uniform mat4 viewMatrix;
+  uniform mat4 projectionMatrix;
+  uniform float uTime;
+  uniform float uPhase;
+  varying vec2 vUv;
+  varying vec3 vWorld;
+  varying vec3 vNormal;
+  void main() {
+    vUv = uv;
+    vec3 p = position;
+    float upper = smoothstep(0.85, 1.75, p.y);
+    p.x += sin(uTime * 0.55 + uPhase) * 0.011 * upper * upper;
+    p.z += sin(uTime * 0.41 + uPhase * 1.7) * 0.008 * upper * upper;
+    float chest = smoothstep(1.05, 1.28, p.y) * (1.0 - smoothstep(1.42, 1.58, p.y));
+    p += normal * 0.004 * chest * (0.5 + 0.5 * sin(uTime * 1.25 + uPhase * 2.3));
+    vec4 world = modelMatrix * vec4(p, 1.0);
+    vWorld = world.xyz;
+    vNormal = normalize(mat3(modelMatrix) * normal);
+    gl_Position = projectionMatrix * viewMatrix * world;
+  }
+`;
+// Leur matière : un peu d'ombre vers le sol, et un liseré clair sur les
+// contours (la lumière de la verrière qui accroche les épaules et les cheveux)
+const VISITOR_FRAGMENT = IMAGE_FRAGMENT.replace(
+  'vec3 view = normalize(cameraPosition - vWorld);',
+  `vec3 view = normalize(cameraPosition - vWorld);
+    color *= mix(0.8, 1.0, smoothstep(0.0, 0.55, p.y));
+    color += vec3(0.07, 0.07, 0.065) * pow(1.0 - max(dot(n, view), 0.0), 3.0) * (0.4 + 0.6 * max(n.y, 0.0));`
+);
+
 // Vue par une fenêtre : une grande photo panoramique tendue loin dehors. On
 // calcule où le regard la rencontre : elle remplit toujours la fenêtre et se
-// décale derrière le cadre quand on se déplace — peu, comme un paysage
+// décale derrière le cadre quand on se déplace, peu, comme un paysage
 // lointain, et sans se déformer. Le mur a une épaisseur (REVEAL) : on voit
 // l'embrasure autour de la vue.
 // La photo est cadrée telle qu'on la verrait depuis l'axe de la salle, tendue
@@ -387,7 +427,7 @@ const WINDOW_FRAGMENT = /* glsl */ `
     float u = 0.5 + uSide * (hit.z - uView.x) / (uView.y * ${f(FAR)});
     float v = (cameraPosition.y + (hit.y - cameraPosition.y) / ${f(FAR)} - uView.z) / uView.w;
     // Au-delà des bords de la photo (regard très oblique) : l'image repart
-    // en miroir — floue si uBlur vaut 1, pour ne pas montrer un monument
+    // en miroir, floue si uBlur vaut 1, pour ne pas montrer un monument
     // en double.
     float beyond = max(-u, u - 1.0);
     float mirrored = 1.0 - abs(1.0 - mod(u, 2.0));
@@ -398,7 +438,7 @@ const WINDOW_FRAGMENT = /* glsl */ `
 
     float soft = 0.0012 * length(vWorld - cameraPosition) / outward;
     // Sous la fenêtre, la façade parisienne : une corniche en pierre de
-    // taille, puis le toit en zinc de l'étage du dessous — feuilles patinées
+    // taille, puis le toit en zinc de l'étage du dessous, feuilles patinées
     // (photo), tasseaux dans le sens de la pente, coulures de pluie, et la
     // gouttière au bout.
     float roofX = ${f(HALL.halfWidth + REVEAL)};
@@ -463,7 +503,7 @@ const WINDOW_FRAGMENT = /* glsl */ `
 `;
 
 // Photos panoramiques de Paris vues par les fenêtres (Wikimedia Commons,
-// licences CC BY — crédits affichés dans la page). Les fichiers sont déjà
+// licences CC BY, crédits affichés dans la page). Les fichiers sont déjà
 // préparés : ciel prolongé vers le haut, 4096 × 2048 (et 2048 × 1024 pour
 // mobile). `view` : voir uView dans WINDOW_FRAGMENT. `mirror` : au-delà de
 // ses bords, l'image se répète en miroir nette (true) ou floue (false, quand
@@ -573,6 +613,59 @@ function drawCartel(exhibit) {
   };
 }
 
+// Référencement de la page : titre, description, image de partage et données
+// structurées (la salle comme collection d'œuvres, chaque affiche décrite et
+// reliée à sa fiche projet, plus le fil d'Ariane).
+const SITE = 'https://www.rafaelpiral.fr';
+const SEO = {
+  url: `${SITE}/musee`,
+  title: "Musée d'affiches en 3D | Rafael Piral, graphiste",
+  description: `Visitez le musée virtuel de Rafael Piral : une salle parisienne en 3D où se promener parmi ${EXHIBITS.length} affiches (cinéma, musique, sport), avec vue sur les toits de Paris et playlist à écouter.`,
+  image: `${SITE}/images/musee/og-musee.jpg`,
+};
+SEO.jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['CollectionPage', 'ImageGallery'],
+      '@id': `${SEO.url}#page`,
+      url: SEO.url,
+      name: SEO.title,
+      description: SEO.description,
+      inLanguage: 'fr',
+      image: SEO.image,
+      isPartOf: { '@type': 'WebSite', name: 'Rafael Piral | Portfolio', url: SITE },
+      author: { '@type': 'Person', name: 'Rafael Piral', url: SITE, jobTitle: 'Graphiste' },
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: EXHIBITS.length,
+        itemListElement: EXHIBITS.map((exhibit, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          item: {
+            '@type': 'VisualArtwork',
+            name: exhibit.title,
+            artform: 'Affiche',
+            artMedium: 'Impression numérique',
+            dateCreated: String(exhibit.year),
+            creator: { '@type': 'Person', name: 'Rafael Piral', url: SITE },
+            image: `${SITE}${exhibit.srcHd}`,
+            url: `${SITE}/work/${exhibit.slug}`,
+            description: exhibit.description,
+          },
+        })),
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE },
+        { '@type': 'ListItem', position: 2, name: "Musée d'affiches", item: SEO.url },
+      ],
+    },
+  ],
+};
+
 function hasWebGL() {
   try {
     const canvas = document.createElement('canvas');
@@ -609,6 +702,9 @@ export default function Musee() {
   const menuRef = useRef(null);
   const apiRef = useRef(null); // { goTo(index) } exposé par la scène
   const [focused, setFocused] = useState(null);
+  const focusedRef = useRef(null);
+  focusedRef.current = focused;
+  const [zoomed, setZoomed] = useState(null); // affiche ouverte en grand (index), ou null
   // Coin écoute : null tant qu'il n'a pas été lancé, puis { playing, index }
   const [music, setMusic] = useState(null);
   // audio : lecteur des extraits ; previews : adresse de l'extrait et lien
@@ -620,6 +716,11 @@ export default function Musee() {
   // on explique pourquoi, avec un retour vers le portfolio. `blocker` : la
   // raison du refus, ou null si la visite peut avoir lieu.
   const [desktop, setDesktop] = useState(museumAvailable);
+  // Appareil tactile : version allégée et joystick. stickRef : direction
+  // demandée par le joystick (x vers la droite, y vers l'avant, de -1 à 1).
+  const [touch] = useState(touchDevice);
+  const stickRef = useRef({ x: 0, y: 0 });
+  const knobRef = useRef(null);
   const [webgl] = useState(hasWebGL);
   const [weak, setWeak] = useState(() => hasWebGL() && !hasRealGPU()); // devient vrai aussi si la salle rame
   const [forced, setForced] = useState(false); // « visiter quand même »
@@ -649,7 +750,8 @@ export default function Musee() {
     const container = containerRef.current;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const renderer = new Renderer({ dpr: Math.min(window.devicePixelRatio || 1, 2), antialias: true, alpha: true, premultipliedAlpha: false });
+    const lite = touchDevice(); // téléphone, tablette : rendu allégé
+    const renderer = new Renderer({ dpr: Math.min(window.devicePixelRatio || 1, lite ? 1.5 : 2), antialias: !lite, alpha: true, premultipliedAlpha: false });
     const { gl } = renderer;
     gl.clearColor(0.9, 0.9, 0.88, 1);
     gl.canvas.style.display = 'block';
@@ -777,7 +879,7 @@ export default function Musee() {
       });
     const frame = () => new Mesh(gl, { geometry: new Box(gl, { width: POSTER.width + 0.07, height: POSTER.height + 0.07, depth: 0.035 }), program: roomProgram([0.035, 0.033, 0.03], 4) });
     // Textures haute définition sur grand écran, allégées sur mobile
-    const hd = Math.max(window.innerWidth, window.innerHeight) * (window.devicePixelRatio || 1) > 1400;
+    const hd = !lite && Math.max(window.innerWidth, window.innerHeight) * (window.devicePixelRatio || 1) > 1400;
 
     EXHIBITS.forEach((exhibit, index) => {
       const { side, z } = placement(index);
@@ -821,8 +923,9 @@ export default function Musee() {
     });
     // l'alpha du canvas doit rester à 1 : dessous, il y a la page
     shadowProgram.setBlendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ZERO, gl.ONE);
-    const visitors = [];
-    VISITORS.forEach(({ model, x, z, yaw }, order) => {
+    const visitorTime = { value: 0 }; // horloge commune de leur respiration
+    // (trois visiteurs seulement en version allégée)
+    VISITORS.slice(0, lite ? 3 : VISITORS.length).forEach(({ model, x, z, yaw }, order) => {
       const base = `/models/visiteurs/${model}`;
       Promise.all([fetch(`${base}.json`).then((r) => r.json()), fetch(`${base}.bin`).then((r) => r.arrayBuffer())])
         .then(([manifest, buffer]) => {
@@ -843,16 +946,16 @@ export default function Musee() {
               uv[i * 2 + 1] = 1 - data[i * 8 + 7];
             }
             const index = new Uint16Array(buffer, part.indexOffset, part.indexCount);
-            const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 4 });
+            const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 8 });
             const image = new Image();
             image.onload = () => {
               texture.image = image;
             };
-            image.src = `${base}-${part.name}.webp`;
+            image.src = `${base}-${part.name}${hd ? '-hd' : ''}.webp`;
             const program = new Program(gl, {
-                vertex: VERTEX,
-                fragment: IMAGE_FRAGMENT,
-                uniforms: { tMap: { value: texture }, uMirror: { value: 0 }, uGlass: { value: 0 } },
+                vertex: VISITOR_VERTEX,
+                fragment: VISITOR_FRAGMENT,
+                uniforms: { tMap: { value: texture }, uMirror: { value: 0 }, uGlass: { value: 0 }, uTime: visitorTime, uPhase: { value: order * 1.7 } },
                 // cheveux et cils : des plaques ajourées, visibles des deux côtés
               cullFace: part.name === 'opacity' ? null : gl.BACK,
             });
@@ -865,7 +968,6 @@ export default function Musee() {
           shadow.rotation.z = yaw;
           shadow.position.set(x, 0.004, z);
           shadow.setParent(scene);
-          visitors.push({ person, phase: order * 1.7 });
         })
         .catch(() => {}); // sans visiteurs, la salle reste visitable
     });
@@ -1043,7 +1145,9 @@ export default function Musee() {
     homeFrame.title = 'Portfolio';
     homeFrame.tabIndex = -1;
     homeFrame.setAttribute('aria-hidden', 'true');
-    homeFrame.src = '/';
+    // (en version allégée, pas de copie vivante de l'accueil : la porte
+    // ouvre sur le noir du portfolio et la sortie se fait en fondu)
+    if (!lite) homeFrame.src = '/';
     homeFrame.className = 'musee-portal';
     document.documentElement.appendChild(homeFrame);
     const fitPortal = () => {
@@ -1063,7 +1167,7 @@ export default function Musee() {
     // Place l'iframe derrière le trou (matrices en colonnes, comme matrix3d).
     // De loin, la page est tendue dans l'embrasure comme un écran, assez
     // grande pour la couvrir entièrement. En approchant, elle glisse vers sa
-    // place réelle — plein écran, à l'échelle 1 — et l'atteint avant le
+    // place réelle, plein écran, à l'échelle 1, et l'atteint avant le
     // seuil : il ne reste alors qu'à franchir la porte.
     const placePortal = (open) => {
       const W = container.clientWidth;
@@ -1122,7 +1226,7 @@ export default function Musee() {
           ctx.fillStyle = '#2a2a2a';
           ctx.textAlign = 'center';
           ctx.font = '500 70px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-          ctx.fillText('S O R T I E  ·  P O R T F O L I O', w / 2, 90, w - 40);
+          ctx.fillText('S O R T I E  ·  C A T A L O G U E', w / 2, 90, w - 40);
         },
         repaint
       )
@@ -1171,6 +1275,7 @@ export default function Musee() {
         ctx.fillStyle = '#555';
         ctx.font = '400 34px "PP Neue Montreal", Helvetica, Arial, sans-serif';
         ctx.fillText('Rafael Piral, graphiste', 90, 560, w - 180);
+        ctx.fillText("Le catalogue de l'exposition vous attend à la sortie.", 90, 640, w - 180);
       }, repaint)
     );
     introWall.rotation.y = Math.PI;
@@ -1280,10 +1385,22 @@ export default function Musee() {
     // ── Coin écoute ────────────────────────────────────────────────────────
     const box = (width, height, depth, albedo, mirror = 0) =>
       new Mesh(gl, { geometry: new Box(gl, { width, height, depth }), program: roomProgram(albedo, 4, mirror) });
-    [0].forEach((mirror) => {
-      const pedestal = box(STATION.width, STATION.height, STATION.depth, [0.93, 0.93, 0.92], mirror);
-      pedestal.position.set(STATION.x, (mirror ? -1 : 1) * (STATION.height / 2), STATION.z);
-      pedestal.setParent(scene);
+    // Pupitre en marbre poli (photos ambientCG, CC0) : un fût de marbre blanc
+    // veiné, entre un socle et une tablette de marbre noir qui débordent
+    // légèrement. uGlass : le reflet des projecteurs sur la pierre polie.
+    const marble = (src) => new Program(gl, { vertex: VERTEX, fragment: IMAGE_FRAGMENT, uniforms: { tMap: { value: photoTexture(src) }, uMirror: { value: 0 }, uGlass: { value: 1.6 } } });
+    const whiteMarble = marble('/images/musee/marbre-blanc.webp');
+    const blackMarble = marble('/images/musee/marbre-noir.webp');
+    const PLINTH = 0.07;
+    const SLAB = 0.045;
+    [
+      { program: blackMarble, width: STATION.width + 0.08, depth: STATION.depth + 0.08, height: PLINTH, y: PLINTH / 2 },
+      { program: whiteMarble, width: STATION.width - 0.05, depth: STATION.depth - 0.05, height: STATION.height - PLINTH - SLAB, y: PLINTH + (STATION.height - PLINTH - SLAB) / 2 },
+      { program: blackMarble, width: STATION.width + 0.04, depth: STATION.depth + 0.04, height: SLAB, y: STATION.height - SLAB / 2 },
+    ].forEach(({ program, width, depth, height, y }) => {
+      const block = new Mesh(gl, { geometry: new Box(gl, { width, height, depth }), program });
+      block.position.set(STATION.x, y, STATION.z);
+      block.setParent(scene);
     });
     // Baladeur à molette posé sur un petit présentoir, incliné vers le
     // visiteur. Quand on le prend (musique lancée), il quitte le socle et
@@ -1412,7 +1529,7 @@ export default function Musee() {
         repaint
       )
     );
-    stationCartel.position.set(STATION.x, 0.56, STATION.z + STATION.depth / 2 + 0.004);
+    stationCartel.position.set(STATION.x, 0.56, STATION.z + (STATION.depth - 0.05) / 2 + 0.004); // sur le fût
     stationCartel.setParent(scene);
 
     // Projecteur du coin écoute
@@ -1434,6 +1551,7 @@ export default function Musee() {
     // yaw 0 = regard vers le fond (-z) ; yaw > 0 = vers le mur gauche
     const view = { x: 0, z: 0.6, yaw: 0, pitch: 0 };
     let goal = null; // position visée après un clic sur une affiche
+    let travel = null; // trajet guidé en cours vers `goal`
     const keys = new Set();
     const motion = { forward: 0, strafe: 0, turn: 0 };
 
@@ -1445,7 +1563,10 @@ export default function Musee() {
       const span = 2 * Math.tan((FOV * Math.PI) / 360);
       const aspect = container.clientWidth / container.clientHeight;
       const distance = Math.min(Math.max(POSTER.width / 0.82 / (span * aspect), POSTER.height / 0.52 / span), HALL.halfWidth * 2 - 1.2);
-      goal = { x: side * (HALL.halfWidth - distance), z, yaw: side < 0 ? Math.PI / 2 : -Math.PI / 2, pitch: -Math.atan(0.07 * span) };
+      // (sur appareil tactile la fiche est en haut de l'écran : le regard se
+      // lève un peu, pour que l'affiche descende dessous)
+      const tilt = lite ? (aspect > 1 ? 0.09 : 0.07) : -0.07;
+      goal = { x: side * (HALL.halfWidth - distance), z, yaw: side < 0 ? Math.PI / 2 : -Math.PI / 2, pitch: Math.atan(tilt * span) };
       if (reducedMotion) {
         Object.assign(view, goal);
         goal = null;
@@ -1573,6 +1694,8 @@ export default function Musee() {
         if (index === 'station') goToStation();
         else if (index === 'exit') goToExit();
         else if (index?.social !== undefined) window.open(SOCIALS[index.social].href, '_blank', 'noopener');
+        // un clic sur l'affiche devant laquelle on se tient déjà l'ouvre en grand
+        else if (index !== null && index === focusedRef.current && !goal) setZoomed(index);
         else if (index !== null) goTo(index);
       }
       drag = null;
@@ -1691,23 +1814,38 @@ export default function Musee() {
         }
       }
 
+      if (goal && !exiting && Math.hypot(stickRef.current.x, stickRef.current.y) > 0.25) goal = null; // le joystick reprend la main
       if (goal) {
-        const k = 1 - Math.exp(-dt * 3.2);
-        const turn = Math.atan2(Math.sin(goal.yaw - view.yaw), Math.cos(goal.yaw - view.yaw)); // plus court chemin
-        view.x += (goal.x - view.x) * k;
-        view.z += (goal.z - view.z) * k;
-        view.yaw += turn * k;
-        view.pitch += (goal.pitch - view.pitch) * k;
-        if (Math.abs(goal.x - view.x) + Math.abs(goal.z - view.z) + Math.abs(turn) < 0.002) {
+        // Trajet guidé : un mouvement doux, qui démarre lentement, prend de la
+        // vitesse puis ralentit avant d'arriver (au lieu de partir d'un coup).
+        // Sa durée suit la distance et l'angle à parcourir.
+        if (!travel || travel.goal !== goal) {
+          const turn = Math.atan2(Math.sin(goal.yaw - view.yaw), Math.cos(goal.yaw - view.yaw)); // plus court chemin
+          const length = Math.hypot(goal.x - view.x, goal.z - view.z) + Math.abs(turn) * 1.6;
+          travel = { goal, from: { ...view }, turn, time: 0, duration: Math.min(3.4, Math.max(1.3, 1 + length * 0.24)) };
+        }
+        travel.time += dt;
+        const p = Math.min(1, travel.time / travel.duration);
+        const eased = p * p * p * (p * (p * 6 - 15) + 10);
+        view.x = travel.from.x + (goal.x - travel.from.x) * eased;
+        view.z = travel.from.z + (goal.z - travel.from.z) * eased;
+        view.yaw = travel.from.yaw + travel.turn * eased;
+        view.pitch = travel.from.pitch + (goal.pitch - travel.from.pitch) * eased;
+        if (p >= 1) {
           Object.assign(view, goal);
           goal = null;
+          travel = null;
         }
         motion.forward = motion.strafe = motion.turn = 0;
       } else {
         // Vitesses amorties : on accélère et on s'arrête en douceur
         const ease = 1 - Math.exp(-dt * 9);
-        motion.forward += ((keys.has('KeyW') || keys.has('ArrowUp') ? 1 : 0) - (keys.has('KeyS') || keys.has('ArrowDown') ? 1 : 0) - motion.forward) * ease;
-        motion.strafe += ((keys.has('KeyD') ? 1 : 0) - (keys.has('KeyA') ? 1 : 0) - motion.strafe) * ease;
+        // clavier, ou joystick sur appareil tactile (dosé : on peut marcher lentement)
+        const stick = stickRef.current;
+        const wantForward = (keys.has('KeyW') || keys.has('ArrowUp') ? 1 : 0) - (keys.has('KeyS') || keys.has('ArrowDown') ? 1 : 0) + stick.y;
+        const wantStrafe = (keys.has('KeyD') ? 1 : 0) - (keys.has('KeyA') ? 1 : 0) + stick.x;
+        motion.forward += (Math.max(-1, Math.min(1, wantForward)) - motion.forward) * ease;
+        motion.strafe += (Math.max(-1, Math.min(1, wantStrafe)) - motion.strafe) * ease;
         motion.turn += ((keys.has('ArrowLeft') ? 1 : 0) - (keys.has('ArrowRight') ? 1 : 0) - motion.turn) * ease;
         view.yaw += motion.turn * TURN_SPEED * dt;
         const sin = Math.sin(view.yaw);
@@ -1729,7 +1867,7 @@ export default function Musee() {
       view.z = Math.max(HALL.zEnd + 1.2, Math.min(HALL.zBack - (canPass || exiting ? EXIT.threshold : 0.6), view.z));
       if (canPass && view.z > HALL.zBack - 0.75 && !exiting) {
         // On franchit la porte : le visiteur est amené droit sur le seuil, où
-        // l'embrasure — donc la page — remplit tout l'écran…
+        // l'embrasure, donc la page, remplit tout l'écran…
         exiting = true;
         setLeaving(true);
         keys.clear();
@@ -1740,12 +1878,17 @@ export default function Musee() {
         // …puis la page vivante passe au premier plan, la navigation se fait
         // dessous, et elle s'efface une fois la vraie page montée.
         left = true;
-        Object.assign(homeFrame.style, { transform: 'none', zIndex: '1000', visibility: 'visible' });
-        navigate('/');
-        setTimeout(() => {
-          homeFrame.classList.add('musee-portal-out');
-          setTimeout(() => homeFrame.remove(), 700);
-        }, 1100);
+        if (lite) {
+          homeFrame.remove();
+          navigate('/');
+        } else {
+          Object.assign(homeFrame.style, { transform: 'none', zIndex: '1000', visibility: 'visible' });
+          navigate('/');
+          setTimeout(() => {
+            homeFrame.classList.add('musee-portal-out');
+            setTimeout(() => homeFrame.remove(), 700);
+          }, 1100);
+        }
       }
 
       // …et le mobilier aussi (socle du coin écoute, bancs) : on le contourne
@@ -1778,19 +1921,14 @@ export default function Musee() {
         }
       }
 
-      // Les visiteurs ne sont pas des statues : un très léger balancement
-      if (!reducedMotion) {
-        visitors.forEach(({ person, phase }) => {
-          person.rotation.x = Math.sin(now * 0.0009 + phase) * 0.006;
-          person.rotation.z = Math.sin(now * 0.0006 + phase * 2.0) * 0.005;
-        });
-      }
+      // Respiration et balancement des visiteurs (voir VISITOR_VERTEX)
+      if (!reducedMotion) visitorTime.value = now / 1000;
 
       camera.position.set(view.x, EYE, view.z);
       camera.rotation.y = view.yaw;
       camera.rotation.x = view.pitch;
       renderer.render({ scene, camera });
-      if (!left) placePortal(doorOpen);
+      if (!left && !lite) placePortal(doorOpen);
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -1904,6 +2042,43 @@ export default function Musee() {
     setMusic(null);
   };
 
+  // Affiche en grand : Échap la referme, et elle se referme d'elle-même si
+  // on quitte l'affiche
+  useEffect(() => {
+    if (zoomed === null) return undefined;
+    const onKey = (e) => e.key === 'Escape' && setZoomed(null);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [zoomed]);
+  useEffect(() => {
+    if (focused === null) setZoomed(null);
+  }, [focused]);
+
+  // Joystick tactile : le pouce déplace le bouton dans son socle ; la
+  // direction et la force sont lues à chaque image par la salle (stickRef).
+  const moveStick = (e) => {
+    const base = e.currentTarget.getBoundingClientRect();
+    const reach = base.width / 2;
+    let x = (e.clientX - (base.left + reach)) / reach;
+    let y = (e.clientY - (base.top + reach)) / reach;
+    const length = Math.hypot(x, y);
+    if (length > 1) {
+      x /= length;
+      y /= length;
+    }
+    stickRef.current = { x, y: -y };
+    if (knobRef.current) knobRef.current.style.transform = `translate(${(x * reach * 0.55).toFixed(1)}px, ${(y * reach * 0.55).toFixed(1)}px)`;
+  };
+  const startStick = (e) => {
+    e.currentTarget.setPointerCapture(e.pointerId);
+    setFocused(null);
+    moveStick(e);
+  };
+  const endStick = () => {
+    stickRef.current = { x: 0, y: 0 };
+    if (knobRef.current) knobRef.current.style.transform = 'translate(0px, 0px)';
+  };
+
   // Menu du baladeur : la molette monte et descend dans la liste, le bouton
   // central lance le titre surligné.
   const openMenu = () => {
@@ -1934,9 +2109,26 @@ export default function Musee() {
   return (
     <>
       <Helmet>
-        <title>Musée d'affiches · Rafael Piral</title>
-        <meta name="description" content="Une galerie en 3D où se promener parmi les affiches de Rafael Piral." />
-        <link rel="canonical" href="https://www.rafaelpiral.fr/musee" />
+        <html lang="fr" />
+        <title>{SEO.title}</title>
+        <meta name="description" content={SEO.description} />
+        <meta name="robots" content="index, follow, max-image-preview:large" />
+        <link rel="canonical" href={SEO.url} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Rafael Piral | Portfolio" />
+        <meta property="og:url" content={SEO.url} />
+        <meta property="og:title" content={SEO.title} />
+        <meta property="og:description" content={SEO.description} />
+        <meta property="og:image" content={SEO.image} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Salle du musée en 3D : affiches de Rafael Piral accrochées aux murs, sous une verrière" />
+        <meta property="og:locale" content="fr_FR" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={SEO.title} />
+        <meta name="twitter:description" content={SEO.description} />
+        <meta name="twitter:image" content={SEO.image} />
+        <script type="application/ld+json">{JSON.stringify(SEO.jsonLd)}</script>
       </Helmet>
 
       {!supported ? (
@@ -1946,14 +2138,14 @@ export default function Musee() {
           <div className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center text-center">
             <p className="text-xs tracking-[0.3em] uppercase opacity-60">Musée d'affiches</p>
             <h1 className="mt-6 text-3xl md:text-4xl" style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}>
-              {blocker === 'size' && 'La visite se fait sur ordinateur'}
+              {blocker === 'size' && 'La fenêtre est trop étroite'}
               {blocker === 'browser' && "Ce navigateur ne peut pas afficher la visite"}
-              {blocker === 'power' && "Cet ordinateur n'est pas assez puissant"}
+              {blocker === 'power' && "Cet appareil n'est pas assez puissant"}
             </h1>
             <p className="mt-5 text-sm md:text-base opacity-70">
-              {blocker === 'size' && "Le musée est une salle en 3D dans laquelle on se promène : il lui faut un ordinateur, avec une souris ou un pavé tactile, et une fenêtre d'au moins 1024 pixels de large. Agrandissez la fenêtre, ou revenez depuis un ordinateur."}
+              {blocker === 'size' && "Le musée est une salle en 3D dans laquelle on se promène : sur ordinateur, il lui faut une fenêtre d'au moins 1024 pixels de large. Agrandissez la fenêtre pour commencer la visite."}
               {blocker === 'browser' && "Le musée est une salle en 3D, et ce navigateur ne sait pas l'afficher (WebGL indisponible). Essayez avec un navigateur récent, comme Chrome, Firefox ou Safari."}
-              {blocker === 'power' && "Le musée est une salle en 3D, et elle ne s'affiche pas de façon fluide sur cette machine. Fermer d'autres onglets ou applications peut aider."}
+              {blocker === 'power' && "Le musée est une salle en 3D, et elle ne s'affiche pas de façon fluide sur cet appareil. Fermer d'autres onglets ou applications peut aider."}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link to="/" className="px-5 py-3 text-xs tracking-widest uppercase border border-beige bg-beige text-black transition-opacity hover:opacity-80">
@@ -1971,7 +2163,7 @@ export default function Musee() {
             {EXHIBITS.map((item) => (
               <li key={item.image}>
                 <Link to={`/work/${item.slug}`}>
-                  <img src={item.src} alt={`Affiche — ${item.title}`} loading="lazy" />
+                  <img src={item.src} alt={`Affiche : ${item.title}`} loading="lazy" />
                   <span className="mt-2 block text-sm">{item.title} · {item.year}</span>
                 </Link>
               </li>
@@ -1981,6 +2173,27 @@ export default function Musee() {
       ) : (
         <div className={`relative text-beige font-stamp overflow-clip ${leaving ? 'musee-leaving' : ''}`} style={{ height: '100dvh' }}>
           <div ref={containerRef} className="absolute inset-0" role="img" aria-label="Galerie en 3D : huit affiches accrochées aux murs blancs d'une salle d'exposition, sous une verrière" />
+          {/* La salle est une image pour les moteurs de recherche et les
+              lecteurs d'écran : ce bloc leur en donne le contenu en texte. */}
+          <div className="sr-only">
+            <p>
+              Musée virtuel de Rafael Piral, graphiste : une salle d'exposition parisienne en 3D, sous verrière, où l'on se promène parmi {EXHIBITS.length} affiches de cinéma, de musique et de sport, avec vue sur les toits de Paris et la tour Eiffel.
+            </p>
+            <h2>Affiches exposées</h2>
+            <ul>
+              {EXHIBITS.map((item) => (
+                <li key={item.image}>
+                  <Link to={`/work/${item.slug}`}>
+                    {item.title}, {item.note || item.category}, {item.year}
+                  </Link>
+                  {item.description ? ` : ${item.description}` : ''}
+                </li>
+              ))}
+            </ul>
+            <p>
+              <Link to="/">Retour au portfolio de Rafael Piral</Link>
+            </p>
+          </div>
           <div ref={lidsRef} aria-hidden="true" className="musee-lids">
             <span />
             <span />
@@ -1989,7 +2202,7 @@ export default function Musee() {
           <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.42) 0%, transparent 13%, transparent 74%, rgba(0, 0, 0, 0.6) 100%)' }} />
 
           <div className="absolute top-0 left-0 right-0 flex items-baseline justify-between px-4 md:px-8 py-4 text-xs md:text-sm tracking-[0.3em] uppercase pointer-events-none">
-            <Link to="/" className="pointer-events-auto opacity-70 transition-opacity hover:opacity-100">← Portfolio</Link>
+            <Link to="/" className="pointer-events-auto opacity-70 transition-opacity hover:opacity-100">← Catalogue</Link>
             <h1 className="opacity-70">Musée d'affiches</h1>
           </div>
 
@@ -2083,33 +2296,56 @@ export default function Musee() {
             ))}
           </p>
 
-          <div className="absolute bottom-0 left-0 right-0 px-4 md:px-8 pb-5 flex flex-col items-center gap-3 pointer-events-none">
+          {/* Affiche ouverte en grand : un clic n'importe où, ou Échap, la referme */}
+          {zoomed !== null && EXHIBITS[zoomed] && (
+            <div className="musee-zoom" role="dialog" aria-modal="true" aria-label={`Affiche : ${EXHIBITS[zoomed].title}`} onClick={() => setZoomed(null)}>
+              <img src={EXHIBITS[zoomed].srcHd} alt={`Affiche : ${EXHIBITS[zoomed].title}`} draggable={false} />
+              <button type="button" aria-label="Fermer" onClick={() => setZoomed(null)}>
+                ✕
+              </button>
+            </div>
+          )}
+
+          {/* Appareil tactile : joystick pour marcher (pouce gauche), l'autre
+              doigt glisse sur la salle pour regarder */}
+          {touch && (
+            <div className="musee-stick" onPointerDown={startStick} onPointerMove={(e) => e.currentTarget.hasPointerCapture(e.pointerId) && moveStick(e)} onPointerUp={endStick} onPointerCancel={endStick} role="presentation">
+              <span ref={knobRef} />
+            </div>
+          )}
+
+          <div className="musee-bottom absolute bottom-0 left-0 right-0 px-4 md:px-8 pb-5 flex flex-col items-center gap-3 pointer-events-none">
             {exhibit ? (
-              <div className="pointer-events-auto w-full max-w-xl bg-black/70 backdrop-blur-sm border border-beige/15 px-5 py-4">
+              <div className="musee-info pointer-events-auto w-full max-w-xl bg-black/70 backdrop-blur-sm border border-beige/15 px-5 py-4">
                 <div className="flex items-baseline justify-between gap-4">
                   <p className="text-lg md:text-xl" style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}>{exhibit.title}</p>
                   <p className="text-xs opacity-50 tabular-nums whitespace-nowrap">{String(focused + 1).padStart(2, '0')} / {String(EXHIBITS.length).padStart(2, '0')}</p>
                 </div>
                 <p className="mt-1 text-xs tracking-widest uppercase opacity-50">{exhibit.note || exhibit.category} · {exhibit.year}</p>
                 <p className="mt-2 text-sm opacity-70 line-clamp-2">{exhibit.description}</p>
-                <Link to={`/work/${exhibit.slug}`} className="mt-3 inline-block text-sm underline underline-offset-2 transition-opacity hover:opacity-60">
-                  Voir le projet →
-                </Link>
+                <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+                  <button type="button" onClick={() => setZoomed(focused)} className="underline underline-offset-2 transition-opacity hover:opacity-60">
+                    Voir en grand ⤢
+                  </button>
+                  <Link to={`/work/${exhibit.slug}`} className="underline underline-offset-2 transition-opacity hover:opacity-60">
+                    Voir le projet →
+                  </Link>
+                </div>
               </div>
             ) : (
               <p className="text-[11px] md:text-xs tracking-[0.25em] uppercase opacity-60 text-center">
-                <span className="hidden md:inline">Flèches ou ZQSD pour marcher · </span>Glisse pour regarder · Clique une affiche ou le baladeur · Sortie par la porte
+                {touch ? 'Joystick pour marcher · Glisse pour regarder · Touche une affiche' : 'Flèches ou ZQSD pour marcher · Glisse pour regarder · Clique une affiche ou le baladeur · Sortie par la porte'}
               </p>
             )}
-            <div className="pointer-events-auto flex items-center gap-3">
+            <div className="musee-actions pointer-events-auto flex items-center gap-3">
               <button type="button" onClick={() => step(-1)} className="px-4 py-2 text-xs tracking-widest uppercase border border-beige/25 bg-black/60 transition-colors hover:border-beige">
-                ← Précédente
+                ←<span className="musee-wide"> Précédente</span>
               </button>
               <button type="button" onClick={() => step(1)} className="px-4 py-2 text-xs tracking-widest uppercase border border-beige/25 bg-black/60 transition-colors hover:border-beige">
-                {focused === null ? 'Commencer la visite' : 'Suivante →'}
+                {focused === null ? (touch ? 'Visite guidée' : 'Commencer la visite') : 'Suivante →'}
               </button>
               <button type="button" onClick={() => apiRef.current?.goToStation()} className="px-4 py-2 text-xs tracking-widest uppercase border border-beige/25 bg-black/60 transition-colors hover:border-beige">
-                ♪ Coin écoute
+                ♪<span className="musee-wide"> Coin écoute</span>
               </button>
             </div>
           </div>

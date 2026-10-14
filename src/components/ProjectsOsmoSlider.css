@@ -2,7 +2,7 @@
    .osmo-slider. Couleurs pilotées par --color-text/--color-bg (posées en
    inline-style par le composant selon isDarkMode) plutôt que les vars fixes
    du demo ; police PP Neue Montreal déjà self-hosted par le site (voir
-   index.css) — pas de @font-face externe. Logique/valeurs sinon fidèles à
+   index.css), pas de @font-face externe. Logique/valeurs sinon fidèles à
    l'original. */
 
 .osmo-slider,

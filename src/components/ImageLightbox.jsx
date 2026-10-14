@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 // version gonflait l'image dans le flux de la page (width/maxWidth animés),
 // ce qui décalait tout le contenu et le scroll au clic. Ici l'image s'ouvre
 // par-dessus tout, sur fond sombre, sans toucher à la mise en page en
-// dessous — fermeture au clic en dehors, sur la croix, ou via Échap.
+// dessous, fermeture au clic en dehors, sur la croix, ou via Échap.
 export default function ImageLightbox({ src, alt, onClose, onPrev, onNext, counter }) {
   const [portalNode, setPortalNode] = useState(null);
   const dialogRef = useRef(null);
@@ -22,7 +22,7 @@ export default function ImageLightbox({ src, alt, onClose, onPrev, onNext, count
 
   // Focus management d'une vraie modale : on mémorise l'élément qui avait le
   // focus avant l'ouverture (la vignette cliquée) pour l'y renvoyer à la
-  // fermeture — effet séparé du déplacement de focus ci-dessous, sinon son
+  // fermeture, effet séparé du déplacement de focus ci-dessous, sinon son
   // nettoyage (qui restaure le focus) se déclencherait dès que `portalNode`
   // change plutôt qu'au vrai démontage.
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function ImageLightbox({ src, alt, onClose, onPrev, onNext, count
   }, []);
 
   // Le portail (et donc le bouton fermer) n'existe dans le DOM qu'une fois
-  // `portalNode` prêt — le mettre au focus doit attendre ce second rendu,
+  // `portalNode` prêt, le mettre au focus doit attendre ce second rendu,
   // sinon `closeButtonRef.current` est encore `null` sur le tout premier
   // passage (celui qui rend `null` en attendant le portail).
   useEffect(() => {

@@ -14,7 +14,7 @@ const MOBILE_NAV_ITEMS = [
 
 // Header de la home, isolé dans son propre composant : tout son état est
 // piloté par le scroll (section active, contraste) ou des clics (menus).
-// Avant cette extraction, cet état vivait dans Home() lui-même — chaque
+// Avant cette extraction, cet état vivait dans Home() lui-même, chaque
 // mise à jour re-rendait donc TOUTE la page (hero WebGL, dual-wave projets,
 // carrousel skills, timeline, formulaire...) pour un simple changement de
 // couleur de texte dans le header. Le déplacer ici confine ces re-renders
@@ -53,7 +53,7 @@ export default function HomeHeader({ isDarkMode, setIsDarkMode, scrollToSection 
 
   // Contraste du header selon ce qu'il survole : la section skills inverse
   // volontairement son fond par rapport à isDarkMode (bg-beige-light en dark
-  // mode, bg-black en light mode) pour la variété visuelle — sans ce suivi,
+  // mode, bg-black en light mode) pour la variété visuelle, sans ce suivi,
   // le texte du header devient illisible dessus (ex. beige sur beige).
   // rootMargin réduit l'intersection à la bande du haut de l'écran (là où
   // vit le header), pas au centre comme `activeSection` ci-dessus.
@@ -71,8 +71,18 @@ export default function HomeHeader({ isDarkMode, setIsDarkMode, scrollToSection 
   }, []);
   const headerIsDark = headerOverInvertedSection ? !isDarkMode : isDarkMode;
 
+  // Sur téléphone, l'en-tête prend un fond dès qu'on a quitté le haut de
+  // page (classe m-header-solid, sans effet sur ordinateur).
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   // Le header (position: fixed) est un descendant normal de <body>, qui a
-  // `transform: translateZ(0)` sur desktop (perf Lenis, index.css) — un
+  // `transform: translateZ(0)` sur desktop (perf Lenis, index.css), un
   // ancêtre transformé redéfinit le containing block, donc `fixed` s'y
   // comporte comme `absolute` et le header défile avec la page au lieu de
   // rester épinglé. Même fix que PageTransitionOverlay/ScrollListIndex/
@@ -121,12 +131,12 @@ export default function HomeHeader({ isDarkMode, setIsDarkMode, scrollToSection 
       headerIsDark
         ? 'bg-black/5'
         : 'bg-beige/5'
-    }`}>
+    } ${scrolled ? `m-header-solid ${headerIsDark ? '' : 'is-light'}` : ''}`}>
       <div className="w-full flex items-center justify-between">
         {/* Logo */}
         <Logo isDarkMode={headerIsDark} />
 
-        {/* Navigation — l'item de la section actuellement visible
+        {/* Navigation, l'item de la section actuellement visible
             (activeSection, cf. IntersectionObserver plus haut) reste
             pleinement coloré et souligné, les autres restent en gris :
             un "fil d'Ariane" pour une page à scroll continu, montrant où
@@ -273,7 +283,7 @@ export default function HomeHeader({ isDarkMode, setIsDarkMode, scrollToSection 
         </div>
       </div>
 
-      {/* Menu mobile — plein écran, refonte : grande typographie éditoriale
+      {/* Menu mobile, plein écran, refonte : grande typographie éditoriale
           (même logique 01/02/03/04 que la nav desktop, mais à l'échelle du
           titre du hero), entrée en cascade plutôt qu'un dropdown instantané. */}
       <AnimatePresence>

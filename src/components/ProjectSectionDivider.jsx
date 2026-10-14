@@ -1,4 +1,4 @@
-// Séparateur de section numéroté — reprend le motif "0X" en exposant déjà
+// Séparateur de section numéroté, reprend le motif "0X" en exposant déjà
 // utilisé dans la nav de la home (01/02/03/04), pour donner aux pages
 // projet le même rythme éditorial que le reste du site.
 export default function ProjectSectionDivider({ index, label, isDarkMode, accentTextClass, accentLineClass }) {

@@ -49,7 +49,7 @@ export default function NoisyGradient({ isDarkMode, className = '' }) {
       ctx.fillStyle = isDarkMode ? '#0d0a08' : '#f9f5f1';
       ctx.fillRect(0, 0, width, height);
 
-      // Centre du blob — dérive lentement
+      // Centre du blob, dérive lentement
       const cx = width  * (0.50 + Math.sin(t * 0.38) * 0.07);
       const cy = height * (0.52 + Math.cos(t * 0.28) * 0.07);
       const R  = Math.min(width, height) * (isDarkMode ? 0.52 : 0.48);
@@ -60,7 +60,7 @@ export default function NoisyGradient({ isDarkMode, className = '' }) {
 
       const alpha = isDarkMode ? 0.90 : 0.82;
 
-      // Blob 1 — Rose / Magenta (haut)
+      // Blob 1, Rose / Magenta (haut)
       {
         const ox = cx + Math.sin(t * 0.5 + 1.2) * r * 0.06;
         const oy = cy - r * 0.18 + Math.cos(t * 0.4) * r * 0.06;
@@ -72,7 +72,7 @@ export default function NoisyGradient({ isDarkMode, className = '' }) {
         ctx.fillRect(0, 0, width, height);
       }
 
-      // Blob 2 — Corail / Orange (centre)
+      // Blob 2, Corail / Orange (centre)
       {
         const ox = cx + Math.cos(t * 0.45 + 0.8) * r * 0.08;
         const oy = cy + Math.sin(t * 0.35 + 2.0) * r * 0.05;
@@ -84,7 +84,7 @@ export default function NoisyGradient({ isDarkMode, className = '' }) {
         ctx.fillRect(0, 0, width, height);
       }
 
-      // Blob 3 — Jaune chaud / Pêche (bas)
+      // Blob 3, Jaune chaud / Pêche (bas)
       {
         const ox = cx + Math.sin(t * 0.32 + 3.5) * r * 0.07;
         const oy = cy + r * 0.22 + Math.cos(t * 0.42 + 1.0) * r * 0.06;
@@ -96,7 +96,7 @@ export default function NoisyGradient({ isDarkMode, className = '' }) {
         ctx.fillRect(0, 0, width, height);
       }
 
-      // Grain — rafraîchi toutes les 3 frames
+      // Grain, rafraîchi toutes les 3 frames
       if (frame % 3 === 0) makeGrain(gctx);
 
       const pattern = ctx.createPattern(grainCanvas, 'repeat');

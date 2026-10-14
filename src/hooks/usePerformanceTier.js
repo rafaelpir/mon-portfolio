@@ -16,7 +16,7 @@ function computeTier() {
   }
 
   // 'none' est réservé à la préférence d'accessibilité ci-dessus : un
-  // hardware faible dégrade au pire jusqu'à 'reduced', jamais 'none' — sinon
+  // hardware faible dégrade au pire jusqu'à 'reduced', jamais 'none', sinon
   // des animations légères (ex. carrousel de compétences) se figeaient sur
   // les mobiles bas/moyen de gamme (deviceMemory ou cores faibles) alors que
   // l'utilisateur n'a jamais demandé de mouvement réduit.

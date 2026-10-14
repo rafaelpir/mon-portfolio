@@ -10,7 +10,7 @@ import ScrollRevealText from '../components/ScrollRevealText';
 // Même logique que CATEGORY_STYLES dans Timeline.jsx : classes écrites en
 // toutes lettres (pas de `${hue}-400` reconstruit) pour que le JIT Tailwind
 // les détecte dans le texte source. Un accent par domaine de compétence,
-// plutôt qu'un même liseré neutre partout — fait écho au code couleur déjà
+// plutôt qu'un même liseré neutre partout, fait écho au code couleur déjà
 // utilisé pour les catégories du Parcours.
 const SKILL_CATEGORY_STYLES = {
   design: { border: 'border-l-orange-400/40', borderLight: 'border-l-orange-500/40' },
@@ -79,6 +79,7 @@ export default function About() {
             "description": "Étudiant en 3e année de BUT Métiers du Multimédia et de l'Internet à l'IUT de Bobigny. Spécialisé en design graphique, UI/UX design et audiovisuel.",
             "knowsAbout": ["Design Graphique", "UI/UX Design", "Audiovisuel", "Figma", "Photoshop", "Illustrator", "Premiere Pro", "Motion Design", "Branding"],
             "sameAs": [
+              "https://www.instagram.com/rafa31z/",
               "https://www.linkedin.com/in/rafaelpiral",
               "https://github.com/rafaelpir",
               "https://www.behance.net/rafaelpiral1"
@@ -139,6 +140,11 @@ export default function About() {
         <GridSparkles isDarkMode={isDarkMode} className="z-0" />
 
         <div className="relative z-10">
+          {/* Titre courant du catalogue : cette page en est l'annexe */}
+          <p className="catalogue-running mb-10 md:mb-14">
+            <span>{currentLang === 'fr' ? "Annexe · L'auteur" : 'Appendix · The author'}</span>
+            <span>p. 36</span>
+          </p>
           <h1
             className={`uppercase leading-none mb-8 ${isDarkMode ? 'text-white' : 'text-black'}`}
             style={{
@@ -338,6 +344,16 @@ export default function About() {
               }`}
             >
               LinkedIn
+            </a>
+            <a
+              href="https://www.instagram.com/rafa31z/"
+              target="_blank"
+              rel="me noopener noreferrer"
+              className={`text-sm transition-colors ${
+                isDarkMode ? 'text-gray-500 hover:text-beige' : 'text-gray-600 hover:text-black'
+              }`}
+            >
+              Instagram
             </a>
             <a
               href="https://www.behance.net/rafaelpiral1"
