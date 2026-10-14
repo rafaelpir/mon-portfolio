@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { projects } from '../data/projects';
@@ -11,10 +11,10 @@ import { projects } from '../data/projects';
 // `to` : lien vers une autre page du site. Pas de numéros de page inventés :
 // on se repère au numéro de chapitre.
 export const CHAPTERS = [
-  { number: '01', id: 'about', fr: 'Avant-propos', en: 'Foreword' },
-  { number: '02', id: 'projects', fr: 'Œuvres', en: 'Works' },
-  { number: '03', id: 'exposition', fr: "Visiter l'exposition", en: 'Visit the exhibition', to: '/musee', note: '3D' },
-  { number: '04', id: 'skills', fr: 'Savoir-faire', en: 'Skills' },
+  { number: '01', id: 'about', fr: 'À propos', en: 'About' },
+  { number: '02', id: 'projects', fr: 'Projets', en: 'Projects' },
+  { number: '03', id: 'exposition', fr: 'Le musée', en: 'The museum', to: '/musee', note: '3D' },
+  { number: '04', id: 'skills', fr: 'Compétences', en: 'Skills' },
   { number: '05', id: 'parcours', fr: 'Parcours', en: 'Background' },
   { number: '06', id: 'contact', fr: 'Contact', en: 'Contact' },
 ];
@@ -35,24 +35,57 @@ export function ChapterHeading({ id, lang = 'fr', className = '', as: Title = 'h
 
 // Couverture du catalogue (ordinateur) : le nom en très grand, composé lettre
 // à lettre à l'arrivée, une ligne de présentation et deux entrées.
+// Si l'on vient de l'ouverture (le livre feuilleté), les deux mots du nom,
+// posés de part et d'autre du livre, glissent et grandissent jusqu'à leur
+// place sur la couverture : c'est le même nom qui passe d'une page à l'autre.
+// Sinon, les lettres montent simplement en fondu.
 export function Cover({ lang = 'fr', isDarkMode, onGo, children }) {
   const french = lang === 'fr';
+  const wordsRef = useRef([]);
+  // vrai si la page de garde est encore là quand la couverture apparaît
+  const [fromOpening] = useState(() => typeof document !== 'undefined' && document.documentElement.classList.contains('is-opening'));
+  useEffect(() => {
+    if (!fromOpening) return undefined;
+    const root = document.documentElement;
+    const observer = new MutationObserver(() => {
+      if (root.classList.contains('is-opening')) return;
+      observer.disconnect();
+      const from = window.__openingWords || [];
+      wordsRef.current.forEach((word, index) => {
+        const start = from[index];
+        if (!word || !start) return;
+        const end = word.getBoundingClientRect();
+        const scale = start.height / end.height;
+        word.animate(
+          [
+            { transform: `translate(${start.left - end.left}px, ${start.top - end.top}px) scale(${scale})` },
+            { transform: 'none' },
+          ],
+          { duration: 1100, delay: index * 70, easing: 'cubic-bezier(0.7, 0, 0.15, 1)', fill: 'backwards' }
+        );
+      });
+    });
+    observer.observe(root, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, [fromOpening]);
   return (
     <div className={`cover ${isDarkMode ? 'text-beige' : 'text-black'}`}>
       <p className="catalogue-running cover-fade" style={{ '--d': '0.1s' }}>
-        <span>{french ? "Catalogue d'exposition" : 'Exhibition catalogue'}</span>
-        <span>N° 01 · 2026</span>
+        <span>{french ? 'Portfolio' : 'Portfolio'}</span>
+        <span>2024-2026</span>
       </p>
 
       <div className="cover-body">
         <h1 aria-label="Rafael Piral">
           {['Rafael', 'Piral'].map((word, line) => (
             <span key={word} className="cover-line" aria-hidden="true">
-              {[...word].map((letter, index) => (
-                <span key={index} className="cover-letter" style={{ '--d': `${0.15 + line * 0.2 + index * 0.05}s` }}>
-                  {letter}
-                </span>
-              ))}
+              <span ref={(element) => (wordsRef.current[line] = element)} className={`cover-word ${fromOpening ? 'is-travelling' : ''}`}>
+                {[...word].map((letter, index) => (
+                  <span key={index} className="cover-letter" style={{ '--d': `${0.15 + line * 0.2 + index * 0.05}s` }}>
+                    {letter}
+                  </span>
+                ))}
+              </span>
             </span>
           ))}
         </h1>
@@ -62,9 +95,9 @@ export function Cover({ lang = 'fr', isDarkMode, onGo, children }) {
           </div>
           <div className="cover-links cover-fade" style={{ '--d': '1s' }}>
             <button type="button" onClick={() => onGo('projects')}>
-              {french ? 'Feuilleter le catalogue' : 'Browse the catalogue'} ↓
+              {french ? 'Voir les projets' : 'See the projects'} ↓
             </button>
-            <Link to="/musee">{french ? "Visiter l'exposition" : 'Visit the exhibition'} →</Link>
+            <Link to="/musee">{french ? 'Visiter le musée' : 'Visit the museum'} →</Link>
           </div>
         </div>
       </div>
@@ -84,20 +117,6 @@ export function Sommaire({ lang = 'fr', onGo, isDarkMode }) {
       <div className="catalogue-sommaire-spread">
         <div className="catalogue-sommaire-side" data-m-reveal>
           <p className="catalogue-sommaire-heading">{french ? 'Sommaire' : 'Contents'}</p>
-          <dl>
-            <div>
-              <dt>{french ? 'Ouvrage' : 'Volume'}</dt>
-              <dd>{french ? "Catalogue d'exposition n° 01" : 'Exhibition catalogue no. 01'}</dd>
-            </div>
-            <div>
-              <dt>{french ? 'Contenu' : 'Contents'}</dt>
-              <dd>{french ? `${projects.filter((item) => !item.hidden).length} planches, ${CHAPTERS.length} chapitres` : `${projects.filter((item) => !item.hidden).length} plates, ${CHAPTERS.length} chapters`}</dd>
-            </div>
-            <div>
-              <dt>{french ? 'Édition' : 'Edition'}</dt>
-              <dd>{french ? 'En ligne, Paris, 2026' : 'Online, Paris, 2026'}</dd>
-            </div>
-          </dl>
         </div>
         <ol>
           {CHAPTERS.map((item) => {
@@ -136,8 +155,8 @@ export function Foreword({ lang = 'fr', paragraphs }) {
   return (
     <div className="foreword">
       <aside className="foreword-margin" data-m-reveal>
-        <p>{french ? "Note de l'auteur" : "Author's note"}</p>
-        <p>Paris, 2026</p>
+        <p>Rafael Piral</p>
+        <p>{french ? 'Paris, 2026' : 'Paris, 2026'}</p>
       </aside>
       <div className="foreword-body">
         <p className="foreword-lead" data-m-reveal>
@@ -150,7 +169,7 @@ export function Foreword({ lang = 'fr', paragraphs }) {
         </div>
         <div className="foreword-end" data-m-reveal>
           <p className="foreword-signature">Rafael Piral</p>
-          <Link to="/about">{french ? "Lire l'annexe : l'auteur" : 'Read the appendix: the author'} →</Link>
+          <Link to="/about">{french ? 'En savoir plus' : 'Learn more'} →</Link>
         </div>
       </div>
     </div>

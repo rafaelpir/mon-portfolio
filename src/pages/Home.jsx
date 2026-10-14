@@ -385,9 +385,9 @@ export default function Home() {
             style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 300, fontSize: 'clamp(0.7rem, 3vw, 0.75rem)', color: '#888888' }}
           >
             {/* La couverture du catalogue */}
-            <span>{currentLang === 'fr' ? "Catalogue d'exposition" : 'Exhibition catalogue'}</span>
+            <span>{t('home:hero.meta.year')}</span>
             <span className="hidden sm:inline">{currentLang === 'fr' ? 'Créations 2024-2026' : 'Works 2024-2026'}</span>
-            <span>{currentLang === 'fr' ? 'Paris · Édition en ligne' : 'Paris · Online edition'}</span>
+            <span>{t('home:hero.meta.location')}</span>
           </div>
         </div>
 
@@ -876,13 +876,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {/* Colophon : la dernière page d'un catalogue */}
-          <p className="catalogue-colophon mb-10">
-            {currentLang === 'fr'
-              ? "Colophon. Ce catalogue accompagne l'exposition « Rafael Piral, créations 2024-2026 », à visiter en ligne dans la salle des affiches. Composé en PP Neue Montreal et Bebas Neue. Conception, graphisme et mise en ligne : Rafael Piral, Paris."
-              : 'Colophon. This catalogue accompanies the exhibition “Rafael Piral, works 2024-2026”, to be visited online in the poster room. Set in PP Neue Montreal and Bebas Neue. Design and production: Rafael Piral, Paris.'}
-          </p>
 
           {/* Bottom Bar */}
           <div className={`pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-6 text-xs md:text-sm opacity-50 ${

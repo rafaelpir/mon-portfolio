@@ -9,6 +9,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import GoogleAnalytics from './components/GoogleAnalytics';
 import { EMBEDDED_COPY } from './utils/museumAccess';
 import AdminGuard from './components/AdminGuard';
+import CatalogueLoader from './components/CatalogueLoader';
 import PageTurn, { pageLabel, TURN_IN } from './components/PageTurn';
 // Code splitting - Chargement différé des pages
 const Home = lazy(() => import('./pages/Home'));
@@ -122,17 +123,42 @@ function AppContent() {
     else window.scrollTo(0, 0);
   };
 
-  // Recalage des ScrollTrigger au montage : les sections lazy de la Home
-  // peuvent finir de monter après le premier calcul de positions.
+  // Ouverture du site (page de garde du catalogue) : sur ordinateur, à
+  // l'arrivée sur l'accueil. Pas sur mobile (préserve le premier affichage),
+  // ni dans la copie de l'accueil affichée par le musée.
+  // Une seule fois : à la première arrivée sur le site (retenu dans le
+  // navigateur), puis plus jamais, même en rechargeant la page.
+  const [showPreloader, setShowPreloader] = useState(() => {
+    if (window.innerWidth <= 768 || EMBEDDED_COPY) return false;
+    try {
+      return !localStorage.getItem('rp-opening-seen');
+    } catch {
+      return true;
+    }
+  });
   useEffect(() => {
-    ScrollTrigger.refresh();
-  }, []);
+    if (!showPreloader) return;
+    try {
+      localStorage.setItem('rp-opening-seen', '1');
+    } catch {
+      /* navigation privée : l'ouverture reviendra à la prochaine visite */
+    }
+  }, [showPreloader]);
+  const isHomePage = location.pathname === '/';
+
+  // La page de garde bloque le défilement : les ScrollTrigger doivent être
+  // recalculés une fois qu'elle a disparu (et au montage, les
+  // sections lazy de l'accueil pouvant finir de monter après coup).
+  useEffect(() => {
+    if (!showPreloader) ScrollTrigger.refresh();
+  }, [showPreloader]);
 
   return (
     <>
       {/* Pas de mesures depuis la copie du site affichée dans le musée */}
       {!EMBEDDED_COPY && <GoogleAnalytics />}
       {!EMBEDDED_COPY && <SpeedInsights />}
+      {showPreloader && isHomePage && <CatalogueLoader onComplete={() => setShowPreloader(false)} lang={(document.documentElement.lang || 'fr').startsWith('fr') ? 'fr' : 'en'} />}
       <PageTurn phase={turn.phase} label={turn.label} />
       {/* Avec le tourne-page, l'ancienne page reste en place le temps que la
           feuille la recouvre (TURN_IN), puis la nouvelle apparaît dessous ;

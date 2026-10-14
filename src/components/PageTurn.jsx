@@ -10,16 +10,16 @@ import { projects } from '../data/projects';
 export const TURN_IN = 520; // ms : durée de l'arrivée, pendant laquelle l'ancienne page reste en place
 
 export function pageLabel(pathname, french) {
-  if (pathname === '/#projects') return { top: french ? 'Chapitre 02' : 'Chapter 02', title: french ? 'Œuvres' : 'Works' };
-  if (pathname === '/' || pathname.startsWith('/#')) return { top: french ? "Catalogue d'exposition" : 'Exhibition catalogue', title: french ? 'Sommaire' : 'Contents' };
+  if (pathname === '/#projects') return { top: 'Rafael Piral', title: french ? 'Projets' : 'Projects' };
+  if (pathname === '/' || pathname.startsWith('/#')) return { top: 'Rafael Piral', title: french ? 'Accueil' : 'Home' };
   if (pathname.startsWith('/work/')) {
     const visible = projects.filter((project) => !project.hidden);
     const index = visible.findIndex((project) => project.slug === pathname.slice(6));
     if (index >= 0) return { top: `${french ? 'Planche' : 'Plate'} ${String(index + 1).padStart(2, '0')}`, title: visible[index].shortTitle || visible[index].title };
   }
-  if (pathname === '/musee') return { top: french ? "L'exposition" : 'The exhibition', title: french ? 'Salle des affiches' : 'Poster room' };
-  if (pathname === '/about') return { top: french ? 'Annexe' : 'Appendix', title: french ? "L'auteur" : 'The author' };
-  if (pathname === '/legal') return { top: french ? 'Annexe' : 'Appendix', title: french ? 'Mentions légales' : 'Legal notice' };
+  if (pathname === '/musee') return { top: 'Rafael Piral', title: french ? 'Le musée' : 'The museum' };
+  if (pathname === '/about') return { top: 'Rafael Piral', title: french ? 'À propos' : 'About' };
+  if (pathname === '/legal') return { top: 'Rafael Piral', title: french ? 'Mentions légales' : 'Legal notice' };
   return { top: 'Rafael Piral', title: '' };
 }
 

@@ -93,25 +93,30 @@ const placement = (index) => ({ side: index % 2 === 0 ? -1 : 1, z: FIRST_Z - SPA
 // une jambe, main au menton, mains dans le dos, sur la hanche… (avatars
 // Microsoft Rocketbox, licence MIT, préparés avec Blender ; fichiers dans
 // public/models/visiteurs/). Chacun se tient devant une affiche, un peu de
-// côté pour ne pas la cacher quand on vient la regarder à son tour. sounds :
-// les petits bruits qu'ils font de temps en temps (fichiers dans
-// public/sounds/musee/, enregistrements du domaine public ou CC0 pris sur
-// Wikimedia Commons).
+// côté pour ne pas la cacher quand on vient la regarder à son tour.
 const VISITORS = [
   // affiche (index dans la visite), décalage le long du mur, distance au mur
-  { model: 'm09', poster: 1, aside: -0.75, back: 1.55, sounds: ['toux-1', 'soupir'] },
-  { model: 'm01', poster: 2, aside: 0.78, back: 1.45, sounds: ['hmm-2', 'gorge'] },
+  { model: 'm09', poster: 1, aside: -0.75, back: 1.55 },
+  { model: 'm01', poster: 2, aside: 0.78, back: 1.45 },
   // un couple devant la même affiche
-  { model: 'f04', poster: 5, aside: 0.8, back: 1.7, sounds: ['toux-4'] },
-  { model: 'm05', poster: 5, aside: -0.78, back: 1.5, sounds: ['hmm-1', 'mhm-1', 'mhm-2'] },
-  { model: 'f13', poster: 6, aside: 0.76, back: 1.6, sounds: ['toux-2', 'toux-3'] },
+  { model: 'f04', poster: 5, aside: 0.8, back: 1.7 },
+  { model: 'm05', poster: 5, aside: -0.78, back: 1.5 },
+  { model: 'f13', poster: 6, aside: 0.76, back: 1.6 },
 ].map((visitor) => {
   const { side, z } = placement(visitor.poster);
   const x = side * (HALL.halfWidth - visitor.back);
   // tourné vers le centre de l'affiche
   return { ...visitor, x, z: z + visitor.aside, yaw: Math.atan2(side * HALL.halfWidth - x, -visitor.aside) };
 });
+// Téléphone d'exposition : le prototype du site mobile Armor Immo (Figma).
+// Un vrai téléphone, à sa taille réelle, posé à plat sur un pupitre incliné,
+// à côté du coin écoute : les deux objets « numériques » de la salle sont
+// réunis au centre, sur le chemin de la visite. L'écran montre la page
+// d'accueil du site ; un clic ouvre le vrai prototype, qu'on peut parcourir.
+const PHONE = { x: STATION.x + 1.15, z: STATION.z, stand: 1.0, width: 0.0715, height: 0.1505, depth: 0.0078, slope: 0.36 };
+const PHONE_PROJECT = projects.find((project) => project.slug === 'branding-agence-immobiliere');
 const OBSTACLES = [
+  { x: PHONE.x, z: PHONE.z, width: 0.36, depth: 0.32 },
   ...VISITORS.map((visitor) => ({ x: visitor.x, z: visitor.z, width: 0.25, depth: 0.25 })),
   STATION, ...BENCHES.map((bench) => ({ ...bench, width: BENCH.width, depth: BENCH.depth })),
 ];
@@ -287,6 +292,9 @@ const ROOM_FRAGMENT = /* glsl */ `
       float joint = smoothstep(0.0, 0.006, fract(p.x / 0.14) * 0.14) * smoothstep(0.0, 0.008, fract(along) * 1.6);
       float fiber = noise(vec2(p.x * 70.0, p.z * 3.0) + tone * 40.0);
       albedo *= (0.9 + 0.15 * tone) * (0.95 + 0.08 * fiber) * mix(0.6, 1.0, joint);
+      // Pied des murs d'extrémité : le sol s'assombrit un peu contre eux
+      float ends = min(abs(p.z - ${f(HALL.zEnd)}), abs(p.z - ${f(HALL.zBack)}));
+      shade *= mix(0.82, 1.0, smoothstep(0.0, 0.55, ends));
       // Lumière du jour qui entre par les fenêtres : une nappe claire au sol
       float gap = clamp(floor((${f(windowZ(0))} - p.z) / ${f(SPACING)} + 0.5), 0.0, ${f(WINDOW_GAPS - 1)});
       float dz = p.z - (${f(windowZ(0))} - ${f(SPACING)} * gap);
@@ -301,7 +309,8 @@ const ROOM_FRAGMENT = /* glsl */ `
       float cell = fract(p.z / ${f(SKYLIGHT.panel)});
       float pane = step(0.016, cell) * step(cell, 0.984) * step(0.035, abs(p.x)) * step(abs(p.x), ${f(SKYLIGHT.halfWidth - 0.04)});
       albedo = mix(albedo, vec3(0.3), inside * (1.0 - pane));
-      emissive = vec3(1.18, 1.2, 1.22) * inside * pane * (0.94 + 0.06 * noise(p.xz * 0.7));
+      float cloud = 0.6 * noise(p.xz * 0.45 + 3.1) + 0.4 * noise(p.xz * 1.3);
+      emissive = vec3(1.16, 1.19, 1.24) * inside * pane * (0.9 + 0.1 * cloud) * (1.0 - 0.06 * abs(p.x) / ${f(SKYLIGHT.halfWidth)});
       light.y += 0.2 * exp(-max(abs(p.x) - ${f(SKYLIGHT.halfWidth)}, 0.0) * 0.9);
 
       // Caissons : un cadre mouluré par travée, de chaque côté de la verrière.
@@ -526,14 +535,20 @@ const PARIS_CREDITS = [
 
 // Texture dessinée au canvas 2D. Redessinable : la police du site n'est
 // pas forcément chargée au premier tracé.
+// Les textes sont dessinés en plus haute définition que leurs dimensions
+// nominales (TEXT_SCALE fois, sans dépasser 4096 px de côté) : sans cela,
+// les lettres des murs et des cartels paraissent pixelisées de près.
+// Les fonctions de dessin continuent de travailler en dimensions nominales.
+let TEXT_SCALE = 3;
 function textTexture(gl, width, height, draw, registry) {
+  const scale = width * height <= 64 ? 1 : Math.min(TEXT_SCALE, 4096 / Math.max(width, height));
   const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 8 });
+  canvas.width = Math.round(width * scale);
+  canvas.height = Math.round(height * scale);
+  const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 16 });
   const paint = () => {
     const ctx = canvas.getContext('2d');
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
     ctx.textAlign = 'left';
     draw(ctx, width, height);
     texture.image = canvas;
@@ -589,29 +604,50 @@ function plasterTexture(gl) {
     }
   }
   ctx.putImageData(pixels, 0, 0);
-  const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 8, wrapS: gl.REPEAT, wrapT: gl.REPEAT });
+  const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 16, wrapS: gl.REPEAT, wrapT: gl.REPEAT });
   texture.image = canvas;
   return texture;
 }
 
-function drawCartel(exhibit) {
+// Cartels de la salle, tous sur le même modèle : un repère en grand chiffre
+// fin (numéro de l'œuvre, ou court libellé), l'année en haut à droite, un
+// filet, le titre en gras, une ligne dessous et, s'il y en a une, une
+// indication en bas (« Prenez le baladeur… »).
+function drawLabel({ mark, year, title, line, hint }) {
   return (ctx, w, h) => {
-    ctx.fillStyle = '#b9b6ae';
-    ctx.fillRect(0, 0, w, h);
     ctx.fillStyle = '#fbfaf6';
-    ctx.fillRect(6, 6, w - 12, h - 12);
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = '#c9c5bb';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(1.5, 1.5, w - 3, h - 3);
+    const x = 72;
     ctx.fillStyle = '#111';
-    ctx.font = '600 88px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-    ctx.fillText(exhibit.title, 72, 168, w - 144);
-    ctx.font = '400 56px "PP Neue Montreal", Helvetica, Arial, sans-serif';
+    ctx.font = '200 150px "PP Neue Montreal", Helvetica, Arial, sans-serif';
+    ctx.fillText(mark, x - 8, 180, w - x * 2 - 160);
+    ctx.fillStyle = '#999';
+    ctx.font = '500 34px "PP Neue Montreal", Helvetica, Arial, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(String(year || ''), w - 64, 80);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ddd8cd';
+    ctx.fillRect(x, 240, w - x * 2, 2);
+    ctx.fillStyle = '#111';
+    ctx.font = '600 86px "PP Neue Montreal", Helvetica, Arial, sans-serif';
+    ctx.fillText(title, x, 380, w - x * 2);
+    ctx.font = '400 52px "PP Neue Montreal", Helvetica, Arial, sans-serif';
     ctx.fillStyle = '#444';
-    ctx.fillText(`Rafael Piral, ${exhibit.year}`, 72, 272, w - 144);
-    ctx.fillText(exhibit.note || exhibit.category, 72, 360, w - 144);
-    ctx.fillStyle = '#888';
-    ctx.font = '400 44px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-    ctx.fillText('Impression numérique, 21 × 29,7 cm', 72, h - 80, w - 144);
+    ctx.fillText(line, x, 470, w - x * 2);
+    if (hint) {
+      ctx.fillStyle = '#888';
+      ctx.font = '400 40px "PP Neue Montreal", Helvetica, Arial, sans-serif';
+      ctx.fillText(hint, x, h - 64, w - x * 2);
+    }
   };
 }
+
+// Cartel d'une affiche (numéro de l'œuvre dans la visite)
+const drawCartel = (exhibit, number) =>
+  drawLabel({ mark: String(number).padStart(2, '0'), year: exhibit.year, title: exhibit.title, line: exhibit.note ? `Rafael Piral · ${exhibit.note}` : 'Rafael Piral' });
 
 // Référencement de la page : titre, description, image de partage et données
 // structurées (la salle comme collection d'œuvres, chaque affiche décrite et
@@ -705,6 +741,7 @@ export default function Musee() {
   const focusedRef = useRef(null);
   focusedRef.current = focused;
   const [zoomed, setZoomed] = useState(null); // affiche ouverte en grand (index), ou null
+  const [phoneOpen, setPhoneOpen] = useState(false); // prototype Armor Immo ouvert
   // Coin écoute : null tant qu'il n'a pas été lancé, puis { playing, index }
   const [music, setMusic] = useState(null);
   // audio : lecteur des extraits ; previews : adresse de l'extrait et lien
@@ -751,6 +788,7 @@ export default function Musee() {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const lite = touchDevice(); // téléphone, tablette : rendu allégé
+    TEXT_SCALE = lite ? 1.5 : 3;
     const renderer = new Renderer({ dpr: Math.min(window.devicePixelRatio || 1, lite ? 1.5 : 2), antialias: !lite, alpha: true, premultipliedAlpha: false });
     const { gl } = renderer;
     gl.clearColor(0.9, 0.9, 0.88, 1);
@@ -891,7 +929,7 @@ export default function Musee() {
         mesh.setParent(scene);
       };
 
-      const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 8 });
+      const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 16 });
       const image = new Image();
       image.onload = () => {
         texture.image = image;
@@ -902,7 +940,7 @@ export default function Musee() {
       hang(imageMesh(POSTER.width, POSTER.height, texture, { glass: 1 }), 0.037, POSTER.centerY);
 
       // Cartel, du côté de l'entrée (à hauteur de regard)
-      const cartel = imageMesh(0.44, 0.275, textTexture(gl, 1024, 640, drawCartel(exhibit), repaint));
+      const cartel = imageMesh(0.44, 0.275, textTexture(gl, 1024, 640, drawCartel(exhibit, index + 1), repaint));
       hang(cartel, 0.006, 1.25, z + POSTER.width / 2 + 0.42);
     });
 
@@ -946,7 +984,7 @@ export default function Musee() {
               uv[i * 2 + 1] = 1 - data[i * 8 + 7];
             }
             const index = new Uint16Array(buffer, part.indexOffset, part.indexCount);
-            const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 8 });
+            const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 16 });
             const image = new Image();
             image.onload = () => {
               texture.image = image;
@@ -975,7 +1013,7 @@ export default function Musee() {
     // ── Fenêtres sur Paris ─────────────────────────────────────────────────
     // Matières de la façade vue par les fenêtres (photos ambientCG, CC0)
     const tiled = (src) => {
-      const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 8, wrapS: gl.REPEAT, wrapT: gl.REPEAT });
+      const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 16, wrapS: gl.REPEAT, wrapT: gl.REPEAT });
       const image = new Image();
       image.onload = () => {
         texture.image = image;
@@ -993,7 +1031,7 @@ export default function Musee() {
         ctx.fillRect(0, 0, w, h);
       });
       panorama.minFilter = gl.LINEAR_MIPMAP_LINEAR; // flou lisse, sans effet de mosaïque
-      panorama.anisotropy = 8;
+      panorama.anisotropy = 16;
       const photo = new Image();
       photo.onload = () => {
         panorama.image = photo;
@@ -1061,7 +1099,7 @@ export default function Musee() {
     // béquille en laiton de chaque côté. handleSide : -1 poignée à gauche,
     // +1 à droite (vu de face).
     const photoTexture = (src) => {
-      const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 8 });
+      const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 16 });
       const image = new Image();
       image.onload = () => {
         texture.image = image;
@@ -1226,7 +1264,7 @@ export default function Musee() {
           ctx.fillStyle = '#2a2a2a';
           ctx.textAlign = 'center';
           ctx.font = '500 70px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-          ctx.fillText('S O R T I E  ·  C A T A L O G U E', w / 2, 90, w - 40);
+          ctx.fillText('S O R T I E  ·  P O R T F O L I O', w / 2, 90, w - 40);
         },
         repaint
       )
@@ -1275,7 +1313,6 @@ export default function Musee() {
         ctx.fillStyle = '#555';
         ctx.font = '400 34px "PP Neue Montreal", Helvetica, Arial, sans-serif';
         ctx.fillText('Rafael Piral, graphiste', 90, 560, w - 180);
-        ctx.fillText("Le catalogue de l'exposition vous attend à la sortie.", 90, 640, w - 180);
       }, repaint)
     );
     introWall.rotation.y = Math.PI;
@@ -1504,6 +1541,44 @@ export default function Musee() {
     });
     groundShadow(STATION.x, STATION.z, STATION.width + 0.6, STATION.depth + 0.6);
 
+    // Téléphone d'exposition (voir PHONE) : colonne de marbre et pupitre
+    // incliné, téléphone posé dessus, cartel sur la tablette
+    const LECTERN = { width: 0.34, depth: 0.26, top: 0.035 };
+    [
+      { program: blackMarble, width: 0.36, depth: 0.32, height: 0.05, y: 0.025 },
+      { program: whiteMarble, width: 0.2, depth: 0.2, height: PHONE.stand - 0.09, y: 0.05 + (PHONE.stand - 0.09) / 2 },
+    ].forEach(({ program, width, depth, height, y }) => {
+      const block = new Mesh(gl, { geometry: new Box(gl, { width, height, depth }), program });
+      block.position.set(PHONE.x, y, PHONE.z);
+      block.setParent(scene);
+    });
+    groundShadow(PHONE.x, PHONE.z, 0.7, 0.6);
+    const lectern = new Transform();
+    lectern.position.set(PHONE.x, PHONE.stand, PHONE.z);
+    lectern.rotation.x = PHONE.slope; // le bord avant plus bas, tourné vers le visiteur
+    lectern.setParent(scene);
+    const slab = new Mesh(gl, { geometry: new Box(gl, { width: LECTERN.width, height: LECTERN.top, depth: LECTERN.depth }), program: blackMarble });
+    slab.setParent(lectern);
+    // le téléphone, à plat sur la tablette, écran vers le haut
+    const phone = new Transform();
+    phone.position.set(0.035, LECTERN.top / 2 + PHONE.depth / 2 + 0.001, -0.01);
+    phone.rotation.x = -Math.PI / 2;
+    phone.rotation.z = -0.08;
+    phone.setParent(lectern);
+    fixture(PHONE.width, PHONE.height, PHONE.depth, [0.03, 0.03, 0.035]).setParent(phone);
+    const phoneScreen = imageMesh(PHONE.width - 0.005, PHONE.height - 0.006, photoTexture('/images/musee/armor-immo-ecran.webp'), { glass: 1 });
+    phoneScreen.position.set(0, 0, PHONE.depth / 2 + 0.0005);
+    phoneScreen.setParent(phone);
+    // cartel, à gauche du téléphone sur la tablette
+    const phoneCartel = imageMesh(
+      0.128,
+      0.08,
+      textTexture(gl, 1024, 640, drawLabel({ mark: 'UI', year: '2025', title: 'Armor Immo', line: 'Prototype du site mobile', hint: "Touchez l'écran pour l'essayer" }), repaint)
+    );
+    phoneCartel.rotation.x = -Math.PI / 2;
+    phoneCartel.position.set(-0.095, LECTERN.top / 2 + 0.001, 0.02);
+    phoneCartel.setParent(lectern);
+
     // Cartel du coin écoute, sur la face du socle tournée vers l'entrée
     const stationCartel = imageMesh(
       0.5,
@@ -1512,20 +1587,7 @@ export default function Musee() {
         gl,
         1024,
         640,
-        (ctx, w, h) => {
-          ctx.fillStyle = '#f4f1ea';
-          ctx.fillRect(0, 0, w, h);
-          ctx.fillStyle = '#111';
-          ctx.font = '600 88px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-          ctx.fillText('Coin écoute', 72, 168, w - 144);
-          ctx.font = '400 56px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-          ctx.fillStyle = '#444';
-          ctx.fillText('La playlist de Rafael Piral', 72, 272, w - 144);
-          ctx.fillText(`${MUSEE_PLAYLIST.length} titres choisis`, 72, 360, w - 144);
-          ctx.fillStyle = '#888';
-          ctx.font = '400 44px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-          ctx.fillText('Prenez le baladeur pour écouter', 72, h - 80, w - 144);
-        },
+        drawLabel({ mark: '♪', year: '2026', title: 'Coin écoute', line: `Playlist de Rafael Piral, ${MUSEE_PLAYLIST.length} titres`, hint: 'Prenez le baladeur pour écouter' }),
         repaint
       )
     );
@@ -1652,6 +1714,20 @@ export default function Musee() {
         far = Math.min(far, Math.max(a, b));
       }
       if (near <= far && (!best || near < best.t)) return 'station';
+      // Téléphone d'exposition et son socle
+      {
+        const half = [0.2, (PHONE.stand + 0.1) / 2, 0.17];
+        const center = [PHONE.x, (PHONE.stand + 0.1) / 2, PHONE.z];
+        let enter = 0;
+        let leave = Infinity;
+        for (let axis = 0; axis < 3; axis++) {
+          const a = (center[axis] - half[axis] - origin[axis]) / direction[axis];
+          const b = (center[axis] + half[axis] - origin[axis]) / direction[axis];
+          enter = Math.max(enter, Math.min(a, b));
+          leave = Math.min(leave, Math.max(a, b));
+        }
+        if (enter <= leave && (!best || enter < best.t)) return 'phone';
+      }
       // Porte de sortie, sur le mur d'entrée
       if (dz > 0) {
         const t = (HALL.zBack - view.z) / dz;
@@ -1667,7 +1743,6 @@ export default function Musee() {
 
     let drag = null;
     const onPointerDown = (e) => {
-      startSounds();
       gl.canvas.setPointerCapture(e.pointerId);
       drag = { x: e.clientX, y: e.clientY, moved: 0 };
     };
@@ -1693,6 +1768,7 @@ export default function Musee() {
         const index = posterAt(e.clientX, e.clientY);
         if (index === 'station') goToStation();
         else if (index === 'exit') goToExit();
+        else if (index === 'phone') setPhoneOpen(true);
         else if (index?.social !== undefined) window.open(SOCIALS[index.social].href, '_blank', 'noopener');
         // un clic sur l'affiche devant laquelle on se tient déjà l'ouvre en grand
         else if (index !== null && index === focusedRef.current && !goal) setZoomed(index);
@@ -1703,7 +1779,6 @@ export default function Musee() {
     const MOVE_KEYS = ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
     const onKeyDown = (e) => {
       // e.code = position physique de la touche : ZQSD en AZERTY, WASD en QWERTY
-      startSounds();
       if (!MOVE_KEYS.includes(e.code) || exiting) return;
       e.preventDefault();
       keys.add(e.code);
@@ -1720,8 +1795,6 @@ export default function Musee() {
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('keyup', onKeyUp);
     window.addEventListener('blur', onBlur);
-    const wakeSounds = () => startSounds(); // au premier geste, y compris sur les boutons
-    window.addEventListener('pointerdown', wakeSounds);
 
     const resize = () => {
       renderer.setSize(container.clientWidth, container.clientHeight);
@@ -1731,68 +1804,6 @@ export default function Musee() {
     const observer = new ResizeObserver(resize);
     observer.observe(container);
     resize();
-
-    // ── Sons de la salle ───────────────────────────────────────────────────
-    // De temps en temps, un visiteur tousse, approuve d'un « hm », soupire…
-    // Le son vient de l'endroit où il se tient (plus fort de près, à gauche
-    // ou à droite selon le regard) et résonne comme dans une grande salle.
-    // Le navigateur n'autorise le son
-    // qu'après un premier geste du visiteur : tout démarre à ce moment-là.
-    const AudioEngine = window.AudioContext || window.webkitAudioContext;
-    let sound = null;
-    let nextNoise = 4 + Math.random() * 5; // secondes avant le prochain bruit
-    const startSounds = () => {
-      if (sound || !AudioEngine) return;
-      const ctx = new AudioEngine();
-      const master = ctx.createGain();
-      master.gain.value = 0.8;
-      master.connect(ctx.destination);
-      // Réverbération : un bruit qui s'éteint en une seconde et demie
-      const tail = ctx.createBuffer(2, Math.floor(ctx.sampleRate * 1.6), ctx.sampleRate);
-      for (let channel = 0; channel < 2; channel++) {
-        const samples = tail.getChannelData(channel);
-        for (let i = 0; i < samples.length; i++) samples[i] = (Math.random() * 2 - 1) * (1 - i / samples.length) ** 3;
-      }
-      const hall = ctx.createConvolver();
-      hall.buffer = tail;
-      const wet = ctx.createGain();
-      wet.gain.value = 0.35;
-      hall.connect(wet);
-      wet.connect(master);
-      sound = { ctx, master, hall, clips: {} };
-      const load = (name) =>
-        fetch(`/sounds/musee/${name}.mp3`)
-          .then((r) => r.arrayBuffer())
-          .then((data) => ctx.decodeAudioData(data));
-      [...new Set(VISITORS.flatMap((visitor) => visitor.sounds))].forEach((name) => {
-        load(name)
-          .then((clip) => {
-            if (sound) sound.clips[name] = clip;
-          })
-          .catch(() => {});
-      });
-    };
-    const makeNoise = () => {
-      const visitor = VISITORS[Math.floor(Math.random() * VISITORS.length)];
-      const clip = sound.clips[visitor.sounds[Math.floor(Math.random() * visitor.sounds.length)]];
-      if (!clip || sound.ctx.state !== 'running') return;
-      const source = sound.ctx.createBufferSource();
-      source.buffer = clip;
-      source.playbackRate.value = 0.96 + Math.random() * 0.08; // jamais deux fois pareil
-      const place = sound.ctx.createPanner();
-      place.panningModel = 'HRTF';
-      place.distanceModel = 'inverse';
-      place.refDistance = 2.5;
-      place.rolloffFactor = 1.2;
-      place.setPosition(visitor.x, 1.6, visitor.z);
-      const level = sound.ctx.createGain();
-      level.gain.value = 0.55;
-      source.connect(level);
-      level.connect(place);
-      place.connect(sound.master);
-      place.connect(sound.hall);
-      source.start();
-    };
 
     let raf;
     let last = performance.now();
@@ -1909,18 +1920,6 @@ export default function Musee() {
       playerStand.visible = !state.started;
       if (barRef.current && state.audio) barRef.current.style.transform = `scaleX(${state.audio.duration ? Math.min(1, state.audio.currentTime / state.audio.duration) : 0})`;
 
-      if (sound && !exiting) {
-        // L'oreille suit le visiteur
-        const listener = sound.ctx.listener;
-        listener.setPosition(view.x, EYE, view.z);
-        listener.setOrientation(-Math.sin(view.yaw), 0, -Math.cos(view.yaw), 0, 1, 0);
-        nextNoise -= dt;
-        if (nextNoise < 0) {
-          nextNoise = 7 + Math.random() * 13;
-          makeNoise();
-        }
-      }
-
       // Respiration et balancement des visiteurs (voir VISITOR_VERTEX)
       if (!reducedMotion) visitorTime.value = now / 1000;
 
@@ -1936,13 +1935,10 @@ export default function Musee() {
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
-      sound?.ctx.close().catch(() => {});
-      sound = null;
       observer.disconnect();
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
       window.removeEventListener('blur', onBlur);
-      window.removeEventListener('pointerdown', wakeSounds);
       apiRef.current = null;
       if (!left) homeFrame.remove();
       gl.canvas.remove();
@@ -2053,6 +2049,14 @@ export default function Musee() {
   useEffect(() => {
     if (focused === null) setZoomed(null);
   }, [focused]);
+
+  // Prototype Armor Immo : Échap le referme
+  useEffect(() => {
+    if (!phoneOpen) return undefined;
+    const onKey = (e) => e.key === 'Escape' && setPhoneOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [phoneOpen]);
 
   // Joystick tactile : le pouce déplace le bouton dans son socle ; la
   // direction et la force sont lues à chaque image par la salle (stickRef).
@@ -2194,6 +2198,7 @@ export default function Musee() {
               <Link to="/">Retour au portfolio de Rafael Piral</Link>
             </p>
           </div>
+          <div aria-hidden="true" className="musee-vignette" />
           <div ref={lidsRef} aria-hidden="true" className="musee-lids">
             <span />
             <span />
@@ -2202,7 +2207,7 @@ export default function Musee() {
           <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.42) 0%, transparent 13%, transparent 74%, rgba(0, 0, 0, 0.6) 100%)' }} />
 
           <div className="absolute top-0 left-0 right-0 flex items-baseline justify-between px-4 md:px-8 py-4 text-xs md:text-sm tracking-[0.3em] uppercase pointer-events-none">
-            <Link to="/" className="pointer-events-auto opacity-70 transition-opacity hover:opacity-100">← Catalogue</Link>
+            <Link to="/" className="pointer-events-auto opacity-70 transition-opacity hover:opacity-100">← Portfolio</Link>
             <h1 className="opacity-70">Musée d'affiches</h1>
           </div>
 
@@ -2295,6 +2300,21 @@ export default function Musee() {
               </span>
             ))}
           </p>
+
+          {/* Prototype Armor Immo, ouvert depuis le téléphone d'exposition */}
+          {phoneOpen && PHONE_PROJECT?.figmaEmbed && (
+            <div className="musee-zoom musee-phone" role="dialog" aria-modal="true" aria-label="Prototype du site mobile Armor Immo" onClick={() => setPhoneOpen(false)}>
+              <div className="musee-phone-frame" onClick={(e) => e.stopPropagation()}>
+                <iframe src={PHONE_PROJECT.figmaEmbed} title="Prototype Figma du site mobile Armor Immo" allowFullScreen />
+              </div>
+              <p className="musee-phone-caption">
+                Armor Immo, prototype du site mobile · <Link to={`/work/${PHONE_PROJECT.slug}`}>Voir le projet →</Link>
+              </p>
+              <button type="button" aria-label="Fermer" onClick={() => setPhoneOpen(false)}>
+                ✕
+              </button>
+            </div>
+          )}
 
           {/* Affiche ouverte en grand : un clic n'importe où, ou Échap, la referme */}
           {zoomed !== null && EXHIBITS[zoomed] && (

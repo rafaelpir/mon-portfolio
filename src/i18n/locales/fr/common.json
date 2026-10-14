@@ -1,8 +1,8 @@
 {
   "nav": {
-    "about": "AVANT-PROPOS",
-    "projects": "ŒUVRES",
-    "skills": "SAVOIR-FAIRE",
+    "about": "À PROPOS",
+    "projects": "PROJETS",
+    "skills": "COMPÉTENCES",
     "contact": "CONTACT",
     "downloadCV": "TÉLÉCHARGER CV",
     "settings": "Paramètres"
@@ -49,9 +49,9 @@
     "description": "Étudiant en 3e année de BUT MMI, passionné par le design graphique et le développement web.",
     "navigation": "NAVIGATION",
     "contact": "CONTACT",
-    "aboutLink": "Avant-propos",
-    "projectsLink": "Œuvres",
-    "skillsLink": "Savoir-faire",
+    "aboutLink": "À propos",
+    "projectsLink": "Projets",
+    "skillsLink": "Compétences",
     "contactLink": "Contact",
     "rights": "Tous droits réservés.",
     "legal": "Mentions légales",

@@ -141,9 +141,6 @@ export default function About() {
 
         <div className="relative z-10">
           {/* Titre courant du catalogue : cette page en est l'annexe */}
-          <p className="catalogue-running mb-10 md:mb-14">
-            <span>{currentLang === 'fr' ? "Annexe · L'auteur" : 'Appendix · The author'}</span>
-          </p>
           <h1
             className={`uppercase leading-none mb-8 ${isDarkMode ? 'text-white' : 'text-black'}`}
             style={{
