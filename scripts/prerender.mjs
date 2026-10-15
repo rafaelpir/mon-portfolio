@@ -4,7 +4,7 @@
 // page reçoit ici son titre, sa description, son image d'aperçu et un texte
 // lisible sans JavaScript. Les balises portent data-rh : react-helmet-async
 // les remplace au chargement, sans doublon.
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { projects } from '../src/data/projects.js';
 import { MUSEE_EXHIBITS } from '../src/data/museeExhibits.js';
@@ -55,10 +55,11 @@ function page({ path, title, description, image, imageAlt, type = 'website', jso
     jsonLd && `<script data-rh="true" type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>`,
   ].filter(Boolean).join('\n    ');
 
-  let html = template.replace(/<title>[\s\S]*?<\/title>/, head);
+  // <title>[^<]* : le commentaire du gabarit cite lui-même « <title> »
+  let html = template.replace(/<title>[^<]*<\/title>/, () => head);
   html = html.replace(
     /<noscript>[\s\S]*?<\/noscript>/,
-    `<noscript>
+    () => `<noscript>
       <div style="font-family: sans-serif; padding: 2rem; max-width: 800px; margin: 0 auto;">
         ${body}
         ${footer}
@@ -89,9 +90,7 @@ written.push(page({
   image: `${SITE}/og-image.jpg`,
   jsonLd: person,
   body: `<h1>Rafael Piral, graphiste</h1>
-        <p>${esc(seo.home.description)}</p>
-        <h2>Services</h2>
-        <ul><li>Affiche</li><li>Identité visuelle</li><li>Site &amp; application</li><li>Vidéo &amp; motion</li></ul>`,
+        <p>${esc(seo.home.description)}</p>`,
 }));
 
 written.push(page({
@@ -124,12 +123,14 @@ written.push(page({
 
 for (const project of projects) {
   const copy = { ...project, ...(frProjects.items[project.id] || {}) };
+  // repli sur l'image générale tant que la carte du projet n'existe pas
+  const ogImage = existsSync(`public/og/${project.slug}.jpg`) ? `${SITE}/og/${project.slug}.jpg` : `${SITE}/og-image.jpg`;
   const description = cut(copy.description) || `${copy.title}, ${copy.category}, ${project.year}. Un projet de Rafael Piral.`;
   written.push(page({
     path: `/work/${project.slug}`,
     title: `${copy.title} · Rafael Piral`,
     description,
-    image: `${SITE}/og/${project.slug}.jpg`,
+    image: ogImage,
     imageAlt: `${copy.title}, ${copy.category}, Rafael Piral`,
     type: 'article',
     jsonLd: {
@@ -137,7 +138,7 @@ for (const project of projects) {
       '@type': 'CreativeWork',
       name: copy.title,
       url: `${SITE}/work/${project.slug}`,
-      image: `${SITE}/og/${project.slug}.jpg`,
+      image: ogImage,
       dateCreated: String(project.year),
       creator: person,
       description,

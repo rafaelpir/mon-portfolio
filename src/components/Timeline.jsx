@@ -21,12 +21,16 @@ function Row({ event, open, onToggle, isDarkMode, current, lang }) {
           {current && <span className="parcours-now">{lang === 'fr' ? 'En cours' : 'Current'}</span>}
         </span>
         <span className="parcours-kind">{event.category}</span>
-        <span className="parcours-toggle" aria-hidden="true">
-          {open ? '−' : '+'}
-        </span>
+        <span className="parcours-toggle" aria-hidden="true" />
       </button>
-      <div className="parcours-detail" hidden={!open}>
-        <p>{event.description}</p>
+      {/* hauteur animée (grille 0fr → 1fr) ; inert : texte replié hors du
+          parcours clavier et des lecteurs d'écran */}
+      <div className="parcours-collapse" inert={open ? undefined : ''}>
+        <div className="parcours-collapse-inner">
+          <div className="parcours-detail">
+            <p>{event.description}</p>
+          </div>
+        </div>
       </div>
     </li>
   );

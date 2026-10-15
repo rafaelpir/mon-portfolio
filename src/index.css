@@ -2512,10 +2512,70 @@ html.is-opening .cover-fade {
 }
 
 .parcours-toggle {
+  position: relative;
   justify-self: end;
-  font-size: 1.3rem;
-  font-weight: 300;
+  align-self: center;
+  width: 0.9rem;
+  height: 0.9rem;
   opacity: 0.6;
+}
+
+/* « + » dessiné : la barre verticale se couche pour donner « − » */
+.parcours-toggle::before,
+.parcours-toggle::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1.5px;
+  margin-top: -0.75px;
+  background: currentColor;
+  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1) !important;
+}
+
+.parcours-toggle::after {
+  transform: rotate(90deg);
+}
+
+.is-open .parcours-toggle::after {
+  transform: rotate(0deg);
+}
+
+.parcours-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.55s cubic-bezier(0.65, 0, 0.35, 1) !important;
+}
+
+.is-open > .parcours-collapse {
+  grid-template-rows: 1fr;
+}
+
+.parcours-collapse-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.parcours-collapse .parcours-detail {
+  opacity: 0;
+  transform: translateY(-0.4rem);
+  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.65, 0, 0.35, 1) !important;
+}
+
+.is-open > .parcours-collapse .parcours-detail {
+  opacity: 0.72;
+  transform: none;
+  transition: opacity 0.45s ease 0.12s, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.05s !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parcours-collapse,
+  .parcours-collapse .parcours-detail,
+  .parcours-toggle::before,
+  .parcours-toggle::after {
+    transition: none !important;
+  }
 }
 
 .parcours-detail {
@@ -2568,10 +2628,6 @@ html.is-opening .cover-fade {
   }
 }
 
-/* étape refermée : son détail est masqué */
-.parcours-detail[hidden] {
-  display: none;
-}
 
 /* Services : même grille que l'index des compétences */
 .services-index {
@@ -2720,3 +2776,223 @@ html.is-opening .cover-fade {
 .brief-select option {
   color: #000;
 }
+
+/* Au revoir du musée, en bas à droite de l'accueil */
+.museum-farewell {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  z-index: 60;
+  width: min(22rem, calc(100vw - 2rem));
+  padding: 1.25rem 1.4rem;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(239, 233, 223, 0.18);
+  color: #efe9df;
+  font-family: 'PP Neue Montreal', sans-serif;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.museum-farewell.is-visible {
+  opacity: 1 !important;
+  transform: none;
+  pointer-events: auto;
+}
+
+.museum-farewell-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.museum-farewell-text {
+  margin-top: 0.3rem;
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+
+.museum-farewell-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.9rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.museum-farewell-actions button:first-child {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.museum-farewell-actions button:last-child {
+  opacity: 0.55;
+  letter-spacing: 0;
+}
+
+/* Démarche d'un projet (ProjectProcess) */
+.process {
+  font-family: 'PP Neue Montreal', sans-serif;
+}
+
+.process-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.process-steps > li {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 1.5rem clamp(1.5rem, 5vw, 5rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem) 0;
+  border-top: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.process-step-number {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  opacity: 0.45;
+}
+
+.process-step-text h3 {
+  margin-top: 0.4rem;
+  font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.process-step-text p {
+  margin-top: 0.8rem;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.process-step-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.process-step-image {
+  position: relative;
+}
+
+.process-step-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.is-discarded .process-step-image img {
+  filter: grayscale(0.6);
+  opacity: 0.75;
+}
+
+.process-stamp {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid currentColor;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.55);
+  color: #efe9df;
+}
+
+.process-compare figcaption {
+  text-align: center;
+}
+
+.process-step-images figcaption,
+.process-compare figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  opacity: 0.55;
+}
+
+.process-compare {
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+}
+
+.process-compare-frame {
+  position: relative;
+  width: fit-content;
+  max-width: min(100%, 56rem);
+  margin: 0 auto;
+  overflow: hidden;
+  user-select: none;
+}
+
+.process-compare-frame img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 80vh;
+}
+
+.process-compare-frame img + img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+}
+
+.process-compare-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: #efe9df;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.process-compare-tag {
+  position: absolute;
+  bottom: 0.8rem;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.6);
+  color: #efe9df;
+  pointer-events: none;
+}
+
+.process-compare-tag.is-before { left: 0.8rem; }
+.process-compare-tag.is-after { right: 0.8rem; }
+
+.process-compare-frame input[type='range'] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+}
+
+.process-compare-frame:has(input:focus-visible) {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+@media (max-width: 768px) {
+  .process-steps > li {
+    grid-template-columns: 1fr;
+  }
+}
+

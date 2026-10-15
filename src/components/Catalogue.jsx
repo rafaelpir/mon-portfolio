@@ -14,10 +14,9 @@ export const CHAPTERS = [
   { number: '01', id: 'about', fr: 'À propos', en: 'About' },
   { number: '02', id: 'projects', fr: 'Projets', en: 'Projects' },
   { number: '03', id: 'exposition', fr: 'Le musée', en: 'The museum', to: '/musee', note: '3D' },
-  { number: '04', id: 'services', fr: 'Services', en: 'Services' },
-  { number: '05', id: 'skills', fr: 'Compétences', en: 'Skills' },
-  { number: '06', id: 'parcours', fr: 'Parcours', en: 'Background' },
-  { number: '07', id: 'contact', fr: 'Contact', en: 'Contact' },
+  { number: '04', id: 'skills', fr: 'Compétences', en: 'Skills' },
+  { number: '05', id: 'parcours', fr: 'Parcours', en: 'Background' },
+  { number: '06', id: 'contact', fr: 'Contact', en: 'Contact' },
 ];
 export const chapter = (id) => CHAPTERS.find((item) => item.id === id);
 

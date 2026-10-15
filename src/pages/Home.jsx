@@ -6,8 +6,9 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import ScrollListIndex from '../components/ScrollListIndex';
 import useMobileReveal from '../hooks/useMobileReveal';
-import { ChapterHeading, Sommaire, Folio, Cover, Foreword, SkillsIndex, ServicesIndex, SERVICES } from '../components/Catalogue';
+import { ChapterHeading, Sommaire, Folio, Cover, Foreword, SkillsIndex, SERVICES } from '../components/Catalogue';
 import ProjectsDualWave from '../components/ProjectsDualWave';
+import MuseumFarewell from '../components/MuseumFarewell';
 import { useForm, ValidationError } from '@formspree/react';
 import { ReactLenis, useLenis } from 'lenis/dist/lenis-react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -68,12 +69,8 @@ export default function Home() {
   // Formspree hook pour le formulaire de contact
   // Remplacez "xjknoepn" par votre vrai ID de formulaire Formspree
   const [formState, handleFormSubmit] = useForm("xjknoepn");
-  // Type de projet du formulaire, prérempli depuis la rubrique Services
+  // Type de projet choisi dans le formulaire de contact
   const [projectType, setProjectType] = useState('');
-  const requestQuote = (type) => {
-    setProjectType(type);
-    scrollToSection('contact');
-  };
 
   // Fonction de navigation smooth sans changer l'URL
   const scrollToSection = (sectionId) => {
@@ -436,6 +433,7 @@ export default function Home() {
       {/* Sommaire du catalogue, puis le folio qui suit la lecture */}
       <Sommaire lang={currentLang} onGo={scrollToSection} isDarkMode={isDarkMode} />
       <Folio lang={currentLang} isDarkMode={isDarkMode} />
+      <MuseumFarewell lang={currentLang} onContact={() => scrollToSection('contact')} />
 
       {/* Introduction / About, un fondu vertical léger et déclenché tôt
           (amount: 0.05) plutôt qu'un grand glissement horizontal (x:-100)

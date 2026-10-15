@@ -14,6 +14,7 @@ import ProjectFooterNav from '../components/ProjectFooterNav';
 import ImageLightbox from '../components/ImageLightbox';
 import ProjectDoubleDetail from './ProjectDoubleDetail';
 import i18nLang from '../i18n';
+import ProjectProcess from '../components/ProjectProcess';
 
 // Thème "à l'effigie" d'un club, pour les quelques projets qui en portent
 // un (`project.clubTheme`), classes Tailwind écrites en toutes lettres :
@@ -230,9 +231,8 @@ export default function ProjectDetail() {
 
   const siteUrl = 'https://www.rafaelpiral.fr';
   const pageUrl = `${siteUrl}/work/${project.slug}`;
-  const ogImage = project.thumbnail?.endsWith('.svg')
-    ? `${siteUrl}/og-image.png`
-    : `${siteUrl}${project.thumbnail}`;
+  // Image d'aperçu 1200×630 propre au projet (public/og/, voir scripts/prerender.mjs)
+  const ogImage = `${siteUrl}/og/${project.slug}.jpg`;
   // Troncature à la limite d'un mot (pas au milieu) pour un extrait propre
   // dans les résultats de recherche, avec repli sur catégorie/année si la
   // description manque, pour ne jamais laisser la meta vide.
@@ -266,6 +266,8 @@ export default function ProjectDetail() {
   const hasParts = translatedProject.parts && translatedProject.parts.length > 0;
   const videoIndex = hasVideo ? ++sectionCounter : null;
   const figmaIndex = hasFigma ? ++sectionCounter : null;
+  const hasProcess = Boolean(project.process?.steps?.length || project.process?.compare);
+  const processIndex = hasProcess ? ++sectionCounter : null;
   const partsIndex = hasParts ? ++sectionCounter : null;
   const detailsIndex = ++sectionCounter;
   const club = CLUB_THEMES[project.clubTheme];
@@ -650,6 +652,14 @@ export default function ProjectDetail() {
                   {t('projects:details.prototypeHint')}
                 </p>
               </motion.div>
+            )}
+
+            {/* Démarche : étapes, versions écartées, avant/après */}
+            {hasProcess && (
+              <div className="mb-20 md:mb-28">
+                <ProjectSectionDivider index={processIndex} label={isFrench ? 'Démarche' : 'Process'} isDarkMode={isDarkMode} accentTextClass={club?.goldText || club?.accent} accentLineClass={club?.topBarBg || club?.accentBg} />
+                <ProjectProcess process={project.process} lang={isFrench ? 'fr' : 'en'} />
+              </div>
             )}
 
             {/* Parties du projet */}

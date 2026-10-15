@@ -376,9 +376,8 @@ export default function ProjectDoubleDetail({ project: source }) {
 
   const siteUrl = 'https://www.rafaelpiral.fr';
   const pageUrl = `${siteUrl}/work/${project.slug}`;
-  const ogImage = project.thumbnail?.endsWith('.svg')
-    ? `${siteUrl}/og-image.png`
-    : `${siteUrl}${project.thumbnail}`;
+  // Image d'aperçu 1200×630 propre au projet (public/og/, voir scripts/prerender.mjs)
+  const ogImage = `${siteUrl}/og/${project.slug}.jpg`;
   // Troncature à la limite d'un mot (pas au milieu) pour un extrait propre
   // dans les résultats de recherche, avec repli sur catégorie/année si la
   // description manque, pour ne jamais laisser la meta vide.

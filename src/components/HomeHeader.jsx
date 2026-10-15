@@ -8,7 +8,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 const MOBILE_NAV_ITEMS = [
   { id: 'about', num: '01', label: 'common:nav.about' },
   { id: 'projects', num: '02', label: 'common:nav.projects' },
-  { id: 'services', num: '03', label: 'common:nav.services' },
+  { id: 'skills', num: '03', label: 'common:nav.skills' },
   { id: 'contact', num: '04', label: 'common:nav.contact' },
 ];
 
@@ -33,7 +33,7 @@ export default function HomeHeader({ isDarkMode, setIsDarkMode, scrollToSection 
   // limite traverse cette bande devient "active".
   const [activeSection, setActiveSection] = useState('');
   useEffect(() => {
-    const sectionIds = ['about', 'projects', 'services', 'contact'];
+    const sectionIds = ['about', 'projects', 'skills', 'contact'];
     const sections = sectionIds
       .map(id => document.getElementById(id))
       .filter(Boolean);
@@ -167,16 +167,16 @@ export default function HomeHeader({ isDarkMode, setIsDarkMode, scrollToSection 
             <span className="text-[8px] align-super opacity-40 mr-1">02</span>{t('common:nav.projects')}
           </button>
           <button
-            onClick={() => scrollToSection('services')}
+            onClick={() => scrollToSection('skills')}
             className={`text-sm tracking-widest transition-colors cursor-pointer border-b pb-0.5 ${
-              activeSection === 'services'
+              activeSection === 'skills'
                 ? headerIsDark ? 'text-beige border-beige' : 'text-black border-black'
                 : headerIsDark
                   ? 'text-gray-400 border-transparent hover:text-beige'
                   : 'text-gray-700 border-transparent hover:text-black'
             }`}
           >
-            <span className="text-[8px] align-super opacity-40 mr-1">03</span>{t('common:nav.services')}
+            <span className="text-[8px] align-super opacity-40 mr-1">03</span>{t('common:nav.skills')}
           </button>
           <button
             onClick={() => scrollToSection('contact')}

@@ -768,6 +768,23 @@ export default function Musee() {
   focusedRef.current = focused;
   const [zoomed, setZoomed] = useState(null); // affiche ouverte en grand (index), ou null
   const [phoneOpen, setPhoneOpen] = useState(false); // prototype Armor Immo ouvert
+  const [shared, setShared] = useState(null); // œuvre dont le lien vient d'être copié
+  // Lien direct vers une œuvre : la visite s'ouvre devant elle (?affiche=…)
+  const shareExhibit = async (index) => {
+    const item = EXHIBITS[index];
+    const url = `${SITE}/musee?affiche=${item.image}`;
+    try {
+      if (touch && navigator.share) {
+        await navigator.share({ title: `${item.title} · ${T("Musée d'affiches", 'Poster museum')}`, url });
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+      setShared(index);
+      setTimeout(() => setShared((current) => (current === index ? null : current)), 2200);
+    } catch {
+      // partage annulé ou presse-papiers refusé : rien à faire
+    }
+  };
   // Coin écoute : null tant qu'il n'a pas été lancé, puis { playing, index }
   const [music, setMusic] = useState(null);
   // audio : lecteur des extraits ; previews : adresse de l'extrait et lien
@@ -1917,10 +1934,10 @@ export default function Musee() {
         left = true;
         if (lite) {
           homeFrame.remove();
-          navigate('/');
+          navigate('/', { state: { fromMuseum: true } });
         } else {
           Object.assign(homeFrame.style, { transform: 'none', zIndex: '1000', visibility: 'visible' });
-          navigate('/');
+          navigate('/', { state: { fromMuseum: true } });
           setTimeout(() => {
             homeFrame.classList.add('musee-portal-out');
             setTimeout(() => homeFrame.remove(), 700);
@@ -2379,6 +2396,9 @@ export default function Musee() {
                   <Link to={`/work/${exhibit.slug}`} className="underline underline-offset-2 transition-opacity hover:opacity-60">
                     {T('Voir le projet', 'See the project')} →
                   </Link>
+                  <button type="button" onClick={() => shareExhibit(focused)} className="underline underline-offset-2 transition-opacity hover:opacity-60" aria-live="polite">
+                    {shared === focused ? T('Lien copié', 'Link copied') : T('Partager', 'Share')}
+                  </button>
                 </div>
               </div>
             ) : (
