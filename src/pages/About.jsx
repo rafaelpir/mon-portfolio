@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import Logo from '../components/Logo';
-import GridSparkles from '../components/GridSparkles';
+import LivingGrid from '../components/LivingGrid';
 import ScrollRevealText from '../components/ScrollRevealText';
 
 // Même logique que CATEGORY_STYLES dans Timeline.jsx : classes écrites en
@@ -42,9 +42,12 @@ export default function About() {
   const skillCats = ['design', 'audiovisual', 'web', 'soft', 'office', 'communication'];
 
   return (
-    <div className={`min-h-screen font-stamp transition-colors duration-300 ${
+    <div className={`relative isolate min-h-screen font-stamp transition-colors duration-300 ${
       isDarkMode ? 'bg-black text-beige' : 'bg-white text-black'
     }`}>
+      {/* Fond animé fixe derrière toute la page (isolate le garde au-dessus du fond noir) */}
+      <LivingGrid isDarkMode={isDarkMode} fullPage className="-z-10" />
+
       <Helmet>
         <html lang={currentLang} />
         <title>{t('about:meta.title')}</title>
@@ -137,8 +140,6 @@ export default function About() {
 
       {/* Hero Section */}
       <section className="min-h-screen flex flex-col justify-center px-4 md:px-16 pt-32 pb-16 relative overflow-hidden">
-        <GridSparkles isDarkMode={isDarkMode} className="z-0" />
-
         <div className="relative z-10">
           {/* Titre courant du catalogue : cette page en est l'annexe */}
           <h1
