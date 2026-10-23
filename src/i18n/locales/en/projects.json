@@ -2,6 +2,7 @@
   "details": {
     "museum": "Exhibition",
     "museumLink": "See the poster in the museum",
+    "museumLinkWork": "See the work in the museum",
     "back": "PROJECTS",
     "breadcrumb": {
       "home": "Home",
@@ -423,6 +424,171 @@
         "Mario Balotelli poster, Nike x Inter Milan crossover campaign.",
         "Presentation mockup of the Mario Balotelli poster.",
         "Black and white version of the Mario Balotelli poster."
+      ]
+    },
+    "17": {
+      "title": "Iris: a liquid glass sculpture",
+      "shortTitle": "Iris",
+      "category": "Audiovisual",
+      "type": "Personal",
+      "context": "Personal project, generative art and video",
+      "period": "October 2026",
+      "duration": "2 days",
+      "description": "Iris is a liquid glass sculpture that only exists in a shader: bubbles that merge and split apart, computed in real time in TouchDesigner and driven by music. The project comes in two parts: a studio version made for Instagram, then Anomalie, where Iris appears in a real landscape, filmed as if by a 2003 camcorder.",
+      "competences": [
+        "Generative art",
+        "Shader programming",
+        "Video compositing",
+        "Motion design",
+        "Art direction",
+        "Audio-visual sync"
+      ],
+      "gallery": [
+        "Iris as the bass drops back in: the bubbles swell and merge as the reflections flare.",
+        "Iris during the quiet passage: two floating bubbles joined by a thread of matter.",
+        "Iris mid-pulse, its iridescent surface bent by the rhythm."
+      ],
+      "parts": [
+        {
+          "title": "The idea",
+          "subtitle": "A material rather than an object",
+          "paragraphs": [
+            "I wanted an image you would want to watch on repeat, somewhere between a drop of mercury, a soap bubble and a lava lamp. Not a recognisable object, but a living, glossy material that keeps changing shape without ever quite repeating itself.",
+            "The palette follows from that: iridescent peach, pink, lilac and cyan reflections over a magenta gradient that slides into midnight blue. Saturated enough to stop the thumb in an Instagram feed, soft enough to stay elegant."
+          ]
+        },
+        {
+          "title": "Sculpting with maths",
+          "subtitle": "No 3D model, just a shader",
+          "paragraphs": [
+            "Iris was never modelled. The whole image is computed by a GLSL shader in TouchDesigner, using a technique called raymarching: for every pixel, a ray leaves the camera and steps forward until it touches a surface described by a formula.",
+            "That formula joins seven spheres with a smooth union: when two spheres get close, they melt into each other instead of intersecting, which is what makes it look liquid. The reflections imitate the thin film of a soap bubble, whose colour shifts with the viewing angle."
+          ]
+        },
+        {
+          "title": "Making the material dance",
+          "subtitle": "The music drives the shape",
+          "paragraphs": [
+            "Iris is tied to the music. The track is analysed ahead of time, frame by frame: the bass swells the bubbles until they merge, the highs make their surface shiver, and every hit pushes them apart for an instant as the reflections flash.",
+            "The fifteen-second excerpt is built on contrast: eight quiet seconds where the bubbles float in suspension, then the bass crashes back in and the sculpture flares up. That shift from calm to impact is what holds attention on a Reel."
+          ]
+        },
+        {
+          "title": "The Instagram format",
+          "subtitle": "An endless loop",
+          "paragraphs": [
+            "The studio version is vertical, 4:5, to take up as much of the feed as possible. Without the music it is a perfect eight-second loop: the last frame joins the first exactly, so the video plays forever with no visible cut.",
+            "Every frame is rendered without dropping any, at 60 frames per second, exported as ProRes and then converted to H.264 for publishing."
+          ]
+        },
+        {
+          "title": "Anomalie",
+          "subtitle": "A fake tape from 2003",
+          "paragraphs": [
+            "Once the sculpture worked, I wanted to put it up against the real world. The starting point is a river shot filmed on a phone. I cut out the sky, erased the clouds and tinted the rest pink in a shader, to give Iris room to float. Then I blended it into the landscape, with a reflection in the river, shadows and grain, so it belongs to the image instead of sitting on top of it.",
+            "Everything else is about ageing the image: a 4:3 crop, the shake of a handheld camera, lens distortion, then the camcorder display on top, with \"REC\", the battery, the counter and the date, \"14. 8.2003\". The final render imitates a MiniDV tape, at 768 × 576 and 25 frames per second, with its colours and video noise. It looks like a holiday video that caught something unexplained."
+          ],
+          "video": {
+            "src": "/videos/iris-anomalie.mp4",
+            "poster": "/images/projects/iris/anomalie-poster.webp",
+            "aspect": "4 / 3",
+            "caption": "Anomalie · 10 s · with sound",
+            "label": "Anomalie: Iris in the sky, filmed as if by a MiniDV camcorder",
+            "controls": false
+          }
+        },
+        {
+          "title": "Behind the scenes",
+          "subtitle": "Nine steps, from phone to camcorder",
+          "paragraphs": [
+            "Anomalie is built layer by layer in TouchDesigner: the original footage, the sky cut-out, the cleaned sky, the sculpture, compositing and grading, the 4:3 crop, the handheld camera, the camcorder display and finally the MiniDV render. In this video the grid fills up step by step, the camera follows each new layer, then pulls back to show them all together."
+          ],
+          "video": {
+            "src": "/videos/iris-coulisses.mp4",
+            "poster": "/images/projects/iris/coulisses-poster.webp",
+            "aspect": "16 / 9",
+            "caption": "Behind the scenes of Anomalie · 16 s",
+            "label": "The nine steps used to build Anomalie in TouchDesigner",
+            "controls": false
+          }
+        }
+      ]
+    },
+    "18": {
+      "title": "Uzbek Portrait: a mosaic of crafts",
+      "shortTitle": "Uzbek Portrait",
+      "category": "Audiovisual",
+      "type": "Personal",
+      "context": "Personal project, generative art for Instagram",
+      "period": "October 2026",
+      "duration": "1 day",
+      "description": "A painted portrait of an Uzbek man, recomposed live by a grid of tiles. Each tile borrows a Central Asian craft: ikat, suzani, girih, Samarkand ceramics and letters of the Arabic-Persian alphabet. Every three seconds the mosaic reshuffles in a wave that starts from the face. Computed in a GLSL shader in TouchDesigner, made for Instagram.",
+      "competences": [
+        "Generative art",
+        "Shader programming",
+        "Pattern research",
+        "Art direction",
+        "Motion design"
+      ],
+      "galleryDescriptions": [
+        "Balanced: half of the cells keep the painting, the other half turn into pattern.",
+        "Dense: almost the whole figure is covered in tiles.",
+        "Fine mosaic: ten columns instead of six, smaller tiles.",
+        "Cut out: the figure alone, without the painting's background."
+      ],
+      "parts": [
+        {
+          "title": "The idea",
+          "subtitle": "A painting that rearranges itself",
+          "paragraphs": [
+            "The starting point is Enigmatriz's work: a grid of tiles laid over an image, where some cells keep the painting and others turn into pattern. I wanted to take that principle and give it an identity, that of Central Asia, starting from a painted portrait of an Uzbek man in a striped chapan.",
+            "Before the tiles, the image is graded automatically: the program measures its blacks and whites, removes part of the colour cast and adds a little contrast, so the painting's colours hold up against the patterns."
+          ]
+        },
+        {
+          "title": "The tiles",
+          "subtitle": "Five Central Asian crafts",
+          "paragraphs": [
+            "Each tile borrows a craft from the region: ikat and its woven, blurred-edge patterns, the embroidered medallions of suzani, the geometric interlace of girih, the glazes of Samarkand ceramics, and letters of the Arabic-Persian alphabet once used to write Chagatai, the old Uzbek language.",
+            "The colours come from traditional dyes and pigments: madder, pomegranate, saffron, indigo, lapis lazuli and turquoise. For the letter tiles, each character is ranked by how much ink it holds: the painting's dark areas get the densest letters, the light areas the lightest."
+          ],
+          "images": [
+            "/images/projects/portrait-ouzbek/03_dense.webp",
+            "/images/projects/portrait-ouzbek/06_mosaique_fine.webp"
+          ]
+        },
+        {
+          "title": "The cut-out",
+          "subtitle": "The figure, set on a new background",
+          "paragraphs": [
+            "The tiles only cover the figure. To cut him out, the program starts from the top of the image and follows the dark brown area connected to it. The beard and the black stripes of the chapan are spared, because they don't touch the background or don't share its warm hue.",
+            "Once cut out, the figure can be set on several backgrounds computed in the shader: the original background cleaned of its grain, a ganch wall, the carved stucco of Bukhara's palaces, black velvet adorned with girih and gold lines, the background repainted in oil, or a black paint, the one used for these versions. There is also a transparent version, ready for editing."
+          ],
+          "image": "/images/projects/portrait-ouzbek/08_detoure.webp",
+          "imageMaxWidth": "360px"
+        },
+        {
+          "title": "The animation",
+          "subtitle": "A wave that starts from the face",
+          "paragraphs": [
+            "Every three seconds the mosaic reshuffles: some cells turn back into painting, others change pattern. The change doesn't happen all at once, it starts from the face and spreads to the edges, with a small random delay for each tile.",
+            "Each video lasts twelve seconds, four cycles. It is rendered frame by frame at 30 frames per second, so no frame is dropped whatever the computer's speed, then assembled at 1080 px wide for Instagram."
+          ],
+          "image": "/images/projects/portrait-ouzbek/07_en_transition.webp",
+          "imageMaxWidth": "360px"
+        },
+        {
+          "title": "The variations",
+          "subtitle": "Eight compositions",
+          "paragraphs": [
+            "Three settings are enough to change the image completely: the number of columns, the share of cells left intact and the random seed. I drew eight compositions from them, from the sparest, where three cells out of four keep the painting, to the densest, where almost everything becomes pattern."
+          ],
+          "images": [
+            "/images/projects/portrait-ouzbek/02_equilibre_bis.webp",
+            "/images/projects/portrait-ouzbek/04_epure.webp",
+            "/images/projects/portrait-ouzbek/05_grandes_tuiles.webp"
+          ]
+        }
       ]
     }
   },

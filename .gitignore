@@ -27,6 +27,10 @@ yarn-error.log*
 public/videos/*.mp4
 !public/videos/output_optimized.mp4
 !public/videos/fond_leger.mp4
+!public/videos/iris.mp4
+!public/videos/iris-anomalie.mp4
+!public/videos/iris-coulisses.mp4
+!public/videos/portrait-ouzbek.mp4
 public/videos/*.mov
 public/videos/*.webm
 node_modules/

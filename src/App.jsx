@@ -10,7 +10,7 @@ import GoogleAnalytics from './components/GoogleAnalytics';
 import { EMBEDDED_COPY } from './utils/museumAccess';
 import AdminGuard from './components/AdminGuard';
 import CatalogueLoader from './components/CatalogueLoader';
-import PageTurn, { pageLabel, TURN_IN } from './components/PageTurn';
+import PageTurn, { pageLabel, TURN_IN, MOSAIC_IN } from './components/PageTurn';
 // Code splitting - Chargement différé des pages
 const Home = lazy(() => import('./pages/Home'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
@@ -168,7 +168,7 @@ function AppContent() {
           key={location.pathname}
           initial={turnsRef.current ? { opacity: 1 } : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={turnsRef.current ? { opacity: 0.999, transition: { duration: TURN_IN / 1000 } } : { opacity: 0, y: -8 }}
+          exit={turnsRef.current ? { opacity: 0.999, transition: { duration: (turn.label?.mosaic ? MOSAIC_IN : TURN_IN) / 1000 } } : { opacity: 0, y: -8 }}
           transition={{ duration: 0.35, ease: 'easeInOut' }}
         >
           <Suspense fallback={null}>

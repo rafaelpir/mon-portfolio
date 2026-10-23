@@ -2,6 +2,7 @@
   "details": {
     "museum": "Exposition",
     "museumLink": "Voir l'affiche au musée",
+    "museumLinkWork": "Voir l'œuvre au musée",
     "back": "PROJETS",
     "breadcrumb": {
       "home": "Accueil",
@@ -361,6 +362,171 @@
         "Maquettes desktop & mobile",
         "Architecture de l'information",
         "Prototype interactif Figma"
+      ]
+    },
+    "17": {
+      "title": "Iris : sculpture de verre liquide",
+      "shortTitle": "Iris",
+      "category": "Audiovisuel",
+      "type": "Personnel",
+      "context": "Projet personnel - Création générative et vidéo",
+      "period": "Octobre 2026",
+      "duration": "2 jours",
+      "description": "Iris est une sculpture de verre liquide qui n'existe que dans un shader : des bulles qui fusionnent et se séparent, calculées en temps réel dans TouchDesigner et animées par la musique. Le projet se joue en deux temps : une version studio pensée pour Instagram, puis Anomalie, où Iris apparaît dans un vrai paysage, filmée comme par un caméscope de 2003.",
+      "competences": [
+        "Création générative",
+        "Programmation de shaders",
+        "Compositing vidéo",
+        "Motion design",
+        "Direction artistique",
+        "Synchronisation son et image"
+      ],
+      "gallery": [
+        "Iris au retour des basses : les bulles gonflent, fusionnent et les reflets s'embrasent.",
+        "Iris pendant le passage calme : deux bulles en suspension, reliées par un fil de matière.",
+        "Iris en pleine pulsation, la surface irisée déformée par le rythme."
+      ],
+      "parts": [
+        {
+          "title": "L'idée",
+          "subtitle": "Une matière plutôt qu'un objet",
+          "paragraphs": [
+            "Je voulais une image qu'on a envie de regarder en boucle, quelque part entre la goutte de mercure, la bulle de savon et la lampe à lave. Pas un objet qu'on reconnaît, mais une matière vivante et brillante, qui change de forme sans jamais tout à fait se répéter.",
+            "La palette en découle : des reflets irisés pêche, rose, lilas et cyan sur un dégradé magenta qui glisse vers le bleu nuit. Assez saturé pour arrêter le pouce dans un fil Instagram, assez doux pour rester élégant."
+          ]
+        },
+        {
+          "title": "Sculpter avec des mathématiques",
+          "subtitle": "Aucun modèle 3D, seulement un shader",
+          "paragraphs": [
+            "Iris n'a jamais été modélisée. Toute l'image est calculée par un shader GLSL dans TouchDesigner, avec une technique appelée raymarching : pour chaque pixel, un rayon part de la caméra et avance jusqu'à toucher une surface décrite par une formule.",
+            "Cette formule réunit sept sphères par une union douce : quand deux sphères se rapprochent, elles fondent l'une dans l'autre au lieu de se croiser, d'où cet aspect liquide. Les reflets imitent la fine pellicule d'une bulle de savon, dont la couleur change selon l'angle du regard."
+          ]
+        },
+        {
+          "title": "Faire danser la matière",
+          "subtitle": "La musique pilote la forme",
+          "paragraphs": [
+            "Iris est reliée à la musique. Le morceau est analysé à l'avance, image par image : les basses font gonfler les bulles jusqu'à les fusionner, les aigus font frémir leur surface, et chaque coup les écarte un instant en faisant flasher les reflets.",
+            "L'extrait de quinze secondes repose sur un contraste : huit secondes de calme où les bulles flottent en suspension, puis le retour brutal des basses, et la sculpture s'embrase. Ce passage du calme à l'impact, c'est ce qui retient l'attention sur un Reel."
+          ]
+        },
+        {
+          "title": "Le format Instagram",
+          "subtitle": "Une boucle sans fin",
+          "paragraphs": [
+            "La version studio est verticale, en 4:5, pour occuper le plus de place possible dans le fil. Sans la musique, elle forme une boucle parfaite de huit secondes : la dernière image rejoint exactement la première, et la vidéo tourne à l'infini sans coupure visible.",
+            "Chaque image est rendue sans en sauter aucune, à 60 images par seconde, exportée en ProRes puis convertie en H.264 pour la publication."
+          ]
+        },
+        {
+          "title": "Anomalie",
+          "subtitle": "Une fausse archive de 2003",
+          "paragraphs": [
+            "Une fois la sculpture au point, j'ai voulu la confronter au monde réel. Point de départ : un plan de rivière filmé au téléphone. J'ai détouré le ciel, effacé les nuages et teinté le reste en rose dans un shader, pour laisser à Iris la place de flotter. Puis je l'ai fondue dans le paysage, avec un reflet dans la rivière, des ombres et du grain, pour qu'elle appartienne à l'image au lieu d'y être collée.",
+            "Tout le reste consiste à vieillir l'image : un recadrage en 4:3, le tremblement d'une caméra tenue à la main, la distorsion de l'objectif, puis l'écran du caméscope par-dessus, avec « REC », la batterie, le compteur et la date, « 14. 8.2003 ». Le rendu final imite une cassette MiniDV, en 768 × 576 à 25 images par seconde, avec ses couleurs et son bruit vidéo. On croit regarder un film de vacances qui aurait capté quelque chose d'inexpliqué."
+          ],
+          "video": {
+            "src": "/videos/iris-anomalie.mp4",
+            "poster": "/images/projects/iris/anomalie-poster.webp",
+            "aspect": "4 / 3",
+            "caption": "Anomalie · 10 s · avec le son",
+            "label": "Anomalie : Iris dans le ciel, filmée comme par un caméscope MiniDV",
+            "controls": false
+          }
+        },
+        {
+          "title": "Les coulisses",
+          "subtitle": "Neuf étapes, du téléphone au caméscope",
+          "paragraphs": [
+            "Anomalie se construit couche par couche dans TouchDesigner : la vidéo d'origine, le détourage du ciel, le ciel nettoyé, la sculpture, la composition et l'étalonnage, le cadrage 4:3, la caméra à la main, l'écran du caméscope et enfin le rendu MiniDV. Dans cette vidéo, la grille se remplit étape par étape, la caméra suit chaque nouvelle couche, puis recule pour les montrer toutes ensemble."
+          ],
+          "video": {
+            "src": "/videos/iris-coulisses.mp4",
+            "poster": "/images/projects/iris/coulisses-poster.webp",
+            "aspect": "16 / 9",
+            "caption": "Les coulisses d'Anomalie · 16 s",
+            "label": "Les neuf étapes de construction d'Anomalie dans TouchDesigner",
+            "controls": false
+          }
+        }
+      ]
+    },
+    "18": {
+      "title": "Portrait ouzbek : mosaïque de savoir-faire",
+      "shortTitle": "Portrait ouzbek",
+      "category": "Audiovisuel",
+      "type": "Personnel",
+      "context": "Projet personnel - Création générative pour Instagram",
+      "period": "Octobre 2026",
+      "duration": "1 jour",
+      "description": "Un portrait peint d'un homme ouzbek, recomposé en direct par une grille de tuiles. Chaque tuile emprunte un savoir-faire d'Asie centrale : ikat, suzani, girih, céramique de Samarcande et lettres de l'alphabet arabo-persan. Toutes les trois secondes, la mosaïque se remélange en une vague qui part du visage. Calculé dans un shader GLSL sous TouchDesigner, pensé pour Instagram.",
+      "competences": [
+        "Création générative",
+        "Programmation de shaders",
+        "Recherche de motifs",
+        "Direction artistique",
+        "Motion design"
+      ],
+      "galleryDescriptions": [
+        "Équilibre : la moitié des cases gardent la peinture, l'autre moitié devient motif.",
+        "Dense : presque tout le personnage est recouvert de tuiles.",
+        "Mosaïque fine : dix colonnes au lieu de six, des tuiles plus petites.",
+        "Détouré : le personnage seul, sans le fond du tableau."
+      ],
+      "parts": [
+        {
+          "title": "L'idée",
+          "subtitle": "Un tableau qui se recompose",
+          "paragraphs": [
+            "Le point de départ, c'est le travail d'Enigmatriz : une grille de tuiles posée sur une image, où certaines cases gardent la peinture et d'autres deviennent motif. J'ai voulu reprendre ce principe et lui donner une identité, celle de l'Asie centrale, en partant d'un portrait peint d'un homme ouzbek en chapan rayé.",
+            "Avant les tuiles, l'image est étalonnée automatiquement : le programme mesure ses noirs et ses blancs, retire une partie de la dominante de couleur et ajoute un léger contraste, pour que les couleurs du tableau tiennent face à celles des motifs."
+          ]
+        },
+        {
+          "title": "Les tuiles",
+          "subtitle": "Cinq savoir-faire d'Asie centrale",
+          "paragraphs": [
+            "Chaque tuile emprunte un savoir-faire de la région : l'ikat et ses motifs tissés aux contours flous, les médaillons brodés du suzani, les entrelacs géométriques du girih, les émaux de la céramique de Samarcande, et des lettres de l'alphabet arabo-persan, celui qu'on utilisait pour écrire le tchaghataï, l'ancienne langue ouzbèke.",
+            "Les couleurs viennent des teintures et des pigments traditionnels : garance, grenade, safran, indigo, lapis-lazuli et turquoise. Pour les tuiles en lettres, chaque caractère est classé selon la quantité d'encre qu'il contient : les zones sombres du tableau reçoivent les lettres les plus denses, les zones claires les plus légères."
+          ],
+          "images": [
+            "/images/projects/portrait-ouzbek/03_dense.webp",
+            "/images/projects/portrait-ouzbek/06_mosaique_fine.webp"
+          ]
+        },
+        {
+          "title": "Le détourage",
+          "subtitle": "Le personnage, posé sur un nouveau fond",
+          "paragraphs": [
+            "Les tuiles ne recouvrent que le personnage. Pour le détourer, le programme part du haut de l'image et suit la zone brun sombre qui y est reliée. La barbe et les rayures noires du chapan sont épargnées, parce qu'elles ne touchent pas le fond ou n'ont pas sa teinte chaude.",
+            "Une fois détouré, le personnage peut être posé sur plusieurs fonds calculés dans le shader : le fond d'origine nettoyé de son grain, un mur de ganch, le stuc sculpté des palais de Boukhara, un velours noir orné de girih et de filets dorés, le fond repeint à l'huile, ou une peinture noire, celle retenue pour ces versions. Il existe aussi une version transparente, prête pour le montage."
+          ],
+          "image": "/images/projects/portrait-ouzbek/08_detoure.webp",
+          "imageMaxWidth": "360px"
+        },
+        {
+          "title": "L'animation",
+          "subtitle": "Une vague qui part du visage",
+          "paragraphs": [
+            "Toutes les trois secondes, la mosaïque se remélange : une partie des cases redevient peinture, d'autres changent de motif. Le changement ne se fait pas d'un coup, il part du visage et se propage vers les bords, avec un petit décalage au hasard pour chaque tuile.",
+            "Chaque vidéo dure douze secondes, soit quatre cycles. Elle est rendue image par image à 30 images par seconde, pour qu'aucune ne soit sautée quelle que soit la vitesse de l'ordinateur, puis assemblée en 1080 px de large pour Instagram."
+          ],
+          "image": "/images/projects/portrait-ouzbek/07_en_transition.webp",
+          "imageMaxWidth": "360px"
+        },
+        {
+          "title": "Les variantes",
+          "subtitle": "Huit compositions",
+          "paragraphs": [
+            "Trois réglages suffisent à changer complètement l'image : le nombre de colonnes, la part de cases qui restent intactes et la graine du hasard. J'en ai tiré huit compositions, de la plus épurée, où trois cases sur quatre gardent la peinture, à la plus dense, où presque tout devient motif."
+          ],
+          "images": [
+            "/images/projects/portrait-ouzbek/02_equilibre_bis.webp",
+            "/images/projects/portrait-ouzbek/04_epure.webp",
+            "/images/projects/portrait-ouzbek/05_grandes_tuiles.webp"
+          ]
+        }
       ]
     }
   },

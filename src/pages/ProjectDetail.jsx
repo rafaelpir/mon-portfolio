@@ -15,6 +15,7 @@ import ImageLightbox from '../components/ImageLightbox';
 import ProjectDoubleDetail from './ProjectDoubleDetail';
 import i18nLang from '../i18n';
 import ProjectProcess from '../components/ProjectProcess';
+import PartVideo from '../components/PartVideo';
 
 // Thème "à l'effigie" d'un club, pour les quelques projets qui en portent
 // un (`project.clubTheme`), classes Tailwind écrites en toutes lettres :
@@ -261,7 +262,11 @@ export default function ProjectDetail() {
   // compte pour ne pas laisser un trou (ex. "02" sans "01" visible).
   let sectionCounter = 0;
   const hasGallery = project.gallery && project.gallery.length > 0;
-  const hasVideo = project.youtubeId || project.video;
+  // `videoInHero` : la vidéo ouvre la page à la place du carrousel d'images
+  // (et ne se répète donc pas plus bas dans sa propre section).
+  const heroVideo = Boolean(project.video && project.videoInHero);
+  const showCarousel = hasGallery && !heroVideo;
+  const hasVideo = (project.youtubeId || project.video) && !heroVideo;
   const hasFigma = !!project.figmaEmbed;
   const hasParts = translatedProject.parts && translatedProject.parts.length > 0;
   const videoIndex = hasVideo ? ++sectionCounter : null;
@@ -298,7 +303,7 @@ export default function ProjectDetail() {
                   <li className="flex flex-col gap-1">
                     <span className="opacity-40 text-xs tracking-widest uppercase">{t('projects:details.museum')}</span>
                     <Link to={museumLinkFor(project.slug)} className="underline underline-offset-2 transition-opacity hover:opacity-60">
-                      {t('projects:details.museumLink')} →
+                      {t(project.video ? 'projects:details.museumLinkWork' : 'projects:details.museumLink')} →
                     </Link>
                   </li>
                 )}
@@ -432,8 +437,33 @@ export default function ProjectDetail() {
 
             <div className="plate-figure flex-1 min-h-0 flex flex-col">
 
+            {/* Vidéo d'ouverture (remplace le carrousel) */}
+            {heroVideo && (
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="flex-1 min-h-0 flex items-center justify-center"
+              >
+                <video
+                  src={project.video}
+                  poster={project.videoPoster}
+                  aria-label={imageAlt}
+                  playsInline
+                  data-mobile-ok
+                  controls={project.videoControls !== false}
+                  disablePictureInPicture={project.videoControls === false}
+                  autoPlay
+                  loop
+                  muted
+                  className={`max-w-full max-h-full object-contain ${project.videoControls === false ? 'pointer-events-none select-none' : ''}`}
+                  style={{ aspectRatio: project.videoAspect }}
+                />
+              </motion.div>
+            )}
+
             {/* Image principale (masquée si carousel présent) */}
-            {!hasGallery && (
+            {!hasGallery && !heroVideo && (
               <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -460,7 +490,7 @@ export default function ProjectDetail() {
             )}
 
             {/* Carousel d'images */}
-            {hasGallery && (
+            {showCarousel && (
               <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -563,12 +593,12 @@ export default function ProjectDetail() {
             premier contenu qu'on découvre en scrollant, sous le titre/visuel. */}
         <div className="px-4 md:px-16">
           <div className="max-w-7xl mx-auto">
-            {hasGallery && (translatedProject.galleryDescriptions[currentImageIndex] || project.gallery[currentImageIndex].description) && (
+            {showCarousel && (translatedProject.galleryDescriptions[currentImageIndex] || project.gallery[currentImageIndex].description) && (
               <p className="lg:hidden text-center text-base opacity-70 max-w-3xl mx-auto pt-6 md:pt-10">
                 {translatedProject.galleryDescriptions[currentImageIndex] || project.gallery[currentImageIndex].description}
               </p>
             )}
-            {hasGallery && (
+            {showCarousel && (
               <p className="text-center text-xs opacity-30 mt-2 md:hidden">
                 {t('projects:details.swipeToNavigate')}
               </p>
@@ -604,7 +634,12 @@ export default function ProjectDetail() {
                 className="mb-20 md:mb-28"
               >
                 <ProjectSectionDivider index={videoIndex} label={t('projects:details.videoPresentation')} isDarkMode={isDarkMode} accentTextClass={club?.goldText || club?.accent} accentLineClass={club?.topBarBg || club?.accentBg} />
-                <div className={`relative aspect-video overflow-hidden ${isDarkMode ? 'bg-beige/5' : 'bg-black/5'}`}>
+                {/* Format 16:9 par défaut ; une vidéo verticale (ex. Reel 4:5)
+                    renseigne `videoAspect` pour ne pas être recadrée. */}
+                <div
+                  className={`relative overflow-hidden ${project.videoAspect ? 'mx-auto' : 'aspect-video'} ${isDarkMode ? 'bg-beige/5' : 'bg-black/5'}`}
+                  style={project.videoAspect ? { aspectRatio: project.videoAspect, maxWidth: project.videoMaxWidth || '540px' } : undefined}
+                >
                   {project.youtubeId ? (
                     <iframe
                       src={`https://www.youtube.com/embed/${project.youtubeId}`}
@@ -616,11 +651,16 @@ export default function ProjectDetail() {
                   ) : (
                     <video
                       src={project.video}
-                      controls
+                      poster={project.videoPoster}
+                      playsInline
+                      data-mobile-ok
+                      // `videoControls: false` : boucle muette sans commandes, comme une image animée
+                      controls={project.videoControls !== false}
+                      disablePictureInPicture={project.videoControls === false}
                       autoPlay
                       loop
                       muted
-                      className="w-full h-full object-cover"
+                      className={`w-full h-full object-cover ${project.videoControls === false ? 'pointer-events-none' : ''}`}
                     />
                   )}
                 </div>
@@ -739,6 +779,17 @@ export default function ProjectDetail() {
                     ) : null;
 
                     const isCarousel = part.images && part.images.length > 0;
+
+                    // Partie avec une vidéo (champ `video` : src, poster,
+                    // aspect) : texte puis vidéo en grand, avec son et commandes
+                    if (part.video) {
+                      return (
+                        <div key={index} className="flex flex-col gap-8">
+                          {textBlock}
+                          <PartVideo video={part.video} title={part.title} lang={isFrench ? 'fr' : 'en'} />
+                        </div>
+                      );
+                    }
 
                     return isCarousel ? (
                       <div key={index} className="flex flex-col gap-8">

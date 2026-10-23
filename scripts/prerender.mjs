@@ -110,7 +110,9 @@ written.push(page({
   body: `<h1>Mentions légales</h1><p>${esc(seo.legal.description)}</p>`,
 }));
 
-const museumDescription = `Visitez le musée virtuel de Rafael Piral : une salle parisienne en 3D où se promener parmi ${MUSEE_EXHIBITS.length} affiches (cinéma, musique, sport), avec vue sur les toits de Paris et playlist à écouter.`;
+const posterCount = MUSEE_EXHIBITS.filter((exhibit) => !exhibit.video).length;
+const videoCount = MUSEE_EXHIBITS.length - posterCount;
+const museumDescription = `Visitez le musée virtuel de Rafael Piral : une salle parisienne en 3D où se promener parmi ${posterCount} affiches (cinéma, musique, sport)${videoCount ? ` et ${['', 'une', 'deux', 'trois'][videoCount] || videoCount} œuvre${videoCount > 1 ? 's' : ''} vidéo` : ''}, avec vue sur les toits de Paris et playlist à écouter.`;
 written.push(page({
   path: '/musee',
   title: "Musée d'affiches en 3D | Rafael Piral, graphiste",

@@ -28,6 +28,26 @@
 
   <!-- Projets -->
   <url>
+    <loc>https://www.rafaelpiral.fr/work/portrait-ouzbek</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/projects/portrait-ouzbek/01_equilibre.webp</image:loc>
+      <image:title>Portrait ouzbek, mosaïque de savoir-faire | TouchDesigner | Rafael Piral</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.rafaelpiral.fr/work/iris</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/projects/iris/impact.webp</image:loc>
+      <image:title>Iris, sculpture de verre liquide | TouchDesigner | Rafael Piral</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.rafaelpiral.fr/work/affiche-balotelli</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>

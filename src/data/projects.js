@@ -539,7 +539,8 @@ export const projects = [
         "description": "Dernier test de robustesse : l'affiche projetée sur un abribus en contexte réel. À cette échelle, chaque choix de composition et de contraste se révèle. Le visuel tient : la typographie reste lisible, l'image conserve sa densité, l'identité dorée s'impose dans l'espace urbain.",
         "tags": ["Photoshop", "Illustrator", "InDesign"],
         "gallery": [
-          { "src": "/images/projects/01 Free Billboard Mockup At Bus Stop.webp", "display": "/images/projects/display/alicia-01-free-billboard-mockup-at-bus-stop.webp", "description": "" }
+          { "src": "/images/projects/01 Free Billboard Mockup At Bus Stop.webp", "display": "/images/projects/display/alicia-01-free-billboard-mockup-at-bus-stop.webp", "description": "" },
+          { "src": "/images/projects/AliciaBus.webp", "display": "/images/projects/display/alicia-bus.webp", "description": "" }
         ]
       },
       {
@@ -686,6 +687,122 @@ export const projects = [
       {
         "src": "/images/projects/BalotelliBW.webp",
         "description": "Déclinaison noir & blanc de l'affiche Mario Balotelli."
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "slug": "iris",
+    "isNew": true,
+    "title": "Iris : sculpture de verre liquide",
+    "shortTitle": "Iris",
+    "category": "Audiovisuel",
+    "type": "Personnel",
+    "year": "2026",
+    "context": "Projet personnel - Création générative et vidéo",
+    "period": "Octobre 2026",
+    "duration": "2 jours",
+    "description": "Iris est une sculpture de verre liquide qui n'existe que dans un shader : des bulles qui fusionnent et se séparent, calculées en temps réel dans TouchDesigner et animées par la musique. Le projet se joue en deux temps : une version studio pensée pour Instagram, puis Anomalie, où Iris apparaît dans un vrai paysage, filmée comme par un caméscope de 2003.",
+    "thumbnail": "/images/projects/thumbs/iris-anomalie.webp",
+    "video": "/videos/iris.mp4",
+    "videoPoster": "/images/projects/iris/poster.webp",
+    "videoAspect": "4 / 5",
+    "videoControls": false,
+    "videoInHero": true,
+    "tags": [
+      "TouchDesigner",
+      "GLSL"
+    ],
+    "competences": [
+      "Création générative",
+      "Programmation de shaders",
+      "Compositing vidéo",
+      "Motion design",
+      "Direction artistique",
+      "Synchronisation son et image"
+    ],
+    "outils": [
+      "TouchDesigner",
+      "GLSL",
+      "FFmpeg"
+    ],
+    "gallery": [
+      {
+        "src": "/images/projects/iris/impact.webp",
+        "description": "Iris au retour des basses : les bulles gonflent, fusionnent et les reflets s'embrasent."
+      },
+      {
+        "src": "/images/projects/iris/calme.webp",
+        "description": "Iris pendant le passage calme : deux bulles en suspension, reliées par un fil de matière."
+      },
+      {
+        "src": "/images/projects/iris/pulsation.webp",
+        "description": "Iris en pleine pulsation, la surface irisée déformée par le rythme."
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "slug": "portrait-ouzbek",
+    "isNew": true,
+    "title": "Portrait ouzbek : mosaïque de savoir-faire",
+    "shortTitle": "Portrait ouzbek",
+    "category": "Audiovisuel",
+    "type": "Personnel",
+    "year": "2026",
+    "context": "Projet personnel - Création générative pour Instagram",
+    "period": "Octobre 2026",
+    "duration": "1 jour",
+    "description": "Un portrait peint d'un homme ouzbek, recomposé en direct par une grille de tuiles. Chaque tuile emprunte un savoir-faire d'Asie centrale : ikat, suzani, girih, céramique de Samarcande et lettres de l'alphabet arabo-persan. Toutes les trois secondes, la mosaïque se remélange en une vague qui part du visage. Calculé dans un shader GLSL sous TouchDesigner, pensé pour Instagram.",
+    "thumbnail": "/images/projects/thumbs/portrait-ouzbek.webp",
+    "video": "/videos/portrait-ouzbek.mp4",
+    "videoPoster": "/images/projects/portrait-ouzbek/poster.webp",
+    "videoAspect": "720 / 1082",
+    "videoControls": false,
+    "videoInHero": true,
+    "tags": [
+      "TouchDesigner",
+      "GLSL"
+    ],
+    "competences": [
+      "Création générative",
+      "Programmation de shaders",
+      "Recherche de motifs",
+      "Direction artistique",
+      "Motion design"
+    ],
+    "outils": [
+      "TouchDesigner",
+      "GLSL",
+      "Python",
+      "FFmpeg"
+    ],
+    "process": {
+      "compare": {
+        "before": "/images/projects/portrait-ouzbek/original.webp",
+        "after": "/images/projects/portrait-ouzbek/01_equilibre.webp",
+        "label": {
+          "fr": "Le tableau d'origine et sa version en tuiles",
+          "en": "The original painting and its tiled version"
+        }
+      }
+    },
+    "gallery": [
+      {
+        "src": "/images/projects/portrait-ouzbek/01_equilibre.webp",
+        "description": "Équilibre : la moitié des cases gardent la peinture, l'autre moitié devient motif."
+      },
+      {
+        "src": "/images/projects/portrait-ouzbek/03_dense.webp",
+        "description": "Dense : presque tout le personnage est recouvert de tuiles."
+      },
+      {
+        "src": "/images/projects/portrait-ouzbek/06_mosaique_fine.webp",
+        "description": "Mosaïque fine : dix colonnes au lieu de six, des tuiles plus petites."
+      },
+      {
+        "src": "/images/projects/portrait-ouzbek/08_detoure.webp",
+        "description": "Détouré : le personnage seul, sans le fond du tableau."
       }
     ]
   }

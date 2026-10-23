@@ -365,8 +365,9 @@ canvas {
     transition: none !important;
   }
 
-  /* Désactiver les vidéos sur mobile pour économiser la batterie */
-  video {
+  /* Désactiver les vidéos sur mobile pour économiser la batterie,
+     sauf celles qui sont l'œuvre elle-même (vidéo d'un projet) */
+  video:not([data-mobile-ok]) {
     display: none !important;
   }
 }
@@ -1010,6 +1011,41 @@ canvas {
   transform: translateY(130%);
 }
 
+/* Musée : la phrase de l'agent, en haut de l'écran */
+.musee-guard {
+  position: absolute;
+  top: clamp(56px, 9vh, 84px);
+  left: 50%;
+  width: min(34rem, calc(100% - 32px));
+  padding: 0.85rem 1.1rem;
+  border: 1px solid rgba(244, 241, 234, 0.18);
+  background: rgba(10, 10, 12, 0.78);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #f4f1ea;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  text-align: center;
+  opacity: 0;
+  transform: translate(-50%, -8px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease !important;
+}
+
+.musee-guard.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.musee-guard > span {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
 /* Musée : affiche ouverte en grand, par-dessus la salle */
 .musee-zoom {
   position: fixed;
@@ -1023,7 +1059,8 @@ canvas {
   animation: musee-zoom-in 0.3s ease both !important;
 }
 
-.musee-zoom img {
+.musee-zoom img,
+.musee-zoom video {
   max-width: calc(100vw - 40px);
   max-height: calc(100dvh - 40px);
   width: auto;
@@ -1053,6 +1090,173 @@ canvas {
 @keyframes musee-zoom-image {
   from { transform: scale(0.92); }
   to { transform: none; }
+}
+
+/* Musée : œuvre ouverte en grand (MuseeLightbox). Animations en Web
+   Animations API : elles passent outre la règle mobile qui coupe les
+   animations CSS. */
+.musee-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: max(24px, env(safe-area-inset-top)) clamp(16px, 7vw, 96px) max(20px, env(safe-area-inset-bottom));
+  color: #f4f1ea;
+  cursor: zoom-out;
+}
+
+/* fond à part : il s'efface seul, l'œuvre reste opaque pendant son vol */
+.musee-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, rgba(18, 16, 14, 0.9), rgba(0, 0, 0, 0.96) 70%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.musee-lightbox-figure {
+  position: relative;
+}
+
+.musee-lightbox-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  margin: 0;
+  max-height: 100%;
+}
+
+.musee-lightbox-media {
+  position: relative;
+  transform-origin: 0 0;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(244, 241, 234, 0.06);
+  will-change: transform;
+}
+
+.musee-lightbox-media img,
+.musee-lightbox-media video {
+  display: block;
+  max-width: calc(100vw - 2 * clamp(16px, 7vw, 96px));
+  max-height: calc(100dvh - 190px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.musee-lightbox-media video {
+  /* taille connue avant le chargement de la vidéo (sinon elle naît à 0) */
+  width: min(calc(100vw - 2 * clamp(16px, 7vw, 96px)), calc((100dvh - 190px) * var(--ratio)));
+  aspect-ratio: var(--ratio);
+  max-height: none;
+  object-fit: cover;
+  background: #000;
+}
+
+@media (max-width: 768px) {
+  .musee-lightbox-media video {
+    /* la règle mobile `video { display: none !important }` ne vaut pas ici :
+       l'œuvre a été ouverte exprès */
+    display: block !important;
+    width: min(calc(100vw - 2 * clamp(16px, 7vw, 96px)), calc((100dvh - 230px) * var(--ratio)));
+  }
+}
+
+.musee-lightbox-media .musee-lightbox-hd {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  opacity: 0;
+  transition: opacity 0.4s ease !important;
+}
+
+.musee-lightbox-media .musee-lightbox-hd.is-ready {
+  opacity: 1;
+}
+
+.musee-lightbox-caption {
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  text-align: center;
+  cursor: default;
+  font-family: 'PP Neue Montreal', sans-serif;
+}
+
+.musee-lightbox-number,
+.musee-lightbox-meta {
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.musee-lightbox-title {
+  font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.musee-lightbox-link {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  opacity: 0.8;
+}
+
+.musee-lightbox-link:hover {
+  opacity: 1;
+}
+
+.musee-lightbox-nav,
+.musee-lightbox-close {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(244, 241, 234, 0.25);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #f4f1ea;
+  font-size: 16px;
+  transition: border-color 0.2s, background-color 0.2s !important;
+}
+
+.musee-lightbox-nav:hover,
+.musee-lightbox-close:hover {
+  border-color: #f4f1ea;
+  background: rgba(244, 241, 234, 0.1);
+}
+
+.musee-lightbox-nav {
+  top: 50%;
+  margin-top: -22px;
+}
+
+.musee-lightbox-nav.is-prev { left: clamp(10px, 2.5vw, 32px); }
+.musee-lightbox-nav.is-next { right: clamp(10px, 2.5vw, 32px); }
+
+.musee-lightbox-close {
+  top: max(14px, env(safe-area-inset-top));
+  right: 16px;
+}
+
+@media (max-width: 768px) {
+  .musee-lightbox-nav {
+    top: auto;
+    bottom: max(18px, env(safe-area-inset-bottom));
+    margin-top: 0;
+  }
+  .musee-lightbox-media img,
+  .musee-lightbox-media video {
+    max-height: calc(100dvh - 230px);
+  }
 }
 
 /* Musée : prototype Figma ouvert depuis le téléphone d'exposition */
@@ -1519,6 +1723,69 @@ canvas {
   font-size: 0.75rem;
   line-height: 1.7;
   opacity: 0.55;
+}
+
+/* Transition en mosaïque du Portrait ouzbek (Mosaic dans PageTurn.jsx) */
+.page-mosaic {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.page-mosaic > span {
+  position: absolute;
+  background-repeat: no-repeat;
+}
+
+.page-mosaic.is-in > span {
+  animation: mosaic-in 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both !important;
+}
+
+.page-mosaic.is-out > span {
+  animation: mosaic-out 0.3s cubic-bezier(0.6, 0, 0.8, 0.2) both !important;
+}
+
+@keyframes mosaic-in {
+  from { transform: scale(0.2) rotate(-8deg); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes mosaic-out {
+  from { transform: none; opacity: 1; }
+  to { transform: scale(0.2) rotate(8deg); opacity: 0; }
+}
+
+.page-mosaic-label {
+  position: absolute;
+  left: clamp(16px, 3vw, 40px);
+  bottom: clamp(16px, 4vh, 40px);
+  padding: 0.7rem 1rem;
+  background: rgba(11, 11, 11, 0.82);
+  color: #f4f1ea;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.page-mosaic-label > span {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.page-mosaic.is-in .page-mosaic-label {
+  animation: page-turn-text 0.4s ease 0.5s both !important;
+}
+
+.page-mosaic.is-out .page-mosaic-label {
+  animation: mosaic-out 0.25s ease both !important;
 }
 
 /* ── Tourne-page entre deux pages (src/components/PageTurn.jsx) ──────────────
@@ -2994,5 +3261,35 @@ html.is-opening .cover-fade {
   .process-steps > li {
     grid-template-columns: 1fr;
   }
+}
+
+/* Vidéo d'une partie de projet sans lecteur : seul le bouton du son */
+.part-video {
+  position: relative;
+}
+
+.part-video-sound {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid rgba(244, 241, 234, 0.35);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #f4f1ea;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background-color 0.2s, border-color 0.2s !important;
+}
+
+.part-video-sound:hover {
+  border-color: #f4f1ea;
+  background: rgba(0, 0, 0, 0.75);
 }
 
