@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { Renderer, Camera, Transform, Plane, Box, Program, Mesh, Texture, Mat4, Geometry, Cylinder, Vec3 } from 'ogl';
 import { projects } from '../data/projects';
-import { museumAvailable, touchDevice } from '../utils/museumAccess';
+import { museumAvailable, touchDevice, phoneDevice } from '../utils/museumAccess';
 import { SOCIAL_LOGOS } from '../data/socialLogos';
 import { MUSEE_PLAYLIST } from '../data/museePlaylist';
 import { MUSEE_EXHIBITS } from '../data/museeExhibits';
@@ -2703,12 +2703,12 @@ export default function Musee() {
           <div className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center text-center">
             <p className="text-xs tracking-[0.3em] uppercase opacity-60">{T("Musée d'affiches", 'Poster museum')}</p>
             <h1 className="mt-6 text-3xl md:text-4xl" style={{ fontFamily: '"PP Neue Montreal", sans-serif', fontWeight: 600 }}>
-              {blocker === 'size' && T('La fenêtre est trop étroite', 'The window is too narrow')}
+              {blocker === 'size' && (phoneDevice() ? T('Le musée se visite sur ordinateur', 'The museum is visited on a computer') : T('La fenêtre est trop étroite', 'The window is too narrow'))}
               {blocker === 'browser' && T('Ce navigateur ne peut pas afficher la visite', "This browser can't display the visit")}
               {blocker === 'power' && T("Cet appareil n'est pas assez puissant", "This device isn't powerful enough")}
             </h1>
             <p className="mt-5 text-sm md:text-base opacity-70">
-              {blocker === 'size' && T("Le musée est une salle en 3D dans laquelle on se promène : sur ordinateur, il lui faut une fenêtre d'au moins 1024 pixels de large. Agrandissez la fenêtre pour commencer la visite.", 'The museum is a 3D room you walk through: on a computer it needs a window at least 1024 pixels wide. Widen the window to start the visit.')}
+              {blocker === 'size' && (phoneDevice() ? T("Le musée est une salle en 3D dans laquelle on se promène : pour qu'il soit beau, il lui faut un ordinateur ou une tablette. Les affiches sont à découvrir juste en dessous.", 'The museum is a 3D room you walk through: to look its best it needs a computer or a tablet. The posters are just below.') : T("Le musée est une salle en 3D dans laquelle on se promène : sur ordinateur, il lui faut une fenêtre d'au moins 1024 pixels de large. Agrandissez la fenêtre pour commencer la visite.", 'The museum is a 3D room you walk through: on a computer it needs a window at least 1024 pixels wide. Widen the window to start the visit.'))}
               {blocker === 'browser' && T("Le musée est une salle en 3D, et ce navigateur ne sait pas l'afficher (WebGL indisponible). Essayez avec un navigateur récent, comme Chrome, Firefox ou Safari.", `The museum is a 3D room, and this browser can't display it (WebGL unavailable). Try a recent browser such as Chrome, Firefox or Safari.`)}
               {blocker === 'power' && T("Le musée est une salle en 3D, et elle ne s'affiche pas de façon fluide sur cet appareil. Fermer d'autres onglets ou applications peut aider.", `The museum is a 3D room, and it doesn't run smoothly on this device. Closing other tabs or apps may help.`)}
             </p>

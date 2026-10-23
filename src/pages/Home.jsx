@@ -904,9 +904,11 @@ export default function Home() {
                 <button onClick={() => scrollToSection('contact')} className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
                   <span className="text-[8px] align-super opacity-40 mr-1">04</span>{t('common:footer.contactLink')}
                 </button>
-                <Link to="/musee" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
-                  <span className="text-[8px] align-super opacity-40 mr-1">05</span>{currentLang === 'fr' ? "Musée d'affiches" : 'Poster museum'}
-                </Link>
+                {museumAvailable() && (
+                  <Link to="/musee" className="text-sm md:text-base font-light opacity-70 hover:opacity-100 transition-opacity text-left">
+                    <span className="text-[8px] align-super opacity-40 mr-1">05</span>{currentLang === 'fr' ? "Musée d'affiches" : 'Poster museum'}
+                  </Link>
+                )}
               </nav>
             </div>
 

@@ -7,8 +7,13 @@ export const EMBEDDED_COPY = typeof window !== 'undefined' && window.self !== wi
 // allégée, avec un joystick pour marcher.
 export const touchDevice = () => typeof window !== 'undefined' && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
+// Téléphone : appareil tactile dont le petit côté de l'écran fait moins de
+// 768 px. Le musée n'y est pas proposé (la 3D y est trop dégradée).
+export const phoneDevice = () =>
+  typeof window !== 'undefined' && touchDevice() && Math.min(window.screen.width, window.screen.height) < 768;
+
 // Le musée en 3D (/musee) se visite sur ordinateur (fenêtre d'au moins
-// 1024 px, souris ou pavé tactile) et sur appareil tactile. Seule une fenêtre
-// d'ordinateur trop étroite est refusée.
+// 1024 px, souris ou pavé tactile) et sur tablette. Il est retiré du site sur
+// téléphone (carte de l'accueil et liens des projets masqués).
 export const museumAvailable = () =>
-  typeof window !== 'undefined' && (touchDevice() || window.matchMedia('(min-width: 1024px)').matches);
+  typeof window !== 'undefined' && !phoneDevice() && (touchDevice() || window.matchMedia('(min-width: 1024px)').matches);

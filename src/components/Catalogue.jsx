@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { projects } from '../data/projects';
+import { museumAvailable } from '../utils/museumAccess';
 
 // Le site est pensé comme le catalogue de l'exposition (le musée en 3D,
 // /musee, étant l'exposition elle-même). Ces éléments lui donnent sa mise en
@@ -97,7 +98,7 @@ export function Cover({ lang = 'fr', isDarkMode, onGo, children }) {
             <button type="button" onClick={() => onGo('projects')}>
               {french ? 'Voir les projets' : 'See the projects'} ↓
             </button>
-            <Link to="/musee">{french ? 'Visiter le musée' : 'Visit the museum'} →</Link>
+            {museumAvailable() && <Link to="/musee">{french ? 'Visiter le musée' : 'Visit the museum'} →</Link>}
           </div>
         </div>
       </div>
@@ -119,7 +120,8 @@ export function Sommaire({ lang = 'fr', onGo, isDarkMode }) {
           <p className="catalogue-sommaire-heading">{french ? 'Sommaire' : 'Contents'}</p>
         </div>
         <ol>
-          {CHAPTERS.map((item) => {
+          {/* (le musée n'est pas proposé sur téléphone) */}
+          {CHAPTERS.filter((item) => item.to !== '/musee' || museumAvailable()).map((item) => {
             const inner = (
               <>
                 <span className="catalogue-sommaire-number">{item.number}</span>
