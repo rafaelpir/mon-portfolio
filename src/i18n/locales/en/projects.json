@@ -434,7 +434,7 @@
       "context": "Personal project, generative art and video",
       "period": "October 2026",
       "duration": "2 days",
-      "description": "Iris is a liquid glass sculpture that only exists in a shader: bubbles that merge and split apart, computed in real time in TouchDesigner and driven by music. The project comes in two parts: a studio version made for Instagram, then Anomalie, where Iris appears in a real landscape, filmed as if by a 2003 camcorder.",
+      "description": "Iris is a liquid glass sculpture that only exists in a shader: bubbles that merge and split apart, computed in real time in TouchDesigner and driven by music. The project comes in two parts: a studio version, then Anomalie, where Iris appears in a real landscape, filmed as if by a 2003 camcorder.",
       "competences": [
         "Generative art",
         "Shader programming",
@@ -454,7 +454,7 @@
           "subtitle": "A material rather than an object",
           "paragraphs": [
             "I wanted an image you would want to watch on repeat, somewhere between a drop of mercury, a soap bubble and a lava lamp. Not a recognisable object, but a living, glossy material that keeps changing shape without ever quite repeating itself.",
-            "The palette follows from that: iridescent peach, pink, lilac and cyan reflections over a magenta gradient that slides into midnight blue. Saturated enough to stop the thumb in an Instagram feed, soft enough to stay elegant."
+            "The palette follows from that: iridescent peach, pink, lilac and cyan reflections over a magenta gradient that slides into midnight blue. A saturated palette, yet soft enough to stay elegant."
           ]
         },
         {
@@ -470,15 +470,15 @@
           "subtitle": "The music drives the shape",
           "paragraphs": [
             "Iris is tied to the music. The track is analysed ahead of time, frame by frame: the bass swells the bubbles until they merge, the highs make their surface shiver, and every hit pushes them apart for an instant as the reflections flash.",
-            "The fifteen-second excerpt is built on contrast: eight quiet seconds where the bubbles float in suspension, then the bass crashes back in and the sculpture flares up. That shift from calm to impact is what holds attention on a Reel."
+            "The fifteen-second excerpt is built on contrast: eight quiet seconds where the bubbles float in suspension, then the bass crashes back in and the sculpture flares up."
           ]
         },
         {
-          "title": "The Instagram format",
-          "subtitle": "An endless loop",
+          "title": "The loop",
+          "subtitle": "Eight seconds, no cut",
           "paragraphs": [
-            "The studio version is vertical, 4:5, to take up as much of the feed as possible. Without the music it is a perfect eight-second loop: the last frame joins the first exactly, so the video plays forever with no visible cut.",
-            "Every frame is rendered without dropping any, at 60 frames per second, exported as ProRes and then converted to H.264 for publishing."
+            "The studio version is vertical, 4:5. Without the music it is a perfect eight-second loop: the last frame joins the first exactly, so the video plays forever with no visible cut.",
+            "Every frame is rendered without dropping any, at 60 frames per second, exported as ProRes and then converted to H.264."
           ]
         },
         {
@@ -519,10 +519,10 @@
       "shortTitle": "Uzbek Portrait",
       "category": "Audiovisual",
       "type": "Personal",
-      "context": "Personal project, generative art for Instagram",
+      "context": "Personal project, generative art",
       "period": "October 2026",
       "duration": "1 day",
-      "description": "A painted portrait of an Uzbek man, recomposed live by a grid of tiles. Each tile borrows a Central Asian craft: ikat, suzani, girih, Samarkand ceramics and letters of the Arabic-Persian alphabet. Every three seconds the mosaic reshuffles in a wave that starts from the face. Computed in a GLSL shader in TouchDesigner, made for Instagram.",
+      "description": "A painted portrait of an Uzbek man, recomposed live by a grid of tiles. Each tile borrows a Central Asian craft: ikat, suzani, girih, Samarkand ceramics and letters of the Arabic-Persian alphabet. Every three seconds the mosaic reshuffles in a wave that starts from the face. Computed in a GLSL shader in TouchDesigner.",
       "competences": [
         "Generative art",
         "Shader programming",
@@ -572,7 +572,7 @@
           "subtitle": "A wave that starts from the face",
           "paragraphs": [
             "Every three seconds the mosaic reshuffles: some cells turn back into painting, others change pattern. The change doesn't happen all at once, it starts from the face and spreads to the edges, with a small random delay for each tile.",
-            "Each video lasts twelve seconds, four cycles. It is rendered frame by frame at 30 frames per second, so no frame is dropped whatever the computer's speed, then assembled at 1080 px wide for Instagram."
+            "Each video lasts twelve seconds, four cycles. It is rendered frame by frame at 30 frames per second, so no frame is dropped whatever the computer's speed, then assembled at 1080 px wide."
           ],
           "image": "/images/projects/portrait-ouzbek/07_en_transition.webp",
           "imageMaxWidth": "360px"

@@ -372,7 +372,7 @@
       "context": "Projet personnel - Création générative et vidéo",
       "period": "Octobre 2026",
       "duration": "2 jours",
-      "description": "Iris est une sculpture de verre liquide qui n'existe que dans un shader : des bulles qui fusionnent et se séparent, calculées en temps réel dans TouchDesigner et animées par la musique. Le projet se joue en deux temps : une version studio pensée pour Instagram, puis Anomalie, où Iris apparaît dans un vrai paysage, filmée comme par un caméscope de 2003.",
+      "description": "Iris est une sculpture de verre liquide qui n'existe que dans un shader : des bulles qui fusionnent et se séparent, calculées en temps réel dans TouchDesigner et animées par la musique. Le projet se joue en deux temps : une version studio, puis Anomalie, où Iris apparaît dans un vrai paysage, filmée comme par un caméscope de 2003.",
       "competences": [
         "Création générative",
         "Programmation de shaders",
@@ -392,7 +392,7 @@
           "subtitle": "Une matière plutôt qu'un objet",
           "paragraphs": [
             "Je voulais une image qu'on a envie de regarder en boucle, quelque part entre la goutte de mercure, la bulle de savon et la lampe à lave. Pas un objet qu'on reconnaît, mais une matière vivante et brillante, qui change de forme sans jamais tout à fait se répéter.",
-            "La palette en découle : des reflets irisés pêche, rose, lilas et cyan sur un dégradé magenta qui glisse vers le bleu nuit. Assez saturé pour arrêter le pouce dans un fil Instagram, assez doux pour rester élégant."
+            "La palette en découle : des reflets irisés pêche, rose, lilas et cyan sur un dégradé magenta qui glisse vers le bleu nuit. Une palette saturée, mais assez douce pour rester élégante."
           ]
         },
         {
@@ -408,15 +408,15 @@
           "subtitle": "La musique pilote la forme",
           "paragraphs": [
             "Iris est reliée à la musique. Le morceau est analysé à l'avance, image par image : les basses font gonfler les bulles jusqu'à les fusionner, les aigus font frémir leur surface, et chaque coup les écarte un instant en faisant flasher les reflets.",
-            "L'extrait de quinze secondes repose sur un contraste : huit secondes de calme où les bulles flottent en suspension, puis le retour brutal des basses, et la sculpture s'embrase. Ce passage du calme à l'impact, c'est ce qui retient l'attention sur un Reel."
+            "L'extrait de quinze secondes repose sur un contraste : huit secondes de calme où les bulles flottent en suspension, puis le retour brutal des basses, et la sculpture s'embrase."
           ]
         },
         {
-          "title": "Le format Instagram",
-          "subtitle": "Une boucle sans fin",
+          "title": "La boucle",
+          "subtitle": "Huit secondes, sans coupure",
           "paragraphs": [
-            "La version studio est verticale, en 4:5, pour occuper le plus de place possible dans le fil. Sans la musique, elle forme une boucle parfaite de huit secondes : la dernière image rejoint exactement la première, et la vidéo tourne à l'infini sans coupure visible.",
-            "Chaque image est rendue sans en sauter aucune, à 60 images par seconde, exportée en ProRes puis convertie en H.264 pour la publication."
+            "La version studio est verticale, en 4:5. Sans la musique, elle forme une boucle parfaite de huit secondes : la dernière image rejoint exactement la première, et la vidéo tourne à l'infini sans coupure visible.",
+            "Chaque image est rendue sans en sauter aucune, à 60 images par seconde, exportée en ProRes puis convertie en H.264."
           ]
         },
         {
@@ -457,10 +457,10 @@
       "shortTitle": "Portrait ouzbek",
       "category": "Audiovisuel",
       "type": "Personnel",
-      "context": "Projet personnel - Création générative pour Instagram",
+      "context": "Projet personnel - Création générative",
       "period": "Octobre 2026",
       "duration": "1 jour",
-      "description": "Un portrait peint d'un homme ouzbek, recomposé en direct par une grille de tuiles. Chaque tuile emprunte un savoir-faire d'Asie centrale : ikat, suzani, girih, céramique de Samarcande et lettres de l'alphabet arabo-persan. Toutes les trois secondes, la mosaïque se remélange en une vague qui part du visage. Calculé dans un shader GLSL sous TouchDesigner, pensé pour Instagram.",
+      "description": "Un portrait peint d'un homme ouzbek, recomposé en direct par une grille de tuiles. Chaque tuile emprunte un savoir-faire d'Asie centrale : ikat, suzani, girih, céramique de Samarcande et lettres de l'alphabet arabo-persan. Toutes les trois secondes, la mosaïque se remélange en une vague qui part du visage. Calculé dans un shader GLSL sous TouchDesigner.",
       "competences": [
         "Création générative",
         "Programmation de shaders",
@@ -510,7 +510,7 @@
           "subtitle": "Une vague qui part du visage",
           "paragraphs": [
             "Toutes les trois secondes, la mosaïque se remélange : une partie des cases redevient peinture, d'autres changent de motif. Le changement ne se fait pas d'un coup, il part du visage et se propage vers les bords, avec un petit décalage au hasard pour chaque tuile.",
-            "Chaque vidéo dure douze secondes, soit quatre cycles. Elle est rendue image par image à 30 images par seconde, pour qu'aucune ne soit sautée quelle que soit la vitesse de l'ordinateur, puis assemblée en 1080 px de large pour Instagram."
+            "Chaque vidéo dure douze secondes, soit quatre cycles. Elle est rendue image par image à 30 images par seconde, pour qu'aucune ne soit sautée quelle que soit la vitesse de l'ordinateur, puis assemblée en 1080 px de large."
           ],
           "image": "/images/projects/portrait-ouzbek/07_en_transition.webp",
           "imageMaxWidth": "360px"
