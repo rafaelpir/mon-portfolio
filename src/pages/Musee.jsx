@@ -1,18 +1,27 @@
 import { useState, useRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
-import { Renderer, Camera, Transform, Plane, Box, Program, Mesh, Texture, Mat4, Geometry, Cylinder } from 'ogl';
+import { Renderer, Camera, Transform, Plane, Box, Program, Mesh, Texture, Mat4, Geometry, Cylinder, Vec3 } from 'ogl';
 import { projects } from '../data/projects';
 import { museumAvailable, touchDevice } from '../utils/museumAccess';
 import { SOCIAL_LOGOS } from '../data/socialLogos';
 import { MUSEE_PLAYLIST } from '../data/museePlaylist';
 import { MUSEE_EXHIBITS } from '../data/museeExhibits';
+import MuseeLightbox from '../components/MuseeLightbox';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
 
 // Texte selon la langue du site
 const T = (fr, en) => (i18n.language?.startsWith('en') ? en : fr);
-const NOTES_EN = { 'Affiche de tournée': 'Tour poster', 'Variante dorée': 'Gold variant', 'Déclinaison noir & blanc': 'Black and white version' };
+const NOTES_EN = { 'Affiche de tournée': 'Tour poster', 'Variante dorée': 'Gold variant', 'Déclinaison noir & blanc': 'Black and white version', 'Œuvre vidéo': 'Video work' };
+// Nombre d'affiches (les œuvres vidéo à part), pour les textes de présentation
+const POSTER_COUNT = MUSEE_EXHIBITS.filter((exhibit) => !exhibit.video).length;
+const VIDEO_COUNT = MUSEE_EXHIBITS.length - POSTER_COUNT;
+// « et une œuvre vidéo », « et deux œuvres vidéo »… (vide s'il n'y en a pas)
+const NUMBERS_FR = ['', 'une', 'deux', 'trois', 'quatre', 'cinq'];
+const NUMBERS_EN = ['', 'a', 'two', 'three', 'four', 'five'];
+const VIDEOS_FR = VIDEO_COUNT ? ` et ${NUMBERS_FR[VIDEO_COUNT] || VIDEO_COUNT} œuvre${VIDEO_COUNT > 1 ? 's' : ''} vidéo` : '';
+const VIDEOS_EN = VIDEO_COUNT ? ` and ${NUMBERS_EN[VIDEO_COUNT] || VIDEO_COUNT} video work${VIDEO_COUNT > 1 ? 's' : ''}` : '';
 
 // Musée d'affiches en 3D : une galerie dans laquelle on marche, les affiches
 // accrochées aux deux murs sous leur projecteur, un cartel à côté de chacune.
@@ -26,31 +35,34 @@ const EXHIBITS = MUSEE_EXHIBITS.map((exhibit) => {
     ...exhibit,
     src: `/images/musee/${exhibit.image}.webp`,
     srcHd: `/images/musee/hd/${exhibit.image}.webp`,
-    titleFr: project?.shortTitle || project?.title || exhibit.slug,
+    titleFr: exhibit.title?.fr || project?.shortTitle || project?.title || exhibit.slug,
     year: project?.year || '',
     categoryFr: project?.category || '',
-    descriptionFr: project?.description || '',
+    descriptionFr: exhibit.text?.fr || project?.description || '',
     noteFr: exhibit.note,
     get title() {
-      return T(this.titleFr, i18n.t(`projects:items.${project?.id}.shortTitle`, { defaultValue: this.titleFr }));
+      return T(this.titleFr, exhibit.title?.en || i18n.t(`projects:items.${project?.id}.shortTitle`, { defaultValue: this.titleFr }));
     },
     get category() {
       return T(this.categoryFr, i18n.t(`projects:items.${project?.id}.category`, { defaultValue: this.categoryFr }));
     },
     get description() {
-      return T(this.descriptionFr, i18n.t(`projects:items.${project?.id}.description`, { defaultValue: this.descriptionFr }));
+      return T(this.descriptionFr, exhibit.text?.en || i18n.t(`projects:items.${project?.id}.description`, { defaultValue: this.descriptionFr }));
     },
     get note() {
       return this.noteFr && T(this.noteFr, NOTES_EN[this.noteFr] || this.noteFr);
     },
   };
-});
+}).sort((a, b) => Boolean(a.video) - Boolean(b.video)); // affiches d'abord, œuvres animées ensuite
+// Les affiches sont dans la galerie ; les œuvres animées (vidéo) dans la salle noire
+const HALL_COUNT = EXHIBITS.filter((exhibit) => !exhibit.video).length;
+const DARK_COUNT = EXHIBITS.length - HALL_COUNT;
 
 // Dimensions de la salle, en mètres. La galerie s'étend vers -z.
 const FIRST_Z = -3; // première paire d'affiches
 const SPACING = 4; // entre deux paires
 // La salle s'allonge avec le nombre d'affiches : 3,5 m après la dernière paire
-const HALL = { halfWidth: 5, height: 5, zBack: 2.2, zEnd: FIRST_Z - SPACING * (Math.ceil(EXHIBITS.length / 2) - 1) - 3.5 };
+const HALL = { halfWidth: 5, height: 5, zBack: 2.2, zEnd: FIRST_Z - SPACING * (Math.ceil(HALL_COUNT / 2) - 1) - 3.5 };
 const POSTER = { width: 1.2, height: 1.7, centerY: 1.75 };
 const EYE = 1.65;
 const FOV = 58;
@@ -69,7 +81,7 @@ const SKYLIGHT = { halfWidth: 1.7, panel: 2.5 };
 // sur les deux murs. Légèrement décalées vers l'entrée pour laisser la place
 // au cartel de l'affiche suivante.
 const WINDOW = { width: 1.2, height: 2.8, sill: 0.75, shift: 0.25 };
-const WINDOW_GAPS = Math.ceil(EXHIBITS.length / 2) - 1;
+const WINDOW_GAPS = Math.ceil(HALL_COUNT / 2) - 1;
 const windowZ = (gap) => FIRST_Z - SPACING * (gap + 0.5) + WINDOW.shift;
 // Corniche : profil en gradins à la jonction des murs et du plafond, du
 // plafond vers le bas. Chaque gradin : avancée depuis le mur et hauteur.
@@ -105,8 +117,54 @@ const TV = { x: -3.05, y: 1.78, width: 1.9, height: 1.07, header: 0.27, bezel: 0
 const TV_ROW = (TV.height * (1 - TV.header - 0.05)) / SOCIALS.length;
 const socialY = (index) => TV.y + TV.height / 2 - TV.height * TV.header - TV_ROW * (index + 0.5);
 
-// Position de chaque affiche : côté (-1 mur gauche, +1 mur droit) et z
-const placement = (index) => ({ side: index % 2 === 0 ? -1 : 1, z: FIRST_Z - SPACING * Math.floor(index / 2) });
+// Salle noire : les œuvres animées, dans une pièce greffée au bout de la
+// galerie. Le mur du fond est percé d'une large baie, sans porte, bordée d'un
+// ébrasement noir de l'épaisseur du mur : depuis la galerie on voit déjà le
+// noir et la lueur des écrans, et on y entre en marchant. La salle prolonge
+// la galerie vers -z (mêmes largeur et hauteur), murs presque noirs : seuls
+// les écrans éclairent. zStart : son mur d'entrée, au dos du mur du fond ;
+// first : sa première paire d'écrans.
+const DARK_OPEN = { x: HALL.halfWidth - 1.9, width: 1.8, height: 2.8 };
+const WALL_DEPTH = 0.3;
+const DARK = { zStart: HALL.zEnd - WALL_DEPTH, first: HALL.zEnd - WALL_DEPTH - 4.6 };
+DARK.zEnd = DARK.first - SPACING * (Math.max(1, Math.ceil(DARK_COUNT / 2)) - 1) - 3.4;
+// Sas : une cloison noire, du sol au plafond, face à la baie. Elle part du mur
+// de droite et s'arrête avant le milieu : on la contourne par la gauche. Depuis
+// la galerie, quel que soit l'angle, le regard qui passe par la baie bute
+// dessus (ou sur le mur de droite) : aucune œuvre n'est visible du dehors.
+const BAFFLE = { z: DARK.zStart - 1.4, left: -1.3 };
+// Trajets guidés d'une salle à l'autre : on passe la baie, on longe la
+// cloison, on la contourne. Zones : 0 galerie, 1 sas, 2 salle noire.
+const BAY_HALL = { x: DARK_OPEN.x, z: HALL.zEnd + 1.1 };
+const BAY_DARK = { x: DARK_OPEN.x, z: DARK.zStart - 0.7 };
+const CORNER = { x: BAFFLE.left - 1.1, z: DARK.zStart - 0.7 };
+const PAST = { x: BAFFLE.left - 1.1, z: BAFFLE.z - 1.1 };
+const ROUTES = {
+  '0-1': [BAY_HALL, BAY_DARK],
+  '0-2': [BAY_HALL, BAY_DARK, CORNER, PAST],
+  '1-2': [CORNER, PAST],
+  '1-0': [BAY_DARK, BAY_HALL],
+  '2-1': [PAST, CORNER],
+  '2-0': [PAST, CORNER, BAY_DARK, BAY_HALL],
+};
+// Banc de la salle noire, entre ses deux premières paires d'écrans
+const DARK_BENCH = { x: 0, z: DARK.first - SPACING / 2, width: 0.5, depth: 1.8 };
+const zoneOf = (z) => (z > (HALL.zEnd + DARK.zStart) / 2 ? 0 : z > BAFFLE.z ? 1 : 2);
+
+// Position de chaque œuvre : côté (-1 mur gauche, +1 mur droit), z, et salle
+// (dark : salle noire). Les affiches alternent d'un mur à l'autre dans la
+// galerie, les œuvres animées de même dans la salle noire.
+const placement = (index) => {
+  if (index < HALL_COUNT) return { side: index % 2 === 0 ? -1 : 1, z: FIRST_Z - SPACING * Math.floor(index / 2), dark: false };
+  const j = index - HALL_COUNT;
+  return { side: j % 2 === 0 ? -1 : 1, z: DARK.first - SPACING * Math.floor(j / 2), dark: true };
+};
+// Taille de l'œuvre accrochée : format affiche, ou écran horizontal pour une
+// vidéo plus large que haute (même hauteur de centre, à hauteur de regard)
+const sizeOf = (index) => {
+  const ratio = EXHIBITS[index]?.videoRatio;
+  return ratio > 1 ? { width: 2.1, height: 2.1 / ratio } : POSTER;
+};
 
 // Autres visiteurs : personnages 3D dans une pose de spectateur, appuyé sur
 // une jambe, main au menton, mains dans le dos, sur la hanche… (avatars
@@ -115,18 +173,34 @@ const placement = (index) => ({ side: index % 2 === 0 ? -1 : 1, z: FIRST_Z - SPA
 // côté pour ne pas la cacher quand on vient la regarder à son tour.
 const VISITORS = [
   // affiche (index dans la visite), décalage le long du mur, distance au mur
+  // (m09, f04 : Male/Female_Adult_09, 04 ; m12, m17, f06 : Male_Adult_12,
+  // Male_Adult_17, Female_Adult_06 ; m04, f03 : Male_Adult_04, Female_Adult_03)
   { model: 'm09', poster: 1, aside: -0.75, back: 1.55 },
-  { model: 'm01', poster: 2, aside: 0.78, back: 1.45 },
+  { model: 'm12', poster: 2, aside: 0.78, back: 1.45 },
   // un couple devant la même affiche
   { model: 'f04', poster: 5, aside: 0.8, back: 1.7 },
-  { model: 'm05', poster: 5, aside: -0.78, back: 1.5 },
-  { model: 'f13', poster: 6, aside: 0.76, back: 1.6 },
+  { model: 'm17', poster: 5, aside: -0.78, back: 1.5 },
+  { model: 'f06', poster: 6, aside: 0.76, back: 1.6 },
+  // Salle noire : deux visiteurs devant les écrans, dans la pénombre
+  // (éclairés par la seule lueur des écrans : style.lit)
+  ...(DARK_COUNT > 1 ? [{ model: 'm04', poster: HALL_COUNT + 1, aside: -1.25, back: 2.0, style: { lit: 0.24 } }] : []),
+  ...(DARK_COUNT > 2 ? [{ model: 'f03', poster: HALL_COUNT + 2, aside: 0.85, back: 1.7, style: { lit: 0.24 } }] : []),
 ].map((visitor) => {
   const { side, z } = placement(visitor.poster);
   const x = side * (HALL.halfWidth - visitor.back);
   // tourné vers le centre de l'affiche
   return { ...visitor, x, z: z + visitor.aside, yaw: Math.atan2(side * HALL.halfWidth - x, -visitor.aside) };
 });
+// Agente du musée : devant la salle noire, à gauche de la baie, mains
+// jointes, tournée vers la galerie. Son personnage n'est utilisé que pour
+// elle.
+const GUARD = {
+  model: 'agent', // Business_Female_01 de Rocketbox : tailleur noir, mains jointes
+  x: DARK_OPEN.x - DARK_OPEN.width / 2 - 0.75,
+  z: HALL.zEnd + 0.95,
+  yaw: -0.3,
+};
+
 // Téléphone d'exposition : le prototype du site mobile Armor Immo (Figma).
 // Un vrai téléphone, à sa taille réelle, posé à plat sur un pupitre incliné,
 // à côté du coin écoute : les deux objets « numériques » de la salle sont
@@ -138,13 +212,15 @@ const OBSTACLES = [
   { x: PHONE.x, z: PHONE.z, width: 0.36, depth: 0.32 },
   ...VISITORS.map((visitor) => ({ x: visitor.x, z: visitor.z, width: 0.25, depth: 0.25 })),
   STATION, ...BENCHES.map((bench) => ({ ...bench, width: BENCH.width, depth: BENCH.depth })),
+  ...(DARK_COUNT ? [DARK_BENCH, { x: GUARD.x, z: GUARD.z, width: 0.3, depth: 0.3 }] : []),
 ];
+
 
 
 // Projecteurs : un par affiche, sur un rail au plafond, à SPOT_SETBACK du mur
 const SPOT_SETBACK = 2;
 const SPOT_Y = HALL.height - 0.16;
-const PAIRS = Math.ceil(EXHIBITS.length / 2);
+const PAIRS = Math.ceil(HALL_COUNT / 2);
 const f = (value) => value.toFixed(3);
 
 const VERTEX = /* glsl */ `
@@ -207,6 +283,8 @@ const LIGHTING = /* glsl */ `
       float z = ${f(FIRST_Z)} - ${f(SPACING)} * index;
       for (int s = -1; s <= 1; s += 2) {
         float side = float(s);
+        // emplacement vide (nombre d'œuvres impair) : pas de projecteur
+        if (index * 2.0 + (side > 0.0 ? 1.0 : 0.0) > ${f(HALL_COUNT - 1)}) continue;
         vec3 target = vec3(side * ${f(HALL.halfWidth)}, ${f(POSTER.centerY)}, z);
         direct += spot(p, n, vec3(side * ${f(HALL.halfWidth - SPOT_SETBACK)}, ${f(SPOT_Y)}, z), target);
         vec3 d = p - target;
@@ -241,7 +319,7 @@ const LIGHTING = /* glsl */ `
 `;
 
 // Murs, sol, plafond. uKind : 0 = mur à affiches, 1 = sol, 2 = plafond,
-// 3 = mur d'extrémité, 4 = mobilier (rails, projecteurs).
+// 3 = mur d'extrémité, 4 = mobilier (rails, projecteurs), 5 = salle noire.
 // uMirror = 1 : copie renversée sous le sol, qui en fait le reflet.
 const ROOM_FRAGMENT = /* glsl */ `
   precision highp float;
@@ -256,10 +334,31 @@ const ROOM_FRAGMENT = /* glsl */ `
     return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
   }
 
+  // Halo d'un écran de la salle noire sur ce qui l'entoure (mur, sol)
+  float screenGlow(vec3 p, vec3 n, vec3 c) {
+    vec3 d = c - p;
+    float facing = max(dot(n, normalize(d)), 0.0);
+    // au sol, une flaque de lumière plus large devant l'écran
+    float reach = n.y > 0.5 ? 4.5 : 2.4;
+    return facing * exp(-dot(d, d) / reach) * (n.y > 0.5 ? 1.8 : 1.0);
+  }
+
   void main() {
     vec3 p = vWorld;
     if (uMirror > 0.5) p.y = -p.y;
     vec3 n = normalize(vNormal);
+    if (uKind > 4.5) {
+      // Salle noire : aucune lumière de salle, seulement le halo des écrans
+      float glow = 0.0;
+      ${EXHIBITS.map((_, index) => placement(index)).filter((place) => place.dark)
+        .map(({ side, z }) => `glow += screenGlow(p, n, vec3(${f(side * (HALL.halfWidth - 0.05))}, ${f(POSTER.centerY)}, ${f(z)}));`).join('\n      ')}
+      // au seuil, la lumière de la galerie déborde un peu sur le sol
+      vec2 sill = vec2(p.x - ${f(DARK_OPEN.x)}, p.z - ${f(DARK.zStart)});
+      float spill = max(n.y, 0.0) * exp(-sill.x * sill.x / 0.5 - sill.y * sill.y / 0.7);
+      vec3 color = uAlbedo + vec3(0.62, 0.56, 0.74) * 0.16 * glow + vec3(0.55, 0.5, 0.44) * 0.3 * spill;
+      gl_FragColor = vec4(color + grain() * 0.5, 1.0);
+      return;
+    }
     vec2 light = lighting(p, n);
     vec3 albedo = uAlbedo;
     float alpha = 1.0;
@@ -298,9 +397,12 @@ const ROOM_FRAGMENT = /* glsl */ `
     }
     if (uKind < 0.5) {
       // Ombre portée du cadre sur le mur, décalée vers le bas (lumière du haut)
-      float z = ${f(FIRST_Z)} - ${f(SPACING)} * clamp(floor((${f(FIRST_Z)} - p.z) / ${f(SPACING)} + 0.5), 0.0, ${f(PAIRS - 1)});
+      float slot = clamp(floor((${f(FIRST_Z)} - p.z) / ${f(SPACING)} + 0.5), 0.0, ${f(PAIRS - 1)});
+      float z = ${f(FIRST_Z)} - ${f(SPACING)} * slot;
+      // pas d'ombre de cadre là où aucune œuvre n'est accrochée
+      float hung = step(slot * 2.0 + (p.x > 0.0 ? 1.0 : 0.0), ${f(HALL_COUNT - 0.5)});
       float d = boxDistance(vec2(p.z - z, p.y - ${f(POSTER.centerY)} + 0.045), vec2(${f(POSTER.width / 2 + 0.035)}, ${f(POSTER.height / 2 + 0.035)}));
-      shade *= 1.0 - 0.3 * exp(-max(d, 0.0) * 16.0);
+      shade *= 1.0 - 0.3 * hung * exp(-max(d, 0.0) * 16.0);
     }
     if (uKind > 0.5 && uKind < 1.5) {
       // Parquet de chêne : lames dans la longueur de la salle, décalées d'un
@@ -356,6 +458,7 @@ const IMAGE_FRAGMENT = /* glsl */ `
   uniform sampler2D tMap;
   uniform float uMirror;
   uniform float uGlass;
+  uniform float uLit; // > 0 : lumière propre (écrans, textes de la salle noire), sans la salle
   ${LIGHTING}
 
   void main() {
@@ -367,6 +470,7 @@ const IMAGE_FRAGMENT = /* glsl */ `
     vec4 texel = texture2D(tMap, vUv);
     if (texel.a < 0.5) discard; // disque de la platine : coins du carré transparents
     vec3 color = texel.rgb * min(0.3 + 0.82 * shoulder(light.x) + light.y, 1.06);
+    if (uLit > 0.0) color = texel.rgb * uLit;
 
     vec3 view = normalize(cameraPosition - vWorld);
     vec3 toSpot = normalize(vec3(p.x - sign(p.x) * ${f(SPOT_SETBACK)}, ${f(SPOT_Y)}, p.z + 0.4) - p);
@@ -676,7 +780,7 @@ const seoFor = () => {
 const SEO = {
   url: `${SITE}/musee`,
   title: T("Musée d'affiches en 3D | Rafael Piral, graphiste", '3D Poster Museum | Rafael Piral, graphic designer'),
-  description: T(`Visitez le musée virtuel de Rafael Piral : une salle parisienne en 3D où se promener parmi ${EXHIBITS.length} affiches (cinéma, musique, sport), avec vue sur les toits de Paris et playlist à écouter.`, `Visit Rafael Piral's virtual museum: a 3D Parisian gallery to walk through ${EXHIBITS.length} posters (film, music, sport), with a view over the rooftops of Paris and a playlist to listen to.`),
+  description: T(`Visitez le musée virtuel de Rafael Piral : une salle parisienne en 3D où se promener parmi ${POSTER_COUNT} affiches (cinéma, musique, sport)${VIDEOS_FR}, avec vue sur les toits de Paris et playlist à écouter.`, `Visit Rafael Piral's virtual museum: a 3D Parisian gallery to walk through ${POSTER_COUNT} posters (film, music, sport)${VIDEOS_EN}, with a view over the rooftops of Paris and a playlist to listen to.`),
   image: `${SITE}/images/musee/og-musee.jpg`,
 };
 SEO.jsonLd = {
@@ -767,7 +871,18 @@ export default function Musee() {
   const focusedRef = useRef(null);
   focusedRef.current = focused;
   const [zoomed, setZoomed] = useState(null); // affiche ouverte en grand (index), ou null
+  const zoomedRef = useRef(null);
+  zoomedRef.current = zoomed;
   const [phoneOpen, setPhoneOpen] = useState(false); // prototype Armor Immo ouvert
+  const [guardTalk, setGuardTalk] = useState(false); // l'agent du musée parle
+  const guardTimer = useRef(null);
+  // L'agent accueille le visiteur qui se dirige vers la salle noire
+  const sayGuard = () => {
+    setGuardTalk(true);
+    clearTimeout(guardTimer.current);
+    guardTimer.current = setTimeout(() => setGuardTalk(false), 6500);
+  };
+  useEffect(() => () => clearTimeout(guardTimer.current), []);
   const [shared, setShared] = useState(null); // œuvre dont le lien vient d'être copié
   // Lien direct vers une œuvre : la visite s'ouvre devant elle (?affiche=…)
   const shareExhibit = async (index) => {
@@ -872,10 +987,12 @@ export default function Musee() {
         if (mirror) wall.scale.y = -1;
         wall.setParent(scene);
       });
-      const end = surface(HALL.halfWidth * 2, HALL.height, WALL, 3, mirror);
-      end.position.set(0, (mirror ? -1 : 1) * (HALL.height / 2), HALL.zEnd);
-      if (mirror) end.scale.y = -1;
-      end.setParent(scene);
+      if (!DARK_COUNT) {
+        const end = surface(HALL.halfWidth * 2, HALL.height, WALL, 3, mirror);
+        end.position.set(0, (mirror ? -1 : 1) * (HALL.height / 2), HALL.zEnd);
+        if (mirror) end.scale.y = -1;
+        end.setParent(scene);
+      }
     });
     // Mur d'entrée, en trois pans autour de l'ouverture de la porte de sortie
     const sideWidth = HALL.halfWidth - EXIT.width / 2;
@@ -890,6 +1007,65 @@ export default function Musee() {
       pan.setParent(scene);
     });
     [floor, ceiling].forEach((mesh) => mesh.setParent(scene));
+
+    // Salle noire, derrière le mur du fond : une boîte presque noire (sol un
+    // peu moins sombre que les murs, pour qu'on devine où l'on marche)
+    if (DARK_COUNT) {
+      const darkLength = DARK.zStart - DARK.zEnd;
+      const darkCenter = (DARK.zStart + DARK.zEnd) / 2;
+      const black = (width, height, albedo) => new Mesh(gl, { geometry: new Plane(gl, { width, height }), program: roomProgram(albedo, 5) });
+      const darkFloor = black(HALL.halfWidth * 2, darkLength, [0.03, 0.028, 0.03]);
+      darkFloor.rotation.x = -Math.PI / 2;
+      darkFloor.position.set(0, 0, darkCenter);
+      const darkCeiling = black(HALL.halfWidth * 2, darkLength, [0.01, 0.01, 0.012]);
+      darkCeiling.rotation.x = Math.PI / 2;
+      darkCeiling.position.set(0, HALL.height, darkCenter);
+      [darkFloor, darkCeiling].forEach((mesh) => mesh.setParent(scene));
+      [-1, 1].forEach((side) => {
+        const wall = black(darkLength, HALL.height, [0.016, 0.016, 0.018]);
+        wall.rotation.y = side < 0 ? Math.PI / 2 : -Math.PI / 2;
+        wall.position.set(side * HALL.halfWidth, HALL.height / 2, darkCenter);
+        wall.setParent(scene);
+      });
+      const darkEnd = black(HALL.halfWidth * 2, HALL.height, [0.016, 0.016, 0.018]);
+      darkEnd.position.set(0, HALL.height / 2, DARK.zEnd);
+      darkEnd.setParent(scene);
+
+      // Le mur entre les deux salles, percé de la baie : pans blancs côté
+      // galerie, pans noirs côté salle noire, et l'ébrasement noir entre eux
+      const left = DARK_OPEN.x - DARK_OPEN.width / 2;
+      const right = DARK_OPEN.x + DARK_OPEN.width / 2;
+      const pans = [
+        { width: left + HALL.halfWidth, height: HALL.height, x: (left - HALL.halfWidth) / 2, y: HALL.height / 2 },
+        { width: HALL.halfWidth - right, height: HALL.height, x: (right + HALL.halfWidth) / 2, y: HALL.height / 2 },
+        { width: DARK_OPEN.width, height: HALL.height - DARK_OPEN.height, x: DARK_OPEN.x, y: (HALL.height + DARK_OPEN.height) / 2 },
+      ];
+      pans.forEach(({ width, height, x, y }) => {
+        const pan = surface(width, height, WALL, 3);
+        pan.position.set(x, y, HALL.zEnd);
+        pan.setParent(scene);
+        const back = black(width, height, [0.016, 0.016, 0.018]);
+        back.rotation.y = Math.PI;
+        back.position.set(x, y, DARK.zStart);
+        back.setParent(scene);
+      });
+      const reveal = (width, height, albedo) => new Mesh(gl, { geometry: new Plane(gl, { width, height }), program: new Program(gl, { vertex: VERTEX, fragment: ROOM_FRAGMENT, uniforms: { uAlbedo: { value: albedo }, uKind: { value: 5 }, uMirror: { value: 0 }, tPlaster: { value: plaster } }, cullFace: null }) });
+      const zMid = (HALL.zEnd + DARK.zStart) / 2;
+      [left, right].forEach((x) => {
+        const jamb = reveal(WALL_DEPTH, DARK_OPEN.height, [0.03, 0.03, 0.033]);
+        jamb.rotation.y = Math.PI / 2;
+        jamb.position.set(x, DARK_OPEN.height / 2, zMid);
+        jamb.setParent(scene);
+      });
+      const lintel = reveal(DARK_OPEN.width, WALL_DEPTH, [0.03, 0.03, 0.033]);
+      lintel.rotation.x = Math.PI / 2;
+      lintel.position.set(DARK_OPEN.x, DARK_OPEN.height, zMid);
+      lintel.setParent(scene);
+      const sill = reveal(DARK_OPEN.width, WALL_DEPTH, [0.03, 0.028, 0.03]);
+      sill.rotation.x = -Math.PI / 2;
+      sill.position.set(DARK_OPEN.x, 0.001, zMid);
+      sill.setParent(scene);
+    }
 
     const fixture = (width, height, depth, albedo) =>
       new Mesh(gl, { geometry: new Box(gl, { width, height, depth }), program: roomProgram(albedo, 4) });
@@ -933,6 +1109,7 @@ export default function Musee() {
       rail.position.set(x, HALL.height - 0.02, zCenter);
       rail.setParent(scene);
       for (let pair = 0; pair < PAIRS; pair++) {
+        if (pair * 2 + (side > 0 ? 1 : 0) >= HALL_COUNT) continue; // emplacement vide
         const z = FIRST_Z - SPACING * pair;
         const head = fixture(0.11, 0.2, 0.11, [0.88, 0.88, 0.87]);
         head.position.set(x, HALL.height - 0.15, z);
@@ -948,22 +1125,24 @@ export default function Musee() {
 
     // ── Affiches, cadres, reflets et cartels ───────────────────────────────
     const repaint = []; // textes à redessiner une fois la police chargée
-    const imageMesh = (width, height, texture, { mirror = 0, glass = 0 } = {}) =>
+    const imageMesh = (width, height, texture, { mirror = 0, glass = 0, lit = 0 } = {}) =>
       new Mesh(gl, {
         geometry: new Plane(gl, { width, height }),
         program: new Program(gl, {
           vertex: VERTEX,
           fragment: IMAGE_FRAGMENT,
-          uniforms: { tMap: { value: texture }, uMirror: { value: mirror }, uGlass: { value: glass } },
+          uniforms: { tMap: { value: texture }, uMirror: { value: mirror }, uGlass: { value: glass }, uLit: { value: lit } },
           cullFace: null,
         }),
       });
-    const frame = () => new Mesh(gl, { geometry: new Box(gl, { width: POSTER.width + 0.07, height: POSTER.height + 0.07, depth: 0.035 }), program: roomProgram([0.035, 0.033, 0.03], 4) });
+    const frame = ({ width, height } = POSTER) => new Mesh(gl, { geometry: new Box(gl, { width: width + 0.07, height: height + 0.07, depth: 0.035 }), program: roomProgram([0.035, 0.033, 0.03], 4) });
     // Textures haute définition sur grand écran, allégées sur mobile
     const hd = !lite && Math.max(window.innerWidth, window.innerHeight) * (window.devicePixelRatio || 1) > 1400;
 
+    const videoScreens = []; // œuvres vidéo, mises à jour à chaque image
     EXHIBITS.forEach((exhibit, index) => {
       const { side, z } = placement(index);
+      const size = sizeOf(index);
       const wallX = side * HALL.halfWidth;
       const rotationY = side < 0 ? Math.PI / 2 : -Math.PI / 2;
       const hang = (mesh, offset, y, alongZ = z) => {
@@ -979,12 +1158,45 @@ export default function Musee() {
       };
       image.src = hd ? exhibit.srcHd : exhibit.src;
 
-      hang(frame(), 0.0175, POSTER.centerY);
-      hang(imageMesh(POSTER.width, POSTER.height, texture, { glass: 1 }), 0.037, POSTER.centerY);
+      // Œuvre vidéo : chaque nouvelle image de la vidéo est recadrée aux
+      // proportions du cadre (comme object-fit: cover) dans un canvas, qui
+      // remplace l'image d'attente une fois la lecture lancée.
+      if (exhibit.video) {
+        const video = document.createElement('video');
+        Object.assign(video, { src: exhibit.video, muted: true, loop: true, playsInline: true, preload: 'auto' });
+        video.setAttribute('playsinline', '');
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        let lastTime = -1;
+        videoScreens.push({
+          video,
+          update() {
+            if (video.readyState < 2 || video.currentTime === lastTime) return;
+            lastTime = video.currentTime;
+            const { videoWidth: vw, videoHeight: vh } = video;
+            const ratio = size.width / size.height;
+            const cropW = Math.min(vw, vh * ratio);
+            const cropH = cropW / ratio;
+            if (canvas.width !== Math.round(cropW)) {
+              canvas.width = Math.round(cropW);
+              canvas.height = Math.round(cropH);
+            }
+            context.drawImage(video, (vw - cropW) / 2, (vh - cropH) / 2, cropW, cropH, 0, 0, canvas.width, canvas.height);
+            texture.image = canvas;
+            texture.needsUpdate = true;
+          },
+        });
+        if (!reducedMotion) video.play().catch(() => {});
+      }
+
+      hang(frame(size), 0.0175, POSTER.centerY);
+      // (dans la salle noire, un écran : pas de vitre, pas de reflet de projecteur)
+      hang(imageMesh(size.width, size.height, texture, exhibit.video ? { lit: 1 } : { glass: 1 }), 0.037, POSTER.centerY);
 
       // Cartel, du côté de l'entrée (à hauteur de regard)
-      const cartel = imageMesh(0.44, 0.275, textTexture(gl, 1024, 640, drawCartel(exhibit, index + 1), repaint));
-      hang(cartel, 0.006, 1.25, z + POSTER.width / 2 + 0.42);
+      // (dans la salle noire, le cartel reste dans la pénombre)
+      const cartel = imageMesh(0.44, 0.275, textTexture(gl, 1024, 640, drawCartel(exhibit, index + 1), repaint), { lit: placement(index).dark ? 0.42 : 0 });
+      hang(cartel, 0.006, 1.25, z + size.width / 2 + 0.42);
     });
 
     // ── Autres visiteurs ───────────────────────────────────────────────────
@@ -1005,8 +1217,7 @@ export default function Musee() {
     // l'alpha du canvas doit rester à 1 : dessous, il y a la page
     shadowProgram.setBlendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ZERO, gl.ONE);
     const visitorTime = { value: 0 }; // horloge commune de leur respiration
-    // (trois visiteurs seulement en version allégée)
-    VISITORS.slice(0, lite ? 3 : VISITORS.length).forEach(({ model, x, z, yaw }, order) => {
+    const addPerson = ({ model, x, z, yaw, style }, order) => {
       const base = `/models/visiteurs/${model}`;
       Promise.all([fetch(`${base}.json`).then((r) => r.json()), fetch(`${base}.bin`).then((r) => r.arrayBuffer())])
         .then(([manifest, buffer]) => {
@@ -1036,7 +1247,8 @@ export default function Musee() {
             const program = new Program(gl, {
                 vertex: VISITOR_VERTEX,
                 fragment: VISITOR_FRAGMENT,
-                uniforms: { tMap: { value: texture }, uMirror: { value: 0 }, uGlass: { value: 0 }, uTime: visitorTime, uPhase: { value: order * 1.7 } },
+                // (dans la salle noire, éclairés par les seuls écrans : uLit)
+                uniforms: { tMap: { value: texture }, uMirror: { value: 0 }, uGlass: { value: 0 }, uLit: { value: style?.lit || 0 }, uTime: visitorTime, uPhase: { value: order * 1.7 } },
                 // cheveux et cils : des plaques ajourées, visibles des deux côtés
               cullFace: part.name === 'opacity' ? null : gl.BACK,
             });
@@ -1051,7 +1263,10 @@ export default function Musee() {
           shadow.setParent(scene);
         })
         .catch(() => {}); // sans visiteurs, la salle reste visitable
-    });
+    };
+    // (trois visiteurs seulement en version allégée)
+    VISITORS.slice(0, lite ? 3 : VISITORS.length).forEach((visitor, order) => addPerson(visitor, order));
+    if (DARK_COUNT) addPerson(GUARD, 9);
 
     // ── Fenêtres sur Paris ─────────────────────────────────────────────────
     // Matières de la façade vue par les fenêtres (photos ambientCG, CC0)
@@ -1195,7 +1410,9 @@ export default function Musee() {
       trim(width + 0.36, 0.06, 0.11, x, height + 0.15);
     };
     // Deux portes vers les salles suivantes, de part et d'autre du titre…
-    [-1, 1].forEach((side) => door(side * (HALL.halfWidth - 0.95), HALL.zEnd, 1, 1.15, 2.6, 1));
+    // (à droite, à la place de la seconde porte, la baie de la salle noire)
+    door(-(HALL.halfWidth - 0.95), HALL.zEnd, 1, 1.15, 2.6, 1);
+    if (!DARK_COUNT) door(HALL.halfWidth - 0.95, HALL.zEnd, 1, 1.15, 2.6, 1);
     // …et la grande porte d'entrée à deux vantaux, derrière le visiteur au
     // départ. C'est la sortie : ses vantaux pivotent sur leurs gonds et
     // découvrent un passage lumineux qui ramène au portfolio.
@@ -1340,6 +1557,80 @@ export default function Musee() {
     );
     titleWall.position.set(0, 2.6, HALL.zEnd + 0.02);
     titleWall.setParent(scene);
+
+    // Au-dessus de la baie de la salle noire, de chaque côté : où elle mène
+    if (DARK_COUNT) {
+      const doorSign = (ink, title, line) =>
+        imageMesh(1.6, 0.5, textTexture(gl, 1024, 320, (ctx, w) => {
+          ctx.clearRect(0, 0, w, 320);
+          ctx.fillStyle = ink;
+          ctx.textAlign = 'center';
+          ctx.font = '400 150px "Bebas Neue Mur", "PP Neue Montreal", Helvetica, Arial, sans-serif';
+          ctx.fillText(title, w / 2, 160, w - 60);
+          ctx.font = '400 74px "Bebas Neue Mur", "PP Neue Montreal", Helvetica, Arial, sans-serif';
+          ctx.fillText(line, w / 2, 270, w - 60);
+        }, repaint));
+      const hallSign = doorSign('#0d0d0d', T('SALLE NOIRE', 'BLACK ROOM'), T('Œuvres animées', 'Moving works'));
+      hallSign.position.set(DARK_OPEN.x, DARK_OPEN.height + 0.5, HALL.zEnd + 0.02);
+      hallSign.setParent(scene);
+      const darkSign = doorSign('#cfc9bd', T('GALERIE', 'GALLERY'), T('Retour aux affiches', 'Back to the posters'));
+      darkSign.rotation.y = Math.PI;
+      darkSign.position.set(DARK_OPEN.x, DARK_OPEN.height + 0.5, DARK.zStart - 0.02);
+      darkSign.setParent(scene);
+
+      // Encadrement de la baie, côté galerie : chambranle noir laqué
+      const lacquer = [0.035, 0.034, 0.036];
+      const trim = (w, h, cx, cy) => {
+        const mesh = fixture(w, h, 0.07, lacquer);
+        mesh.position.set(cx, cy, HALL.zEnd + 0.035);
+        mesh.setParent(scene);
+      };
+      [-1, 1].forEach((edge) => trim(0.16, DARK_OPEN.height + 0.16, DARK_OPEN.x + edge * (DARK_OPEN.width / 2 + 0.08), (DARK_OPEN.height + 0.16) / 2));
+      trim(DARK_OPEN.width + 0.32, 0.16, DARK_OPEN.x, DARK_OPEN.height + 0.08);
+
+      // Lumière propre, sans la salle : bandeaux lumineux et cloison du sas
+      const glowing = (rgb) => new Program(gl, { vertex: VERTEX, fragment: 'precision highp float; uniform vec3 uColor; void main() { gl_FragColor = vec4(uColor, 1.0); }', uniforms: { uColor: { value: rgb } } });
+      const darkProgram = (albedo) => roomProgram(albedo, 5);
+      // Cloison du sas, du sol au plafond, épaisse de 12 cm
+      const baffleWidth = HALL.halfWidth - BAFFLE.left;
+      const baffle = new Mesh(gl, { geometry: new Box(gl, { width: baffleWidth, height: HALL.height, depth: 0.12 }), program: darkProgram([0.02, 0.02, 0.022]) });
+      baffle.position.set(BAFFLE.left + baffleWidth / 2, HALL.height / 2, BAFFLE.z);
+      baffle.setParent(scene);
+      // Texte de salle sur la cloison, face à la baie : on le lit en entrant
+      const intro = imageMesh(2.4, 1.2, textTexture(gl, 1600, 800, (ctx, w, h) => {
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#e4ddd0';
+        ctx.font = '400 190px "Bebas Neue Mur", "PP Neue Montreal", Helvetica, Arial, sans-serif';
+        ctx.fillText(T('SALLE NOIRE', 'BLACK ROOM'), 40, 210, w - 80);
+        ctx.font = '500 52px "PP Neue Montreal", Helvetica, Arial, sans-serif';
+        ctx.fillText(T('Œuvres animées', 'Moving works'), 44, 320, w - 80);
+        ctx.fillStyle = '#9d968a';
+        ctx.font = '400 40px "PP Neue Montreal", Helvetica, Arial, sans-serif';
+        ctx.fillText(T('Vidéo, création générative, motion.', 'Video, generative art, motion.'), 44, 430, w - 80);
+        ctx.fillText(T('Ici, les œuvres bougent : prenez le temps de les regarder.', 'Here the works move: take the time to watch them.'), 44, 490, w - 80);
+        ctx.fillStyle = '#e4ddd0';
+        ctx.font = '400 90px "PP Neue Montreal", Helvetica, Arial, sans-serif';
+        ctx.fillText('←', 40, 680);
+      }, repaint), { lit: 0.85 });
+      intro.position.set(DARK_OPEN.x - 0.2, 1.75, BAFFLE.z + 0.065);
+      intro.setParent(scene);
+      // Bandeaux lumineux au ras du sol, le long des murs et de la cloison :
+      // ils dessinent la salle dans le noir et guident le pas
+      const strip = (width, depth, x, z) => {
+        const mesh = new Mesh(gl, { geometry: new Box(gl, { width, height: 0.012, depth }), program: glowing([0.32, 0.27, 0.22]) });
+        mesh.position.set(x, 0.03, z);
+        mesh.setParent(scene);
+      };
+      const darkLength = DARK.zStart - DARK.zEnd;
+      [-1, 1].forEach((side) => strip(0.012, darkLength - 0.1, side * (HALL.halfWidth - 0.01), (DARK.zStart + DARK.zEnd) / 2));
+      strip(baffleWidth, 0.012, BAFFLE.left + baffleWidth / 2, BAFFLE.z - 0.066);
+      strip(baffleWidth, 0.012, BAFFLE.left + baffleWidth / 2, BAFFLE.z + 0.066);
+      // Banc noir au milieu de la salle, dans la longueur : assis, on a un
+      // écran de chaque côté
+      const seat = new Mesh(gl, { geometry: new Box(gl, { width: 0.5, height: 0.42, depth: 1.8 }), program: darkProgram([0.045, 0.043, 0.047]) });
+      seat.position.set(0, 0.21, DARK_BENCH.z);
+      seat.setParent(scene);
+    }
 
     // Mur d'entrée (derrière le visiteur au départ) : texte de salle
     const introWall = imageMesh(
@@ -1660,29 +1951,95 @@ export default function Musee() {
     const keys = new Set();
     const motion = { forward: 0, strafe: 0, turn: 0 };
 
-    const goTo = (index) => {
+    // Salle noire : on y est dès qu'on a passé le milieu du mur percé
+    const inDark = () => view.z < (HALL.zEnd + DARK.zStart) / 2;
+    // Trajet guidé : s'il change de zone (galerie, sas, salle noire), il
+    // passe par la baie et contourne la cloison. Un trajet est une chaîne
+    // d'étapes (next) parcourues l'une après l'autre, chacune regardant vers
+    // la suivante ; pose() en garde la position et le regard.
+    const pose = ({ x, z, yaw, pitch }) => ({ x, z, yaw, pitch });
+    // Chemin d'un trajet en plusieurs étapes : les segments droits entre les
+    // points de passage, aux angles arrondis, découpés finement. acc : distance
+    // parcourue à chaque point.
+    const roundedPath = (points) => {
+      const pts = [points[0]];
+      for (let i = 1; i < points.length - 1; i++) {
+        const [a, b, c] = [points[i - 1], points[i], points[i + 1]];
+        const ab = Math.hypot(b.x - a.x, b.z - a.z);
+        const bc = Math.hypot(c.x - b.x, c.z - b.z);
+        if (ab < 0.01 || bc < 0.01) continue;
+        const r = Math.min(0.9, ab / 2, bc / 2);
+        const p0 = { x: b.x + ((a.x - b.x) * r) / ab, z: b.z + ((a.z - b.z) * r) / ab };
+        const p2 = { x: b.x + ((c.x - b.x) * r) / bc, z: b.z + ((c.z - b.z) * r) / bc };
+        for (let k = 0; k <= 12; k++) {
+          const t = k / 12;
+          const u = 1 - t;
+          pts.push({ x: u * u * p0.x + 2 * u * t * b.x + t * t * p2.x, z: u * u * p0.z + 2 * u * t * b.z + t * t * p2.z });
+        }
+      }
+      pts.push(points[points.length - 1]);
+      const acc = [0];
+      for (let i = 1; i < pts.length; i++) acc.push(acc[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].z - pts[i - 1].z));
+      return { pts, acc, length: acc[acc.length - 1] };
+    };
+    const pointAt = ({ pts, acc }, d) => {
+      let i = 1;
+      while (i < pts.length - 1 && acc[i] < d) i++;
+      const span = acc[i] - acc[i - 1] || 1;
+      const t = Math.min(1, Math.max(0, (d - acc[i - 1]) / span));
+      const dx = pts[i].x - pts[i - 1].x;
+      const dz = pts[i].z - pts[i - 1].z;
+      return { x: pts[i - 1].x + dx * t, z: pts[i - 1].z + dz * t, yaw: Math.atan2(-dx, -dz) };
+    };
+    const turnTo = (from, to, t) => from + Math.atan2(Math.sin(to - from), Math.cos(to - from)) * t;
+    const smooth = (t) => t * t * (3 - 2 * t);
+    const finalStep = (step) => (step.next ? finalStep(step.next) : step);
+    const routeTo = (target) => {
+      const route = `${zoneOf(view.z)}-${zoneOf(target.z)}`;
+      const points = DARK_COUNT ? ROUTES[route] : null;
+      if (!points) return target;
+      if (route === '0-2') sayGuard(); // on passe devant l'agent
+      let from = view;
+      const steps = points.map((point) => {
+        const step = { ...point, yaw: Math.atan2(-(point.x - from.x), -(point.z - from.z)), pitch: 0 };
+        from = point;
+        return step;
+      });
+      steps.reduceRight((next, step) => Object.assign(step, { next }), target);
+      return steps[0];
+    };
+    const toOtherRoom = () => {
+      goal = routeTo(inDark() ? { x: DARK_OPEN.x, z: HALL.zEnd + 2.6, yaw: Math.PI, pitch: 0 } : { x: 0, z: BAFFLE.z - 1.5, yaw: 0, pitch: 0 });
+      setFocused(null);
+    };
+
+    // instant : placement immédiat (œuvre en grand, la salle est masquée)
+    const goTo = (index, instant = false) => {
       const { side, z } = placement(index);
+      const { width, height } = sizeOf(index);
       // Recul tel que l'affiche tienne dans l'écran (en largeur sur mobile, en
       // hauteur sur desktop), et regard légèrement baissé pour qu'elle
       // remonte au-dessus du panneau d'information.
       const span = 2 * Math.tan((FOV * Math.PI) / 360);
       const aspect = container.clientWidth / container.clientHeight;
-      const distance = Math.min(Math.max(POSTER.width / 0.82 / (span * aspect), POSTER.height / 0.52 / span), HALL.halfWidth * 2 - 1.2);
+      const distance = Math.min(Math.max(width / 0.82 / (span * aspect), height / 0.52 / span), HALL.halfWidth * 2 - 1.2);
       // (sur appareil tactile la fiche est en haut de l'écran : le regard se
       // lève un peu, pour que l'affiche descende dessous)
       const tilt = lite ? (aspect > 1 ? 0.09 : 0.07) : -0.07;
       goal = { x: side * (HALL.halfWidth - distance), z, yaw: side < 0 ? Math.PI / 2 : -Math.PI / 2, pitch: Math.atan(tilt * span) };
-      if (reducedMotion) {
+      if (reducedMotion || instant) {
         Object.assign(view, goal);
         goal = null;
+      } else {
+        goal = routeTo(goal); // l'autre salle : par la baie et le sas
       }
       setFocused(index);
     };
     // S'approcher du coin écoute et lancer (ou reprendre) la musique
     const goToStation = () => {
-      goal = { x: STATION.x, z: STATION.z + 1.9, yaw: 0, pitch: -0.3 };
+      goal = routeTo({ x: STATION.x, z: STATION.z + 1.9, yaw: 0, pitch: -0.3 });
       if (reducedMotion) {
-        Object.assign(view, goal);
+        Object.assign(view, pose(finalStep(goal)));
         goal = null;
       }
       setFocused(null);
@@ -1692,14 +2049,34 @@ export default function Musee() {
     };
     // Marcher jusqu'à la porte de sortie et la franchir
     const goToExit = () => {
-      goal = { x: 0, z: HALL.zBack - 0.15, yaw: Math.PI, pitch: 0 };
+      goal = routeTo({ x: 0, z: HALL.zBack - 0.15, yaw: Math.PI, pitch: 0 });
       if (reducedMotion) {
-        Object.assign(view, goal);
+        Object.assign(view, pose(finalStep(goal)));
         goal = null;
       }
       setFocused(null);
     };
-    apiRef.current = { goTo, goToStation };
+    // Place d'une affiche à l'écran (rectangle en pixels de la fenêtre), pour
+    // que l'œuvre ouverte en grand parte du mur et y retourne ; null si elle
+    // n'est pas devant la caméra.
+    const rectOf = (index) => {
+      const { side, z } = placement(index);
+      const POSTER_SIZE = sizeOf(index);
+      const x = side * HALL.halfWidth - side * 0.037;
+      const box = container.getBoundingClientRect();
+      const points = [-1, 1].flatMap((dz) => [-1, 1].map((dy) => new Vec3(x, POSTER.centerY + (dy * POSTER_SIZE.height) / 2, z + (dz * POSTER_SIZE.width) / 2).applyMatrix4(camera.viewMatrix)));
+      if (points.some((point) => point.z > -camera.near)) return null; // derrière l'objectif
+      const screen = points.map((point) => {
+        point.applyMatrix4(camera.projectionMatrix);
+        return { x: box.left + ((point.x + 1) / 2) * box.width, y: box.top + ((1 - point.y) / 2) * box.height };
+      });
+      const left = Math.min(...screen.map((p) => p.x));
+      const top = Math.min(...screen.map((p) => p.y));
+      const rect = { left, top, width: Math.max(...screen.map((p) => p.x)) - left, height: Math.max(...screen.map((p) => p.y)) - top };
+      const visible = rect.left < box.right && rect.left + rect.width > box.left && rect.top < box.bottom && rect.top + rect.height > box.top;
+      return visible && rect.width > 4 ? rect : null;
+    };
+    apiRef.current = { goTo, goToStation, rectOf };
 
     // Arrivée depuis une fiche projet (/musee?affiche=…) : on démarre
     // directement devant l'affiche demandée
@@ -1708,7 +2085,7 @@ export default function Musee() {
     if (startAt >= 0) {
       goTo(startAt);
       if (goal) {
-        Object.assign(view, goal);
+        Object.assign(view, pose(finalStep(goal)));
         goal = null;
       }
     }
@@ -1733,16 +2110,43 @@ export default function Musee() {
       [dx, dz] = [dx * cy + dz * sy, -dx * sy + dz * cy];
 
       let best = null;
+      const dark = inDark();
       EXHIBITS.forEach((_, index) => {
-        const { side, z } = placement(index);
+        const { side, z, dark: inDarkRoom } = placement(index);
+        if (inDarkRoom !== dark) return; // œuvre de l'autre salle, derrière le mur
         if (dx * side <= 0) return; // on ne regarde pas vers ce mur
         const t = (side * HALL.halfWidth - view.x) / dx;
         const hitY = EYE + dy * t;
         const hitZ = view.z + dz * t;
-        if (Math.abs(hitZ - z) < POSTER.width / 2 && Math.abs(hitY - POSTER.centerY) < POSTER.height / 2 && (!best || t < best.t)) {
+        const { width, height } = sizeOf(index);
+        if (Math.abs(hitZ - z) < width / 2 && Math.abs(hitY - POSTER.centerY) < height / 2 && (!best || t < best.t)) {
           best = { index, t };
         }
       });
+      // Baie de la salle noire : dans le mur du fond de la galerie, ou dans
+      // le mur d'entrée de la salle noire quand on y est
+      if (DARK_COUNT && (dark ? dz > 0 : dz < 0)) {
+        const t = ((dark ? DARK.zStart : HALL.zEnd) - view.z) / dz;
+        const hitY = EYE + dy * t;
+        if (Math.abs(view.x + dx * t - DARK_OPEN.x) < DARK_OPEN.width / 2 && hitY > 0 && hitY < DARK_OPEN.height && (!best || t < best.t)) return 'darkDoor';
+      }
+      if (dark) return best ? best.index : null; // le reste est dans la galerie
+      // Agent du musée : une boîte autour de lui
+      if (DARK_COUNT) {
+        const half = [0.32, 0.95, 0.32];
+        const center = [GUARD.x, 0.95, GUARD.z];
+        const origin = [view.x, EYE, view.z];
+        const direction = [dx, dy, dz];
+        let enter = 0;
+        let leave = Infinity;
+        for (let axis = 0; axis < 3; axis++) {
+          const a = (center[axis] - half[axis] - origin[axis]) / direction[axis];
+          const b = (center[axis] + half[axis] - origin[axis]) / direction[axis];
+          enter = Math.max(enter, Math.min(a, b));
+          leave = Math.min(leave, Math.max(a, b));
+        }
+        if (enter <= leave && (!best || enter < best.t)) return 'guard';
+      }
       // Coin écoute : rayon contre la boîte du socle et de sa platine
       const half = [STATION.width / 2, (STATION.height + 0.12) / 2, STATION.depth / 2];
       const center = [STATION.x, (STATION.height + 0.12) / 2, STATION.z];
@@ -1785,7 +2189,14 @@ export default function Musee() {
     };
 
     let drag = null;
+    // Lecture refusée sans geste du visiteur (économie d'énergie, Safari…) :
+    // on relance les œuvres vidéo au premier clic ou à la première touche
+    const wakeVideos = () => {
+      if (reducedMotion) return;
+      videoScreens.forEach(({ video }) => video.paused && video.play().catch(() => {}));
+    };
     const onPointerDown = (e) => {
+      wakeVideos();
       gl.canvas.setPointerCapture(e.pointerId);
       drag = { x: e.clientX, y: e.clientY, moved: 0 };
     };
@@ -1809,7 +2220,12 @@ export default function Musee() {
     const onPointerUp = (e) => {
       if (drag && drag.moved <= 6) {
         const index = posterAt(e.clientX, e.clientY);
-        if (index === 'station') goToStation();
+        if (index === 'darkDoor') toOtherRoom();
+        else if (index === 'guard') {
+          sayGuard();
+          toOtherRoom();
+        }
+        else if (index === 'station') goToStation();
         else if (index === 'exit') goToExit();
         else if (index === 'phone') setPhoneOpen(true);
         else if (index?.social !== undefined) window.open(SOCIALS[index.social].href, '_blank', 'noopener');
@@ -1821,6 +2237,8 @@ export default function Musee() {
     };
     const MOVE_KEYS = ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
     const onKeyDown = (e) => {
+      wakeVideos();
+      if (zoomedRef.current !== null) return; // œuvre ouverte en grand : on ne marche pas
       // e.code = position physique de la touche : ZQSD en AZERTY, WASD en QWERTY
       if (!MOVE_KEYS.includes(e.code) || exiting) return;
       e.preventDefault();
@@ -1874,21 +2292,49 @@ export default function Musee() {
         // vitesse puis ralentit avant d'arriver (au lieu de partir d'un coup).
         // Sa durée suit la distance et l'angle à parcourir.
         if (!travel || travel.goal !== goal) {
-          const turn = Math.atan2(Math.sin(goal.yaw - view.yaw), Math.cos(goal.yaw - view.yaw)); // plus court chemin
-          const length = Math.hypot(goal.x - view.x, goal.z - view.z) + Math.abs(turn) * 1.6;
-          travel = { goal, from: { ...view }, turn, time: 0, duration: Math.min(3.4, Math.max(1.3, 1 + length * 0.24)) };
+          if (goal.next) {
+            // Trajet à étapes (d'une salle à l'autre) : une seule marche
+            // continue, sans s'arrêter aux points de passage, à pas de visiteur
+            const chain = [];
+            for (let step = goal; step; step = step.next) chain.push(step);
+            const path = roundedPath([{ x: view.x, z: view.z }, ...chain.map(({ x, z }) => ({ x, z }))]);
+            travel = { goal, path, final: chain[chain.length - 1], from: { ...view }, time: 0, duration: Math.min(12, Math.max(2.5, 1.4 + path.length / 1.9)) };
+          } else {
+            const turn = Math.atan2(Math.sin(goal.yaw - view.yaw), Math.cos(goal.yaw - view.yaw)); // plus court chemin
+            const length = Math.hypot(goal.x - view.x, goal.z - view.z) + Math.abs(turn) * 1.6;
+            travel = { goal, from: { ...view }, turn, time: 0, duration: Math.min(3.4, Math.max(1.3, 1 + length * 0.24)) };
+          }
         }
         travel.time += dt;
         const p = Math.min(1, travel.time / travel.duration);
-        const eased = p * p * p * (p * (p * 6 - 15) + 10);
-        view.x = travel.from.x + (goal.x - travel.from.x) * eased;
-        view.z = travel.from.z + (goal.z - travel.from.z) * eased;
-        view.yaw = travel.from.yaw + travel.turn * eased;
-        view.pitch = travel.from.pitch + (goal.pitch - travel.from.pitch) * eased;
-        if (p >= 1) {
-          Object.assign(view, goal);
-          goal = null;
-          travel = null;
+        if (travel.path) {
+          // On avance le long du chemin en regardant devant soi ; au départ le
+          // regard quitte l'œuvre en douceur, à l'arrivée il se pose sur la suivante
+          const { path, final, from } = travel;
+          const d = smooth(p) * path.length;
+          const at = pointAt(path, d);
+          const leave = smooth(Math.min(1, d / Math.min(1.6, path.length * 0.25)));
+          const arrive = smooth(Math.min(1, Math.max(0, (d - (path.length - 2)) / 2)));
+          view.x = at.x;
+          view.z = at.z;
+          view.yaw = turnTo(turnTo(from.yaw, at.yaw, leave), final.yaw, arrive);
+          view.pitch = from.pitch * (1 - leave) + final.pitch * arrive;
+          if (p >= 1) {
+            Object.assign(view, pose(final));
+            goal = null;
+            travel = null;
+          }
+        } else {
+          const eased = p * p * p * (p * (p * 6 - 15) + 10);
+          view.x = travel.from.x + (goal.x - travel.from.x) * eased;
+          view.z = travel.from.z + (goal.z - travel.from.z) * eased;
+          view.yaw = travel.from.yaw + travel.turn * eased;
+          view.pitch = travel.from.pitch + (goal.pitch - travel.from.pitch) * eased;
+          if (p >= 1) {
+            Object.assign(view, pose(goal));
+            goal = goal.next || null; // étape suivante du trajet (passage par la baie)
+            travel = null;
+          }
         }
         motion.forward = motion.strafe = motion.turn = 0;
       } else {
@@ -1909,16 +2355,30 @@ export default function Musee() {
       }
       // Les murs arrêtent le visiteur
       view.x = Math.max(-HALL.halfWidth + 1, Math.min(HALL.halfWidth - 1, view.x));
+      const dark = inDark();
+      // Le mur entre la galerie et la salle noire : on ne le passe que par
+      // la baie. Tout contre lui (ou dans son épaisseur), on reste dans
+      // l'ouverture ; ailleurs, il arrête le visiteur.
+      const bayHalf = DARK_OPEN.width / 2 - 0.3;
+      if (DARK_COUNT && view.z < HALL.zEnd + 0.6 && view.z > DARK.zStart - 0.6) {
+        view.x = Math.max(DARK_OPEN.x - bayHalf, Math.min(DARK_OPEN.x + bayHalf, view.x));
+      }
+      const inBay = DARK_COUNT > 0 && Math.abs(view.x - DARK_OPEN.x) < bayHalf + 0.001;
+      if (dark) view.z = Math.max(DARK.zEnd + 1.2, inBay ? view.z : Math.min(DARK.zStart - 0.6, view.z));
+      // la cloison du sas arrête le visiteur (on la longe, on la contourne)
+      if (DARK_COUNT && dark && !goal && view.x > BAFFLE.left - 0.35 && Math.abs(view.z - BAFFLE.z) < 0.35) {
+        view.z = BAFFLE.z + (view.z > BAFFLE.z ? 0.35 : -0.35);
+      }
       // La porte d'entrée s'ouvre à l'approche ; ouverte, on peut la franchir
-      const nearDoor = Math.hypot(view.x, HALL.zBack - view.z) < EXIT.openWithin;
+      const nearDoor = !dark && Math.hypot(view.x, HALL.zBack - view.z) < EXIT.openWithin;
       doorOpen += ((nearDoor ? 1 : 0) - doorOpen) * (reducedMotion ? 1 : 1 - Math.exp(-dt * 3.5));
       hinges.forEach(({ hinge, side }) => {
         hinge.rotation.y = -side * doorOpen * 1.75; // vers l'intérieur de la salle
       });
       // …à condition de lui faire face : le visiteur démarre juste devant, on
       // ne doit pas sortir par mégarde en reculant.
-      const canPass = doorOpen > 0.6 && Math.abs(view.x) < EXIT.width / 2 - 0.25 && Math.cos(view.yaw) < -0.2;
-      view.z = Math.max(HALL.zEnd + 1.2, Math.min(HALL.zBack - (canPass || exiting ? EXIT.threshold : 0.6), view.z));
+      const canPass = !dark && doorOpen > 0.6 && Math.abs(view.x) < EXIT.width / 2 - 0.25 && Math.cos(view.yaw) < -0.2;
+      if (!dark) view.z = Math.max(inBay ? -Infinity : HALL.zEnd + (DARK_COUNT ? 0.6 : 1.2), Math.min(HALL.zBack - (canPass || exiting ? EXIT.threshold : 0.6), view.z));
       if (canPass && view.z > HALL.zBack - 0.75 && !exiting) {
         // On franchit la porte : le visiteur est amené droit sur le seuil, où
         // l'embrasure, donc la page, remplit tout l'écran…
@@ -1965,6 +2425,7 @@ export default function Musee() {
 
       // Respiration et balancement des visiteurs (voir VISITOR_VERTEX)
       if (!reducedMotion) visitorTime.value = now / 1000;
+      videoScreens.forEach((screen) => screen.update());
 
       camera.position.set(view.x, EYE, view.z);
       camera.rotation.y = view.yaw;
@@ -1978,6 +2439,11 @@ export default function Musee() {
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
+      videoScreens.forEach(({ video }) => {
+        video.pause();
+        video.removeAttribute('src');
+        video.load();
+      });
       observer.disconnect();
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
@@ -2081,14 +2547,8 @@ export default function Musee() {
     setMusic(null);
   };
 
-  // Affiche en grand : Échap la referme, et elle se referme d'elle-même si
-  // on quitte l'affiche
-  useEffect(() => {
-    if (zoomed === null) return undefined;
-    const onKey = (e) => e.key === 'Escape' && setZoomed(null);
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [zoomed]);
+  // Affiche en grand (Échap et flèches : voir MuseeLightbox) : elle se
+  // referme d'elle-même si on quitte l'affiche
   useEffect(() => {
     if (focused === null) setZoomed(null);
   }, [focused]);
@@ -2219,14 +2679,14 @@ export default function Musee() {
         </div>
       ) : (
         <div className={`relative text-beige font-stamp overflow-clip ${leaving ? 'musee-leaving' : ''}`} style={{ height: '100dvh' }}>
-          <div ref={containerRef} className="absolute inset-0" role="img" aria-label={T("Galerie en 3D : huit affiches accrochées aux murs blancs d'une salle d'exposition, sous une verrière", "3D gallery: eight posters hanging on the white walls of an exhibition room, under a skylight")} />
+          <div ref={containerRef} className="absolute inset-0" role="img" aria-label={T(`Galerie en 3D : ${POSTER_COUNT} affiches${VIDEOS_FR} accrochées aux murs blancs d'une salle d'exposition, sous une verrière`, `3D gallery: ${POSTER_COUNT} posters${VIDEOS_EN} hanging on the white walls of an exhibition room, under a skylight`)} />
           {/* La salle est une image pour les moteurs de recherche et les
               lecteurs d'écran : ce bloc leur en donne le contenu en texte. */}
           <div className="sr-only">
             <p>
               {T(
-                `Musée virtuel de Rafael Piral, graphiste : une salle d'exposition parisienne en 3D, sous verrière, où l'on se promène parmi ${EXHIBITS.length} affiches de cinéma, de musique et de sport, avec vue sur les toits de Paris et la tour Eiffel.`,
-                `Rafael Piral's virtual museum, graphic designer: a 3D Parisian exhibition room under a skylight, where you walk among ${EXHIBITS.length} film, music and sport posters, with a view over the rooftops of Paris and the Eiffel Tower.`
+                `Musée virtuel de Rafael Piral, graphiste : une salle d'exposition parisienne en 3D, sous verrière, où l'on se promène parmi ${POSTER_COUNT} affiches de cinéma, de musique et de sport${VIDEOS_FR}, avec vue sur les toits de Paris et la tour Eiffel.`,
+                `Rafael Piral's virtual museum, graphic designer: a 3D Parisian exhibition room under a skylight, where you walk among ${POSTER_COUNT} film, music and sport posters${VIDEOS_EN}, with a view over the rooftops of Paris and the Eiffel Tower.`
               )}
             </p>
             <h2>{T('Affiches exposées', 'Posters on show')}</h2>
@@ -2362,14 +2822,19 @@ export default function Musee() {
             </div>
           )}
 
-          {/* Affiche ouverte en grand : un clic n'importe où, ou Échap, la referme */}
+          {/* Œuvre ouverte en grand : elle se décroche du mur (voir MuseeLightbox) */}
           {zoomed !== null && EXHIBITS[zoomed] && (
-            <div className="musee-zoom" role="dialog" aria-modal="true" aria-label={`${T('Affiche', 'Poster')} : ${EXHIBITS[zoomed].title}`} onClick={() => setZoomed(null)}>
-              <img src={EXHIBITS[zoomed].srcHd} alt={`${T('Affiche', 'Poster')} : ${EXHIBITS[zoomed].title}`} draggable={false} />
-              <button type="button" aria-label={T('Fermer', 'Close')} onClick={() => setZoomed(null)}>
-                ✕
-              </button>
-            </div>
+            <MuseeLightbox
+              exhibits={EXHIBITS}
+              index={zoomed}
+              onIndex={(next) => {
+                setZoomed(next);
+                apiRef.current?.goTo(next, true); // la caméra suit derrière, d'un coup
+              }}
+              onClose={() => setZoomed(null)}
+              rectOf={(index) => apiRef.current?.rectOf(index)}
+              T={T}
+            />
           )}
 
           {/* Appareil tactile : joystick pour marcher (pouce gauche), l'autre
@@ -2379,6 +2844,19 @@ export default function Musee() {
               <span ref={knobRef} />
             </div>
           )}
+
+          {/* Ce que dit l'agent du musée, devant la salle noire */}
+          <p className={`musee-guard ${guardTalk ? 'is-visible' : ''}`} role="status" aria-live="polite">
+            {guardTalk && (
+              <>
+                <span>{T('Agente du musée', 'Museum attendant')}</span>
+                {T(
+                  `« Bienvenue ! La salle noire, c'est par ici : ${NUMBERS_FR[VIDEO_COUNT] || VIDEO_COUNT} œuvres animées. Laissez vos yeux s'habituer au noir. »`,
+                  `"Welcome! The black room is this way: ${NUMBERS_EN[VIDEO_COUNT] || VIDEO_COUNT} moving works. Give your eyes a moment to adjust."`
+                )}
+              </>
+            )}
+          </p>
 
           <div className="musee-bottom absolute bottom-0 left-0 right-0 px-4 md:px-8 pb-5 flex flex-col items-center gap-3 pointer-events-none">
             {exhibit ? (

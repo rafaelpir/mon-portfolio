@@ -16,7 +16,7 @@ const VISIBLE = projects.filter((project) => !project.hidden);
 // Le livre ne contient que les affiches (celles exposées au musée), chacune
 // en pleine page avec une petite légende. Le numéro est celui de la planche
 // dans le catalogue (le rang du projet sur le site).
-const PLATES = MUSEE_EXHIBITS.map((exhibit) => {
+const PLATES = MUSEE_EXHIBITS.filter((exhibit) => !exhibit.video).map((exhibit) => {
   const index = VISIBLE.findIndex((project) => project.slug === exhibit.slug);
   const project = VISIBLE[index];
   return {
