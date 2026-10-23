@@ -124,7 +124,7 @@ const socialY = (index) => TV.y + TV.height / 2 - TV.height * TV.header - TV_ROW
 // la galerie vers -z (mêmes largeur et hauteur), murs presque noirs : seuls
 // les écrans éclairent. zStart : son mur d'entrée, au dos du mur du fond ;
 // first : sa première paire d'écrans.
-const DARK_OPEN = { x: HALL.halfWidth - 1.9, width: 1.8, height: 2.8 };
+const DARK_OPEN = { x: HALL.halfWidth - 1.9, width: 2.2, height: 2.8 };
 const WALL_DEPTH = 0.3;
 const DARK = { zStart: HALL.zEnd - WALL_DEPTH, first: HALL.zEnd - WALL_DEPTH - 4.6 };
 DARK.zEnd = DARK.first - SPACING * (Math.max(1, Math.ceil(DARK_COUNT / 2)) - 1) - 3.4;
@@ -1139,6 +1139,28 @@ export default function Musee() {
     // Textures haute définition sur grand écran, allégées sur mobile
     const hd = !lite && Math.max(window.innerWidth, window.innerHeight) * (window.devicePixelRatio || 1) > 1400;
 
+    // Chargement progressif : la version légère d'une image d'abord, puis la
+    // haute définition quand le reste de la salle est chargé (HD_DELAY après
+    // l'ouverture), pour que la salle s'affiche vite
+    const HD_DELAY = 3500;
+    const opened = performance.now();
+    const progressive = (texture, light, sharp) => {
+      const image = new Image();
+      image.onload = () => {
+        if (disposed) return;
+        texture.image = image;
+        if (!sharp) return;
+        setTimeout(() => {
+          if (disposed) return;
+          const better = new Image();
+          better.onload = () => {
+            if (!disposed && texture.image === image) texture.image = better;
+          };
+          better.src = sharp;
+        }, Math.max(0, HD_DELAY - (performance.now() - opened)));
+      };
+      image.src = light;
+    };
     const videoScreens = []; // œuvres vidéo, mises à jour à chaque image
     EXHIBITS.forEach((exhibit, index) => {
       const { side, z } = placement(index);
@@ -1152,24 +1174,22 @@ export default function Musee() {
       };
 
       const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 16 });
-      const image = new Image();
-      image.onload = () => {
-        texture.image = image;
-      };
-      image.src = hd ? exhibit.srcHd : exhibit.src;
+      progressive(texture, exhibit.src, hd && !exhibit.video ? exhibit.srcHd : null);
 
       // Œuvre vidéo : chaque nouvelle image de la vidéo est recadrée aux
       // proportions du cadre (comme object-fit: cover) dans un canvas, qui
       // remplace l'image d'attente une fois la lecture lancée.
       if (exhibit.video) {
         const video = document.createElement('video');
-        Object.assign(video, { src: exhibit.video, muted: true, loop: true, playsInline: true, preload: 'auto' });
+        // (la vidéo n'est chargée qu'à l'approche de la salle noire : startVideos)
+        Object.assign(video, { muted: true, loop: true, playsInline: true, preload: 'none' });
         video.setAttribute('playsinline', '');
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         let lastTime = -1;
         videoScreens.push({
           video,
+          src: exhibit.video,
           update() {
             if (video.readyState < 2 || video.currentTime === lastTime) return;
             lastTime = video.currentTime;
@@ -1186,7 +1206,6 @@ export default function Musee() {
             texture.needsUpdate = true;
           },
         });
-        if (!reducedMotion) video.play().catch(() => {});
       }
 
       hang(frame(size), 0.0175, POSTER.centerY);
@@ -1239,11 +1258,7 @@ export default function Musee() {
             }
             const index = new Uint16Array(buffer, part.indexOffset, part.indexCount);
             const texture = new Texture(gl, { generateMipmaps: true, anisotropy: 16 });
-            const image = new Image();
-            image.onload = () => {
-              texture.image = image;
-            };
-            image.src = `${base}-${part.name}${hd ? '-hd' : ''}.webp`;
+            progressive(texture, `${base}-${part.name}.webp`, hd ? `${base}-${part.name}-hd.webp` : null);
             const program = new Program(gl, {
                 vertex: VISITOR_VERTEX,
                 fragment: VISITOR_FRAGMENT,
@@ -1265,7 +1280,12 @@ export default function Musee() {
         .catch(() => {}); // sans visiteurs, la salle reste visitable
     };
     // (trois visiteurs seulement en version allégée)
-    VISITORS.slice(0, lite ? 3 : VISITORS.length).forEach((visitor, order) => addPerson(visitor, order));
+    // (les visiteurs de la salle noire attendent qu'on s'en approche : darkPeople)
+    const darkPeople = [];
+    VISITORS.slice(0, lite ? 3 : VISITORS.length).forEach((visitor, order) => {
+      if (visitor.z < HALL.zEnd) darkPeople.push(() => addPerson(visitor, order));
+      else addPerson(visitor, order);
+    });
     if (DARK_COUNT) addPerson(GUARD, 9);
 
     // ── Fenêtres sur Paris ─────────────────────────────────────────────────
@@ -1372,7 +1392,7 @@ export default function Musee() {
       const leaf = new Transform();
       const slab = new Mesh(gl, {
         geometry: new Box(gl, { width, height, depth: LEAF_DEPTH }),
-        program: new Program(gl, { vertex: VERTEX, fragment: IMAGE_FRAGMENT, uniforms: { tMap: { value: texture }, uMirror: { value: 0 }, uGlass: { value: 0 } } }),
+        program: new Program(gl, { vertex: VERTEX, fragment: IMAGE_FRAGMENT, uniforms: { tMap: { value: texture }, uMirror: { value: 0 }, uGlass: { value: 0 }, uLit: { value: 0 } } }),
       });
       slab.setParent(leaf);
       const brass = (geometry, px, py, pz) => {
@@ -1445,7 +1465,15 @@ export default function Musee() {
     homeFrame.setAttribute('aria-hidden', 'true');
     // (en version allégée, pas de copie vivante de l'accueil : la porte
     // ouvre sur le noir du portfolio et la sortie se fait en fondu)
-    if (!lite) homeFrame.src = '/';
+    // chargée après le reste (elle pèse autant que l'accueil), ou dès qu'on se
+    // tourne vers la porte de sortie
+    let portalLoaded = lite;
+    const loadPortal = () => {
+      if (portalLoaded || disposed) return;
+      portalLoaded = true;
+      homeFrame.src = '/';
+    };
+    const portalTimer = setTimeout(loadPortal, 7000);
     homeFrame.className = 'musee-portal';
     document.documentElement.appendChild(homeFrame);
     const fitPortal = () => {
@@ -1570,7 +1598,7 @@ export default function Musee() {
           ctx.font = '400 74px "Bebas Neue Mur", "PP Neue Montreal", Helvetica, Arial, sans-serif';
           ctx.fillText(line, w / 2, 270, w - 60);
         }, repaint));
-      const hallSign = doorSign('#0d0d0d', T('SALLE NOIRE', 'BLACK ROOM'), T('Œuvres animées', 'Moving works'));
+      const hallSign = doorSign('#0d0d0d', T('SALLE OBSCURE', 'SCREENING ROOM'), T('Œuvres animées', 'Moving works'));
       hallSign.position.set(DARK_OPEN.x, DARK_OPEN.height + 0.5, HALL.zEnd + 0.02);
       hallSign.setParent(scene);
       const darkSign = doorSign('#cfc9bd', T('GALERIE', 'GALLERY'), T('Retour aux affiches', 'Back to the posters'));
@@ -1601,7 +1629,7 @@ export default function Musee() {
         ctx.clearRect(0, 0, w, h);
         ctx.fillStyle = '#e4ddd0';
         ctx.font = '400 190px "Bebas Neue Mur", "PP Neue Montreal", Helvetica, Arial, sans-serif';
-        ctx.fillText(T('SALLE NOIRE', 'BLACK ROOM'), 40, 210, w - 80);
+        ctx.fillText(T('SALLE OBSCURE', 'SCREENING ROOM'), 40, 210, w - 80);
         ctx.font = '500 52px "PP Neue Montreal", Helvetica, Arial, sans-serif';
         ctx.fillText(T('Œuvres animées', 'Moving works'), 44, 320, w - 80);
         ctx.fillStyle = '#9d968a';
@@ -1759,7 +1787,7 @@ export default function Musee() {
     // Pupitre en marbre poli (photos ambientCG, CC0) : un fût de marbre blanc
     // veiné, entre un socle et une tablette de marbre noir qui débordent
     // légèrement. uGlass : le reflet des projecteurs sur la pierre polie.
-    const marble = (src) => new Program(gl, { vertex: VERTEX, fragment: IMAGE_FRAGMENT, uniforms: { tMap: { value: photoTexture(src) }, uMirror: { value: 0 }, uGlass: { value: 1.6 } } });
+    const marble = (src) => new Program(gl, { vertex: VERTEX, fragment: IMAGE_FRAGMENT, uniforms: { tMap: { value: photoTexture(src) }, uMirror: { value: 0 }, uGlass: { value: 1.6 }, uLit: { value: 0 } } });
     const whiteMarble = marble('/images/musee/marbre-blanc.webp');
     const blackMarble = marble('/images/musee/marbre-noir.webp');
     const PLINTH = 0.07;
@@ -1844,7 +1872,7 @@ export default function Musee() {
     // Bancs : trois lames de chêne massif sur un piètement en acier noir
     // (deux cadres en tube carré reliés par une traverse), avec leur ombre
     // au sol.
-    const oakProgram = new Program(gl, { vertex: VERTEX, fragment: IMAGE_FRAGMENT, uniforms: { tMap: { value: photoTexture('/images/musee/chene.webp') }, uMirror: { value: 0 }, uGlass: { value: 0 } } });
+    const oakProgram = new Program(gl, { vertex: VERTEX, fragment: IMAGE_FRAGMENT, uniforms: { tMap: { value: photoTexture('/images/musee/chene.webp') }, uMirror: { value: 0 }, uGlass: { value: 0 }, uLit: { value: 0 } } });
     const STEEL = [0.07, 0.07, 0.075];
     const groundShadow = (x, z, width, depth) => {
       const mesh = new Mesh(gl, { geometry: new Plane(gl, { width, height: depth }), program: shadowProgram });
@@ -2188,11 +2216,27 @@ export default function Musee() {
       return best ? best.index : null;
     };
 
+    // Vidéos et visiteurs de la salle noire : chargés quand on s'en approche
+    // (à DARK_NEAR mètres de la baie), pas à l'ouverture du musée
+    const DARK_NEAR = 9;
+    let videosStarted = false;
+    const startVideos = () => {
+      if (videosStarted) return;
+      videosStarted = true;
+      videoScreens.forEach(({ video, src }) => {
+        video.preload = 'auto';
+        video.src = src;
+        if (!reducedMotion) video.play().catch(() => {});
+      });
+      darkPeople.forEach((start) => start());
+    };
+
     let drag = null;
     // Lecture refusée sans geste du visiteur (économie d'énergie, Safari…) :
     // on relance les œuvres vidéo au premier clic ou à la première touche
     const wakeVideos = () => {
       if (reducedMotion) return;
+      if (!videosStarted) return;
       videoScreens.forEach(({ video }) => video.paused && video.play().catch(() => {}));
     };
     const onPointerDown = (e) => {
@@ -2365,6 +2409,16 @@ export default function Musee() {
       }
       const inBay = DARK_COUNT > 0 && Math.abs(view.x - DARK_OPEN.x) < bayHalf + 0.001;
       if (dark) view.z = Math.max(DARK.zEnd + 1.2, inBay ? view.z : Math.min(DARK.zStart - 0.6, view.z));
+      // Guidage doux : en marchant vers la baie, on y est amené (pas besoin de
+      // viser juste) ; dans le sas, on contourne la cloison sans s'y bloquer
+      if (DARK_COUNT && !goal && motion.forward > 0.2) {
+        const pull = (x, rate) => { view.x += (x - view.x) * Math.min(1, dt * rate); };
+        const ahead = Math.cos(view.yaw);
+        if (!dark && view.z < HALL.zEnd + 2 && Math.abs(view.x - DARK_OPEN.x) < 2.2 && ahead > 0.4) pull(DARK_OPEN.x, 4);
+        if (dark && view.z > BAFFLE.z && view.z < BAFFLE.z + 1.3 && view.x > BAFFLE.left - 0.7 && ahead > 0.3) pull(BAFFLE.left - 0.8, 3);
+        if (dark && view.z < BAFFLE.z && view.z > BAFFLE.z - 1.3 && view.x > BAFFLE.left - 0.7 && ahead < -0.3) pull(BAFFLE.left - 0.8, 3);
+        if (dark && view.z > BAFFLE.z + 0.2 && ahead < -0.4) pull(DARK_OPEN.x, 4);
+      }
       // la cloison du sas arrête le visiteur (on la longe, on la contourne)
       if (DARK_COUNT && dark && !goal && view.x > BAFFLE.left - 0.35 && Math.abs(view.z - BAFFLE.z) < 0.35) {
         view.z = BAFFLE.z + (view.z > BAFFLE.z ? 0.35 : -0.35);
@@ -2425,7 +2479,10 @@ export default function Musee() {
 
       // Respiration et balancement des visiteurs (voir VISITOR_VERTEX)
       if (!reducedMotion) visitorTime.value = now / 1000;
-      videoScreens.forEach((screen) => screen.update());
+      if (!videosStarted && view.z < HALL.zEnd + DARK_NEAR) startVideos();
+      if (videosStarted) videoScreens.forEach((screen) => screen.update());
+      // regard tourné vers la porte de sortie, à proximité : la copie de l'accueil se charge
+      if (!portalLoaded && view.z > HALL.zBack - 8 && Math.cos(view.yaw) < -0.3) loadPortal();
 
       camera.position.set(view.x, EYE, view.z);
       camera.rotation.y = view.yaw;
@@ -2438,6 +2495,7 @@ export default function Musee() {
 
     return () => {
       disposed = true;
+      clearTimeout(portalTimer);
       cancelAnimationFrame(raf);
       videoScreens.forEach(({ video }) => {
         video.pause();
@@ -2851,8 +2909,8 @@ export default function Musee() {
               <>
                 <span>{T('Agente du musée', 'Museum attendant')}</span>
                 {T(
-                  `« Bienvenue ! La salle noire, c'est par ici : ${NUMBERS_FR[VIDEO_COUNT] || VIDEO_COUNT} œuvres animées. Laissez vos yeux s'habituer au noir. »`,
-                  `"Welcome! The black room is this way: ${NUMBERS_EN[VIDEO_COUNT] || VIDEO_COUNT} moving works. Give your eyes a moment to adjust."`
+                  `« Bienvenue ! La salle obscure, c'est par ici : ${NUMBERS_FR[VIDEO_COUNT] || VIDEO_COUNT} œuvres animées. Laissez vos yeux s'habituer au noir. »`,
+                  `"Welcome! The screening room is this way: ${NUMBERS_EN[VIDEO_COUNT] || VIDEO_COUNT} moving works. Give your eyes a moment to adjust."`
                 )}
               </>
             )}
