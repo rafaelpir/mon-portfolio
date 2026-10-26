@@ -1573,12 +1573,12 @@ export default function Musee() {
           ctx.clearRect(0, 0, w, h); // lettres posées à même le mur
           ctx.fillStyle = '#0d0d0d';
           ctx.textAlign = 'center';
-          ctx.font = '400 330px "Bebas Neue Mur", "PP Neue Montreal", Helvetica, Arial, sans-serif';
-          ctx.fillText('RAFAEL PIRAL', w / 2, 440, w - 200);
-          ctx.font = '400 190px "Bebas Neue Mur", "PP Neue Montreal", Helvetica, Arial, sans-serif';
-          ctx.fillText('CREATION', w / 2, 690, w - 200);
-          ctx.font = '400 100px "Bebas Neue Mur", "PP Neue Montreal", Helvetica, Arial, sans-serif';
-          ctx.fillText('2024-2026', w / 2, 860, w - 200);
+          ctx.font = '400 230px "Bebas Neue Mur", "PP Neue Montreal", Helvetica, Arial, sans-serif';
+          ctx.fillText('RAFAEL PIRAL', w / 2, 480, w - 200);
+          ctx.font = '400 135px "Bebas Neue Mur", "PP Neue Montreal", Helvetica, Arial, sans-serif';
+          ctx.fillText('CREATION', w / 2, 660, w - 200);
+          ctx.font = '400 75px "Bebas Neue Mur", "PP Neue Montreal", Helvetica, Arial, sans-serif';
+          ctx.fillText('2024-2026', w / 2, 790, w - 200);
         },
         repaint
       )
