@@ -10,7 +10,7 @@ import GoogleAnalytics from './components/GoogleAnalytics';
 import { EMBEDDED_COPY } from './utils/museumAccess';
 import AdminGuard from './components/AdminGuard';
 import CatalogueLoader from './components/CatalogueLoader';
-import PageTurn, { pageLabel, TURN_IN, MOSAIC_IN } from './components/PageTurn';
+import PageTurn, { pageLabel, minutage } from './components/PageTurn';
 // Code splitting - Chargement différé des pages
 const Home = lazy(() => import('./pages/Home'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
@@ -71,14 +71,19 @@ function AppContent() {
     if (from === location.pathname) return undefined;
     turnPathRef.current = location.pathname;
     if (!turnsRef.current || from === '/musee') return undefined;
-    setTurn({ phase: 'in', label: pageLabel(location.pathname + location.hash, (document.documentElement.lang || 'fr').startsWith('fr')) });
+    const label = pageLabel(location.pathname + location.hash, (document.documentElement.lang || 'fr').startsWith('fr'));
+    // Les ouvertures de projet sont le passage depuis l'accueil ; ailleurs, tourne-page classique
+    if (from !== '/') { label.glitch = false; label.ouverture = null; }
+    setTurn({ phase: 'in', label });
     // secours : si la sortie de l'ancienne page ne se signale pas, la feuille repart quand même
-    const rescue = setTimeout(() => setTurn((current) => (current.phase === 'in' ? { ...current, phase: 'out' } : current)), TURN_IN + 1500);
+    const rescue = setTimeout(() => setTurn((current) => (current.phase === 'in' ? { ...current, phase: 'out' } : current)), minutage(label).couvre + 1500);
     return () => clearTimeout(rescue);
   }, [location.pathname]);
   useEffect(() => {
     if (turn.phase !== 'out') return undefined;
-    const done = setTimeout(() => setTurn({ phase: null, label: null }), 700);
+    // les ouvertures se retirent d'elles-mêmes à la fin : on les laisse finir
+    const { couvre, duree } = minutage(turn.label);
+    const done = setTimeout(() => setTurn({ phase: null, label: null }), duree - couvre);
     return () => clearTimeout(done);
   }, [turn.phase]);
 
@@ -168,7 +173,7 @@ function AppContent() {
           key={location.pathname}
           initial={turnsRef.current ? { opacity: 1 } : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={turnsRef.current ? { opacity: 0.999, transition: { duration: (turn.label?.mosaic ? MOSAIC_IN : TURN_IN) / 1000 } } : { opacity: 0, y: -8 }}
+          exit={turnsRef.current ? { opacity: 0.999, transition: { duration: minutage(turn.label).couvre / 1000 } } : { opacity: 0, y: -8 }}
           transition={{ duration: 0.35, ease: 'easeInOut' }}
         >
           <Suspense fallback={null}>

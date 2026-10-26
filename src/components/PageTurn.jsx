@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { projects } from '../data/projects';
+import BalotelliGlitchTransition, { GLITCH_IN, GLITCH_TOTAL } from './BalotelliGlitchTransition';
+import ProjectTransition from './ProjectTransition';
+import { OUVERTURES, dureeTotale } from '../transitions';
 
 // Changement de page façon catalogue : une feuille de papier traverse l'écran
 // et tourne la page. Elle porte le titre de la page où l'on va (« Planche 07 ·
@@ -9,6 +12,15 @@ import { projects } from '../data/projects';
 // phase : 'in' (la feuille arrive et couvre), 'out' (elle repart), null.
 export const TURN_IN = 520; // ms : durée de l'arrivée, pendant laquelle l'ancienne page reste en place
 export const MOSAIC_IN = 820; // ms : idem pour la mosaïque, le temps que la vague couvre l'écran
+
+// Durées d'une transition : `couvre` (ms pendant lesquelles l'ancienne page
+// reste en place dessous) et `duree` (durée de vie totale).
+export function minutage(label) {
+  if (label?.glitch) return { couvre: GLITCH_IN, duree: GLITCH_TOTAL };
+  if (label?.ouverture) return { couvre: OUVERTURES[label.ouverture].couvre, duree: dureeTotale(OUVERTURES[label.ouverture]) + 100 };
+  if (label?.mosaic) return { couvre: MOSAIC_IN, duree: MOSAIC_IN + 700 };
+  return { couvre: TURN_IN, duree: TURN_IN + 700 };
+}
 
 export function pageLabel(pathname, french) {
   if (pathname === '/#projects') return { top: 'Rafael Piral', title: french ? 'Projets' : 'Projects' };
@@ -20,6 +32,10 @@ export function pageLabel(pathname, french) {
       const label = { top: `${french ? 'Planche' : 'Plate'} ${String(index + 1).padStart(2, '0')}`, title: visible[index].shortTitle || visible[index].title };
       // Portrait ouzbek : la transition reprend l'animation du projet
       if (visible[index].slug === 'portrait-ouzbek') label.mosaic = true;
+      // Ouverture propre au projet (champ `pageTransition`, voir src/transitions)
+      const style = visible[index].pageTransition;
+      if (style === 'glitch-balotelli') label.glitch = true;
+      else if (OUVERTURES[style]) label.ouverture = style;
       return label;
     }
   }
@@ -95,6 +111,8 @@ export default function PageTurn({ phase, label }) {
   }, []);
 
   if (!node || !phase) return null;
+  if (label?.glitch) return createPortal(<BalotelliGlitchTransition />, node);
+  if (label?.ouverture) return createPortal(<ProjectTransition style={label.ouverture} infos={label} />, node);
   if (label?.mosaic) return createPortal(<Mosaic phase={phase} label={label} />, node);
   return createPortal(
     <div className={`page-turn is-${phase}`} aria-hidden="true">
