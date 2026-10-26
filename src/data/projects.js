@@ -11,6 +11,7 @@ export const projects = [
   {
     "id": 1,
     "slug": "un-homme-qui-dort",
+    "pageTransition": "paupieres",
     "title": "Un Homme qui dort - Affiche revisitée",
     "shortTitle": "Un Homme Qui Dort",
     "category": "Affiches",
@@ -48,6 +49,7 @@ export const projects = [
   {
     "id": 3,
     "slug": "poster-sade-diamond-life",
+    "pageTransition": "velours",
     "title": "Poster Tribute : Sade  Diamond Life",
     "shortTitle": "Sade Diamond Life",
     "category": "Affiches",
@@ -84,6 +86,7 @@ export const projects = [
   {
     "id": 4,
     "slug": "ux-design-app-veco",
+    "pageTransition": "appli",
     "title": "UX Design : Application Veco",
     "shortTitle": "App Veco",
     "category": "UI/UX Design",
@@ -156,6 +159,7 @@ export const projects = [
   {
     "id": 5,
     "slug": "branding-agence-immobiliere",
+    "pageTransition": "plan",
     "title": "UI Design & Branding : Agence Immobilière",
     "shortTitle": "Agence Immobilière",
     "category": "UI/UX Design",
@@ -209,6 +213,7 @@ export const projects = [
   {
     "id": 6,
     "slug": "statue-liberte-ascii",
+    "pageTransition": "ascii",
     "title": "Statue de la Liberté  De la photo à l'ASCII",
     "shortTitle": "Statue ASCII",
     "category": "Photographie",
@@ -246,6 +251,7 @@ export const projects = [
   {
     "id": 7,
     "slug": "identite-visuelle-a-coeur-ouvert",
+    "pageTransition": "battement",
     "title": "À Cœur Ouvert, Identité visuelle d'une ONG",
     "shortTitle": "À Cœur Ouvert",
     "category": "Branding",
@@ -279,6 +285,7 @@ export const projects = [
   {
     "id": 8,
     "slug": "affiche-gummo",
+    "pageTransition": "pellicule",
     "title": "Gummo  Affiche de film",
     "shortTitle": "Gummo",
     "category": "Affiches",
@@ -318,6 +325,7 @@ export const projects = [
   {
     "id": 11,
     "slug": "batman-dark-knight-jimdo",
+    "pageTransition": "batsignal",
     "title": "Batman : The Dark Knight  Site web Jimdo",
     "shortTitle": "The Dark Knight",
     "category": "Développement web",
@@ -355,6 +363,7 @@ export const projects = [
   {
     "id": 9,
     "slug": "reseau-alumni-iut-bobigny",
+    "pageTransition": "reseau",
     "title": "Réseau Alumni  IUT de Bobigny",
     "shortTitle": "Alumni Bobigny",
     "category": "UI/UX Design",
@@ -401,6 +410,7 @@ export const projects = [
   {
     "id": 14,
     "slug": "coffret-alicia-keys",
+    "pageTransition": "piano",
     "heroImage": "/images/projects/display/alicia-officiel.webp",
     "title": "Coffret 20 Ans Alicia Keys",
     "shortTitle": "Alicia Keys",
@@ -560,6 +570,7 @@ export const projects = [
   {
     "id": 15,
     "slug": "grand-prix-monaco",
+    "pageTransition": "depart",
     "title": "Grand Prix de Monaco",
     "shortTitle": "Grand Prix Monaco",
     "category": "Affiches",
@@ -606,6 +617,7 @@ export const projects = [
   {
     "id": 13,
     "slug": "affiche-kaka",
+    "pageTransition": "rossoneri",
     "clubTheme": "milan",
     "title": "Affiche Ricardo Kaká",
     "shortTitle": "Ricardo Kaká",
@@ -652,6 +664,7 @@ export const projects = [
     "id": 16,
     "slug": "affiche-balotelli",
     "clubTheme": "inter",
+    "pageTransition": "glitch-balotelli",
     "isNew": true,
     "title": "Affiche Mario Balotelli",
     "shortTitle": "Mario Balotelli",
@@ -693,6 +706,7 @@ export const projects = [
   {
     "id": 17,
     "slug": "iris",
+    "pageTransition": "bulle",
     "isNew": true,
     "title": "Iris : sculpture de verre liquide",
     "shortTitle": "Iris",
