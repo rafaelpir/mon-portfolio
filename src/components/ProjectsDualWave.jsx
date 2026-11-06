@@ -27,6 +27,9 @@ import './ProjectsDualWave.css';
 // ScrollTrigger (utilisé par DualWaveAnimation) reste inchangé et reçoit
 // déjà ses mises à jour de scroll via ce pont Lenis existant.
 
+// Titre affiché : `listTitle` s'il existe (un nom court réservé à cette
+// liste, pour un titre trop long pour onduler sans toucher la miniature),
+// sinon `shortTitle`, sinon `title`.
 export default function ProjectsDualWave({ projects, newLabel = 'Nouveau' }) {
   const wrapperRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -64,7 +67,7 @@ export default function ProjectsDualWave({ projects, newLabel = 'Nouveau' }) {
               className="animated-text"
               data-image={project.thumbnail}
             >
-              {project.shortTitle || project.title}
+              {project.listTitle || project.shortTitle || project.title}
               {project.isNew && (
                 <span className="dual-wave-badge">
                   <span className="dual-wave-badge-dot" />

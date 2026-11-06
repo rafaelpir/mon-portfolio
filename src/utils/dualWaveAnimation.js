@@ -69,10 +69,12 @@ export class DualWaveAnimation {
   // Écart avec le demo : une amplitude par texte (la place qui lui reste dans
   // sa colonne) au lieu d'une seule, réglée sur le texte le plus long. Avec
   // un titre aussi large que la colonne, l'amplitude commune tombait à 0 et
-  // toute la vague restait figée.
+  // toute la vague restait figée. Plafonnée à MAX_SWING de la largeur de la
+  // colonne : sans plafond, les titres courts traversaient tout l'écran.
   calculateRanges() {
+    const MAX_SWING = 0.18;
     const rangesFor = (texts, column) =>
-      texts.map(t => ({ minX: 0, maxX: Math.max(0, column.offsetWidth - t.offsetWidth) }));
+      texts.map(t => ({ minX: 0, maxX: Math.min(column.offsetWidth * MAX_SWING, Math.max(0, column.offsetWidth - t.offsetWidth)) }));
 
     this.leftRanges = rangesFor(this.leftTexts, this.leftColumn);
     this.rightRanges = rangesFor(this.rightTexts, this.rightColumn);

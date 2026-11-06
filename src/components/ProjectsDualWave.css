@@ -67,6 +67,10 @@
 
 .dual-wave .wave-column {
   flex: 1;
+  /* Écart avec le demo : sans min-width: 0, une colonne s'élargit jusqu'à
+     son titre le plus long et pousse l'autre hors de l'écran ; un titre trop
+     long déborde maintenant vers le centre, les colonnes gardent leur moitié. */
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;

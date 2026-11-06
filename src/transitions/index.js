@@ -17,6 +17,7 @@ import piano from './styles/piano';
 import depart from './styles/depart';
 import rossoneri from './styles/rossoneri';
 import bulle from './styles/bulle';
+import amorce from './styles/amorce';
 
 // Temps de lecture : la phase où le titre est lisible (`lecture: [début, fin]`
 // en ms du style) est ralentie pour durer au moins TENUE ms, le reste de
@@ -57,4 +58,5 @@ export const OUVERTURES = {
   depart, // Grand Prix de Monaco
   rossoneri, // Kaká
   bulle, // Iris
+  amorce, // Inventaire & Le Sommeil
 };

@@ -28,6 +28,16 @@
 
   <!-- Projets -->
   <url>
+    <loc>https://www.rafaelpiral.fr/work/inventaire-le-sommeil</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.rafaelpiral.fr/images/projects/inventaire/poster.webp</image:loc>
+      <image:title>Inventaire &amp; Le Sommeil, films de montage d'archives | Rafael Piral</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.rafaelpiral.fr/work/portrait-ouzbek</loc>
     <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>

@@ -31,6 +31,8 @@ public/videos/*.mp4
 !public/videos/iris-anomalie.mp4
 !public/videos/iris-coulisses.mp4
 !public/videos/portrait-ouzbek.mp4
+!public/videos/inventaire.mp4
+!public/videos/le-sommeil.mp4
 public/videos/*.mov
 public/videos/*.webm
 node_modules/

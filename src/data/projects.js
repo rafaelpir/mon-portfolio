@@ -819,6 +819,101 @@ export const projects = [
         "description": "Détouré : le personnage seul, sans le fond du tableau."
       }
     ]
+  },
+  {
+    "id": 19,
+    "slug": "inventaire-le-sommeil",
+    "pageTransition": "amorce",
+    "isNew": true,
+    "title": "Inventaire & Le Sommeil",
+    "shortTitle": "Inventaire & Le Sommeil",
+    "listTitle": "Inventaire",
+    "category": "Audiovisuel",
+    "type": "Personnel",
+    "layout": "double",
+    "year": "2026",
+    "context": "Projet personnel - Montage d'archives",
+    "period": "Octobre 2026",
+    "duration": "1 semaine",
+    "description": "Deux courts films de montage construits uniquement à partir d'archives : chronophotographies, films muets, films scientifiques, gravures et photographies anciennes. Le découpage, l'étalonnage noir et blanc et la musique originale sont générés image par image dans un même patch TouchDesigner.",
+    "thumbnail": "/images/projects/thumbs/inventaire.webp",
+    "tags": [
+      "TouchDesigner",
+      "Python",
+      "GLSL"
+    ],
+    "competences": [
+      "Montage",
+      "Recherche d'archives",
+      "Étalonnage",
+      "Création générative",
+      "Composition musicale",
+      "Synchronisation son et image"
+    ],
+    "outils": [
+      "TouchDesigner",
+      "Python",
+      "GLSL",
+      "FFmpeg"
+    ],
+    "subProjects": [
+      {
+        "key": "inventaire",
+        "title": "Inventaire",
+        "period": "Octobre 2026",
+        "duration": "3 jours",
+        "description": "Un catalogue du monde vu par les premières machines à image, en 25 secondes et 56 plans. Quatre actes, Mouvement, Corps, Vivant et Cosmos, reliés par des rimes visuelles : une silhouette de cheval répond à une autre, une radiographie à un geste. Muybridge, Marey, les Lumière, Méliès, les premiers rayons X de 1897, Haeckel et la Lune de 1865. Chaque image est montrée entière, sans recadrage.",
+        "video": "/videos/inventaire.mp4",
+        "videoPoster": "/images/projects/inventaire/poster.webp",
+        "tags": [
+          "TouchDesigner",
+          "Python",
+          "GLSL"
+        ],
+        "gallery": [
+          {
+            "src": "/images/projects/inventaire/corps.webp",
+            "description": "Acte II, Corps : radiographies et premiers films aux rayons X."
+          },
+          {
+            "src": "/images/projects/inventaire/vivant.webp",
+            "description": "Acte III, Vivant : planches de Haeckel et de Hooke."
+          },
+          {
+            "src": "/images/projects/inventaire/cosmos.webp",
+            "description": "Acte IV, Cosmos : éclipse de 1900 et Lune de 1865."
+          }
+        ]
+      },
+      {
+        "key": "le-sommeil",
+        "title": "Le Sommeil",
+        "period": "Octobre 2026",
+        "duration": "3 jours",
+        "description": "Ce que l'archive fait remonter quand on la regarde trop vite : 103 plans en 28 secondes, montés au rythme d'une publicité à partir de 105 sources. Nosferatu, Caligari, Jekyll et Hyde, mannequins des essais nucléaires de 1955, photographies spirites, gravures de Goya et de Doré. Aucune image n'apparaît plus de deux fois ; la musique place un impact sur chacune des coupes. Images du domaine public, sauf deux planches de Gautier d'Agoty (Wellcome Collection, CC BY 4.0).",
+        "video": "/videos/le-sommeil.mp4",
+        "videoPoster": "/images/projects/le-sommeil/poster.webp",
+        "tags": [
+          "TouchDesigner",
+          "Python",
+          "GLSL"
+        ],
+        "gallery": [
+          {
+            "src": "/images/projects/le-sommeil/apparitions.webp",
+            "description": "Apparitions : photographies spirites et Œil-ballon d'Odilon Redon."
+          },
+          {
+            "src": "/images/projects/le-sommeil/caligari.webp",
+            "description": "Plan tenu sur le docteur Caligari (1920)."
+          },
+          {
+            "src": "/images/projects/le-sommeil/ombres.webp",
+            "description": "Les ombres de Caligari et de Nosferatu."
+          }
+        ]
+      }
+    ]
   }
 ];
 

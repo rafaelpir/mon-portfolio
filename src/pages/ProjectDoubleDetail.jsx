@@ -114,6 +114,36 @@ function SubProjectGallery({ subProject, isDarkMode, figure }) {
   );
 }
 
+// Film d'un volet (champ `video` d'un sous-projet) : pleine largeur, 16:9,
+// avec ses contrôles pour que le son reste à la main du visiteur. Lancer un
+// film met en pause les autres films de la page.
+function SubProjectFilm({ subProject, isFrench }) {
+  const ref = useRef(null);
+  const onPlay = () => {
+    document.querySelectorAll('video[data-sub-film]').forEach((v) => {
+      if (v !== ref.current) v.pause();
+    });
+  };
+  return (
+    <figure className="mb-10 md:mb-14">
+      <div className="w-full overflow-hidden bg-black" style={{ aspectRatio: subProject.videoAspect || '16 / 9' }}>
+        <video
+          ref={ref}
+          data-sub-film
+          src={subProject.video}
+          poster={subProject.videoPoster}
+          controls
+          playsInline
+          preload="metadata"
+          onPlay={onPlay}
+          className="block w-full h-full object-contain"
+          aria-label={isFrench ? `Film ${subProject.title}` : `${subProject.title} film`}
+        />
+      </div>
+    </figure>
+  );
+}
+
 // Vidéo YouTube en fond fixe de toute la page, muette et non interactive
 // (`pointer-events: none` + hors tabulation : ni clic, ni pause, ni focus).
 // Rendue via portail attaché à <html>, comme ProjectHeader : `body` a
@@ -600,6 +630,7 @@ export default function ProjectDoubleDetail({ project: source }) {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.1 + idx * 0.2 }}
                 >
+                  {sub.video && <SubProjectFilm subProject={sub} isFrench={isFrench} />}
                   <div className={`sub-spread ${idx % 2 === 1 ? 'is-reversed' : ''}`}>
                     <div className="sub-text">
                       <p className="sub-count">
