@@ -54,8 +54,8 @@ export class DualWaveAnimation {
 
     this.calculateRanges();
     this.cacheElementCenters();
-    this.setInitialPositions(this.leftTexts, this.leftRange, 1);
-    this.setInitialPositions(this.rightTexts, this.rightRange, -1);
+    this.setInitialPositions(this.leftTexts, this.leftRanges, 1);
+    this.setInitialPositions(this.rightTexts, this.rightRanges, -1);
 
     this.setupScrollTrigger();
 
@@ -66,12 +66,16 @@ export class DualWaveAnimation {
     window.addEventListener('resize', this.resizeHandler);
   }
 
+  // Écart avec le demo : une amplitude par texte (la place qui lui reste dans
+  // sa colonne) au lieu d'une seule, réglée sur le texte le plus long. Avec
+  // un titre aussi large que la colonne, l'amplitude commune tombait à 0 et
+  // toute la vague restait figée.
   calculateRanges() {
-    const maxLeftTextWidth = Math.max(...this.leftTexts.map(t => t.offsetWidth));
-    const maxRightTextWidth = Math.max(...this.rightTexts.map(t => t.offsetWidth));
+    const rangesFor = (texts, column) =>
+      texts.map(t => ({ minX: 0, maxX: Math.max(0, column.offsetWidth - t.offsetWidth) }));
 
-    this.leftRange = { minX: 0, maxX: this.leftColumn.offsetWidth - maxLeftTextWidth };
-    this.rightRange = { minX: 0, maxX: this.rightColumn.offsetWidth - maxRightTextWidth };
+    this.leftRanges = rangesFor(this.leftTexts, this.leftColumn);
+    this.rightRanges = rangesFor(this.rightTexts, this.rightColumn);
   }
 
   // Position verticale de chaque texte gauche, mise en cache une seule fois
@@ -90,10 +94,10 @@ export class DualWaveAnimation {
     });
   }
 
-  setInitialPositions(texts, range, multiplier) {
-    const rangeSize = range.maxX - range.minX;
-
+  setInitialPositions(texts, ranges, multiplier) {
     texts.forEach((text, index) => {
+      const range = ranges[index];
+      const rangeSize = range.maxX - range.minX;
       const initialPhase = this.config.waveNumber * index - Math.PI / 2;
       const initialWave = Math.sin(initialPhase);
       const initialProgress = (initialWave + 1) / 2;
@@ -120,17 +124,17 @@ export class DualWaveAnimation {
     const wrapperRect = this.wrapper.getBoundingClientRect();
     const closestIndex = this.findClosestToViewportCenter(wrapperRect.top);
 
-    this.updateColumn(this.leftTexts, this.leftQuickSetters, this.leftRange, globalProgress, closestIndex, 1);
-    this.updateColumn(this.rightTexts, this.rightQuickSetters, this.rightRange, globalProgress, closestIndex, -1);
+    this.updateColumn(this.leftTexts, this.leftQuickSetters, this.leftRanges, globalProgress, closestIndex, 1);
+    this.updateColumn(this.rightTexts, this.rightQuickSetters, this.rightRanges, globalProgress, closestIndex, -1);
 
     const focusedText = this.leftTexts[closestIndex];
     this.updateThumbnail(this.thumbnail, focusedText, wrapperRect);
   }
 
-  updateColumn(texts, setters, range, progress, focusedIndex, multiplier) {
-    const rangeSize = range.maxX - range.minX;
-
+  updateColumn(texts, setters, ranges, progress, focusedIndex, multiplier) {
     texts.forEach((text, index) => {
+      const range = ranges[index];
+      const rangeSize = range.maxX - range.minX;
       const finalX = this.calculateWavePosition(index, progress, range.minX, rangeSize) * multiplier;
       setters[index](finalX);
 

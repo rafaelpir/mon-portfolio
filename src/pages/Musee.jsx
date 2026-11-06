@@ -118,9 +118,9 @@ const TV_ROW = (TV.height * (1 - TV.header - 0.05)) / SOCIALS.length;
 const socialY = (index) => TV.y + TV.height / 2 - TV.height * TV.header - TV_ROW * (index + 0.5);
 
 // Salle noire : les œuvres animées, dans une pièce greffée au bout de la
-// galerie. Le mur du fond est percé d'une large baie, sans porte, bordée d'un
-// ébrasement noir de l'épaisseur du mur : depuis la galerie on voit déjà le
-// noir et la lueur des écrans, et on y entre en marchant. La salle prolonge
+// galerie. Le mur du fond est percé d'une large baie fermée par un rideau de
+// velours, sous une marquise de cinéma : le rideau s'écarte quand on approche
+// et l'on y entre en marchant. La salle prolonge
 // la galerie vers -z (mêmes largeur et hauteur), murs presque noirs : seuls
 // les écrans éclairent. zStart : son mur d'entrée, au dos du mur du fond ;
 // first : sa première paire d'écrans.
@@ -128,28 +128,17 @@ const DARK_OPEN = { x: HALL.halfWidth - 1.9, width: 2.2, height: 2.8 };
 const WALL_DEPTH = 0.3;
 const DARK = { zStart: HALL.zEnd - WALL_DEPTH, first: HALL.zEnd - WALL_DEPTH - 4.6 };
 DARK.zEnd = DARK.first - SPACING * (Math.max(1, Math.ceil(DARK_COUNT / 2)) - 1) - 3.4;
-// Sas : une cloison noire, du sol au plafond, face à la baie. Elle part du mur
-// de droite et s'arrête avant le milieu : on la contourne par la gauche. Depuis
-// la galerie, quel que soit l'angle, le regard qui passe par la baie bute
-// dessus (ou sur le mur de droite) : aucune œuvre n'est visible du dehors.
-const BAFFLE = { z: DARK.zStart - 1.4, left: -1.3 };
-// Trajets guidés d'une salle à l'autre : on passe la baie, on longe la
-// cloison, on la contourne. Zones : 0 galerie, 1 sas, 2 salle noire.
+// Trajets guidés d'une salle à l'autre : on passe la baie, et son rideau.
+// Zones : 0 galerie, 2 salle noire.
 const BAY_HALL = { x: DARK_OPEN.x, z: HALL.zEnd + 1.1 };
 const BAY_DARK = { x: DARK_OPEN.x, z: DARK.zStart - 0.7 };
-const CORNER = { x: BAFFLE.left - 1.1, z: DARK.zStart - 0.7 };
-const PAST = { x: BAFFLE.left - 1.1, z: BAFFLE.z - 1.1 };
 const ROUTES = {
-  '0-1': [BAY_HALL, BAY_DARK],
-  '0-2': [BAY_HALL, BAY_DARK, CORNER, PAST],
-  '1-2': [CORNER, PAST],
-  '1-0': [BAY_DARK, BAY_HALL],
-  '2-1': [PAST, CORNER],
-  '2-0': [PAST, CORNER, BAY_DARK, BAY_HALL],
+  '0-2': [BAY_HALL, BAY_DARK],
+  '2-0': [BAY_DARK, BAY_HALL],
 };
 // Banc de la salle noire, entre ses deux premières paires d'écrans
 const DARK_BENCH = { x: 0, z: DARK.first - SPACING / 2, width: 0.5, depth: 1.8 };
-const zoneOf = (z) => (z > (HALL.zEnd + DARK.zStart) / 2 ? 0 : z > BAFFLE.z ? 1 : 2);
+const zoneOf = (z) => (z > (HALL.zEnd + DARK.zStart) / 2 ? 0 : 2);
 
 // Position de chaque œuvre : côté (-1 mur gauche, +1 mur droit), z, et salle
 // (dark : salle noire). Les affiches alternent d'un mur à l'autre dans la
@@ -485,6 +474,74 @@ const IMAGE_FRAGMENT = /* glsl */ `
 // légèrement (de plus en plus vers la tête, les pieds restent au sol) et la
 // poitrine se soulève au rythme de la respiration. uPhase décale chaque
 // visiteur ; uTime vaut 0 si l'on a demandé moins d'animations.
+// Rideau noir de la baie : deux pans plissés, fermés, qui ne laissent qu'une
+// fente au milieu ; on passe par la fente. La géométrie est une grille (u, v)
+// de 0 à 1 ; la forme est calculée ici.
+const CURTAIN = { gap: 0.3, folds: 14, z: HALL.zEnd - 0.11 };
+CURTAIN.width = DARK_OPEN.width / 2 - CURTAIN.gap / 2;
+const CURTAIN_VERTEX = /* glsl */ `
+  attribute vec3 position;
+  uniform mat4 modelMatrix;
+  uniform mat4 viewMatrix;
+  uniform mat4 projectionMatrix;
+  uniform float uDir; // +1 : pan gauche (s'étend vers +x), -1 : pan droit
+  uniform float uEdge; // x du montant
+  uniform float uHeight;
+  uniform float uZ;
+  varying vec2 vUv;
+  varying vec3 vWorld;
+  varying vec3 vNormal;
+  varying float vFold;
+  void main() {
+    float u = position.x;
+    float v = position.y;
+    float width = ${f(CURTAIN.width)};
+    float amp = 0.045;
+    float k = ${f(CURTAIN.folds)} * 6.2832;
+    float phase = u * k + 0.6 * sin(u * 5.0);
+    float z = uZ + sin(phase) * amp;
+    float x = uEdge + uDir * u * width;
+    // pente des plis le long de x : la normale suit le tissu
+    float slope = cos(phase) * amp * (k + 3.0 * cos(u * 5.0)) / (uDir * width);
+    vNormal = normalize(vec3(-slope, 0.0, 1.0));
+    vFold = sin(phase);
+    vUv = vec2(u, v);
+    vec4 world = modelMatrix * vec4(x, v * uHeight, z, 1.0);
+    vWorld = world.xyz;
+    gl_Position = projectionMatrix * viewMatrix * world;
+  }
+`;
+// Tissu noir : éclairé par la galerie côté galerie, presque noir côté salle ;
+// un léger lustre rasant sur les crêtes des plis
+const CURTAIN_FRAGMENT = /* glsl */ `
+  precision highp float;
+  uniform vec3 uAlbedo;
+  varying float vFold;
+  ${LIGHTING}
+  void main() {
+    vec3 p = vWorld;
+    vec3 n = normalize(vNormal);
+    vec3 view = normalize(cameraPosition - p);
+    bool hallSide = dot(n, view) > 0.0;
+    if (!hallSide) n = -n;
+    float facing = abs(dot(n, view));
+    float sheen = pow(1.0 - facing, 2.2);
+    // creux des plis plus sombres, ourlet assombri au ras du sol
+    float crease = 0.55 + 0.45 * smoothstep(-1.0, 0.6, vFold);
+    float hem = smoothstep(0.0, 0.05, vUv.y);
+    vec3 color;
+    if (hallSide) {
+      vec2 light = lighting(p, n);
+      float l = 0.22 + 0.75 * shoulder(light.x) + 0.5 * light.y;
+      color = uAlbedo * l * crease + vec3(0.12) * sheen * l;
+    } else {
+      color = uAlbedo * 0.16 * crease;
+    }
+    color *= 0.75 + 0.25 * hem;
+    gl_FragColor = vec4(color * fogAt(p) + grain(), 1.0);
+  }
+`;
+
 const VISITOR_VERTEX = /* glsl */ `
   attribute vec3 position;
   attribute vec3 normal;
@@ -1601,6 +1658,54 @@ export default function Musee() {
       const hallSign = doorSign('#0d0d0d', T('SALLE OBSCURE', 'SCREENING ROOM'), T('Œuvres animées', 'Moving works'));
       hallSign.position.set(DARK_OPEN.x, DARK_OPEN.height + 0.5, HALL.zEnd + 0.02);
       hallSign.setParent(scene);
+
+      // Rideau noir dans l'épaisseur du mur, et sa tringle
+      const curtainZ = CURTAIN.z;
+      const curtainHeight = DARK_OPEN.height - 0.03;
+      const grid = (cols, rows) => {
+        const position = new Float32Array((cols + 1) * (rows + 1) * 3);
+        const index = new Uint16Array(cols * rows * 6);
+        for (let j = 0; j <= rows; j += 1) {
+          for (let i = 0; i <= cols; i += 1) {
+            const k = (j * (cols + 1) + i) * 3;
+            position[k] = i / cols;
+            position[k + 1] = j / rows;
+          }
+        }
+        let n = 0;
+        for (let j = 0; j < rows; j += 1) {
+          for (let i = 0; i < cols; i += 1) {
+            const a = j * (cols + 1) + i;
+            index.set([a, a + 1, a + cols + 1, a + 1, a + cols + 2, a + cols + 1], n);
+            n += 6;
+          }
+        }
+        return new Geometry(gl, { position: { size: 3, data: position }, index: { data: index } });
+      };
+      const curtainGeometry = grid(96, 6);
+      const half = DARK_OPEN.width / 2;
+      [1, -1].forEach((dir) => {
+        const panel = new Mesh(gl, {
+          geometry: curtainGeometry,
+          program: new Program(gl, {
+            vertex: CURTAIN_VERTEX,
+            fragment: CURTAIN_FRAGMENT,
+            uniforms: {
+              uAlbedo: { value: [0.05, 0.048, 0.052] },
+              uDir: { value: dir },
+              uEdge: { value: DARK_OPEN.x - dir * half },
+              uHeight: { value: curtainHeight },
+              uZ: { value: curtainZ },
+            },
+            cullFace: null,
+          }),
+        });
+        panel.frustumCulled = false; // la forme est calculée dans le shader
+        panel.setParent(scene);
+      });
+      const rod = fixture(DARK_OPEN.width, 0.035, 0.035, [0.03, 0.03, 0.03]);
+      rod.position.set(DARK_OPEN.x, curtainHeight + 0.01, curtainZ);
+      rod.setParent(scene);
       const darkSign = doorSign('#cfc9bd', T('GALERIE', 'GALLERY'), T('Retour aux affiches', 'Back to the posters'));
       darkSign.rotation.y = Math.PI;
       darkSign.position.set(DARK_OPEN.x, DARK_OPEN.height + 0.5, DARK.zStart - 0.02);
@@ -1616,33 +1721,10 @@ export default function Musee() {
       [-1, 1].forEach((edge) => trim(0.16, DARK_OPEN.height + 0.16, DARK_OPEN.x + edge * (DARK_OPEN.width / 2 + 0.08), (DARK_OPEN.height + 0.16) / 2));
       trim(DARK_OPEN.width + 0.32, 0.16, DARK_OPEN.x, DARK_OPEN.height + 0.08);
 
-      // Lumière propre, sans la salle : bandeaux lumineux et cloison du sas
+      // Lumière propre, sans la salle : bandeaux lumineux
       const glowing = (rgb) => new Program(gl, { vertex: VERTEX, fragment: 'precision highp float; uniform vec3 uColor; void main() { gl_FragColor = vec4(uColor, 1.0); }', uniforms: { uColor: { value: rgb } } });
       const darkProgram = (albedo) => roomProgram(albedo, 5);
-      // Cloison du sas, du sol au plafond, épaisse de 12 cm
-      const baffleWidth = HALL.halfWidth - BAFFLE.left;
-      const baffle = new Mesh(gl, { geometry: new Box(gl, { width: baffleWidth, height: HALL.height, depth: 0.12 }), program: darkProgram([0.02, 0.02, 0.022]) });
-      baffle.position.set(BAFFLE.left + baffleWidth / 2, HALL.height / 2, BAFFLE.z);
-      baffle.setParent(scene);
-      // Texte de salle sur la cloison, face à la baie : on le lit en entrant
-      const intro = imageMesh(2.4, 1.2, textTexture(gl, 1600, 800, (ctx, w, h) => {
-        ctx.clearRect(0, 0, w, h);
-        ctx.fillStyle = '#e4ddd0';
-        ctx.font = '400 190px "Bebas Neue Mur", "PP Neue Montreal", Helvetica, Arial, sans-serif';
-        ctx.fillText(T('SALLE OBSCURE', 'SCREENING ROOM'), 40, 210, w - 80);
-        ctx.font = '500 52px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-        ctx.fillText(T('Œuvres animées', 'Moving works'), 44, 320, w - 80);
-        ctx.fillStyle = '#9d968a';
-        ctx.font = '400 40px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-        ctx.fillText(T('Vidéo, création générative, motion.', 'Video, generative art, motion.'), 44, 430, w - 80);
-        ctx.fillText(T('Ici, les œuvres bougent : prenez le temps de les regarder.', 'Here the works move: take the time to watch them.'), 44, 490, w - 80);
-        ctx.fillStyle = '#e4ddd0';
-        ctx.font = '400 90px "PP Neue Montreal", Helvetica, Arial, sans-serif';
-        ctx.fillText('←', 40, 680);
-      }, repaint), { lit: 0.85 });
-      intro.position.set(DARK_OPEN.x - 0.2, 1.75, BAFFLE.z + 0.065);
-      intro.setParent(scene);
-      // Bandeaux lumineux au ras du sol, le long des murs et de la cloison :
+      // Bandeaux lumineux au ras du sol, le long des murs :
       // ils dessinent la salle dans le noir et guident le pas
       const strip = (width, depth, x, z) => {
         const mesh = new Mesh(gl, { geometry: new Box(gl, { width, height: 0.012, depth }), program: glowing([0.32, 0.27, 0.22]) });
@@ -1651,8 +1733,6 @@ export default function Musee() {
       };
       const darkLength = DARK.zStart - DARK.zEnd;
       [-1, 1].forEach((side) => strip(0.012, darkLength - 0.1, side * (HALL.halfWidth - 0.01), (DARK.zStart + DARK.zEnd) / 2));
-      strip(baffleWidth, 0.012, BAFFLE.left + baffleWidth / 2, BAFFLE.z - 0.066);
-      strip(baffleWidth, 0.012, BAFFLE.left + baffleWidth / 2, BAFFLE.z + 0.066);
       // Banc noir au milieu de la salle, dans la longueur : assis, on a un
       // écran de chaque côté
       const seat = new Mesh(gl, { geometry: new Box(gl, { width: 0.5, height: 0.42, depth: 1.8 }), program: darkProgram([0.045, 0.043, 0.047]) });
@@ -1981,8 +2061,8 @@ export default function Musee() {
 
     // Salle noire : on y est dès qu'on a passé le milieu du mur percé
     const inDark = () => view.z < (HALL.zEnd + DARK.zStart) / 2;
-    // Trajet guidé : s'il change de zone (galerie, sas, salle noire), il
-    // passe par la baie et contourne la cloison. Un trajet est une chaîne
+    // Trajet guidé : s'il change de salle (galerie, salle noire), il
+    // passe par la baie. Un trajet est une chaîne
     // d'étapes (next) parcourues l'une après l'autre, chacune regardant vers
     // la suivante ; pose() en garde la position et le regard.
     const pose = ({ x, z, yaw, pitch }) => ({ x, z, yaw, pitch });
@@ -2037,7 +2117,7 @@ export default function Musee() {
       return steps[0];
     };
     const toOtherRoom = () => {
-      goal = routeTo(inDark() ? { x: DARK_OPEN.x, z: HALL.zEnd + 2.6, yaw: Math.PI, pitch: 0 } : { x: 0, z: BAFFLE.z - 1.5, yaw: 0, pitch: 0 });
+      goal = routeTo(inDark() ? { x: DARK_OPEN.x, z: HALL.zEnd + 2.6, yaw: Math.PI, pitch: 0 } : { x: 0, z: DARK.zStart - 2.6, yaw: 0, pitch: 0 });
       setFocused(null);
     };
 
@@ -2059,7 +2139,7 @@ export default function Musee() {
         Object.assign(view, goal);
         goal = null;
       } else {
-        goal = routeTo(goal); // l'autre salle : par la baie et le sas
+        goal = routeTo(goal); // l'autre salle : par la baie
       }
       setFocused(index);
     };
@@ -2405,23 +2485,19 @@ export default function Musee() {
       // l'ouverture ; ailleurs, il arrête le visiteur.
       const bayHalf = DARK_OPEN.width / 2 - 0.3;
       if (DARK_COUNT && view.z < HALL.zEnd + 0.6 && view.z > DARK.zStart - 0.6) {
-        view.x = Math.max(DARK_OPEN.x - bayHalf, Math.min(DARK_OPEN.x + bayHalf, view.x));
+        // à l'approche du rideau, le passage se resserre vers la fente
+        const slit = 0.05 + (bayHalf - 0.05) * Math.min(1, Math.abs(view.z - CURTAIN.z) / 0.7);
+        view.x = Math.max(DARK_OPEN.x - slit, Math.min(DARK_OPEN.x + slit, view.x));
       }
       const inBay = DARK_COUNT > 0 && Math.abs(view.x - DARK_OPEN.x) < bayHalf + 0.001;
       if (dark) view.z = Math.max(DARK.zEnd + 1.2, inBay ? view.z : Math.min(DARK.zStart - 0.6, view.z));
       // Guidage doux : en marchant vers la baie, on y est amené (pas besoin de
-      // viser juste) ; dans le sas, on contourne la cloison sans s'y bloquer
+      // viser juste), dans un sens comme dans l'autre
       if (DARK_COUNT && !goal && motion.forward > 0.2) {
         const pull = (x, rate) => { view.x += (x - view.x) * Math.min(1, dt * rate); };
         const ahead = Math.cos(view.yaw);
         if (!dark && view.z < HALL.zEnd + 2 && Math.abs(view.x - DARK_OPEN.x) < 2.2 && ahead > 0.4) pull(DARK_OPEN.x, 4);
-        if (dark && view.z > BAFFLE.z && view.z < BAFFLE.z + 1.3 && view.x > BAFFLE.left - 0.7 && ahead > 0.3) pull(BAFFLE.left - 0.8, 3);
-        if (dark && view.z < BAFFLE.z && view.z > BAFFLE.z - 1.3 && view.x > BAFFLE.left - 0.7 && ahead < -0.3) pull(BAFFLE.left - 0.8, 3);
-        if (dark && view.z > BAFFLE.z + 0.2 && ahead < -0.4) pull(DARK_OPEN.x, 4);
-      }
-      // la cloison du sas arrête le visiteur (on la longe, on la contourne)
-      if (DARK_COUNT && dark && !goal && view.x > BAFFLE.left - 0.35 && Math.abs(view.z - BAFFLE.z) < 0.35) {
-        view.z = BAFFLE.z + (view.z > BAFFLE.z ? 0.35 : -0.35);
+        if (dark && view.z > DARK.zStart - 2 && Math.abs(view.x - DARK_OPEN.x) < 2.2 && ahead < -0.4) pull(DARK_OPEN.x, 4);
       }
       // La porte d'entrée s'ouvre à l'approche ; ouverte, on peut la franchir
       const nearDoor = !dark && Math.hypot(view.x, HALL.zBack - view.z) < EXIT.openWithin;
